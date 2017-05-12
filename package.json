@@ -1,0 +1,10 @@
+{
+  "name": "google_modes",
+  "version": "1.0.0",
+  "description": "Modes following Google's style",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "codemirror": "^5.25.2"
+  }
+}
