@@ -1,0 +1,29 @@
+<!doctype html>
+<meta charset=utf8>
+
+<script src="node_modules/codemirror/lib/codemirror.js"></script>
+<link rel=stylesheet href="node_modules/codemirror/lib/codemirror.css">
+<script src="node_modules/modegrammar/src/matcher.js"></script>
+<script src="dist/cpp.js"></script>
+
+<title>Google mode demo</title>
+
+<h1>Google mode demo</h1>
+
+<textarea id=code>
+#include <iostream>
+#include "mystuff/util.h"
+
+namespace {
+enum Enum {
+  VAL1, VAL2, VAL3
+};
+void foo(int x) {
+  return "hei";
+}
+</textarea>
+
+<script>
+  cm = CodeMirror.fromTextArea(document.querySelector("#code"), {mode: "c++"})
+
+</script>
