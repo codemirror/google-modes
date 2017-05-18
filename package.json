@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "Modes following Google's style",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build-cpp": "node node_modules/modegrammar/src/build-mode --es-module src/cpp.grammar --output src/cpp.mode.js && rollup src/cpp.js -o dist/cpp.js -f umd"
+  },
   "dependencies": {
     "codemirror": "^5.25.2"
+  },
+  "devDependencies": {
+    "rollup": "^0.41.6"
   }
 }
