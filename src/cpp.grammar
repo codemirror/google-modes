@@ -33,7 +33,7 @@ skip whitespace {
     "{" (element (separator element)*)? "}"
   }
 
-  Namespace { namespace Block }
+  Namespace { namespace declName Block }
 
   Enum { enum declName BlockOf(declName, ",") }
 
@@ -117,7 +117,7 @@ tokens {
   } = "string"
 
   prefixOp {
-    "++" | "--" | "!" | "~"
+    "++" | "--" | "!" | "~" | "&"
   } = "operator"
 
   suffixOp {
@@ -131,7 +131,7 @@ tokens {
 
 whitespace {
   ("\n" preprocessorLine? |
-   spaceChar |
+   " " | "\t" |
    comment)*
 }
 
@@ -144,7 +144,7 @@ typeName {
 } = "variable-3"
 
 maybeTypeName {
-  identifierStart identifierChar* ~(" "* (("[" " "* (digit+ " "*)? "]" | "*" | "&" | "<" (!">" _)* ">") " "*)* identifierStart)
+  identifierStart identifierChar* ~(!identifierStart spaceChar* (("[" spaceChar* (digit+ spaceChar*)? "]" | "*" | "&" | "<" (!">" _)* ">") spaceChar*)* identifierStart)
 } = "variable-3"
 
 comment { "/*" (!"*/" _)* "*/" | "//" .* } = "comment"
@@ -159,4 +159,4 @@ identifierStart { letter | "~" }
 
 identifierChar { letter | digit }
 
-spaceChar { " " | "\t" | "\n" }
+spaceChar { "\n" | "\t" | " " }
