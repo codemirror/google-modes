@@ -1,0 +1,187 @@
+start {
+  preprocessorLine? (whitespace Statement)+
+}
+
+skip whitespace {
+  Statement {
+    Enum |
+    Loop |
+    Conditional |
+    Switch |
+    Block |
+    breakCont ";" |
+    goto identifier ";" |
+    return Expression ";" |
+    modifier* MaybeType declName (Initializer | FunctionDef) |
+    Label |
+    ";" |
+    Expression ";"
+  }
+
+  Loop {
+    for "(" Statement* ")" Statement |
+    while ParenExpr Statement |
+    do Statement while ParenExpr ";"
+  }
+
+  Conditional {
+    if ParenExpr Statement (else Statement)?
+  }
+
+  Switch {
+    switch ParenExpr Block
+  }
+
+  Label {
+    (default | case Expression | identifier (~":")) ":"
+  }
+
+  Block* {
+    "{" Statement* "}"
+  }
+
+  BlockOf(element, separator)* {
+    "{" (element (separator element)*)? "}"
+  }
+
+  Enum { enum declName? BlockOf(declName, ",")? }
+
+  Initializer { '=' Expression }
+
+  FunctionDef { ParamList Block }
+
+  ParamList* { '(' ListOf(Type declName) ')' }
+
+  Expression {
+    prefixOp* BaseExpression ExpressionSuffix*
+  }
+
+  BaseExpression {
+    ParenExpr |
+    atom |
+    number |
+    string |
+    new Expression |
+    identifier ("::" identifier)*
+  }
+
+  ParenExpr* {
+    '(' Expression ')'
+  }
+
+  ExpressionSuffix {
+    ArgList |
+    '[' Expression ']' |
+    binop Expression |
+    '?' Expression ':' Expression |
+    suffixOp
+  }
+
+  ArgList* {
+    '(' ListOf(Expression) ')'
+  }
+
+  MaybeType {
+    maybeTypeName TypeSuffix*
+  }
+
+  Type {
+    typeName TypeSuffix* |
+    (structUnion) declName? BlockOf(Type, ";")?
+  }
+
+  TypeSuffix {
+    "[" number? "]" |
+    "<" Type+ ">" |
+    "*" | "&"
+  }
+
+  ListOf(expr) {
+    (expr ("," expr)*)?
+  }
+}
+
+tokens {
+  enum { kw("enum") }
+  return { kw("return") }
+  if { kw("if") }
+  else { kw("else") }
+  for { kw("for") }
+  while { kw("while") }
+  do { kw("do") }
+  new { kw("new") }
+  auto { kw("auto") }
+  breakCont { kw("break" | "continue") }
+  goto { kw("goto") }
+  default { kw("default") }
+  case { kw("case") }
+  switch { kw("switch") }
+  structUnion { kw("struct" | "union") }
+  sizeof { kw("sizeof") }
+  modifier { kw("register" | "static" | "extern" | "typedef" | "const" | "volatile") }
+
+  atom { ("true" | "false" | "null") !identifierStart } = "atom"
+
+  identifier { identifierStart identifierChar* } = "variable"
+
+  number {
+    (digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)? |
+    "0x" (digit | "a"-"f" | "A"-"F")+
+  } = "number"
+
+  string {
+    "'" ("\\" _ | (!"'" .))* "'" |
+    '"' ("\\" _ | (!'"' .))* '"'
+  } = "string"
+
+  prefixOp {
+    "++" | "--" | "!" | "~" | "&" | "*" | sizeof
+  } = "operator"
+
+  suffixOp {
+    "++" | "--"
+  } = "operator"
+
+  binop {
+    ("+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" | "&") "="?
+  } = "operator"
+}
+
+whitespace {
+  ("\n" preprocessorLine? |
+   " " | "\t" |
+   comment)*
+}
+
+preprocessorLine { "#" .* } = "meta"
+
+declName { identifierStart identifierChar* } = "def"
+
+typeName {
+  auto |
+  identifierStart identifierChar*
+} = "variable-3"
+
+maybeTypeName {
+  // The messy lookahead tries to figure out whether this identifier is
+  // followed by optionally some type suffix and then another identifier
+  identifierStart identifierChar* ~(
+    !identifierStart spaceChar*
+    (("[" spaceChar* (digit+ spaceChar*)? "]" | "*" | "&" | "<" (!">" _)* ">") spaceChar*)*
+    identifierStart
+  )
+} = "variable-3"
+
+comment { "/*" (!"*/" _)* "*/" | "//" .* } = "comment"
+
+kw(value) { value !identifierChar } = "keyword"
+
+letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+
+digit { "0"-"9" }
+
+identifierStart { letter | "~" }
+
+identifierChar { letter | digit }
+
+spaceChar { "\n" | "\t" | " " }

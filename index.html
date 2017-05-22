@@ -4,17 +4,20 @@
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
 <link rel=stylesheet href="node_modules/codemirror/lib/codemirror.css">
 <script src="node_modules/modegrammar/src/matcher.js"></script>
-<script src="dist/cpp.js"></script>
+<script src="dist/c.js"></script>
 
 <title>Google mode demo</title>
 
 <h1>Google mode demo</h1>
 
 <textarea id=code>
-int foo
+if (foo) {
+  blaurgh
+}
+indent me
 </textarea>
 
 <script>
-  cm = CodeMirror.fromTextArea(document.querySelector("#code"), {mode: "c++"})
+  cm = CodeMirror.fromTextArea(document.querySelector("#code"), {mode: "c"})
 
 </script>

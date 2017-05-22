@@ -1,8 +1,8 @@
-import * as cpp from "./cpp.mode"
+import * as grammar from "./c.mode"
 
-class CppMode extends CodeMirror.GrammarMode {
+class CMode extends CodeMirror.GrammarMode {
   constructor(conf) {
-    super(cpp)
+    super(grammar)
     this.conf = conf
   }
 
@@ -15,4 +15,4 @@ class CppMode extends CodeMirror.GrammarMode {
   }
 }
 
-CodeMirror.defineMode("c++", conf => new CppMode(conf))
+CodeMirror.defineMode("c", conf => new CMode(conf))
