@@ -1,162 +1,75 @@
-start {
-  preprocessorLine? (whitespace Statement)+
-}
+extends "./c.grammar"
 
 skip whitespace {
   Statement {
-    Namespace |
-    Enum |
-    Loop |
-    Conditional |
-    Block |
-    return Expression ";" |
-    MaybeType declName (Initializer | FunctionDef) |
-    ";" |
-    Expression ";"
-  }
-
-  Loop {
-    for "(" Statement* ")" Statement |
-    while "(" Expression ")" Statement |
-    do Statement while "(" Expression ")"
-  }
-
-  Conditional {
-    if "(" Expression ")" Statement (else Statement)?
-  }
-
-  Block* {
-    "{" Statement* "}"
-  }
-
-  BlockOf(element, separator)* {
-    "{" (element (separator element)*)? "}"
-  }
-
-  Namespace { namespace declName Block }
-
-  Enum { enum declName BlockOf(declName, ",") }
-
-  Initializer { '=' Expression }
-
-  FunctionDef { ParamList Block }
-
-  ParamList* { '(' ListOf(Type declName) ')' }
-
-  Expression {
-    prefixOp* BaseExpression ExpressionSuffix*
-  }
-
-  BaseExpression {
-    ParenExpr |
-    atom |
-    number |
-    string |
-    new Expression |
-    identifier ("::" identifier)*
-  }
-
-  ParenExpr* {
-    '(' Expression ')'
-  }
-
-  ExpressionSuffix {
-    ArgList |
-    '[' Expression ']' |
-    binop Expression |
-    '?' Expression ':' Expression |
-    suffixOp
-  }
-
-  ArgList* {
-    '(' ListOf(Expression) ')'
-  }
-
-  MaybeType {
-    maybeTypeName TypeSuffix*
-  }
-
-  Type {
-    typeName TypeSuffix*
+    Class |
+    namespace declName? ("=" variableName ";" | Block) |
+    throw Expression ";" |
+    try Block (catch "{" Type declName? "}" Block)* |
+    asm "{" string "}" |
+    export? template TemplateArgs Statement |
+    super
   }
 
   TypeSuffix {
-    "[" number? "]" |
-    "<" Type+ ">" |
-    "*" | "&"
+    TemplateArgs |
+    super
   }
 
-  ListOf(expr) {
-    (expr ("," expr)*)?
+  ExpressionPrefix {
+    delete | new ("(" Expression ")")? | super
+  }
+
+  Type {
+    typename Type | super
+  }
+
+  TemplateArgs {
+    "<" ListOf(TypeParam | modifier* declName Initializer?) ">"
+  }
+
+  TypeParam {
+     (template TemplateArgs)? (class | typename) declName ("=" variableName)?
+  }
+
+  Class {
+    (class | structUnion) declName (":" virtual? access? variableName) ClassBody
+  }
+
+  context ClassBody {
+    "{" (access ":" | ClassMember)* "}"
+  }
+
+  ClassMember {
+    (friend | Type | modifier)* declName (Initializer ";" | FunctionDef)
   }
 }
 
 tokens {
   namespace { kw("namespace") }
-  enum { kw("enum") }
-  return { kw("return") }
-  if { kw("if") }
-  else { kw("else") }
-  for { kw("for") }
-  while { kw("while") }
-  do { kw("do") }
+
+  typename { kw("typename") }
+
   new { kw("new") }
+  delete { kw("delete") }
+  try { kw("try") }
+  catch { kw("catch") }
+  throw { kw("throw") }
+  asm { kw("asm") }
+  export { kw("export") }
+  template { kw("template") }
+  class { kw("class") }
+  virtual { kw("virtual") }
+  access { kw("private" | "public" | "protected") }
+  friend { kw("friend") }
 
-  atom { "true" | "false" | "null" } = "atom"
+  qualifier { identifier ~(spaceChar* "::") } = "meta"
 
-  identifier { identifierStart identifierChar* } = "variable"
+  variableName { "::"? qualifier* identifier }
 
-  number {
-    (digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)? |
-    "0x" (digit | "a"-"f" | "A"-"F")+
-  } = "number"
-
-  string {
-    "'" ("\\" . | (!"'" .))* "'" |
-    '"' ("\\" . | (!'"' .))* '"'
-  } = "string"
+  modifier { kw("inline" | "virtual" | "explicit") | super }
 
   prefixOp {
-    "++" | "--" | "!" | "~" | "&"
-  } = "operator"
-
-  suffixOp {
-    "++" | "--"
-  } = "operator"
-
-  binop {
-    ("+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" | "&") "="?
+    typename | super
   } = "operator"
 }
-
-whitespace {
-  ("\n" preprocessorLine? |
-   " " | "\t" |
-   comment)*
-}
-
-preprocessorLine { "#" .* } = "meta"
-
-declName { identifierStart identifierChar* } = "def"
-
-typeName {
-  identifierStart identifierChar*
-} = "variable-3"
-
-maybeTypeName {
-  identifierStart identifierChar* ~(!identifierStart spaceChar* (("[" spaceChar* (digit+ spaceChar*)? "]" | "*" | "&" | "<" (!">" _)* ">") spaceChar*)* identifierStart)
-} = "variable-3"
-
-comment { "/*" (!"*/" _)* "*/" | "//" .* } = "comment"
-
-kw(value) { value !identifierChar } = "keyword"
-
-letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
-
-digit { "0"-"9" }
-
-identifierStart { letter | "~" }
-
-identifierChar { letter | digit }
-
-spaceChar { "\n" | "\t" | " " }

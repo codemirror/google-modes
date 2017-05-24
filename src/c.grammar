@@ -1,4 +1,4 @@
-start {
+start top {
   preprocessorLine? (whitespace Statement)+
 }
 
@@ -12,7 +12,7 @@ skip whitespace {
     breakCont ";" |
     goto identifier ";" |
     return Expression ";" |
-    modifier* MaybeType declName (Initializer | FunctionDef) |
+    (modifier | qualifier)* MaybeType declName (FunctionDef | Initializer ("," declName Initializer)*) |
     Label |
     ";" |
     Expression ";"
@@ -33,39 +33,43 @@ skip whitespace {
   }
 
   Label {
-    (default | case Expression | identifier (~":")) ":"
+    (default | case Expression | identifier ~(":" !":")) ":"
   }
 
-  Block* {
+  context Block {
     "{" Statement* "}"
   }
 
-  BlockOf(element, separator)* {
+  context BlockOf(element, separator) {
     "{" (element (separator element)*)? "}"
   }
 
-  Enum { enum declName? BlockOf(declName, ",")? }
+  Enum { enum declName? BlockOf(declName ("=" Expression)?, ",")? }
 
   Initializer { '=' Expression }
 
-  FunctionDef { ParamList Block }
+  context FunctionDef { ParamList (";" | Block) }
 
-  ParamList* { '(' ListOf(Type declName) ')' }
+  context ParamList { '(' ListOf(Type declName) ')' }
 
   Expression {
-    prefixOp* BaseExpression ExpressionSuffix*
+    ExpressionPrefix* BaseExpression ExpressionSuffix*
+  }
+
+  ExpressionPrefix {
+    prefixOp | sizeof
   }
 
   BaseExpression {
-    ParenExpr |
+    ParenExpr Expression? |
     atom |
     number |
     string |
-    new Expression |
-    identifier ("::" identifier)*
+    BlockOf(Expression, ",") |
+    variableName
   }
 
-  ParenExpr* {
+  context ParenExpr {
     '(' Expression ')'
   }
 
@@ -74,10 +78,11 @@ skip whitespace {
     '[' Expression ']' |
     binop Expression |
     '?' Expression ':' Expression |
-    suffixOp
+    suffixOp |
+    ("->" | ".") fieldName
   }
 
-  ArgList* {
+  context ArgList {
     '(' ListOf(Expression) ')'
   }
 
@@ -87,13 +92,17 @@ skip whitespace {
 
   Type {
     typeName TypeSuffix* |
-    (structUnion) declName? BlockOf(Type, ";")?
+    (structUnion) declName? BlockOf(StructField, ";")?
+  }
+
+  StructField {
+    (modifier | qualifier)* Type fieldName? (":" number)?
   }
 
   TypeSuffix {
     "[" number? "]" |
     "<" Type+ ">" |
-    "*" | "&"
+    ("*" | "&") qualifier*
   }
 
   ListOf(expr) {
@@ -109,8 +118,6 @@ tokens {
   for { kw("for") }
   while { kw("while") }
   do { kw("do") }
-  new { kw("new") }
-  auto { kw("auto") }
   breakCont { kw("break" | "continue") }
   goto { kw("goto") }
   default { kw("default") }
@@ -118,24 +125,25 @@ tokens {
   switch { kw("switch") }
   structUnion { kw("struct" | "union") }
   sizeof { kw("sizeof") }
-  modifier { kw("register" | "static" | "extern" | "typedef" | "const" | "volatile") }
+  modifier { kw("register" | "static" | "extern" | "typedef" | "auto") }
+  qualifier { kw("const" | "volatile") }
 
   atom { ("true" | "false" | "null") !identifierStart } = "atom"
 
-  identifier { identifierStart identifierChar* } = "variable"
+  variableName { identifier }
 
   number {
-    (digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)? |
-    "0x" (digit | "a"-"f" | "A"-"F")+
+    ((digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)? |
+     "0x" (digit | "a"-"f" | "A"-"F")+) ("L" | "l" | "U" | "u" | "F" | "f")?
   } = "number"
 
   string {
-    "'" ("\\" _ | (!"'" .))* "'" |
-    '"' ("\\" _ | (!'"' .))* '"'
+    "L"? ("'" ("\\" _ | (!"'" .))* "'" |
+          '"' ("\\" _ | (!'"' .))* '"')
   } = "string"
 
   prefixOp {
-    "++" | "--" | "!" | "~" | "&" | "*" | sizeof
+    "++" | "--" | "!" | "~" | "&" | "*"
   } = "operator"
 
   suffixOp {
@@ -147,6 +155,8 @@ tokens {
   } = "operator"
 }
 
+identifier { identifierStart identifierChar* } = "variable"
+
 whitespace {
   ("\n" preprocessorLine? |
    " " | "\t" |
@@ -157,8 +167,9 @@ preprocessorLine { "#" .* } = "meta"
 
 declName { identifierStart identifierChar* } = "def"
 
+fieldName { identifierStart identifierChar* } = "property"
+
 typeName {
-  auto |
   identifierStart identifierChar*
 } = "variable-3"
 
@@ -180,7 +191,7 @@ letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
 
 digit { "0"-"9" }
 
-identifierStart { letter | "~" }
+identifierStart { letter }
 
 identifierChar { letter | digit }
 
