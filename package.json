@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build-cpp": "node node_modules/modegrammar/src/build-mode --es-module --names src/cpp.grammar --output src/cpp.mode.js && rollup src/cpp.js -o dist/cpp.js -f umd",
-    "build-c": "node node_modules/modegrammar/src/build-mode --es-module --names src/c.grammar --output src/c.mode.js && rollup src/c.js -o dist/c.js -f umd"
+    "build-c": "node node_modules/modegrammar/src/build-mode --es-module --names src/c.grammar --output src/c.mode.js && rollup src/c.js -o dist/c.js -f umd",
+    "test": "node test/run.js"
   },
   "dependencies": {
     "codemirror": "^5.25.2"
