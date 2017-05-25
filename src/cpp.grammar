@@ -7,7 +7,10 @@ skip whitespace {
     throw Expression ";" |
     try Block (catch "{" Type declName? "}" Block)* |
     asm "{" string "}" |
-    export? template TemplateArgs Statement |
+    using (typename Type | variableName) ";" |
+    export? template TemplateParams Statement |
+    &constructorAhead declName FunctionDef |
+    nameQualifier+ (MaybeType DeclRest | qualifiedVariableName ExpressionSuffix* ";") |
     super
   }
 
@@ -15,6 +18,29 @@ skip whitespace {
     TemplateArgs |
     super
   }
+
+  BaseExpression {
+    this |
+    Lambda |
+    cast "<" Type ">" "(" Expression ")" |
+    super
+  }
+
+  Lambda {
+    "[" ListOf("&" variableName? | "=" | this) FunctionDef
+  }
+
+  context FunctionDef {
+    ParamList
+    qualifier*
+    ("&" | "&&")?
+    (noexcept ("(" Expression ")")? | throw "(" ListOf(Type) ")")?
+    ("->" Type)?
+    (":" ListOf(CtorInitializer))?
+    (";" | Block)
+  }
+
+  CtorInitializer { fieldName ("(" Expression ")" | "{" ListOf(Expression) "}") }
 
   ExpressionPrefix {
     delete | new ("(" Expression ")")? | super
@@ -24,8 +50,12 @@ skip whitespace {
     typename Type | super
   }
 
-  TemplateArgs {
+  TemplateParams {
     "<" ListOf(TypeParam | modifier* declName Initializer?) ">"
+  }
+
+  TemplateArgs {
+    "<" ListOf(TypeParam | modifier* typeName Initializer?) ">"
   }
 
   TypeParam {
@@ -33,7 +63,7 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) declName (":" virtual? access? variableName) ClassBody
+    (class | structUnion) (alignas "(" number ")")? declName (":" virtual? access? variableName) ClassBody
   }
 
   context ClassBody {
@@ -41,7 +71,7 @@ skip whitespace {
   }
 
   ClassMember {
-    (friend | Type | modifier)* declName (Initializer ";" | FunctionDef)
+    (friend | Type | modifier)* (operator (binOp | prefixOp) | declName) (Initializer ";" | FunctionDef)
   }
 }
 
@@ -52,9 +82,11 @@ tokens {
 
   new { kw("new") }
   delete { kw("delete") }
+  this { kw("this") }
   try { kw("try") }
   catch { kw("catch") }
   throw { kw("throw") }
+  noexcept { kw("noexcept") }
   asm { kw("asm") }
   export { kw("export") }
   template { kw("template") }
@@ -62,10 +94,12 @@ tokens {
   virtual { kw("virtual") }
   access { kw("private" | "public" | "protected") }
   friend { kw("friend") }
+  operator { kw("operator") }
+  using { kw("using") }
+  alignas { kw("alignas") }
+  cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
 
-  qualifier { identifier ~(spaceChar* "::") } = "meta"
-
-  variableName { "::"? qualifier* identifier }
+  variableName { nameQualifier+ qualifiedVariableName | (unqualifiedCallee | unqualifiedVariableName) }
 
   modifier { kw("inline" | "virtual" | "explicit") | super }
 
@@ -73,3 +107,24 @@ tokens {
     typename | super
   } = "operator"
 }
+
+nameQualifier { "::" | identifier " "* "::" } = "meta"
+
+declName { nameQualifier* unqualifiedDeclName }
+
+unqualifiedDeclName { "~"? identifier }  = "def"
+
+unqualifiedCallee { identifier ~"(" } = "builtin"
+
+unqualifiedVariableName { "~"? identifier }  = "variable"
+
+qualifiedVariableName { unqualifiedVariableName }  = "qualified"
+
+typeName { nameQualifier* unqualifiedTypeName }
+
+unqualifiedTypeName { identifier } = "type"
+
+maybeTypeName {
+ unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
+}
+

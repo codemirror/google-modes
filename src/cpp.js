@@ -11,9 +11,16 @@ function isLocal(context, name) {
   return false
 }
 
+function constructorAhead(line, pos) {
+  let match = /^(\w+)::~?(\w+)/.exec(line.slice(pos))
+  return match && match[1] == match[2]
+}
+
 class CppMode extends CodeMirror.GrammarMode {
   constructor(conf) {
-    super(cpp)
+    super(cpp, {
+      predicates: {constructorAhead}
+    })
     this.conf = conf
   }
 

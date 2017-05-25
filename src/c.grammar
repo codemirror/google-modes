@@ -12,10 +12,18 @@ skip whitespace {
     breakCont ";" |
     goto identifier ";" |
     return Expression ";" |
-    (modifier | qualifier)* MaybeType declName (FunctionDef | Initializer ("," declName Initializer)*) |
+    Decl |
     Label |
     ";" |
     Expression ";"
+  }
+
+  Decl {
+    ((modifier | qualifier)+ Type | MaybeType) DeclRest
+  }
+
+  DeclRest {
+    declName (FunctionDef | Initializer? ("," declName Initializer?)* ";")
   }
 
   Loop {
@@ -33,7 +41,7 @@ skip whitespace {
   }
 
   Label {
-    (default | case Expression | identifier ~(":" !":")) ":"
+    (default | case Expression | labelIdentifier) ":"
   }
 
   context Block {
@@ -50,7 +58,7 @@ skip whitespace {
 
   context FunctionDef { ParamList (";" | Block) }
 
-  context ParamList { '(' ListOf(Type declName) ')' }
+  context ParamList { '(' ListOf(Type declName?) ')' }
 
   Expression {
     ExpressionPrefix* BaseExpression ExpressionSuffix*
@@ -76,7 +84,7 @@ skip whitespace {
   ExpressionSuffix {
     ArgList |
     '[' Expression ']' |
-    binop Expression |
+    binOp Expression |
     '?' Expression ':' Expression |
     suffixOp |
     ("->" | ".") fieldName
@@ -101,8 +109,8 @@ skip whitespace {
 
   TypeSuffix {
     "[" number? "]" |
-    "<" Type+ ">" |
-    ("*" | "&") qualifier*
+    ("*" | "&") |
+    qualifier
   }
 
   ListOf(expr) {
@@ -128,9 +136,9 @@ tokens {
   modifier { kw("register" | "static" | "extern" | "typedef" | "auto") }
   qualifier { kw("const" | "volatile") }
 
-  atom { ("true" | "false" | "null") !identifierStart } = "atom"
+  atom { ("true" | "false" | "null") !identifierChar } = "atom"
 
-  variableName { identifier }
+  variableName { identifier } = "variable"
 
   number {
     ((digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)? |
@@ -138,8 +146,8 @@ tokens {
   } = "number"
 
   string {
-    "L"? ("'" ("\\" _ | (!"'" .))* "'" |
-          '"' ("\\" _ | (!'"' .))* '"')
+    ("L" | "u" "8"? | "U")? ("'" ("\\" _ | (!"'" .))* "'" |
+                             '"' ("\\" _ | (!'"' .))* '"')
   } = "string"
 
   prefixOp {
@@ -150,12 +158,12 @@ tokens {
     "++" | "--"
   } = "operator"
 
-  binop {
+  binOp {
     ("+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" | "&") "="?
   } = "operator"
 }
 
-identifier { identifierStart identifierChar* } = "variable"
+identifier { identifierStart identifierChar* }
 
 whitespace {
   ("\n" preprocessorLine? |
@@ -165,23 +173,17 @@ whitespace {
 
 preprocessorLine { "#" .* } = "meta"
 
-declName { identifierStart identifierChar* } = "def"
+declName { identifier } = "def"
 
-fieldName { identifierStart identifierChar* } = "property"
+fieldName { identifier } = "property"
 
-typeName {
-  identifierStart identifierChar*
-} = "variable-3"
+typeName { identifier } = "type"
 
 maybeTypeName {
-  // The messy lookahead tries to figure out whether this identifier is
+  // The lookahead tries to figure out whether this identifier is
   // followed by optionally some type suffix and then another identifier
-  identifierStart identifierChar* ~(
-    !identifierStart spaceChar*
-    (("[" spaceChar* (digit+ spaceChar*)? "]" | "*" | "&" | "<" (!">" _)* ">") spaceChar*)*
-    identifierStart
-  )
-} = "variable-3"
+  typeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
+}
 
 comment { "/*" (!"*/" _)* "*/" | "//" .* } = "comment"
 
@@ -196,3 +198,5 @@ identifierStart { letter }
 identifierChar { letter | digit }
 
 spaceChar { "\n" | "\t" | " " }
+
+labelIdentifier { identifier spaceChar* ~(":" !":") }
