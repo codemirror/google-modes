@@ -6,8 +6,11 @@ require("modegrammar/src/matcher")
 const {parseSpec, tokenType} = require("./parse_spec")
 
 require("../dist/cpp")
+require("../dist/c")
 
-;[{dir: "cpp", mode: "c++"}].forEach(lang => {
+;[{dir: "c", mode: "c"},
+  {dir: "cpp", mode: "c++"}
+ ].forEach(lang => {
   let base = __dirname + "/" + lang.dir + "/"
   fs.readdirSync(base).forEach(file => {
     let {tokens, plain} = parseSpec(fs.readFileSync(base + file, "utf8"), base + file)

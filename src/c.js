@@ -1,9 +1,14 @@
 import * as grammar from "./c.mode"
+import {markLocals} from "./c_locals"
 
 class CMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar)
     this.conf = conf
+  }
+
+  token(stream, state) {
+    return markLocals(super.token(stream, state), stream, state)
   }
 
   indent(state) {
