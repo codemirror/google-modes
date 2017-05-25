@@ -3,11 +3,11 @@ extends "./c.grammar"
 skip whitespace {
   Statement {
     Class |
-    namespace declName? ("=" variableName ";" | Block) |
+    namespace declName? (op("=") variableName ";" | Block) |
     throw Expression ";" |
     try Block (catch "{" Type declName? "}" Block)* |
     asm "{" string "}" |
-    using (typename Type | variableName) ";" |
+    using (typename Type | namespace? variableName) ";" |
     export? template TemplateParams Statement |
     &constructorAhead declName FunctionDef |
     nameQualifier+ (MaybeType DeclRest | qualifiedVariableName ExpressionSuffix* ";") |
@@ -16,6 +16,7 @@ skip whitespace {
 
   TypeSuffix {
     TemplateArgs |
+    "::" Type |
     super
   }
 
@@ -59,7 +60,7 @@ skip whitespace {
   }
 
   TypeParam {
-     (template TemplateArgs)? (class | typename) declName ("=" variableName)?
+     (template TemplateArgs)? (class | typename) declName (op("=") variableName)?
   }
 
   Class {

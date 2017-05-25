@@ -52,13 +52,13 @@ skip whitespace {
     "{" (element (separator element)*)? "}"
   }
 
-  Enum { enum declName? BlockOf(declName ("=" Expression)?, ",")? }
+  Enum { enum declName? BlockOf(declName (op("=") Expression)?, ",")? }
 
-  Initializer { '=' Expression }
+  Initializer { op("=") Expression }
 
   context FunctionDef { ParamList (";" | Block) }
 
-  context ParamList { '(' ListOf(Type declName?) ')' }
+  context ParamList { "(" ListOf(Type declName?) ")" }
 
   Expression {
     ExpressionPrefix* BaseExpression ExpressionSuffix*
@@ -188,6 +188,7 @@ maybeTypeName {
 comment { "/*" (!"*/" _)* "*/" | "//" .* } = "comment"
 
 kw(value) { value !identifierChar } = "keyword"
+op(value) { value } = "operator"
 
 letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
 
