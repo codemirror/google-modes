@@ -107,7 +107,16 @@ tokens {
   prefixOp {
     typename | super
   } = "operator"
+
+  number {
+    ("0x" (digit | "a"-"f" | "A"-"F" | "'")+ |
+     "0b" ("0" | "1" | "'")+ |
+     (digit digits ("." digits)? | "." digit digits) (("e" | "E") "-"? digits)?)
+    ("L" | "l" | "U" | "u" | "F" | "f")?
+  } = "number"
 }
+
+digits { (digit | "'")* }
 
 nameQualifier { "::" | identifier " "* "::" } = "meta"
 

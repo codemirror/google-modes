@@ -1,6 +1,6 @@
 [type foo] [def x];
 
-[type int] [def foo] [operator =] [number 2], [def x], [def bar] [operator =] [string "hi"];
+[type unsigned] [type int] [def foo] [operator =] [number 2], [def x], [def bar] [operator =] [string "hi"];
 
 [type void] [def f]([type void]* [def a],
        [type int][[]] [keyword const] [def b]) [keyword noexcept] {

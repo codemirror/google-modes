@@ -146,8 +146,9 @@ tokens {
   variableName { calleeName | plainVariableName }
 
   number {
-    ((digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)? |
-     "0x" (digit | "a"-"f" | "A"-"F")+) ("L" | "l" | "U" | "u" | "F" | "f")?
+    ("0x" (digit | "a"-"f" | "A"-"F")+ |
+     (digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)?)
+    ("L" | "l" | "U" | "u" | "F" | "f")?
   } = "number"
 
   string {
@@ -179,7 +180,7 @@ whitespace {
    comment)*
 }
 
-preprocessorLine { "#" ("\\" _ | !("//" | "/*") .)* } = "meta"
+preprocessorLine { "#" (!("//" | "/*" | "\\") . | "\\" _ )* } = "meta"
 
 declName { identifier } = "def"
 
