@@ -12,14 +12,15 @@ skip whitespace {
     breakCont ";" |
     goto identifier ";" |
     return Expression ";" |
+    Struct |
     Decl |
-    Label |
+    Label Statement |
     ";" |
     Expression ";"
   }
 
   Decl {
-    ((modifier | qualifier)+ Type | MaybeType) DeclRest
+    ((modifier | qualifier | typeModifier)+ typeName TypeSuffix* | MaybeType) DeclRest
   }
 
   DeclRest {
@@ -99,12 +100,15 @@ skip whitespace {
   }
 
   Type {
-    typeName TypeSuffix* |
-    (structUnion) declName? BlockOf(StructField, ";")?
+    (modifier | qualifier | typeModifier)* typeName TypeSuffix*
+  }
+
+  Struct {
+    (structUnion) declName? BlockOf(StructField, ";")? ";"
   }
 
   StructField {
-    (modifier | qualifier)* Type fieldName? (":" number)?
+    Type fieldName? (":" number)?
   }
 
   TypeSuffix {
@@ -134,6 +138,7 @@ tokens {
   structUnion { kw("struct" | "union") }
   sizeof { kw("sizeof") }
   modifier { kw("register" | "static" | "extern" | "typedef" | "auto") }
+  typeModifier { ("unsigned" | "signed" | "long") !identifierChar } = "type"
   qualifier { kw("const" | "volatile") }
 
   atom { ("true" | "false" | "null") !identifierChar } = "atom"
@@ -174,7 +179,7 @@ whitespace {
    comment)*
 }
 
-preprocessorLine { "#" .* } = "meta"
+preprocessorLine { "#" ("\\" _ | !("//" | "/*") .)* } = "meta"
 
 declName { identifier } = "def"
 
@@ -203,4 +208,4 @@ identifierChar { letter | digit }
 
 spaceChar { "\n" | "\t" | " " }
 
-labelIdentifier { identifier spaceChar* ~(":" !":") }
+labelIdentifier { identifier ~(spaceChar* ":" !":") }

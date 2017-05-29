@@ -8,11 +8,14 @@ const {parseSpec, tokenType} = require("./parse_spec")
 require("../dist/cpp")
 require("../dist/c")
 
+let filter = process.argv[2]
+
 ;[{dir: "c", mode: "c"},
   {dir: "cpp", mode: "c++"}
  ].forEach(lang => {
   let base = __dirname + "/" + lang.dir + "/"
   fs.readdirSync(base).forEach(file => {
+    if (filter && filter != file) return
     let {tokens, plain} = parseSpec(fs.readFileSync(base + file, "utf8"), base + file)
     try {
       compare(plain, tokens, lang.mode)
