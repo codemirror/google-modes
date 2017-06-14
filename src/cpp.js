@@ -1,5 +1,6 @@
 import * as cpp from "./cpp.mode"
 import {markLocals} from "./c_locals"
+import {indent} from "./c_indent"
 
 function constructorAhead(line, pos) {
   let match = /^(\w+)::~?(\w+)/.exec(line.slice(pos))
@@ -18,12 +19,8 @@ class CppMode extends CodeMirror.GrammarMode {
     return markLocals(super.token(stream, state), stream, state)
   }
 
-  indent(state) {
-    let indent = 0
-    for (let cx = state.context; cx; cx = cx.parent) {
-      if (cx.name == "Block") indent += this.conf.indentUnit
-    }
-    return indent
+  indent(state, textAfter, line) {
+    return indent(state, textAfter, line, this.conf)
   }
 }
 

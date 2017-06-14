@@ -1,22 +1,3 @@
-/*
-Base indentation unit for blocks is 2 spaces. Also for braceless
-statement in for/if/etc.
-
-Wrapped things in parentheses aligned if starting on paren line, four
-spaces from base otherwise. Also for braced initializers.
-
-Public/private/etc indented one unit from class body.
-
-Preprocessor directives not indentet.
-
-Initializer lists indented 4, then 6 spaces.
-
-Namespace bodies not indented.
-
-Nothing about continued statements (maybe try to glean from tests).
-Looks like 4 spaces.
-*/
-
 function lineCol(line, pos, config) {
   let col = 0
   for (let i = 0; i < pos; i++)
@@ -29,25 +10,45 @@ function lineIndent(line, config) {
 }
 
 function hasSubStatement(context) {
-  return /^(if|for|do|while)\b/.test(context.startLine.slice(context.startPos))
+  let m = /^(if|for|do|while)\b/.exec(context.startLine.slice(context.startPos))
+  return m && m[1]
 }
 
-export function indent(state, textAfter, config) {
-  let add = 0, close = textAfter && textAfter.charAt(0), direct = true
-  for (let cx = state.context; cx; cx = cx.parent) {
+function aligned(cx) {
+  return !/^\s*(\/\/.*)?$/.test(cx.startLine.slice(cx.startPos + 1))
+}
+
+export function indent(state, textAfter, line, config) {
+  let next = textAfter && textAfter.charAt(0)
+  if (next == "#") return 0
+  let add = 0, addedForLine = null
+  let direct = state.context && state.context.name != "DeclType"
+
+  for (let cx = state.contextAt(line, line.length - textAfter.length); cx; cx = cx.parent) {
     if (cx.name == "Block" || cx.name == "BlockOf" || cx.name == "ClassBody") {
-      direct = false
-      if (close == "}") close = null
+      if (aligned(cx)) return lineCol(cx.startLine, cx.startPos, config) + (next == "}" ? 0 : 1 + add)
+      else if (next == "}") next = null
+      else if (/^(public|private|protected)\s*:/.test(textAfter)) add += 1
       else add += config.indentUnit
-    } else if (cx.name == "Statement") {
-      let startIndent = lineIndent(cx.startLine, config)
-      if (direct && hasSubStatement(cx)) return startIndent + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)
-      return startIndent + add + (direct ? 2 * config.indentUnit : 0)
-    } else if (cx.name == "ParamList" || cx.name == "ArgList" || cx.name == "ParenExpr") {
+      if (cx.name == "Block" && cx.parent && cx.parent.name == "Statement") cx = cx.parent // Skip wrapping statement scope
       direct = false
-      if (!/^\s*(\/\/.*)?$/.test(cx.startLine.slice(cx.startPos)))
-        return lineCol(cx.startLine, cx.startPos, config) + (close == ")" ? 0 : 1)
-      add += 2 * config.indentUnit
+    } else if (cx.name == "Statement") {
+      let startIndent = lineIndent(cx.startLine, config), sub
+      if (direct) {
+        if (hasSubStatement(cx))
+          return startIndent + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)
+        if (addedForLine != cx.startLine)
+          add += 2 * config.indentUnit
+      }
+      return startIndent + add
+    } else if ((cx.name == "ParamList" || cx.name == "ArgList" || cx.name == "ParenExpr" || cx.name == "TemplateArgs") && direct) {
+      if (aligned(cx))
+        return lineCol(cx.startLine, cx.startPos, config) + (next == ")" ? 0 : 1 + add)
+      if (next != ")" && addedForLine != cx.startLine) {
+        add += 2 * config.indentUnit
+        addedForLine = cx.startLine
+      }
+      if (cx.name == "ParamList") direct = false
     } else if (cx.name == "InitializerList") {
       add += 2
     }

@@ -1,3 +1,4 @@
+[meta ::x::][qualified&variable bar];
 [type foo] [def x];
 
 [type unsigned] [type int] [def foo] [operator =] [number 2], [def x], [def bar] [operator =] [string "hi"];

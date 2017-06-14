@@ -3,7 +3,7 @@ start top {
 }
 
 skip whitespace {
-  Statement {
+  context Statement {
     Enum |
     Loop |
     Conditional |
@@ -11,24 +11,24 @@ skip whitespace {
     Block |
     breakCont ";" |
     goto identifier ";" |
-    return Expression ";" |
+    return Expression? ";" |
     Struct |
-    Decl |
+    DeclType DeclRest |
     Label Statement |
     ";" |
     Expression ";"
   }
 
-  Decl {
-    ((modifier | qualifier | typeModifier)+ typeName TypeSuffix* | MaybeType) DeclRest
-  }
+  context DeclType {
+    (modifier | qualifier | typeModifier)+ typeName TypeSuffix* | MaybeType
+  }   
 
   DeclRest {
     declName (FunctionDef | Initializer? ("," declName Initializer?)* ";")
   }
 
   Loop {
-    for "(" Statement* ")" Statement |
+    for "(" Statement Expression? ";" Expression? ")" Statement |
     while ParenExpr Statement |
     do Statement while ParenExpr ";"
   }
@@ -79,16 +79,16 @@ skip whitespace {
   }
 
   context ParenExpr {
-    '(' Expression ')'
+    '(' Expression? ')'
   }
 
   ExpressionSuffix {
     ArgList |
     '[' Expression ']' |
-    binOp Expression |
-    '?' Expression ':' Expression |
     suffixOp |
-    ("->" | ".") fieldName
+    ("->" | ".") fieldName |
+    binOp Expression |
+    '?' Expression ':' Expression
   }
 
   context ArgList {
@@ -152,8 +152,9 @@ tokens {
   } = "number"
 
   string {
-    ("L" | "u" "8"? | "U")? ("'" ("\\" _ | (!"'" .))* "'" |
-                             '"' ("\\" _ | (!'"' .))* '"')
+    (("L" | "u" "8"? | "U") ~("'" | '"'))?
+    ("'" ("\\" _ | (!"'" .))* "'" |
+     '"' ("\\" _ | (!'"' .))* '"')
   } = "string"
 
   prefixOp {
@@ -165,7 +166,7 @@ tokens {
   } = "operator"
 
   binOp {
-    ("+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" | "&") "="?
+    ("!" | "+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" | "&") "="?
   } = "operator"
 }
 
@@ -175,8 +176,8 @@ plainVariableName { identifier } = "variable"
 identifier { identifierStart identifierChar* }
 
 whitespace {
-  ("\n" preprocessorLine? |
-   " " | "\t" |
+  (" " | "\t" |
+   "\n" preprocessorLine? |
    comment)*
 }
 

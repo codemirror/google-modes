@@ -1,7 +1,7 @@
 extends "./c.grammar"
 
 skip whitespace {
-  Statement {
+  context Statement {
     Class |
     namespace declName? (op("=") variableName ";" | Block) |
     throw Expression ";" |
@@ -28,7 +28,7 @@ skip whitespace {
   }
 
   Lambda {
-    "[" ListOf("&" variableName? | "=" | this) FunctionDef
+    "[" ListOf("&" variableName? | "=" | this) "]" FunctionDef
   }
 
   context FunctionDef {
@@ -37,11 +37,13 @@ skip whitespace {
     ("&" | "&&")?
     (noexcept ("(" Expression ")")? | throw "(" ListOf(Type) ")")?
     ("->" Type)?
-    (":" ListOf(CtorInitializer))?
+    InitializerList?
     (";" | Block)
   }
 
-  CtorInitializer { fieldName ("(" Expression ")" | "{" ListOf(Expression) "}") }
+  context InitializerList { (":" ListOf(CtorInitializer))? }
+
+  CtorInitializer { fieldName ("(" ListOf(Expression) ")" | "{" ListOf(Expression) "}") }
 
   ExpressionPrefix {
     delete | new ("(" Expression ")")? | super
@@ -55,7 +57,7 @@ skip whitespace {
     "<" ListOf(TypeParam | modifier* declName Initializer?) ">"
   }
 
-  TemplateArgs {
+  context TemplateArgs {
     "<" ListOf(TypeParam | modifier* typeName Initializer?) ">"
   }
 
@@ -64,7 +66,7 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) (alignas "(" number ")")? declName (":" virtual? access? variableName) ClassBody
+    (class | structUnion) (alignas "(" number ")")? declName (":" virtual? access? Type)? ClassBody
   }
 
   context ClassBody {
@@ -74,6 +76,8 @@ skip whitespace {
   ClassMember {
     (friend | Type | modifier)* (operator (binOp | prefixOp) | declName) (Initializer ";" | FunctionDef)
   }
+
+  Initializer { super | BlockOf(Expression, ",") }
 }
 
 tokens {
@@ -126,15 +130,14 @@ unqualifiedDeclName { "~"? identifier }  = "def"
 
 unqualifiedCallee { identifier ~"(" } = "builtin"
 
-unqualifiedVariableName { "~"? identifier }  = "variable"
+unqualifiedVariableName { "~"? identifier } = "variable"
 
-qualifiedVariableName { unqualifiedVariableName }  = "qualified"
+qualifiedVariableName { unqualifiedVariableName } = "qualified"
 
 typeName { nameQualifier* unqualifiedTypeName }
 
 unqualifiedTypeName { identifier } = "type"
 
 maybeTypeName {
- unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
+  unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
-
