@@ -20,7 +20,7 @@ skip whitespace {
   }
 
   context DeclType {
-    (modifier | qualifier | typeModifier)+ typeName TypeSuffix* | MaybeType
+    ((modifier | qualifier)+ typeName | typeModifier+ modifiableType?) TypeSuffix* | MaybeType
   }   
 
   DeclRest {
@@ -100,7 +100,7 @@ skip whitespace {
   }
 
   Type {
-    (modifier | qualifier | typeModifier)* typeName TypeSuffix*
+    (modifier | qualifier)* typeName TypeSuffix*
   }
 
   Struct {
@@ -139,6 +139,7 @@ tokens {
   sizeof { kw("sizeof") }
   modifier { kw("register" | "static" | "extern" | "typedef" | "auto") }
   typeModifier { ("unsigned" | "signed" | "long") !identifierChar } = "type"
+  modifiableType { ("int" | "float" | "double") !identifierChar } = "type"
   qualifier { kw("const" | "volatile") }
 
   atom { ("true" | "false" | "null") !identifierChar } = "atom"
@@ -187,12 +188,14 @@ declName { identifier } = "def"
 
 fieldName { identifier } = "property"
 
-typeName { identifier } = "type"
+typeName { typeModifier+ modifiableType? | typeNameInner }
+
+typeNameInner { identifier } = "type"
 
 maybeTypeName {
   // The lookahead tries to figure out whether this identifier is
   // followed by optionally some type suffix and then another identifier
-  typeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
+  typeNameInner ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
 
 comment { "/*" (!"*/" _)* "*/" | "//" .* } = "comment"

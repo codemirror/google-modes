@@ -58,7 +58,7 @@ skip whitespace {
   }
 
   context TemplateArgs {
-    "<" ListOf(TypeParam | modifier* typeName Initializer?) ">"
+    "<" ListOf(TypeParam | modifier* Type Initializer?) ">"
   }
 
   TypeParam {
@@ -74,7 +74,9 @@ skip whitespace {
   }
 
   ClassMember {
-    (friend | Type | modifier)* (operator (binOp | prefixOp) | declName) (Initializer ";" | FunctionDef)
+    friend*
+    (ctorDtorName | (modifier | qualifier)* Type declName)
+    (Initializer? ";" | FunctionDef)
   }
 
   Initializer { super | BlockOf(Expression, ",") }
@@ -124,7 +126,7 @@ digits { (digit | "'")* }
 
 nameQualifier { "::" | identifier " "* "::" } = "meta"
 
-declName { nameQualifier* unqualifiedDeclName }
+declName { operator (binOp | prefixOp) | nameQualifier* unqualifiedDeclName }
 
 unqualifiedDeclName { "~"? identifier }  = "def"
 
@@ -134,10 +136,12 @@ unqualifiedVariableName { "~"? identifier } = "variable"
 
 qualifiedVariableName { unqualifiedVariableName } = "qualified"
 
-typeName { nameQualifier* unqualifiedTypeName }
+typeNameInner { nameQualifier* unqualifiedTypeName }
 
 unqualifiedTypeName { identifier } = "type"
 
 maybeTypeName {
   unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
+
+ctorDtorName { "~"? identifier ~(" "* "(") } = "def"
