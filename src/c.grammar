@@ -138,41 +138,43 @@ tokens {
   structUnion { kw("struct" | "union") }
   sizeof { kw("sizeof") }
   modifier { kw("register" | "static" | "extern" | "typedef" | "auto") }
-  typeModifier { ("unsigned" | "signed" | "long") !identifierChar } = "type"
-  modifiableType { ("int" | "float" | "double") !identifierChar } = "type"
+  typeModifier="type" { ("unsigned" | "signed" | "long") !identifierChar }
+  modifiableType="type" { ("int" | "float" | "double") !identifierChar }
   qualifier { kw("const" | "volatile") }
 
-  atom { ("true" | "false" | "null") !identifierChar } = "atom"
+  atom="atom" { ("true" | "false" | "null") !identifierChar }
 
   variableName { calleeName | plainVariableName }
 
-  number {
+  number="number" {
     ("0x" (digit | "a"-"f" | "A"-"F")+ |
      (digit+ ("." digit*)? | "." digit+) (("e" | "E") "-"? digit+)?)
     ("L" | "l" | "U" | "u" | "F" | "f")?
-  } = "number"
+  }
 
-  string {
+  string="string" {
     (("L" | "u" "8"? | "U") ~("'" | '"'))?
-    ("'" ("\\" _ | (!"'" .))* "'" |
+    ("'" ("\\" . (!"'" .)* | .) "'" |
      '"' ("\\" _ | (!'"' .))* '"')
-  } = "string"
+  }
 
-  prefixOp {
+  prefixOp="operator" {
     "++" | "--" | "!" | "~" | "&" | "*"
-  } = "operator"
+  }
 
-  suffixOp {
+  suffixOp="operator" {
     "++" | "--"
-  } = "operator"
+  }
 
-  binOp {
+  binOp="operator" {
     ("!" | "+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" | "&") "="?
-  } = "operator"
+  }
+
+  comment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
 }
 
-calleeName { identifier ~"(" } = "builtin"
-plainVariableName { identifier } = "variable"
+calleeName="builtin" { identifier ~"(" }
+plainVariableName="variable" { identifier }
 
 identifier { identifierStart identifierChar* }
 
@@ -182,15 +184,15 @@ whitespace {
    comment)*
 }
 
-preprocessorLine { "#" (!("//" | "/*" | "\\") . | "\\" _ )* } = "meta"
+preprocessorLine="meta" { "#" (!("//" | "/*" | "\\") . | "\\" _ )* }
 
-declName { identifier } = "def"
+declName="def" { identifier }
 
-fieldName { identifier } = "property"
+fieldName="property" { identifier }
 
 typeName { typeModifier+ modifiableType? | typeNameInner }
 
-typeNameInner { identifier } = "type"
+typeNameInner="type" { identifier }
 
 maybeTypeName {
   // The lookahead tries to figure out whether this identifier is
@@ -198,10 +200,8 @@ maybeTypeName {
   typeNameInner ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
 
-comment { "/*" (!"*/" _)* "*/" | "//" .* } = "comment"
-
-kw(value) { value !identifierChar } = "keyword"
-op(value) { value } = "operator"
+kw(value)="keyword" { value !identifierChar }
+op(value)="operator" { value }
 
 letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
 

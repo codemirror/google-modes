@@ -1,0 +1,229 @@
+start top { Statement* }
+
+skip whitespace {
+  context Statement {
+    VariableDeclaration |
+    whileWith ParenExpr Statement |
+    Block |
+    ";" |
+    debugger |
+    if ParenExpr Statement (else Statement)? |
+    function "*"? declName FunctionDef |
+    for ForSpec Statement |
+    Label |
+    return (semi | Expression semi) |
+    throw Expression semi |
+    breakCont identifier? semi |
+    switch ParenExpr Block |
+    try Block (catch "(" declName ")" Block)? (finally Block)? |
+    class declName ClassDef |
+    Export |
+    Import |
+    async Statement |
+    "@" Expression Statement |
+    Expression semi
+  }
+
+  VariableDeclaration {
+    var VariableDeclarator ("," VariableDeclarator)* semi
+  }
+
+  VariableDeclarator { Pattern (op("=") ExpressionNoComma)? }
+
+  context Block { "{" Statement* "}" }
+
+  Label { (default | labelName | case Expression) ":" }
+
+  context ForSpec {
+    "(" Statement (kw("of") Expression | ";" Expression? ";" Expression?)? ")"
+  }
+
+  Export {
+    export
+    (("*" | default | "{" commaSep(DeclMaybeAs) "}") (kw("from") string)? |
+     Statement)
+    semi
+  }
+
+  Import {
+    import
+    (string |
+     ((kw("*") (kw("as") declName)? | DeclMaybeAs | "{" commaSep(DeclMaybeAs) "}")
+      (kw("from") string)?))
+    semi
+  }
+
+  DeclMaybeAs {
+    variableAs kw("as") declName | declName
+  }
+
+  Expression { BaseExpression ("," Expression | ExpressionSuffix(Expression))* }
+  ExpressionNoComma { BaseExpression ExpressionSuffix(ExpressionNoComma)* }
+
+  context ParenExpr { "(" Expression ")" }
+
+  // FIXME fat arrows
+  BaseExpression {
+    atom |
+    kwExpr |
+    (kwPrefix | prefixOp | async) BaseExpression |
+    new ("." kw("target") | BaseExpression) |
+    function "*"? declName? FunctionDef |
+    class declName? ClassDef |
+    variable |
+    number |
+    string |
+    regexp |
+    template |
+    ArrayLiteral |
+    ObjectLiteral |
+    ParenExpr
+  }
+
+  context ArrayLiteral { "[" (Expression ("," Expression?)*)? "]" }
+
+  context ObjectLiteral {
+    "{" commaSep(ObjectProp) "}"
+  }
+
+  ObjectProp {
+    async? getSet?
+    ((propName | "[" Expression "]" | number | string) ("*"? FunctionDef | ":" Expression)? |
+     "..." ExpressionNoComma)
+  }
+
+  ExpressionSuffix(ContExpression) {
+    arrow (Block | ContExpression) |
+    (binOp | kwBinOp) ContExpression |
+    suffixOp |
+    ArgList |
+    template |
+    "." propName |
+    "[" Expression "]" |
+    op("?") Expression op(":") ContExpression
+  }
+
+  context ArgList {
+    "(" commaSep(ExpressionNoComma) ")"
+  }
+
+  context ParamList {
+    "(" commaSep(Pattern) ")"
+  }
+
+  context FunctionDef {
+    ParamList Block
+  }
+
+  ClassDef {
+    (extends Expression)? ClassBody
+  }
+
+  context ClassBody {
+    "{" (kw("static")? ObjectProp | "@" Expression)* "}"
+  }
+
+  Pattern {
+    declName | op("...") Pattern | ArrayPattern | ObjectPattern
+  }
+
+  context ArrayPattern { "[" commaSep(Pattern) "]" }
+
+  context ObjectPattern { "{" commaSep(PropPattern) "}" }
+
+  PropPattern {
+    declName !(" "* ":") |
+    propName ":" Pattern (op("=") ExpressionNoComma)? |
+    "..." Pattern
+  }
+}
+
+tokens {
+  var { kw("var" | "let" | "const") }
+  whileWith { kw("while" | "with") }
+  else { kw("else") }
+  do { kw("do") }
+  try { kw("try") }
+  finally { kw("finally") }
+  return { kw("return") }
+  throw { kw("throw") }
+  breakCont { kw("break" | "continue") }
+  debugger { kw("debugger") }
+  case { kw("case") }
+  default { kw("default") }
+  function { kw("function") }
+  if { kw("if") }
+  catch { kw("catch") }
+  for { kw("for") }
+  switch { kw("switch") }
+  class { kw("class") }
+  export { kw("export") }
+  import { kw("import") }
+  extends { kw("extends") }
+  async { kw("async") }
+  new { kw("new") }
+  kwBinOp { kw("in" | "instanceof") }
+  kwPrefix { kw("delete" | "typeof" | "yield" | "await") }
+  kwExpr { kw("super" | "this") }
+
+  atom="atom" { ("true" | "false" | "null" | "undefined" | "NaN" | "Infinity") !identifierChar }
+
+  variable="variable" { identifier }
+
+  arrow="operator" { "=>" }
+  prefixOp="operator" { "..." | "!" | "+" "+"? | "-" "-"? }
+  binOp="operator" { ("+" | "-" | "%" | "*" | "/" | ">" ">"? ">"? | "<" "<"? | "=" | "&" "&"? | "|" "|"? | "^") "="? }
+  suffixOp="operator" { "++" | "--" }
+
+  string="string" {
+    "'" ("\\" _ | (!"'" .))* "'" |
+    '"' ("\\" _ | (!'"' .))* '"'
+  }
+
+  number="number" {
+    "0x" (digit | "a"-"f" | "A"-"F")+ |
+    "0o" "0"-"7"+ |
+    "0b" ("0" | "1")+ |
+    (digit+ ("." digit*)? | "." digit+) (("e" | "E") ("+" | "-")? digit+)?
+  }
+
+  comment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
+
+  regexp="string-2" { "/" ("\\" . | .)+ "/" }
+
+  template {
+    str2("`")
+    (str2("${") Expression str2("}") | str2("\\" _ | "\n") | str2((!("`" | "${" | "\\") .)+))*
+    str2("`")
+  }
+}
+
+whitespace { (spaceChar | comment)* }
+
+kw(value)="keyword" { value !identifierChar }
+op(value)="operator" { value }
+str2(value)="string-2" { value }
+
+commaSep(expr) { (expr ("," expr)*)? }
+
+propName="property" { identifier }
+declName="def" { identifier }
+labelName { identifier ~(" "* ":") }
+
+getSet { kw("get" | "set") !(" "* ("," | "}" | ":")) }
+
+variableAs { variable ~(" "* "as") }
+
+identifier { identifierStart identifierChar* }
+
+semi { ";" } // FIXME
+
+letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+
+digit { "0"-"9" }
+
+identifierStart { letter }
+
+identifierChar { letter | digit }
+
+spaceChar { "\n" | "\t" | " " }

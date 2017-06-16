@@ -110,38 +110,38 @@ tokens {
 
   modifier { kw("inline" | "virtual" | "explicit") | super }
 
-  prefixOp {
+  prefixOp="operator" {
     typename | super
-  } = "operator"
+  }
 
-  number {
+  number="number" {
     ("0x" (digit | "a"-"f" | "A"-"F" | "'")+ |
      "0b" ("0" | "1" | "'")+ |
      (digit digits ("." digits)? | "." digit digits) (("e" | "E") "-"? digits)?)
     ("L" | "l" | "U" | "u" | "F" | "f")?
-  } = "number"
+  }
 }
 
 digits { (digit | "'")* }
 
-nameQualifier { "::" | identifier " "* "::" } = "meta"
+nameQualifier="meta" { "::" | identifier " "* "::" }
 
 declName { operator (binOp | prefixOp) | nameQualifier* unqualifiedDeclName }
 
-unqualifiedDeclName { "~"? identifier }  = "def"
+unqualifiedDeclName="def" { "~"? identifier }
 
-unqualifiedCallee { identifier ~"(" } = "builtin"
+unqualifiedCallee="builtin" { identifier ~"(" }
 
-unqualifiedVariableName { "~"? identifier } = "variable"
+unqualifiedVariableName="variable" { "~"? identifier }
 
-qualifiedVariableName { unqualifiedVariableName } = "qualified"
+qualifiedVariableName="qualified" { unqualifiedVariableName }
 
 typeNameInner { nameQualifier* unqualifiedTypeName }
 
-unqualifiedTypeName { identifier } = "type"
+unqualifiedTypeName="type" { identifier }
 
 maybeTypeName {
   unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
 
-ctorDtorName { "~"? identifier ~(" "* "(") } = "def"
+ctorDtorName="def" { "~"? identifier ~(" "* "(") }

@@ -1,0 +1,1 @@
+[keyword let] [def f] [operator =] [variable a] [operator +] [string '=>'] [operator +] [variable c];

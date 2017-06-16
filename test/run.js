@@ -8,11 +8,13 @@ const {parseSpec, tokenType} = require("./parse_spec")
 
 require("../dist/cpp")
 require("../dist/c")
+require("../dist/javascript")
 
 let filter = process.argv[2]
 
 ;[{dir: "c", mode: "c"},
-  {dir: "cpp", mode: "c++"}
+  {dir: "cpp", mode: "c++"},
+  {dir: "js", mode: "javascript"}
  ].forEach(lang => {
   let base = __dirname + "/" + lang.dir + "/"
   fs.readdirSync(base).forEach(file => {

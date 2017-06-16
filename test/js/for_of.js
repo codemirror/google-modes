@@ -1,0 +1,1 @@
+[keyword for]([keyword let] [def of] [keyword of] [variable something]) {}
