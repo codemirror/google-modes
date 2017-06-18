@@ -25,11 +25,13 @@ export function indent(state, textAfter, line, config) {
   let direct = state.context && state.context.name != "DeclType"
 
   for (let cx = state.contextAt(line, line.length - textAfter.length); cx; cx = cx.parent) {
-    if (cx.name == "Block" || cx.name == "BlockOf" || cx.name == "ClassBody") {
+    if (cx.name == "string" || cx.name == "comment") {
+      return CodeMirror.Pass
+    } else if (cx.name == "Block" || cx.name == "BlockOf" || cx.name == "ClassBody" || cx.name == "ObjectLiteral") {
       if (aligned(cx)) return lineCol(cx.startLine, cx.startPos, config) + (next == "}" ? 0 : 1 + add)
       else if (next == "}") next = null
       else if (/^(public|private|protected)\s*:/.test(textAfter)) add += 1
-      else add += config.indentUnit
+      else { add += config.indentUnit; addedForLine = cx.startLine }
       if (cx.name == "Block" && cx.parent && cx.parent.name == "Statement") cx = cx.parent // Skip wrapping statement scope
       direct = false
     } else if (cx.name == "Statement") {
@@ -41,14 +43,17 @@ export function indent(state, textAfter, line, config) {
           add += 2 * config.indentUnit
       }
       return startIndent + add
-    } else if ((cx.name == "ParamList" || cx.name == "ArgList" || cx.name == "ParenExpr" || cx.name == "TemplateArgs") && direct) {
+    } else if (direct && (cx.name == "ParamList" || cx.name == "ArgList" || cx.name == "ParenExpr" ||
+                          cx.name == "TemplateArgs" || cx.name == "ArrayLiteral")) {
+      let closed = next == (cx.name == "ArrayLiteral" ? "]" : ")")
       if (aligned(cx))
-        return lineCol(cx.startLine, cx.startPos, config) + (next == ")" ? 0 : 1 + add)
-      if (next != ")" && addedForLine != cx.startLine) {
+        return lineCol(cx.startLine, cx.startPos, config) +
+          (closed ? 0 : 1 + add)
+      if (!closed && addedForLine != cx.startLine) {
         add += 2 * config.indentUnit
         addedForLine = cx.startLine
       }
-      if (cx.name == "ParamList") direct = false
+      if (cx.name == "ParamList" || closed) direct = false
     } else if (cx.name == "InitializerList") {
       add += 2
     }

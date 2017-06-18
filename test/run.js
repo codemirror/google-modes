@@ -2,7 +2,7 @@ const fs = require("fs")
 const {runMode, getMode} = require("codemirror/addon/runmode/runmode.node")
 global.CodeMirror = require("codemirror") // FIXME make the modes properly require CodeMirror
 global.CodeMirror.Pass = {}
-require("modegrammar/src/matcher")
+require("codemirror-grammar-mode/src/matcher")
 
 const {parseSpec, tokenType} = require("./parse_spec")
 

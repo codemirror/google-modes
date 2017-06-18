@@ -40,7 +40,7 @@ skip whitespace {
 
   Export {
     export
-    (("*" | default | "{" commaSep(DeclMaybeAs) "}") (kw("from") string)? |
+    (("*" | default | "{" CommaSep(DeclMaybeAs) "}") (kw("from") string)? |
      Statement)
     semi
   }
@@ -48,7 +48,7 @@ skip whitespace {
   Import {
     import
     (string |
-     ((kw("*") (kw("as") declName)? | DeclMaybeAs | "{" commaSep(DeclMaybeAs) "}")
+     ((kw("*") (kw("as") declName)? | DeclMaybeAs | "{" CommaSep(DeclMaybeAs) "}")
       (kw("from") string)?))
     semi
   }
@@ -58,6 +58,7 @@ skip whitespace {
   }
 
   Expression { BaseExpression ("," Expression | ExpressionSuffix(Expression))* }
+
   ExpressionNoComma { BaseExpression ExpressionSuffix(ExpressionNoComma)* }
 
   context ParenExpr { "(" Expression ")" }
@@ -69,7 +70,7 @@ skip whitespace {
     (kwPrefix | prefixOp | async) BaseExpression |
     new ("." kw("target") | BaseExpression) |
     function "*"? declName? FunctionDef |
-    class declName? ClassDef |
+    class (!kw("extends") declName)? ClassDef |
     variable |
     number |
     string |
@@ -80,15 +81,15 @@ skip whitespace {
     ParenExpr
   }
 
-  context ArrayLiteral { "[" (Expression ("," Expression?)*)? "]" }
+  context ArrayLiteral { "[" (ExpressionNoComma ("," ExpressionNoComma?)*)? "]" }
 
   context ObjectLiteral {
-    "{" commaSep(ObjectProp) "}"
+    "{" CommaSep(ObjectProp) "}"
   }
 
   ObjectProp {
-    async? getSet?
-    ((propName | "[" Expression "]" | number | string) ("*"? FunctionDef | ":" Expression)? |
+    propModifier?
+    ((propName | "[" Expression "]" | number | string) ("*"? FunctionDef | ":" ExpressionNoComma)? |
      "..." ExpressionNoComma)
   }
 
@@ -104,11 +105,11 @@ skip whitespace {
   }
 
   context ArgList {
-    "(" commaSep(ExpressionNoComma) ")"
+    "(" CommaSep(ExpressionNoComma) ")"
   }
 
   context ParamList {
-    "(" commaSep(Pattern) ")"
+    "(" CommaSep(Pattern) ")"
   }
 
   context FunctionDef {
@@ -127,15 +128,17 @@ skip whitespace {
     declName | op("...") Pattern | ArrayPattern | ObjectPattern
   }
 
-  context ArrayPattern { "[" commaSep(Pattern) "]" }
+  context ArrayPattern { "[" CommaSep(Pattern) "]" }
 
-  context ObjectPattern { "{" commaSep(PropPattern) "}" }
+  context ObjectPattern { "{" CommaSep(PropPattern) "}" }
 
   PropPattern {
     declName !(" "* ":") |
     propName ":" Pattern (op("=") ExpressionNoComma)? |
     "..." Pattern
   }
+
+  CommaSep(expr) { (expr ("," expr)*)? }
 }
 
 tokens {
@@ -204,13 +207,11 @@ kw(value)="keyword" { value !identifierChar }
 op(value)="operator" { value }
 str2(value)="string-2" { value }
 
-commaSep(expr) { (expr ("," expr)*)? }
-
 propName="property" { identifier }
 declName="def" { identifier }
 labelName { identifier ~(" "* ":") }
 
-getSet { kw("get" | "set") !(" "* ("," | "}" | ":")) }
+propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":")) }
 
 variableAs { variable ~(" "* "as") }
 
@@ -222,8 +223,8 @@ letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
 
 digit { "0"-"9" }
 
-identifierStart { letter }
+identifierStart { letter | "_" | "$" }
 
-identifierChar { letter | digit }
+identifierChar { letter | digit | "_" | "$" }
 
 spaceChar { "\n" | "\t" | " " }
