@@ -98,9 +98,11 @@ Type m = {
   
 };
 
+Type m = (
+    );
+
 Type m = 
-    (
-        );
+    ();
 
 MyClass::MyClass(
     int var) 
