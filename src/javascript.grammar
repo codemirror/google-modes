@@ -3,18 +3,18 @@ start top { Statement* }
 skip whitespace {
   context Statement {
     var VariableDeclarator ("," VariableDeclarator)* semi |
-    whileWith ParenExpr Statement |
+    whileWith CondExpr Statement |
     Block |
     ";" |
     debugger |
-    if ParenExpr Statement (else Statement)? |
+    if CondExpr Statement (else Statement)? |
     function asyncStar? declName FunctionDef |
     for ForSpec Statement |
     Label |
     return (semi | Expression semi) |
     throw Expression semi |
     breakCont identifier? semi |
-    switch ParenExpr Block |
+    switch CondExpr Block |
     try Block (catch "(" declName ")" Block)? (finally Block)? |
     class declName ClassDef |
     Export |
@@ -58,6 +58,7 @@ skip whitespace {
   ExpressionNoComma { BaseExpression ExpressionSuffix(ExpressionNoComma)* }
 
   context ParenExpr { "(" Expression ")" }
+  context CondExpr { "(" Expression ")" }
 
   // FIXME fat arrows
   BaseExpression {
@@ -78,24 +79,21 @@ skip whitespace {
     ParenExpr
   }
 
-  context ArrowFunc {
-    (declNameAndArrow | paramsAndArrow) op("=>") (Block | Expression)
-  }
+  context ArrowFunc { (declNameAndArrow | paramsAndArrow) ArrowRest }
+
+  context ArrowRest { op("=>") (Block | ExpressionNoComma) }
 
   context ArrayLiteral { "[" CommaSep(ExpressionNoComma) "]" }
 
-  context ObjectLiteral {
-    "{" CommaSep(ObjectProp) "}"
-  }
+  context ObjectLiteral { "{" CommaSep(ObjectMember) "}" }
 
-  ObjectProp {
+  context ObjectMember {
     propModifier?
     ((propName | "[" Expression "]" | number | string) (asyncStar? FunctionDef | ":" ExpressionNoComma)? |
      "..." ExpressionNoComma)
   }
 
   ExpressionSuffix(ContExpression) {
-    arrow (Block | ContExpression) |
     suffixOp |
     (binOp | kwBinOp) ContExpression |
     ArgList |
@@ -122,7 +120,7 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (kw("static")? ObjectProp | "@" Expression)* "}"
+    "{" (kw("static")? ObjectMember | "@" Expression)* "}"
   }
 
   Pattern {
@@ -174,7 +172,6 @@ tokens {
 
   variable="variable" { identifier }
 
-  arrow="operator" { "=>" }
   prefixOp="operator" { "..." | "!" | "+" "+"? | "-" "-"? }
   binOp="operator" { ("+" | "-" | "%" | "*" | "/" | ">" ">"? ">"? | "<" "<"? | "=" | "&" "&"? | "|" "|"? | "^") "="? }
   suffixOp="operator" { "++" | "--" }

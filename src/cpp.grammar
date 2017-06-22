@@ -70,10 +70,10 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (access ":" | ClassMember)* "}"
+    "{" (access ":" | ObjectMember)* "}"
   }
 
-  ClassMember {
+  context ObjectMember {
     friend*
     (ctorDtorName | (modifier | qualifier)* Type declName)
     (Initializer? ";" | FunctionDef)

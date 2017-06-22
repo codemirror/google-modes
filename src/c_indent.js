@@ -14,49 +14,73 @@ function hasSubStatement(context) {
   return m && m[1]
 }
 
+function isSwitch(context) {
+  return context && context.name == "Statement" &&
+    /^switch\b/.test(context.startLine.slice(context.startPos))
+}
+
+function isLabel(text) {
+  return text && /^\s*(case|default)\b/.test(text)
+}
+
 function aligned(cx) {
-  return !/^\s*(\/\/.*)?$/.test(cx.startLine.slice(cx.startPos + 1))
+  return !/^\s*((\/\/.*)?$|.*=>)/.test(cx.startLine.slice(cx.startPos + 1))
+}
+
+const bracketed = {
+  Block: "}", BlockOf: "}", ClassBody: "}", ObjectLiteral: "}",
+  ArrayLiteral: "]",
+  ParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", TemplateArgs: ")", ForSpec: ")"
+}
+
+function statementIndent(cx, config) {
+  for (;; cx = cx.parent) {
+    if (!cx) return 0
+    if (cx.name == "Statement" || cx.name == "ObjectMember") return lineIndent(cx.startLine, config)
+  }
+}
+
+function findIndent(cx, textAfter, curLine, config) {
+  if (!cx) return 0
+  if (cx.name == "string" || cx.name == "comment") return CodeMirror.Pass
+
+  let brack = bracketed[cx.name]
+  if (brack) {
+    let closed = textAfter && textAfter.charAt(0) == brack
+    if (curLine != cx.startLine && aligned(cx))
+      return lineCol(cx.startLine, cx.startPos, config) + (closed ? 0 : 1)
+
+    if (cx.name == "Block" || cx.name == "ClassBody" || cx.name == "BlockOf") {
+      // Skip wrapping statement context
+      let skipCx = cx.parent && cx.parent.name == "Statement" ? cx.parent.parent : cx
+      return statementIndent(skipCx, config) + (
+        /^(public|private|protected)\s*:/.test(textAfter) ? 1 :
+        closed ? 0 :
+        isSwitch(cx.parent) && !isLabel(textAfter) ? 2 * config.indentUnit
+        : config.indentUnit
+      )
+    }
+
+    let flat = closed && brack != ")" || curLine == cx.startLine && cx.name != "CondExpr"
+    return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) +
+      (flat ? 0 : config.indentUnit * (brack == ")" ? 2 : 1))
+  } else if (cx.name == "Statement" || cx.name == "ObjectMember") {
+    let base = statementIndent(cx, config)
+    if (!curLine && hasSubStatement(cx))
+      return base + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)
+    let flat = curLine == cx.startLine ||
+        curLine && lineIndent(curLine, config) <= base ||
+        textAfter && /^\{$/.test(textAfter)
+    return base + (flat ? 0 : 2 * config.indentUnit)
+  } else if (cx.name == "ArrowRest") {
+    return findIndent(cx.parent, textAfter, cx.startLine, config) + config.indentUnit
+  } else {
+    return findIndent(cx.parent, textAfter, curLine, config) + (cx.name == "InitializerList" ? 2 : 0)
+  }
 }
 
 export function indent(state, textAfter, line, config) {
-  let next = textAfter && textAfter.charAt(0)
-  if (next == "#") return 0
-  let add = 0, addedForLine = null
-  let direct = state.context && state.context.name != "DeclType"
-
-  for (let cx = state.contextAt(line, line.length - textAfter.length); cx; cx = cx.parent) {
-    if (cx.name == "string" || cx.name == "comment") {
-      return CodeMirror.Pass
-    } else if (cx.name == "Block" || cx.name == "BlockOf" || cx.name == "ClassBody" || cx.name == "ObjectLiteral") {
-      if (aligned(cx)) return lineCol(cx.startLine, cx.startPos, config) + (next == "}" ? 0 : 1 + add)
-      else if (next == "}") next = null
-      else if (/^(public|private|protected)\s*:/.test(textAfter)) add += 1
-      else { add += config.indentUnit; addedForLine = cx.startLine }
-      if (cx.name == "Block" && cx.parent && cx.parent.name == "Statement") cx = cx.parent // Skip wrapping statement scope
-      direct = false
-    } else if (cx.name == "Statement") {
-      let startIndent = lineIndent(cx.startLine, config), sub
-      if (direct) {
-        if (hasSubStatement(cx))
-          return startIndent + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)
-        if (addedForLine != cx.startLine && next != "{")
-          add += 2 * config.indentUnit
-      }
-      return startIndent + add
-    } else if (direct && (cx.name == "ParamList" || cx.name == "ArgList" || cx.name == "ParenExpr" ||
-                          cx.name == "TemplateArgs" || cx.name == "ArrayLiteral" || cx.name == "ForSpec")) {
-      let closed = next == (cx.name == "ArrayLiteral" ? "]" : ")")
-      if (aligned(cx))
-        return lineCol(cx.startLine, cx.startPos, config) +
-          (closed ? 0 : 1 + add)
-      if (!closed && addedForLine != cx.startLine) {
-        add += 2 * config.indentUnit
-        addedForLine = cx.startLine
-      }
-      if (cx.name == "ParamList" || closed) direct = false
-    } else if (cx.name == "InitializerList") {
-      add += 2
-    }
-  }
-  return add
+  if (textAfter.charAt(0) == "#") return 0
+  if (state.context && state.context.name == "DeclType") return 0
+  return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, null, config)
 }

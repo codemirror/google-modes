@@ -29,16 +29,16 @@ skip whitespace {
 
   Loop {
     for "(" Statement Expression? ";" Expression? ")" Statement |
-    while ParenExpr Statement |
-    do Statement while ParenExpr ";"
+    while CondExpr Statement |
+    do Statement while CondExpr ";"
   }
 
   Conditional {
-    if ParenExpr Statement (else Statement)?
+    if CondExpr Statement (else Statement)?
   }
 
   Switch {
-    switch ParenExpr Block
+    switch CondExpr Block
   }
 
   Label {
@@ -78,9 +78,8 @@ skip whitespace {
     variableName
   }
 
-  context ParenExpr {
-    '(' Expression? ')'
-  }
+  context ParenExpr { '(' Expression? ')' }
+  context CondExpr { '(' Expression? ')' }
 
   ExpressionSuffix {
     ArgList |
