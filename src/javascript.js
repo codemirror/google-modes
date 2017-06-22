@@ -2,9 +2,15 @@ import * as grammar from "./javascript.mode"
 import {markLocals} from "./c_locals"
 import {indent} from "./c_indent"
 
+function startOfLine(line, pos) {
+  return !/\S/.test(line.slice(0, pos))
+}
+
 class JSMode extends CodeMirror.GrammarMode {
   constructor(conf) {
-    super(grammar)
+    super(grammar, {
+      predicates: {startOfLine}
+    })
     this.conf = conf
   }
 

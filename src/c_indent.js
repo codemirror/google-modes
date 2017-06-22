@@ -39,12 +39,12 @@ export function indent(state, textAfter, line, config) {
       if (direct) {
         if (hasSubStatement(cx))
           return startIndent + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)
-        if (addedForLine != cx.startLine)
+        if (addedForLine != cx.startLine && next != "{")
           add += 2 * config.indentUnit
       }
       return startIndent + add
     } else if (direct && (cx.name == "ParamList" || cx.name == "ArgList" || cx.name == "ParenExpr" ||
-                          cx.name == "TemplateArgs" || cx.name == "ArrayLiteral")) {
+                          cx.name == "TemplateArgs" || cx.name == "ArrayLiteral" || cx.name == "ForSpec")) {
       let closed = next == (cx.name == "ArrayLiteral" ? "]" : ")")
       if (aligned(cx))
         return lineCol(cx.startLine, cx.startPos, config) +

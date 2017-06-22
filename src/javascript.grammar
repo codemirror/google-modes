@@ -2,13 +2,13 @@ start top { Statement* }
 
 skip whitespace {
   context Statement {
-    VariableDeclaration |
+    var VariableDeclarator ("," VariableDeclarator)* semi |
     whileWith ParenExpr Statement |
     Block |
     ";" |
     debugger |
     if ParenExpr Statement (else Statement)? |
-    function "*"? declName FunctionDef |
+    function asyncStar? declName FunctionDef |
     for ForSpec Statement |
     Label |
     return (semi | Expression semi) |
@@ -24,10 +24,6 @@ skip whitespace {
     Expression semi
   }
 
-  VariableDeclaration {
-    var VariableDeclarator ("," VariableDeclarator)* semi
-  }
-
   VariableDeclarator { Pattern (op("=") ExpressionNoComma)? }
 
   context Block { "{" Statement* "}" }
@@ -35,7 +31,7 @@ skip whitespace {
   Label { (default | labelName | case Expression) ":" }
 
   context ForSpec {
-    "(" Statement (kw("of") Expression | ";" Expression? ";" Expression?)? ")"
+    "(" Statement (kw("of") Expression | Expression? ";" Expression?)? ")"
   }
 
   Export {
@@ -48,7 +44,7 @@ skip whitespace {
   Import {
     import
     (string |
-     ((kw("*") (kw("as") declName)? | DeclMaybeAs | "{" CommaSep(DeclMaybeAs) "}")
+     ((asyncStar (kw("as") declName)? | DeclMaybeAs | "{" CommaSep(DeclMaybeAs) "}")
       (kw("from") string)?))
     semi
   }
@@ -69,7 +65,7 @@ skip whitespace {
     kwExpr |
     (kwPrefix | prefixOp | async) BaseExpression |
     new ("." kw("target") | BaseExpression) |
-    function "*"? declName? FunctionDef |
+    function asyncStar? declName? FunctionDef |
     class (!kw("extends") declName)? ClassDef |
     variable |
     number |
@@ -81,7 +77,7 @@ skip whitespace {
     ParenExpr
   }
 
-  context ArrayLiteral { "[" (ExpressionNoComma ("," ExpressionNoComma?)*)? "]" }
+  context ArrayLiteral { "[" CommaSep(ExpressionNoComma) "]" }
 
   context ObjectLiteral {
     "{" CommaSep(ObjectProp) "}"
@@ -89,14 +85,14 @@ skip whitespace {
 
   ObjectProp {
     propModifier?
-    ((propName | "[" Expression "]" | number | string) ("*"? FunctionDef | ":" ExpressionNoComma)? |
+    ((propName | "[" Expression "]" | number | string) (asyncStar? FunctionDef | ":" ExpressionNoComma)? |
      "..." ExpressionNoComma)
   }
 
   ExpressionSuffix(ContExpression) {
     arrow (Block | ContExpression) |
-    (binOp | kwBinOp) ContExpression |
     suffixOp |
+    (binOp | kwBinOp) ContExpression |
     ArgList |
     template |
     "." propName |
@@ -133,12 +129,12 @@ skip whitespace {
   context ObjectPattern { "{" CommaSep(PropPattern) "}" }
 
   PropPattern {
-    declName !(" "* ":") |
+    declNameNoColon |
     propName ":" Pattern (op("=") ExpressionNoComma)? |
     "..." Pattern
   }
 
-  CommaSep(expr) { (expr ("," expr)*)? }
+  CommaSep(expr) { (expr ("," expr?)*)? }
 }
 
 tokens {
@@ -163,7 +159,7 @@ tokens {
   export { kw("export") }
   import { kw("import") }
   extends { kw("extends") }
-  async { kw("async") }
+  async { kw("async") ~(whitespace function) }
   new { kw("new") }
   kwBinOp { kw("in" | "instanceof") }
   kwPrefix { kw("delete" | "typeof" | "yield" | "await") }
@@ -211,13 +207,17 @@ propName="property" { identifier }
 declName="def" { identifier }
 labelName { identifier ~(" "* ":") }
 
+declNameNoColon { declName !(identifierChar | " "* ":") }
+
 propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":")) }
+
+asyncStar="keyword" { "*" }
 
 variableAs { variable ~(" "* "as") }
 
 identifier { identifierStart identifierChar* }
 
-semi { ";" } // FIXME
+semi { ";" | ~"}" | &startOfLine } // FIXME
 
 letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
 
