@@ -58,7 +58,6 @@ function compare(text, tokens, mode, open) {
         if (str) {
           let indent = modeObj.indent(curState, ws[2], str)
           if (indent != CodeMirror.Pass && indent != ws[1].length) {
-            console.log(curState.context)
             throw new Error("Indentation of line " + line + " is " + indent + " (expected " + ws[1].length + ")")
           }
         }

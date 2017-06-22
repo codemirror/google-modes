@@ -67,6 +67,7 @@ skip whitespace {
     new ("." kw("target") | BaseExpression) |
     function asyncStar? declName? FunctionDef |
     class (!kw("extends") declName)? ClassDef |
+    ArrowFunc |
     variable |
     number |
     string |
@@ -75,6 +76,10 @@ skip whitespace {
     ArrayLiteral |
     ObjectLiteral |
     ParenExpr
+  }
+
+  context ArrowFunc {
+    (declNameAndArrow | paramsAndArrow) op("=>") (Block | Expression)
   }
 
   context ArrayLiteral { "[" CommaSep(ExpressionNoComma) "]" }
@@ -159,7 +164,7 @@ tokens {
   export { kw("export") }
   import { kw("import") }
   extends { kw("extends") }
-  async { kw("async") ~(whitespace function) }
+  async { kw("async") ~(whitespace (function | identifier | "(")) }
   new { kw("new") }
   kwBinOp { kw("in" | "instanceof") }
   kwPrefix { kw("delete" | "typeof" | "yield" | "await") }
@@ -208,6 +213,10 @@ declName="def" { identifier }
 labelName { identifier ~(" "* ":") }
 
 declNameNoColon { declName !(identifierChar | " "* ":") }
+
+declNameAndArrow { declName ~(whitespace "=>") }
+
+paramsAndArrow { "(" ~(whitespace CommaSep(Pattern) ")" whitespace "=>") whitespace CommaSep(Pattern) whitespace ")" }
 
 propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":")) }
 

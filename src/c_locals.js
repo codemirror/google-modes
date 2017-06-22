@@ -1,6 +1,6 @@
 function storeLocal(context, name) {
   for (let cx = context; cx; cx = cx.parent)
-    if (cx.name == "Block" || cx.name == "FunctionDef")
+    if (cx.name == "Block" || cx.name == "FunctionDef" || cx.name == "ArrowFunc")
       return (cx.locals || (cx.locals = [])).push(name)
 }
 function isLocal(context, name) {
