@@ -1,7 +1,7 @@
 start top { whitespace ("\n" | Statement)* }
 
 skip whitespace {
-  context Statement {   
+  context Statement {
     (if | whileElif) Expr ":" Body |
     (else | tryFinally) ":" Body |
     for CommaSep(assignedName | ExprNoIn) in CommaSep(Expr) ":" Body |
@@ -138,7 +138,7 @@ tokens {
   }
   prefixOp { op("*" | "+" | "-" | "~") }
 
-  number="number" { 
+  number="number" {
     ("0b" | "OB") ("0" | "1" | "_")+ |
     ("0o" | "0O") ("0"-"7" | "_")+ |
     ("0x" | "OX") (digit | "a"-"f" | "A"-"F" | "_")+ |
@@ -154,6 +154,8 @@ tokens {
   }
 
   variableName="variable" { identifier }
+
+  comment="comment" { "#" .* }
 }
 
 kw(word)="keyword" { word !identifierChar }
@@ -171,11 +173,9 @@ typeName="type" { identifier }
 
 whitespaceSimple { (" " | "\t" | comment) }
 
-whitespace { (whitespaceSimple | &maySkipNewline "\n")* }
+whitespace { (whitespaceSimple | "\\\n" | &maySkipNewline "\n")* }
 
 identifierStart { letter | "_" }
 identifierChar { letter | digit | "_" }
 letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
 digit { "0"-"9" }
-
-comment="comment" { "#" .* }
