@@ -1,0 +1,173 @@
+start top { whitespace Statement+ }
+
+skip whitespace {
+  context Statement {
+    (const | var) MaybeSet(declName ("," declName)* Type? (op("=") CommaSep(Expr))?) |
+    type MaybeSet(declName Type) |
+    import MaybeSet(("." | declName)? string) |
+    package variableName |
+    declNameAssigned op(":=") Expr |
+    if Expr (";" Expr)? Block |
+    else Block |
+    switch Expr (";" Expr)? Block |
+    for (declNameAssigned op(":=") Expr | Expr (";" Expr)*) Block |
+    (go | defer) Expr |
+    return CommaSep(Expr) |
+    (break | continue) identifier? |
+    label |
+    select Block |
+    default ":" |
+    goto identifier |
+    fallthrough |
+    case Statement ":" |
+    Expr
+  }
+
+  MaybeSet(inner) { Set(inner) | inner }
+  context Set(inner) { "(" separated(inner) ")" }
+
+  Expr {
+    ExprPrefix* BaseExpr ExprSuffix*
+  }
+
+  BaseExpr {
+    number |
+    string |
+    atom |
+    func declName? FunctionDef |
+    typeNameBrace |
+    variableName |
+    Bracketed Type? |
+    "*" Type |
+    ParenExpr
+  }
+
+  context FunctionDef { ParamList (ParamList | Type)? Block? }
+  context ParenExpr { "(" CommaSep(Expr) ")" }
+  context LiteralBody { "{" CommaSep((propNameColon | Expr) (":" Expr)?) "}" }
+
+  ExprPrefix {
+    prefixOp | range
+  }
+
+  ExprSuffix {
+    ".(" Type ")" |
+    "." propName |
+    suffixOp |
+    binOp Expr |
+    ArgList |
+    LiteralBody |
+    Bracketed
+  }
+
+  context Bracketed { "[" CommaSep(Expr) (":" Expr)* "]" }
+
+  context ArgList { "(" CommaSep(Expr) "..."? ")" }
+
+  CommaSep(expr) { expr ("," expr?)* }
+
+  context Block { "{" separated(Statement) "}" }
+
+  Type {
+    "[" Expr? "]" Type |
+    struct StructBody |
+    interface InterfaceBody |
+    "*" Type |
+    func ParamList (ParamList | Type)? |
+    map "[" Type "]" Type |
+    (op("<-") | chan op("<-")?) Type |
+    "(" Type ")" |
+    typeName
+  }
+
+  context StructBody {
+    "{" separated((propName ("," propName)* | "*") Type string?) "}"
+  }
+
+  context InterfaceBody {
+    "{" separated(propNameParen ParamList | Type) "}"
+  }
+
+  context ParamList {
+    "(" CommaSep(declName ("," declName)* "..."? Type) ")"
+  } 
+}
+
+tokens {
+  break { kw("break") }
+  default { kw("default") }
+  func { kw("func") }
+  interface { kw("interface") }
+  select { kw("select") }
+  case { kw("case") }
+  defer { kw("defer") }
+  go { kw("go") }
+  map { kw("map") }
+  struct { kw("struct") }
+  chan { kw("chan") }
+  else { kw("else") }
+  goto { kw("goto") }
+  package { kw("package") }
+  switch { kw("switch") }
+  const { kw("const") }
+  fallthrough { kw("fallthrough") }
+  if { kw("if") }
+  range { kw("range") }
+  type { kw("type") }
+  continue { kw("continue") }
+  for { kw("for") }
+  import { kw("import") }
+  return { kw("return") }
+  var { kw("var") }
+
+  atom="atom" { kw("true" | "false" | "nil") }
+
+  binOp="operator" {
+    ("+" | "&" "^"? | "-" | "|" | "*" | "^" | "/" | "<" "<"? | ">" ">"? | "%" | "=") "="? |
+    "<-" | "="
+  }
+  prefixOp="operator" { "!" | "+" | "-" | "*" | "^" | "&" | "<-" }
+  suffixOp="operator" { "++" | "--" }
+
+  number="number" {
+    ("0o" | "0O") "0"-"7"+ |
+    ("0x" | "OX") (digit | "a"-"f" | "A"-"F")+ |
+    (digit digit* ("." digit+)? | "." digit+) (("e" | "E") ("+" | "-")? digit+)? "i"?
+  }
+
+  string="string" {
+    "'" ("\\" . (!"'" .)* | .) "'" |
+    '"' ("\\" . | (!'"' .))* '"' |
+    "`" (!"`" _)* "`"
+  }
+
+  variableName="variable" { identifier }
+
+  comment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
+}
+
+kw(word)="keyword" { word !identifierChar }
+op(expr)="operator" { expr }
+
+separated(expr) {
+  (expr (";" | ~("}" | ")") | ~"\n" &insertSemi))*
+}
+
+identifier { identifierStart identifierChar* }
+
+declName="def" { identifier }
+declNameAssigned="def" { identifier ~(" "* ":=") }
+calleeName="builtin" { identifier ~"(" }
+propName="property" { identifier }
+propNameParen="property" { identifier ~(" " "(") }
+propNameColon="property" { identifier ~(" " ":") }
+typeName="type" { identifier }
+typeNameBrace="type" { identifier ~(" "* "{") }
+label { identifier " "* ":" }
+
+whitespace { (" " | "\t" | "\n" | comment)* }
+
+identifierStart { letter | "_" }
+identifierChar { letter | digit | "_" }
+letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+digit { "0"-"9" }

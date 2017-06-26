@@ -8,7 +8,8 @@
     "build-c": "grammar-mode --es-module --names src/c.grammar --output src/c.mode.js && rollup src/c.js -o dist/c.js -f umd",
     "build-js": "grammar-mode --es-module --names src/javascript.grammar --output src/javascript.mode.js && rollup src/javascript.js -o dist/javascript.js -f umd",
     "build-py": "grammar-mode --es-module --names src/python.grammar --output src/python.mode.js && rollup src/python.js -o dist/python.js -f umd",
-    "build": "npm run build-js && npm run build-c && npm run build-cpp && npm run build-py",
+    "build-go": "grammar-mode --es-module --names src/go.grammar --output src/go.mode.js && rollup src/go.js -o dist/go.js -f umd",
+    "build": "npm run build-js && npm run build-c && npm run build-cpp && npm run build-py && npm run build-go",
     "test": "node test/run.js"
   },
   "dependencies": {
