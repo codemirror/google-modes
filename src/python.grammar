@@ -1,0 +1,184 @@
+start top { ("\n" | Statement)* }
+
+skip whitespace {
+  context Statement {   
+    (if | whileElif) Expr ":" Body |
+    (else | tryFinally) Body |
+    for CommaSep(assignedName | ExprNoIn) in CommaSep(Expr) ":" Body |
+    except Expr (as declName)? ":" Body |
+    async AsyncStatement |
+    AsyncStatement |
+    Annotation ArgList? "\n" |
+    SimpleStatement
+  }
+
+  AsyncStatement {
+    with CommaSep(Expr (as declName)?) ":" Body |
+    def declName FuncDef |
+    class ClassDef
+  }
+
+  SimpleStatement {
+    SmallStatement (";" SmallStatement?)* "\n"
+  }
+
+  SmallStatement {
+    passBreakCont |
+    del CommaSep(Expr) |
+    returnAssert CommaSep(Expr) |
+    raise Expr (from Expr)? |
+    import CommaSep(Expr (as declName)?) |
+    from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
+    globalNonlocal CommaSep(variableName) |
+    assignedName op("=") Expr |
+    CommaSep(Expr)
+  }
+
+  Annotation="meta" { "@" identifier ("." identifier)* }
+
+  context ArgList { "(" CommaSep(op("**")? Expr)? ")" }
+
+  context ParamList { "(" CommaSep(op("*" "*"?)? (self | declName) (":" Type)? (op("=") Expr)?)? ")" }
+
+  Expr {
+    ExprPrefix* BaseExpr (ExprSuffix(Expr) | in Expr)*
+  }
+
+  ExprNoIn {
+    ExprPrefix* BaseExpr ExprSuffix(ExprNoIn)*
+  }
+
+  ExprPrefix {
+    prefixOp |
+    prefixKw
+  }
+
+  BaseExpr {
+    ParenExpr |
+    ArrayLiteral |
+    ObjectLiteral |
+    number |
+    string+ |
+    op("...") |
+    atom |
+    self |
+    yield (from Expr | CommaSep(Expr)) |
+    lambda LambdaDef |
+    calleeName |
+    variableName
+  }
+
+  ExprSuffix(Expr) {
+    (binop | binopKw) Expr |
+    ArgList |
+    Subscript |
+    "." propName |
+    if Expr (else Expr)?
+  }
+
+  context LambdaDef { CommaSep(op("*" | "**")? declName (op("=") Expr)?)? ":" Expr }
+  context ClassDef { declName ArgList? ":" Body }
+  context FuncDef { ParamList ("->" Type)? ":" Body }
+
+  MaybeComp { Expr ("," CommaSep(Expr)? | CompFor)? }
+  CompFor { async? for CommaSep(assignedName | ExprNoIn) in Expr (CompFor | CompIf)? }
+  CompIf { if Expr (CompFor | CompIf)? }
+
+  context ParenExpr { "(" MaybeComp? ")" }
+
+  context ArrayLiteral { "[" MaybeComp? "]" }
+
+  context ObjectLiteral {
+   "{"
+   (op("**") Expr ("," CommaSep(DictProp))? |
+    Expr ("," CommaSep(Expr) | CompFor | ":" Expr CommaSep(DictProp))?)
+   "}"
+  }
+
+  DictProp {
+    op("**") Expr | Expr ":" Expr
+  }
+
+  context Subscript { "[" CommaSep(Expr (":" Expr?)? | ":" Expr? (":" Expr?)?) "]" }
+
+  CommaSep(expr) { expr ("," expr?)* }
+
+  Body { SimpleStatement | indentedBody }
+
+  Type { typeName | Expr }
+}
+
+tokens {
+  if { kw("if") }
+  whileElif { kw("while" | "elif") }
+  else { kw("else") }
+  tryFinally { kw("try" | "finally") }
+  for { kw("for") }
+  in { kw("in") }
+  as { kw("as") }
+  async { kw("async") }
+  def { kw("def") }
+  except { kw("except") }
+  class { kw("class") }
+  with { kw("with") }
+  lambda { kw("lambda") }
+  del { kw("del") }
+  yield { kw("yield") }
+  raise { kw("raise") }
+  from { kw("from") }
+  import { kw("import") }
+  passBreakCont { kw("pass" | "break" | "continue") }
+  globalNonlocal { kw("global" | "nonlocal") }
+  returnAssert { kw("return" | "assert") }
+  prefixKw { kw("not" | "await") }
+  atom="atom" { ("None" | "True" | "False") !identifierChar }
+  self="atom" { "self" !identifierChar }
+  binopKw { kw("or" | "and" | "in" | "is" (" "+ "not")? | "not" (" "+ "in")?) }
+
+  binop {
+    op(("^" | "&" | "|" | "<<" | ">>" | "+" | "-" | "*" "*"? | "@" | "/" | "%" | "/") "="? |
+       "=" | "<" | ">" | "==" | ">=" | "<=" | "<>" | "!=")
+  }
+  prefixOp { op("*" | "+" | "-" | "~") }
+
+  number="number" { 
+    ("0b" | "OB") ("0" | "1" | "_")+ |
+    ("0o" | "0O") ("0"-"7" | "_")+ |
+    ("0x" | "OX") (digit | "a"-"f" | "A"-"F" | "_")+ |
+    (digit (digit | "_")* ("." (digit | "_")+)? | "." (digit | "_")+) (("e" | "E") ("+" | "-")? (digit | "_")+)? ("j" | "J")?
+  }
+
+  string="string" {
+    (("u" | "U" | "r" | "R" | "f" | "F" | "b" | "B")+ ~("'" | '"'))?
+    ("'''" ("\\" _ | !"'''" _)* "'''" |
+     '"""' ("\\" _ | !'"""' _)* '"""' |
+     "'" ("\\" . | !"'" .)* "'" |
+     '"' ("\\" . | !'"' .)* '"')
+  }
+
+  variableName="variable" { identifier }
+}
+
+kw(word)="keyword" { word !identifierChar }
+op(expr)="operator" { expr }
+
+context indentedBody { "\n" (whitespaceSimple | "\n")* (&stillIndented Statement (whitespaceSimple | "\n")*)* }
+
+identifier { identifierStart identifierChar* }
+
+declName="def" { identifier }
+assignedName="def" { identifier ~(" "* ("=" | "in" !identifierChar)) }
+calleeName="builtin" { identifier ~"(" }
+propName="property" { identifier }
+typeName="type" { identifier }
+
+whitespaceSimple { (" " | "\t" | comment) }
+
+whitespace { (whitespaceSimple | &maySkipNewline "\n")* }
+
+identifierStart { letter | "_" }
+identifierChar { letter | digit | "_" }
+letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+digit { "0"-"9" }
+
+comment="comment" { "#" .* }

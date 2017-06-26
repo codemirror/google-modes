@@ -108,4 +108,3 @@ void foo() {
   const int& initializer_basictype_lref{1};
   const int &initializer_basictype_rref{1};
 }
-

@@ -1,9 +1,16 @@
 import * as grammar from "./javascript.mode"
-import {markLocals} from "./c_locals"
+import {markLocals} from "./locals"
 import {indent} from "./c_indent"
 
-function startOfLine(line, pos) {
-  return !/\S/.test(line.slice(0, pos))
+const scopes = ["Block", "FunctionDef", "ArrowFunc"]
+
+function startOfLine(string, pos) {
+  for (let i = pos - 1; i >= 0; i--) {
+    let ch = string.charCodeAt(i)
+    if (ch === 10) break
+    if (ch !== 32 && ch !== 9) return false
+  }
+  return true
 }
 
 class JSMode extends CodeMirror.GrammarMode {
@@ -15,7 +22,7 @@ class JSMode extends CodeMirror.GrammarMode {
   }
 
   token(stream, state) {
-    return markLocals(super.token(stream, state), stream, state)
+    return markLocals(super.token(stream, state), scopes, stream, state)
   }
 
   indent(state, textAfter, line) {
