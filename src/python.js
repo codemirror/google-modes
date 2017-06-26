@@ -58,16 +58,17 @@ function findIndent(cx, textAfter, curLine, config) {
 
   let brack = bracketed[cx.name]
   if (brack) {
-    let closed = textAfter && textAfter.charAt(0) == brack
     if (curLine != cx.startLine && aligned(cx))
-      return lineCol(cx.startLine, cx.startPos, config) + (closed ? 0 : 1)
+      return lineCol(cx.startLine, cx.startPos, config) + 1
 
-    let flat = closed && brack != ")" || curLine == cx.startLine
-    return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 4)
+    let closed = textAfter && textAfter.charAt(0) == brack
+    let flat = closed && brack == "}" || curLine == cx.startLine
+    return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 2 * config.indentUnit)
   } else if (cx.name == "indentedBody") {
-    return statementIndent(cx, config) + 4
+    return statementIndent(cx, config) + config.indentUnit
   } else {
-    return findIndent(cx.parent, textAfter, curLine, config)
+    return findIndent(cx.parent, textAfter, curLine, config) +
+      ((cx.name == "DictProp" || cx.name == "Statement") && cx.startLine != curLine ? 2 * config.indentUnit : 0)
   }
 }
 

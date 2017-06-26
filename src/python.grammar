@@ -1,9 +1,9 @@
-start top { ("\n" | Statement)* }
+start top { whitespace ("\n" | Statement)* }
 
 skip whitespace {
   context Statement {   
     (if | whileElif) Expr ":" Body |
-    (else | tryFinally) Body |
+    (else | tryFinally) ":" Body |
     for CommaSep(assignedName | ExprNoIn) in CommaSep(Expr) ":" Body |
     except Expr (as declName)? ":" Body |
     async AsyncStatement |
@@ -89,14 +89,11 @@ skip whitespace {
   context ArrayLiteral { "[" MaybeComp? "]" }
 
   context ObjectLiteral {
-   "{"
-   (op("**") Expr ("," CommaSep(DictProp))? |
-    Expr ("," CommaSep(Expr) | CompFor | ":" Expr CommaSep(DictProp))?)
-   "}"
+   "{" CommaSep(DictProp) CompFor? "}"
   }
 
-  DictProp {
-    op("**") Expr | Expr ":" Expr
+  context DictProp {
+    op("**") Expr | Expr (":" Expr)?
   }
 
   context Subscript { "[" CommaSep(Expr (":" Expr?)? | ":" Expr? (":" Expr?)?) "]" }

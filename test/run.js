@@ -31,7 +31,7 @@ let filter = process.argv[2]
 })
 
 function parseTestSpec(file, fileName) {
-  let directive = /\/\/\s*test:\s*(.*)/.exec(file)
+  let directive = /(?:\/\/|#)\s*test:\s*(.*)/.exec(file)
   if (directive && /\bindent_only\b/.test(directive[1]))
     return {tokens: [{text: file, type: null}], plain: file, open: true}
   let result = parseSpec(file, fileName)
