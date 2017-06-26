@@ -24,6 +24,53 @@ function stillIndented(line, pos, cx) {
   return cx && countIndent(line, pos) > countIndent(cx.startLine, cx.startPos)
 }
 
+function aligned(cx) {
+  return !/^\s*((#.*)?$)/.test(cx.startLine.slice(cx.startPos + 1))
+}
+
+function lineCol(line, pos, config) {
+  let col = 0
+  for (let i = 0; i < pos; i++)
+    col += line.charCodeAt(i) == 9 ? config.tabSize - (col % config.tabSize) : 1
+  return col
+}
+
+function lineIndent(line, config) {
+  return lineCol(line, /^\s*/.exec(line)[0].length, config)
+}
+
+const bracketed = {
+  ObjectLiteral: "}",
+  ArrayLiteral: "]", SubScript: "]",
+  ParamList: ")", ArgList: ")", ParenExpr: ")"
+}
+
+function statementIndent(cx, config) {
+  for (;; cx = cx.parent) {
+    if (!cx) return 0
+    if (cx.name == "Statement") return lineIndent(cx.startLine, config)
+  }
+}
+
+function findIndent(cx, textAfter, curLine, config) {
+  if (!cx) return 0
+  if (cx.name == "string") return CodeMirror.Pass
+
+  let brack = bracketed[cx.name]
+  if (brack) {
+    let closed = textAfter && textAfter.charAt(0) == brack
+    if (curLine != cx.startLine && aligned(cx))
+      return lineCol(cx.startLine, cx.startPos, config) + (closed ? 0 : 1)
+
+    let flat = closed && brack != ")" || curLine == cx.startLine
+    return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 4)
+  } else if (cx.name == "indentedBody") {
+    return statementIndent(cx, config) + 4
+  } else {
+    return findIndent(cx.parent, textAfter, curLine, config)
+  }
+}
+
 class PythonMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar, {
@@ -34,6 +81,10 @@ class PythonMode extends CodeMirror.GrammarMode {
 
   token(stream, state) {
     return markLocals(super.token(stream, state), scopes, stream, state)
+  }
+
+  indent(state, textAfter, line) {
+    return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, null, this.conf)
   }
 }
 
