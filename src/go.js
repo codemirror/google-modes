@@ -2,17 +2,19 @@ import * as grammar from "./go.mode"
 import {markLocals} from "./locals"
 
 const scopes = ["Block", "FunctionDef"]
+const allowNewline = ["LiteralBody", "Bracketed", "ArgList", "ParamList", "ParenExpr"]
 
-function insertSemi(line, pos) {
-  let match = /(?:(\w+)|[\d"'\)\]\}]|\+\+|--)\s*(?:\/\/.*)?$/.test(line.slice(0, pos))
-  return match &&
-    !/^(?:func|interface|select|case|defer|go|map|struct|chan|else|goto|package|switch|const|if|range|type|for|import|var)$/.test(match[1])
+function skippableNewline(line, pos, cx) {
+  if (cx && allowNewline.indexOf(cx.name) > -1) return true
+  let match = /(?:(\w+)|[\d"'\)\]\}:]|\+\+|--)\s*(?:\/\/.*)?$/.exec(line.slice(0, pos))
+  return !match ||
+    (match[1] ? /^(?:func|interface|select|case|defer|go|map|struct|chan|else|goto|package|switch|const|if|range|type|for|import|var)$/.test(match[1]) : false)
 }
 
 class GoMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar, {
-      predicates: {insertSemi}
+      predicates: {skippableNewline}
     })
     this.conf = conf
   }

@@ -1,4 +1,4 @@
-start top { whitespace Statement+ }
+start top { whitespace separated(Statement) }
 
 skip whitespace {
   context Statement {
@@ -6,17 +6,15 @@ skip whitespace {
     type MaybeSet(declName Type) |
     import MaybeSet(("." | declName)? string) |
     package variableName |
-    declNameAssigned op(":=") Expr |
-    if Expr (";" Expr)? Block |
-    else Block |
-    switch Expr (";" Expr)? Block |
-    for (declNameAssigned op(":=") Expr | Expr (";" Expr)*) Block |
+    AssignedNames Expr |
+    if ExprNoBrace (";" ExprNoBrace)? Block (else (if ExprNoBrace (";" ExprNoBrace)?)? Block)* |
+    switch (ExprNoBrace (";" ExprNoBrace?)?)? Block |
+    for (AssignedNames ExprNoBrace | ExprNoBrace) (";" ExprNoBrace?)* Block |
     (go | defer) Expr |
     return CommaSep(Expr) |
     (break | continue) identifier? |
-    label |
+    (default | case CommaSep(Expr) | label) ":" |
     select Block |
-    default ":" |
     goto identifier |
     fallthrough |
     case Statement ":" |
@@ -27,7 +25,11 @@ skip whitespace {
   context Set(inner) { "(" separated(inner) ")" }
 
   Expr {
-    ExprPrefix* BaseExpr ExprSuffix*
+    ExprPrefix* (typeNameBrace | BaseExpr) (ExprSuffix(Expr) | LiteralBody)*
+  }
+
+  ExprNoBrace {
+    ExprPrefix* BaseExpr ExprSuffix(ExprNoBrace)*
   }
 
   BaseExpr {
@@ -35,7 +37,7 @@ skip whitespace {
     string |
     atom |
     func declName? FunctionDef |
-    typeNameBrace |
+    calleeName |
     variableName |
     Bracketed Type? |
     "*" Type |
@@ -50,13 +52,12 @@ skip whitespace {
     prefixOp | range
   }
 
-  ExprSuffix {
+  ExprSuffix(Expr) {
     ".(" Type ")" |
-    "." propName |
+    "." (calleeName | propName) |
     suffixOp |
     binOp Expr |
     ArgList |
-    LiteralBody |
     Bracketed
   }
 
@@ -64,7 +65,7 @@ skip whitespace {
 
   context ArgList { "(" CommaSep(Expr) "..."? ")" }
 
-  CommaSep(expr) { expr ("," expr?)* }
+  CommaSep(expr) { (expr ("," expr?)*)? }
 
   context Block { "{" separated(Statement) "}" }
 
@@ -91,6 +92,11 @@ skip whitespace {
   context ParamList {
     "(" CommaSep(declName ("," declName)* "..."? Type) ")"
   } 
+
+  AssignedNames {
+    ~(identifier ("," identifier)* ":=")
+    declName ("," declName)* op(":=")
+  }
 }
 
 tokens {
@@ -120,11 +126,11 @@ tokens {
   return { kw("return") }
   var { kw("var") }
 
-  atom="atom" { kw("true" | "false" | "nil") }
+  atom="atom" { ("true" | "false" | "nil") !identifierChar }
 
   binOp="operator" {
     ("+" | "&" "^"? | "-" | "|" | "*" | "^" | "/" | "<" "<"? | ">" ">"? | "%" | "=") "="? |
-    "<-" | "="
+    "<-" | "=" | ":="
   }
   prefixOp="operator" { "!" | "+" | "-" | "*" | "^" | "&" | "<-" }
   suffixOp="operator" { "++" | "--" }
@@ -150,22 +156,22 @@ kw(word)="keyword" { word !identifierChar }
 op(expr)="operator" { expr }
 
 separated(expr) {
-  (expr (";" | ~("}" | ")") | ~"\n" &insertSemi))*
+  (expr whitespaceSimple* (";" | ~("}" | ")") | "\n")? (whitespaceSimple | "\n" | ";")*)*
 }
 
 identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
-declNameAssigned="def" { identifier ~(" "* ":=") }
 calleeName="builtin" { identifier ~"(" }
 propName="property" { identifier }
 propNameParen="property" { identifier ~(" " "(") }
 propNameColon="property" { identifier ~(" " ":") }
 typeName="type" { identifier }
 typeNameBrace="type" { identifier ~(" "* "{") }
-label { identifier " "* ":" }
+label { identifier ~(" "* ":") }
 
-whitespace { (" " | "\t" | "\n" | comment)* }
+whitespaceSimple { (" " | "\t" | comment) }
+whitespace { (whitespaceSimple | ~"\n" &skippableNewline "\n")* }
 
 identifierStart { letter | "_" }
 identifierChar { letter | digit | "_" }
