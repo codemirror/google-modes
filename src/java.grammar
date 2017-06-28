@@ -1,0 +1,215 @@
+start top {
+  (whitespace Statement)+
+}
+
+skip whitespace {
+  context Statement {
+    for "(" Statement Expr? ";" Expr? ")" Statement |
+    while CondExpr Statement |
+    try Block (catch "(" Modifier* Type declName ")" Block)* (finally Block)? |
+    do Statement while CondExpr ";" |
+    if CondExpr Statement (else Statement)? |
+    switch CondExpr Block |
+    breakCont identifier ? ";" |
+    assert Expr (":" Expr)? ";" |
+    return Expr? ";" |
+    throw Expr ";" |
+    (default | case Expr | labelIdentifier) ":" |
+    import kw("static")? identifierDot* ("*" | declName) ";" |
+    ";" |
+    BeforeStatement(Modifier*) Declaration |
+    ExprComma ";"
+  }
+
+  context BeforeStatement(expr) { expr }
+
+  Modifier { modifierKw | Annotation }
+
+  context StatementModifiers { Modifier* }
+
+  Annotation {
+    "@" plainVariableName ("." fieldName)* ("(" CommaSep(maybe(identifier "=")? (Annotation | Expr)) ")")?
+  }
+
+  context EnumBody {
+    "{" CommaSep(Annotation? declName ArgList? Block?) (";" ClassItem*)? "}"
+  }
+
+  Declaration {
+    Block |
+    enum declName (implements CommaSep(Type))? EnumBody |
+    classInterface declName TypeParams? (extends Type)? (implements CommaSep(Type))? ClassBody |
+    package identifier ("." identifier)* ";" |
+    !new ~(Type !"instanceof" identifierChar)
+      Type DeclExpr (FunctionDef | (op("=") Expr)? ("," DeclExpr (op("=") Expr)?)* ";")
+  }
+
+  context ClassItem {
+    BeforeStatement(Modifier*) ((TypeParams declName | declNameParen) FunctionDef | Declaration)
+  }
+
+  context ClassBody {
+    "{" ClassItem* "}"
+  }
+
+  context Block { "{" Statement* "}" }
+
+  context FunctionDef { ParamList ThrowsClause? (";" | Block) }
+
+  context ThrowsClause { throws CommaSep(Type) }
+
+  context ParamList { "(" CommaSep((Annotation | Modifier)* Type "..."? (this | DeclExpr)) ")" }
+  context SimpleParamList { "(" CommaSep(declName) ")" }
+
+  context TypeParams { "<" CommaSep(Annotation* declName (extends Type)*) ">" }
+  context TypeArgs { "<" CommaSep(Type | "?" (extends | super_) Type) ">" }
+
+  Expr { prefixOp* BaseExpr ExprSuffix* }
+
+  ExprComma { Expr ("," Expr)* }
+
+  BaseExpr {
+    atom | this | super_ |
+    number |
+    string |
+    NewExpr |
+    Lambda |
+    calleeName |
+    plainVariableName |
+    ParenExpr Expr?
+  }
+
+  context NewExpr {
+    new TypeArgs? TypeNoArray ("[" Expr? "]" ArrayInitializer? | ArgList? ClassBody?)
+  }
+
+  ExprSuffix {
+    ArgList |
+    "[" Expr "]" |
+    "." (TypeArgs | calleeName | fieldName) |
+    suffixOp |
+    (binOp | instanceof) Expr |
+    op("?") Expr op(":") Expr
+  }
+
+  context Lambda {
+    (maybe((declName | ParamList) op("->")) | maybe(SimpleParamList op("->"))) (Block | Expr)
+  }
+
+  context ParenExpr { '(' Expr? ')' }
+  context CondExpr { '(' Expr? ')' }
+  context ArgList { '(' CommaSep(Expr) ')' }
+  context ArrayInitializer { "{" CommaSep(Expr) "}" }
+
+  Type {
+    Annotation* typeName ("[" Expr? "]" | TypeSuffix)*
+  }
+
+  TypeNoArray {
+    Annotation* typeName TypeSuffix*
+  }
+
+  TypeSuffix {
+    "." fieldName |
+    TypeArgs
+  }
+
+  DeclExpr { declName ("[" "]")? }
+
+  CommaSep(expr) { (expr ("," expr)*)? }
+}
+
+tokens {
+  enum { kw("enum") }
+  return { kw("return") }
+  if { kw("if") }
+  else { kw("else") }
+  for { kw("for") }
+  while { kw("while") }
+  do { kw("do") }
+  breakCont { kw("break" | "continue") }
+  default { kw("default") }
+  case { kw("case") }
+  switch { kw("switch") }
+  modifierKw { kw("public" | "protected" | "private" | "abstract" | "static" | "final" | "transient" |
+                  "volatile" | "synchronized" | "native" | "strictfp" | "const") }
+  extends { kw("extends") }
+  implements { kw("implements") }
+  this { kw("this") }
+  new { kw("new") }
+  super_ { kw("super") }
+  assert { kw("assert") }
+  throw { kw("throw") }
+  throws { kw("throws") }
+  try { kw("try") }
+  catch { kw("catch") }
+  finally { kw("finally") }
+  package { kw("package") }
+  import { kw("import") }
+  classInterface { kw("class" | "interface") }
+  instanceof { kw("instanceof") }
+
+  atom="atom" { ("true" | "false" | "null") !identifierChar }
+
+  variableName { calleeName | plainVariableName }
+
+  number="number" {
+    (("0x" | "0X") (digit | "_" | "a"-"f" | "A"-"F")+ |
+     ("0b" | "0B") ("0" | "1" | "_")+ |
+     (digit (digit | "_")* ("." (digit | "_")*)? | "." (digit | "_")+) (("e" | "E") ("+" | "-")? (digit | "_")+)?)
+    ("L" | "l" | "D" | "d" | "F" | "f")?
+  }
+
+  string="string" {
+    ("'" ("\\" . (!"'" .)* | .) "'" |
+     '"' ("\\" _ | (!'"' .))* '"')
+  }
+
+  prefixOp="operator" {
+    "++" | "--" | "!" | "~" | "&" | "*"
+  }
+
+  suffixOp="operator" {
+    "++" | "--"
+  }
+
+  binOp="operator" {
+    ("!" | "+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" "|"? | "&" "&"?) "="?
+  }
+
+  comment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
+}
+
+calleeName="builtin" { identifier ~"(" }
+plainVariableName="variable" { identifier }
+
+identifier { identifierStart identifierChar* }
+identifierDot { identifier " "* "." }
+
+whitespace {
+  (" " | "\t" | "\n" | comment)*
+}
+
+declName="def" { identifier }
+declNameParen="def" { identifier ~(" "* "(") }
+
+fieldName="property" { identifier }
+
+typeName="type" { identifier }
+
+kw(value)="keyword" { value !identifierChar }
+op(value)="operator" { value }
+
+maybe(value) { ~value value }
+
+letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+
+digit { "0"-"9" }
+
+identifierStart { letter }
+
+identifierChar { letter | digit }
+
+spaceChar { "\n" | "\t" | " " }
+
+labelIdentifier { identifier ~(spaceChar* ":" !":") }

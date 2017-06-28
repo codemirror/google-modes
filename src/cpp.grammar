@@ -5,7 +5,7 @@ skip whitespace {
     Class |
     namespace declName? (op("=") variableName ";" | Block) |
     throw Expression ";" |
-    try Block (catch "{" Type declName? "}" Block)* |
+    try Block (catch "(" Type declName? ")" Block)* |
     asm "{" string "}" |
     using (typename Type | namespace? variableName) ";" |
     export? template TemplateParams Statement |
@@ -141,7 +141,7 @@ typeNameInner { nameQualifier* unqualifiedTypeName }
 unqualifiedTypeName="type" { identifier }
 
 maybeTypeName {
-  unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
+  !(("new" | "delete") !identifierChar) unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
 
 ctorDtorName="def" { "~"? identifier ~(" "* "(") }

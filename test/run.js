@@ -11,6 +11,7 @@ require("../dist/c")
 require("../dist/javascript")
 require("../dist/python")
 require("../dist/go")
+require("../dist/java")
 
 let filter = process.argv[2]
 
@@ -18,7 +19,8 @@ let filter = process.argv[2]
   {dir: "cpp", mode: "c++"},
   {dir: "js", mode: "javascript"},
   {dir: "py", mode: "python"},
-  {dir: "go", mode: "go"}
+  {dir: "go", mode: "go"},
+  {dir: "java", mode: "java"}
  ].forEach(lang => {
   let base = __dirname + "/" + lang.dir + "/"
   fs.readdirSync(base).forEach(file => {
