@@ -1,4 +1,4 @@
-[variable $].[property ajax]({
+[variable $].[builtin ajax]({
   [property url]: [variable url],
   [property async]: [atom true],
   [property method]: [string 'GET']

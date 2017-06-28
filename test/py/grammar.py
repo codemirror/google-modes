@@ -3,7 +3,7 @@
 [keyword import] [variable foo].[property bar] [keyword as] [def ugh]
 [keyword from] [variable huh] [keyword import] *
 
-[def foo] [operator =] [string "bar"]; [variable abc_cde].[property prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
+[def foo] [operator =] [string "bar"]; [variable abc_cde].[builtin prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
 
 [meta @foo.bar]
 [keyword async] [keyword def] [def f]([def v]: [type myType] [operator =] [number 0xffff], [operator **][def blah]):
@@ -15,7 +15,7 @@
   [def x] [operator =] [number 100_000.0]
 
   [keyword def] [def method]([atom self], [def u]) -> [type t]:
-    [atom self].[property map]([keyword lambda] [def a]: [variable-2 a] [keyword not in] [variable-2 x])
+    [atom self].[builtin map]([keyword lambda] [def a]: [variable-2 a] [keyword not in] [variable-2 x])
     [keyword return] [variable-2 u][[ : [number 1] : [number 2], [variable a] ]]
 
 [keyword if] [atom None]:

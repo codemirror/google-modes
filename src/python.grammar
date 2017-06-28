@@ -72,7 +72,7 @@ skip whitespace {
     (binop | binopKw) Expr |
     ArgList |
     Subscript |
-    "." propName |
+    "." (calleeName | propName) |
     if Expr (else Expr)?
   }
 

@@ -85,7 +85,7 @@ skip whitespace {
     ArgList |
     '[' Expression ']' |
     suffixOp |
-    ("->" | ".") fieldName |
+    ("->" | ".") (calleeName | fieldName) |
     binOp Expression |
     '?' Expression ':' Expression
   }
