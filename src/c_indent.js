@@ -1,14 +1,3 @@
-function lineCol(line, pos, config) {
-  let col = 0
-  for (let i = 0; i < pos; i++)
-    col += line.charCodeAt(i) == 9 ? config.tabSize - (col % config.tabSize) : 1
-  return col
-}
-
-function lineIndent(line, config) {
-  return lineCol(line, /^\s*/.exec(line)[0].length, config)
-}
-
 function hasSubStatement(context) {
   let m = /^(if|for|do|while)\b/.exec(context.startLine.slice(context.startPos))
   return m && m[1]
@@ -38,7 +27,7 @@ function statementIndent(cx, config) {
   for (;; cx = cx.parent) {
     if (!cx) return 0
     if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr")
-      return lineIndent(cx.startLine, config)
+      return CodeMirror.countColumn(cx.startLine, null, config.tabSize)
   }
 }
 
@@ -50,7 +39,7 @@ function findIndent(cx, textAfter, curLine, config) {
   if (brack) {
     let closed = textAfter && textAfter.charAt(0) == brack
     if (config.align !== false && curLine != cx.startLine && aligned(cx))
-      return lineCol(cx.startLine, cx.startPos, config) + (closed ? 0 : 1)
+      return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1)
 
     if (cx.name == "Block" || cx.name == "ClassBody" || cx.name == "BlockOf" || cx.name == "EnumBody") {
       // Skip wrapping statement context
@@ -74,7 +63,7 @@ function findIndent(cx, textAfter, curLine, config) {
     if (!curLine && hasSubStatement(cx))
       return base + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)
     let flat = curLine == cx.startLine ||
-        curLine && lineIndent(curLine, config) <= base
+        curLine && CodeMirror.countColumn(curLine, null, config.tabSize) <= base
     return base + (flat ? 0 : 2 * config.indentUnit)
   } else if (cx.name == "ArrowRest") {
     return findIndent(cx.parent, textAfter, cx.startLine, config) + config.indentUnit

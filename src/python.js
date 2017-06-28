@@ -28,17 +28,6 @@ function aligned(cx) {
   return !/^\s*((#.*)?$)/.test(cx.startLine.slice(cx.startPos + 1))
 }
 
-function lineCol(line, pos, config) {
-  let col = 0
-  for (let i = 0; i < pos; i++)
-    col += line.charCodeAt(i) == 9 ? config.tabSize - (col % config.tabSize) : 1
-  return col
-}
-
-function lineIndent(line, config) {
-  return lineCol(line, /^\s*/.exec(line)[0].length, config)
-}
-
 const bracketed = {
   ObjectLiteral: "}",
   ArrayLiteral: "]", SubScript: "]",
@@ -52,7 +41,7 @@ function findIndent(cx, textAfter, curLine, config) {
   let brack = bracketed[cx.name]
   if (brack) {
     if (curLine != cx.startLine && aligned(cx))
-      return lineCol(cx.startLine, cx.startPos, config) + 1
+      return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 1
 
     let closed = textAfter && textAfter.charAt(0) == brack
     let flat = closed && brack == "}" || curLine == cx.startLine
@@ -60,7 +49,7 @@ function findIndent(cx, textAfter, curLine, config) {
   } else if (cx.name == "indentedBody") {
     for (;; cx = cx.parent) {
       if (!cx) return config.indentUnit
-      if (cx.name == "Statement") return lineIndent(cx.startLine, config) + config.indentUnit
+      if (cx.name == "Statement") return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + config.indentUnit
     }
   } else {
     return findIndent(cx.parent, textAfter, curLine, config) +
