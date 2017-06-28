@@ -11,6 +11,35 @@ function skippableNewline(line, pos, cx) {
     (match[1] ? /^(?:func|interface|select|case|defer|go|map|struct|chan|else|goto|package|switch|const|if|range|type|for|import|var)$/.test(match[1]) : false)
 }
 
+const bracketed = {
+  Block: "}", LiteralBody: "}", StructBody: "}", InterfaceBody: "}",
+  Bracketed: "]",
+  Set: ")", ParamList: ")", ArgList: ")", ParenExpr: ")"
+}
+
+function findIndent(cx, textAfter, curLine, config) {
+  if (!cx) return 0
+  if (cx.name == "string" || cx.name == "comment") return CodeMirror.Pass
+
+  let brack = bracketed[cx.name]
+  if (brack) {
+    let closed = textAfter && textAfter.charAt(0) == brack
+    let flat = closed || curLine == cx.startLine
+    if (cx.name == "Block") {
+      curLine = cx.parent.startLine
+      if (/^(case|default)\b/.test(textAfter)) flat = true
+    } else {
+      curLine = cx.startLine
+    }
+    return findIndent(cx.parent, closed ? null : textAfter, curLine, config) + (flat ? 0 : config.tabSize)
+  } else if (cx.name == "Statement") {
+    return CodeMirror.countColumn(cx.startLine, null, config.tabSize) +
+      (curLine == cx.startLine ? 0 : config.tabSize)
+  } else {
+    return findIndent(cx.parent, textAfter, curLine, config)
+  }
+}
+
 class GoMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar, {
@@ -21,6 +50,10 @@ class GoMode extends CodeMirror.GrammarMode {
 
   token(stream, state) {
     return markLocals(super.token(stream, state), scopes, stream, state)
+  }
+
+  indent(state, textAfter, line) {
+    return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, null, this.conf)
   }
 }
 

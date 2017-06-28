@@ -45,13 +45,6 @@ const bracketed = {
   ParamList: ")", ArgList: ")", ParenExpr: ")"
 }
 
-function statementIndent(cx, config) {
-  for (;; cx = cx.parent) {
-    if (!cx) return 0
-    if (cx.name == "Statement") return lineIndent(cx.startLine, config)
-  }
-}
-
 function findIndent(cx, textAfter, curLine, config) {
   if (!cx) return 0
   if (cx.name == "string") return CodeMirror.Pass
@@ -65,7 +58,10 @@ function findIndent(cx, textAfter, curLine, config) {
     let flat = closed && brack == "}" || curLine == cx.startLine
     return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 2 * config.indentUnit)
   } else if (cx.name == "indentedBody") {
-    return statementIndent(cx, config) + config.indentUnit
+    for (;; cx = cx.parent) {
+      if (!cx) return config.indentUnit
+      if (cx.name == "Statement") return lineIndent(cx.startLine, config) + config.indentUnit
+    }
   } else {
     return findIndent(cx.parent, textAfter, curLine, config) +
       ((cx.name == "DictProp" || cx.name == "Statement") && cx.startLine != curLine ? 2 * config.indentUnit : 0)

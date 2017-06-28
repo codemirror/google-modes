@@ -43,7 +43,8 @@ function parseTestSpec(file, fileName) {
 
 function compare(text, tokens, mode, open) {
   let index = 0, off = 0, line = 1, ch = 0
-  let lines = text.split("\n"), modeObj = CodeMirror.getMode({indentUnit: 2}, mode), curState = null
+  let conf = {indentUnit: 2, tabSize: 4}
+  let lines = text.split("\n"), modeObj = CodeMirror.getMode(conf, mode), curState = null
 
   runMode(text, mode, (text, style, _i, _s, state) => {
     if (!text) return
@@ -61,8 +62,10 @@ function compare(text, tokens, mode, open) {
         let str = lines[line - 1], ws = str.match(/^(\s*)(.*)/)
         if (str) {
           let indent = modeObj.indent(curState, ws[2], str)
-          if (indent != CodeMirror.Pass && indent != ws[1].length) {
-            throw new Error("Indentation of line " + line + " is " + indent + " (expected " + ws[1].length + ")")
+          let expected = CodeMirror.countColumn(str, ws[1].length, conf.tabSize)
+          if (indent != CodeMirror.Pass && indent != expected) {
+            console.log(curState.context)
+            throw new Error("Indentation of line " + line + " is " + indent + " (expected " + expected + ")")
           }
         }
       }
