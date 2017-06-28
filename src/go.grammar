@@ -6,7 +6,6 @@ skip whitespace {
     type MaybeSet(declName Type) |
     import MaybeSet(("." | declName)? string) |
     package variableName |
-    AssignedNames Expr |
     if ExprNoBrace (";" ExprNoBrace)? Block (else (if ExprNoBrace (";" ExprNoBrace)?)? Block)* |
     switch (ExprNoBrace (";" ExprNoBrace?)?)? Block |
     for (AssignedNames ExprNoBrace | ExprNoBrace) (";" ExprNoBrace?)* Block |
@@ -18,17 +17,19 @@ skip whitespace {
     goto identifier |
     fallthrough |
     case Statement ":" |
-    Expr
+    Expr ("," Expr)*
   }
 
   MaybeSet(inner) { Set(inner) | inner }
   context Set(inner) { "(" separated(inner) ")" }
 
   Expr {
-    ExprPrefix* (typeNameBrace | BaseExpr) (ExprSuffix(Expr) | LiteralBody)*
+    AssignedNames Expr |
+    ExprPrefix* (maybe(typeName ("." propName)* ~"{") | BaseExpr) (ExprSuffix(Expr) | LiteralBody)*
   }
 
   ExprNoBrace {
+    AssignedNames Expr |
     ExprPrefix* BaseExpr ExprSuffix(ExprNoBrace)*
   }
 
@@ -61,7 +62,7 @@ skip whitespace {
     Bracketed
   }
 
-  context Bracketed { "[" CommaSep(Expr) (":" Expr)* "]" }
+  context Bracketed { "[" CommaSep(Expr) (":" Expr?)* "]" }
 
   context ArgList { "(" CommaSep(Expr) "..."? ")" }
 
@@ -78,7 +79,7 @@ skip whitespace {
     map "[" Type "]" Type |
     (op("<-") | chan op("<-")?) Type |
     "(" Type ")" |
-    typeName
+    typeName ("." propName)*
   }
 
   context StructBody {
@@ -90,7 +91,7 @@ skip whitespace {
   }
 
   context ParamList {
-    "(" CommaSep(declName ("," declName)* "..."? Type) ")"
+    "(" CommaSep((declName ("," declName)*)? "..."? Type?) ")"
   } 
 
   AssignedNames {
@@ -130,7 +131,7 @@ tokens {
 
   binOp="operator" {
     ("+" | "&" "^"? | "-" | "|" | "*" | "^" | "/" | "<" "<"? | ">" ">"? | "%" | "=") "="? |
-    "<-" | "=" | ":="
+    "<-" | "=" | ":=" | "!="
   }
   prefixOp="operator" { "!" | "+" | "-" | "*" | "^" | "&" | "<-" }
   suffixOp="operator" { "++" | "--" }
@@ -156,7 +157,8 @@ kw(word)="keyword" { word !identifierChar }
 op(expr)="operator" { expr }
 
 separated(expr) {
-  (expr whitespaceSimple* (";" | ~("}" | ")") | "\n")? (whitespaceSimple | "\n" | ";")*)*
+  (whitespaceSimple | "\n")*
+  (expr (whitespaceSimple | ";" | "\n")*)*
 }
 
 identifier { identifierStart identifierChar* }
@@ -167,8 +169,9 @@ propName="property" { identifier }
 propNameParen="property" { identifier ~(" " "(") }
 propNameColon="property" { identifier ~(" " ":") }
 typeName="type" { identifier }
-typeNameBrace="type" { identifier ~(" "* "{") }
-label { identifier ~(" "* ":") }
+label { identifier ~(" "* ":" !"=") }
+
+maybe(expr) { ~expr expr }
 
 whitespaceSimple { (" " | "\t" | comment) }
 whitespace { (whitespaceSimple | ~"\n" &skippableNewline "\n")* }
