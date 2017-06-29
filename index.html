@@ -3,8 +3,8 @@
 
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
 <link rel=stylesheet href="node_modules/codemirror/lib/codemirror.css">
-<script src="node_modules/modegrammar/src/matcher.js"></script>
-<script src="dist/cpp.js"></script>
+<script src="node_modules/codemirror-grammar-mode/src/matcher.js"></script>
+<script src="dist/javascript.js"></script>
 
 <title>Google mode demo</title>
 
@@ -15,6 +15,6 @@ void foo
 </textarea>
 
 <script>
-  cm = CodeMirror.fromTextArea(document.querySelector("#code"), {mode: "c++"})
+  cm = CodeMirror.fromTextArea(document.querySelector("#code"), {mode: "javascript"})
 
 </script>
