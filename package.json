@@ -4,12 +4,12 @@
   "description": "Modes following Google's style",
   "main": "index.js",
   "scripts": {
-    "build-cpp": "grammar-mode --es-module --names src/cpp.grammar --output src/cpp.mode.js && rollup src/cpp.js -o dist/cpp.js -f umd",
-    "build-c": "grammar-mode --es-module --names src/c.grammar --output src/c.mode.js && rollup src/c.js -o dist/c.js -f umd",
-    "build-js": "grammar-mode --es-module --names src/javascript.grammar --output src/javascript.mode.js && rollup src/javascript.js -o dist/javascript.js -f umd",
-    "build-py": "grammar-mode --es-module --names src/python.grammar --output src/python.mode.js && rollup src/python.js -o dist/python.js -f umd",
-    "build-go": "grammar-mode --es-module --names src/go.grammar --output src/go.mode.js && rollup src/go.js -o dist/go.js -f umd",
-    "build-java": "grammar-mode --es-module --names src/java.grammar --output src/java.mode.js && rollup src/java.js -o dist/java.js -f umd",
+    "build-cpp": "grammar-mode --es-module --names src/cpp.grammar --output src/cpp.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/cpp.js -o dist/cpp.js -f umd",
+    "build-c": "grammar-mode --es-module --names src/c.grammar --output src/c.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/c.js -o dist/c.js -f umd",
+    "build-js": "grammar-mode --es-module --names src/javascript.grammar --output src/javascript.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/javascript.js -o dist/javascript.js -f umd",
+    "build-py": "grammar-mode --es-module --names src/python.grammar --output src/python.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/python.js -o dist/python.js -f umd",
+    "build-go": "grammar-mode --es-module --names src/go.grammar --output src/go.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/go.js -o dist/go.js -f umd",
+    "build-java": "grammar-mode --es-module --names src/java.grammar --output src/java.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/java.js -o dist/java.js -f umd",
     "build": "npm run build-js && npm run build-c && npm run build-cpp && npm run build-py && npm run build-go && npm run build-java",
     "test": "node test/run.js"
   },

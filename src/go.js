@@ -1,3 +1,5 @@
+import * as CodeMirror from "codemirror"
+import "codemirror-grammar-mode"
 import * as grammar from "./go.mode"
 import {markLocals} from "./locals"
 

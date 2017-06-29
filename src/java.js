@@ -1,3 +1,5 @@
+import * as CodeMirror from "codemirror"
+import "codemirror-grammar-mode"
 import * as grammar from "./java.mode"
 import {markLocals} from "./locals"
 import {indent} from "./c_indent"
