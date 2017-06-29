@@ -1,6 +1,6 @@
-start top { Statement* }
-
 skip whitespace {
+  start top { whitespace Statement* }
+
   context Statement {
     var VariableDeclarator ("," VariableDeclarator)* semi |
     whileWith CondExpr Statement |
@@ -174,7 +174,7 @@ tokens {
   variable="variable" { identifier }
 
   prefixOp="operator" { "..." | "!" | "+" "+"? | "-" "-"? }
-  binOp="operator" { ("+" | "-" | "%" | "*" | "/" | ">" ">"? ">"? | "<" "<"? | "=" | "&" "&"? | "|" "|"? | "^") "="? }
+  binOp="operator" { ("+" | "-" | "%" | "*" | slash | ">" ">"? ">"? | "<" "<"? | "=" | "&" "&"? | "|" "|"? | "^") "="? }
   suffixOp="operator" { "++" | "--" }
 
   string="string" {
@@ -189,9 +189,9 @@ tokens {
     (digit+ ("." digit*)? | "." digit+) (("e" | "E") ("+" | "-")? digit+)?
   }
 
-  comment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
+  comment="comment" { "/*" ("*" jsdocComment* | (!"*/" _)*) "*/" | "//" .* }
 
-  regexp="string-2" { "/" ("\\" . | .)+ "/" }
+  regexp="string-2" { slash ("\\" . | .)+ "/" }
 
   template {
     str2("`")
@@ -236,3 +236,25 @@ identifierStart { letter | "_" | "$" }
 identifierChar { letter | digit | "_" | "$" }
 
 spaceChar { "\n" | "\t" | " " }
+
+slash { "/" !("/" | "*") }
+
+jsdocComment {
+  (!("*/" | "@" | "{") _)+ |
+  jsdocTag |
+  "{" (jsdocTag (!("}" | "*/") _)* | jsdocType) "}"
+}
+
+jsdocTag {
+  jsdocDefTag spaceChar* ("{" jsdocType "}" spaceChar* jsdocDef?)? |
+  jsdocOtherTag
+}
+
+jsdocDefTag="tag" { "@" ("member" | "param" | "arg" "ument"? | "module" | "namespace" | "typedef") !letter }
+jsdocOtherTag="tag" { "@" letter+ }
+
+jsdocToClosingBrace { (!("}" | "*/") ("{" jsdocToClosingBrace "}"? | _))* }
+
+jsdocType="type" { jsdocToClosingBrace }
+
+jsdocDef="def" { identifier }

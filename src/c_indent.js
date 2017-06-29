@@ -31,6 +31,10 @@ function statementIndent(cx, config) {
   }
 }
 
+function plus(result, add) {
+  return typeof result == "number" ? result + add : result
+}
+
 function findIndent(cx, textAfter, curLine, config) {
   if (!cx) return 0
   if (cx.name == "string" || cx.name == "comment") return CodeMirror.Pass
@@ -66,10 +70,10 @@ function findIndent(cx, textAfter, curLine, config) {
         curLine && CodeMirror.countColumn(curLine, null, config.tabSize) <= base
     return base + (flat ? 0 : 2 * config.indentUnit)
   } else if (cx.name == "ArrowRest") {
-    return findIndent(cx.parent, textAfter, cx.startLine, config) + config.indentUnit
+    return plus(findIndent(cx.parent, textAfter, cx.startLine, config), config.indentUnit)
   } else {
-    return findIndent(cx.parent, textAfter, curLine, config) +
-      (cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0)
+    return plus(findIndent(cx.parent, textAfter, curLine, config),
+                (cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0))
   }
 }
 
