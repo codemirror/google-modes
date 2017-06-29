@@ -7,8 +7,7 @@ const scopes = ["Block", "FunctionDef", "Lambda"]
 class JavaMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar)
-    this.indentConf = {align: false}
-    for (let prop in conf) this.indentConf[prop] = conf[prop]
+    this.indentConf = {align: false, tabSize: conf.tabSize, indentUnit: conf.indentUnit}
   }
 
   token(stream, state) {

@@ -112,3 +112,9 @@ class Foo {
     
   }
 }
+
+if (x) {
+  statement
+  
+  more
+}

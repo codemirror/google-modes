@@ -26,6 +26,7 @@ class JSMode extends CodeMirror.GrammarMode {
   }
 
   indent(state, textAfter, line) {
+    if (!textAfter) textAfter = line = "x"
     return indent(state, textAfter, line, this.conf)
   }
 }
