@@ -16,7 +16,7 @@ require("../dist/java")
 let filter = process.argv[2]
 
 ;[{dir: "c", mode: "c"},
-  {dir: "cpp", mode: "c++"},
+  {dir: "cpp", mode: "cpp"},
   {dir: "js", mode: "javascript"},
   {dir: "py", mode: "python"},
   {dir: "go", mode: "go"},

@@ -19,4 +19,12 @@ class JavaMode extends CodeMirror.GrammarMode {
   }
 }
 
+JavaMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/
+JavaMode.prototype.blockCommentStart = "/*"
+JavaMode.prototype.blockCommentEnd = "*/"
+JavaMode.prototype.lineComment = "//"
+JavaMode.prototype.fold = "brace"
+
 CodeMirror.defineMode("java", conf => new JavaMode(conf))
+
+CodeMirror.defineMIME("text/x-java", "java")

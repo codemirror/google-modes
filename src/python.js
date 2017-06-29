@@ -74,4 +74,11 @@ class PythonMode extends CodeMirror.GrammarMode {
   }
 }
 
+PythonMode.prototype.electricInput = /^\s*[\}\]\)]$/
+PythonMode.prototype.closeBrackets = {triples: "'\""}
+PythonMode.prototype.lineComment = "#"
+PythonMode.prototype.fold = "indent"
+
 CodeMirror.defineMode("python", conf => new PythonMode(conf))
+
+CodeMirror.defineMIME("text/x-python", "python")

@@ -19,4 +19,13 @@ class CMode extends CodeMirror.GrammarMode {
   }
 }
 
+CMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/
+CMode.prototype.blockCommentStart = "/*"
+CMode.prototype.blockCommentEnd = "*/"
+CMode.prototype.lineComment = "//"
+CMode.prototype.fold = "brace"
+
 CodeMirror.defineMode("c", conf => new CMode(conf))
+
+CodeMirror.defineMIME("text/x-csrc", "c")
+CodeMirror.defineMIME("text/x-c", "c")

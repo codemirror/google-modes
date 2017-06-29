@@ -31,4 +31,19 @@ class JSMode extends CodeMirror.GrammarMode {
   }
 }
 
+let meta = {
+  electricInput: /^\s*(?:case .*?:|default:|\{|\})$/,
+  blockCommentStart: "/*",
+  blockCommentEnd: "*/",
+  lineComment: "//",
+  fold: "brace",
+  closeBrackets: "()[]{}''\"\"``",
+}
+for (let prop in meta) JSMode.prototype[prop] = meta[prop]
+
+CodeMirror.registerHelper("wordChars", "javascript", /[\w$]/)
+
 CodeMirror.defineMode("javascript", conf => new JSMode(conf))
+
+CodeMirror.defineMIME("text/javascript", "javascript")
+CodeMirror.defineMIME("application/javascript", "javascript")

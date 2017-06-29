@@ -26,4 +26,13 @@ class CppMode extends CodeMirror.GrammarMode {
   }
 }
 
-CodeMirror.defineMode("c++", conf => new CppMode(conf))
+CppMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/
+CppMode.prototype.blockCommentStart = "/*"
+CppMode.prototype.blockCommentEnd = "*/"
+CppMode.prototype.lineComment = "//"
+CppMode.prototype.fold = "brace"
+
+CodeMirror.defineMode("cpp", conf => new CppMode(conf))
+
+CodeMirror.defineMIME("text/x-c++src", "cpp")
+CodeMirror.defineMIME("text/x-c++", "cpp")
