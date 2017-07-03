@@ -78,20 +78,20 @@ skip whitespace {
     variableName
   }
 
-  context ParenExpr { '(' Expression? ')' }
-  context CondExpr { '(' Expression? ')' }
+  context ParenExpr { "(" Expression? ")" }
+  context CondExpr { "(" Expression? ")" }
 
   ExpressionSuffix {
     ArgList |
-    '[' Expression ']' |
+    "[" Expression "]" |
     suffixOp |
     ("->" | ".") (calleeName | fieldName) |
     binOp Expression |
-    '?' Expression ':' Expression
+    "?" Expression ":" Expression
   }
 
   context ArgList {
-    '(' ListOf(Expression) ')'
+    "(" ListOf(Expression) ")"
   }
 
   MaybeType {
@@ -152,9 +152,9 @@ tokens {
   }
 
   string="string" {
-    (("L" | "u" "8"? | "U") ~("'" | '"'))?
+    (("L" | "u" "8"? | "U") ~("'" | "\""))?
     ("'" ("\\" . (!"'" .)* | .) "'" |
-     '"' ("\\" _ | (!'"' .))* '"')
+     "\"" ("\\" _ | (!"\"" .))* "\"")
   }
 
   prefixOp="operator" {
@@ -202,7 +202,7 @@ maybeTypeName {
 kw(value)="keyword" { value !identifierChar }
 op(value)="operator" { value }
 
-letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
 
 digit { "0"-"9" }
 

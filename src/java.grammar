@@ -96,9 +96,9 @@ skip whitespace {
     (maybe((declName | ParamList) op("->")) | maybe(SimpleParamList op("->"))) (Block | Expr)
   }
 
-  context ParenExpr { '(' Expr? ')' }
-  context CondExpr { '(' Expr? ')' }
-  context ArgList { '(' CommaSep(Expr) ')' }
+  context ParenExpr { "(" Expr? ")" }
+  context CondExpr { "(" Expr? ")" }
+  context ArgList { "(" CommaSep(Expr) ")" }
   context ArrayInitializer { "{" CommaSep(Expr) "}" }
 
   Type {
@@ -162,7 +162,7 @@ tokens {
 
   string="string" {
     ("'" ("\\" . (!"'" .)* | .) "'" |
-     '"' ("\\" _ | (!'"' .))* '"')
+     "\"" ("\\" _ | (!"\"" .))* "\"")
   }
 
   prefixOp="operator" {
@@ -202,7 +202,7 @@ op(value)="operator" { value }
 
 maybe(value) { ~value value }
 
-letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
 
 digit { "0"-"9" }
 

@@ -29,7 +29,7 @@ let filter = process.argv[2]
     try {
       compare(plain, tokens, lang.mode, open)
     } catch(e) {
-      console.log(`${file}: ${e.message}`)
+      console.log(`${file}: ${e.stack || e.message}`)
     }
   })
 })

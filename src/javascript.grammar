@@ -179,7 +179,7 @@ tokens {
 
   string="string" {
     "'" ("\\" _ | (!"'" .))* "'" |
-    '"' ("\\" _ | (!'"' .))* '"'
+    "\"" ("\\" _ | (!"\"" .))* "\""
   }
 
   number="number" {
@@ -227,7 +227,7 @@ identifier { identifierStart identifierChar* }
 
 semi { ";" | ~"}" | &startOfLine } // FIXME
 
-letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
 
 digit { "0"-"9" }
 

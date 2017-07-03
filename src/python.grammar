@@ -181,5 +181,5 @@ whitespace { (whitespaceSimple | "\\\n" | ~"\n" &maySkipNewline "\n")* }
 
 identifierStart { letter | "_" }
 identifierChar { letter | digit | "_" }
-letter { "a"-"z" | "A"-"Z" | "\xa1"-"\uffff" | "_" }
+letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
 digit { "0"-"9" }
