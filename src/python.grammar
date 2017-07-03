@@ -1,6 +1,6 @@
-start top { whitespace ("\n" | Statement)* }
-
 skip whitespace {
+  start top { whitespace ("\n" | Statement)* }
+
   context Statement {
     (if | whileElif) Expr ":" Body |
     (else | tryFinally) ":" Body |
@@ -146,16 +146,20 @@ tokens {
   }
 
   string="string" {
-    (("u" | "U" | "r" | "R" | "f" | "F" | "b" | "B")+ ~("'" | '"'))?
-    ("'''" ("\\" _ | !"'''" _)* "'''" |
-     '"""' ("\\" _ | !'"""' _)* '"""' |
-     "'" ("\\" . | !"'" .)* "'" |
-     '"' ("\\" . | !'"' .)* '"')
+    ("u" | "U" | "r" | "R" | "f" | "F" | "b" | "B")+ ~("'" | '"') stringQuoted |
+    stringQuoted
   }
 
   variableName="variable" { identifier }
 
   comment="comment" { "#" .* }
+}
+
+stringQuoted {
+  "'''" ("\\" _ | !"'''" _)* "'''" |
+  '"""' ("\\" _ | !'"""' _)* '"""' |
+  "'" ("\\" . | !"'" .)* "'" |
+  '"' ("\\" . | !'"' .)* '"'
 }
 
 kw(word)="keyword" { word !identifierChar }
@@ -173,7 +177,7 @@ typeName="type" { identifier }
 
 whitespaceSimple { (" " | "\t" | comment) }
 
-whitespace { (whitespaceSimple | "\\\n" | &maySkipNewline "\n")* }
+whitespace { (whitespaceSimple | "\\\n" | ~"\n" &maySkipNewline "\n")* }
 
 identifierStart { letter | "_" }
 identifierChar { letter | digit | "_" }

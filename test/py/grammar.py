@@ -15,7 +15,7 @@
   [def x] [operator =] [number 100_000.0]
 
   [keyword def] [def method]([atom self], [def u]) -> [type t]:
-    [atom self].[builtin map]([keyword lambda] [def a]: [variable-2 a] [keyword not in] [variable-2 x])
+    [atom self].[builtin map]([keyword lambda] [def a]: [variable-2 x] [keyword not in] [variable-2 a])
     [keyword return] [variable-2 u][[ : [number 1] : [number 2], [variable a] ]]
 
 [keyword if] [atom None]:

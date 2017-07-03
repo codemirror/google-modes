@@ -65,10 +65,8 @@ function compare(text, tokens, mode, open) {
         if (str) {
           let indent = modeObj.indent(curState, ws[2], str)
           let expected = CodeMirror.countColumn(str, ws[1].length, conf.tabSize)
-          if (indent != CodeMirror.Pass && indent != expected) {
-            console.log(curState.context)
+          if (indent != CodeMirror.Pass && indent != expected)
             throw new Error("Indentation of line " + line + " is " + indent + " (expected " + expected + ")")
-          }
         }
       }
     } else {
