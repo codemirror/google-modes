@@ -1,3 +1,5 @@
+include "./javadoc.grammar" as doccomment
+
 skip whitespace {
   start top { whitespace Statement* }
 
@@ -189,7 +191,7 @@ tokens {
     (digit+ ("." digit*)? | "." digit+) (("e" | "E") ("+" | "-")? digit+)?
   }
 
-  comment="comment" { "/*" ("*" jsdocComment | (!"*/" _)*) "*/" | "//" .* }
+  comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 
   regexp="string-2" { slash ("\\" . | .)+ "/" }
 
@@ -238,39 +240,3 @@ identifierChar { letter | digit | "_" | "$" }
 spaceChar { "\n" | "\t" | " " }
 
 slash { "/" !("/" | "*") }
-
-jsdocContent {
-  (!("*/" | "@" | "{") _)+ |
-  jsdocBraced
-}
-
-context jsdocBraced {
-  "{" (jsdocTag (!("}" | "*/") _)* | jsdocType) "}"
-}
-
-context jsdocTags {
-  jsdocTag (jsdocContent | jsdocTag)*
-}
-
-jsdocComment {
-  jsdocContent*
-  jsdocTagGroup*
-}
-
-context jsdocTagGroup {
-  jsdocTag jsdocContent*
-}
-
-jsdocTag {
-  jsdocDefTag spaceChar* ("{" jsdocType "}" spaceChar* jsdocDef?)? |
-  jsdocOtherTag
-}
-
-jsdocDefTag="tag" { "@" ("member" | "param" | "arg" "ument"? | "module" | "namespace" | "typedef") !letter }
-jsdocOtherTag="tag" { "@" letter+ }
-
-jsdocToClosingBrace { (!("}" | "*/") ("{" jsdocToClosingBrace "}"? | _))* }
-
-jsdocType="type" { jsdocToClosingBrace }
-
-jsdocDef="def" { identifier }
