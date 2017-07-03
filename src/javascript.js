@@ -28,7 +28,11 @@ class JSMode extends CodeMirror.GrammarMode {
   }
 
   indent(state, textAfter, line) {
-    if (!textAfter) textAfter = line = "x"
+    let cxName = state.context && state.context.name
+    if ((cxName == "jsdocBraced" || cxName == "jsdocTagGroup") && !/^\s*(@|\*\/)/.test(textAfter))
+      return CodeMirror.countColumn(state.context.startLine, null, this.conf.tabSize) + 2 * this.conf.indentUnit
+    
+    if (!textAfter) textAfter = line = "x" // Force getContextAt to terminate the statement, if needed
     return indent(state, textAfter, line, this.conf)
   }
 }

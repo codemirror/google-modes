@@ -3,7 +3,7 @@
 [comment indentation. {][comment&tag @link][comment  foo}]
 
 [comment&tag @fileoverview][comment  Doesn't have any special]
-[comment indentation.]
+[comment     indentation.]
 
 [comment&tag @see][comment  https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler]
 

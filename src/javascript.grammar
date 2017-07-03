@@ -189,7 +189,7 @@ tokens {
     (digit+ ("." digit*)? | "." digit+) (("e" | "E") ("+" | "-")? digit+)?
   }
 
-  comment="comment" { "/*" ("*" jsdocComment* | (!"*/" _)*) "*/" | "//" .* }
+  comment="comment" { "/*" ("*" jsdocComment | (!"*/" _)*) "*/" | "//" .* }
 
   regexp="string-2" { slash ("\\" . | .)+ "/" }
 
@@ -239,10 +239,26 @@ spaceChar { "\n" | "\t" | " " }
 
 slash { "/" !("/" | "*") }
 
-jsdocComment {
+jsdocContent {
   (!("*/" | "@" | "{") _)+ |
-  jsdocTag |
+  jsdocBraced
+}
+
+context jsdocBraced {
   "{" (jsdocTag (!("}" | "*/") _)* | jsdocType) "}"
+}
+
+context jsdocTags {
+  jsdocTag (jsdocContent | jsdocTag)*
+}
+
+jsdocComment {
+  jsdocContent*
+  jsdocTagGroup*
+}
+
+context jsdocTagGroup {
+  jsdocTag jsdocContent*
 }
 
 jsdocTag {
