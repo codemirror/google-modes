@@ -1,3 +1,5 @@
+import * as CodeMirror from "codemirror"
+
 function hasSubStatement(context) {
   let m = /^(if|for|do|while)\b/.exec(context.startLine.slice(context.startPos))
   return m && m[1]
@@ -79,7 +81,11 @@ function findIndent(cx, textAfter, curLine, config) {
 
 export function indent(state, textAfter, line, config) {
   if (textAfter.charAt(0) == "#") return 0
-  if (state.context && (state.context.name == "DeclType" || state.context.name == "BeforeStatement"))
+  let top = state.context && state.context.name
+  if (top == "DeclType" || top == "BeforeStatement")
     return statementIndent(state.context, config)
+  if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^\s*(@|\*\/)/.test(textAfter))
+    return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit
+
   return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, null, config)
 }

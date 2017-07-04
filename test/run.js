@@ -24,7 +24,7 @@ let filter = process.argv[2]
  ].forEach(lang => {
   let base = __dirname + "/" + lang.dir + "/"
   fs.readdirSync(base).forEach(file => {
-    if (filter && filter != file) return
+    if (file[0] == "." || (filter && filter != file)) return
     let {tokens, plain, open} = parseTestSpec(fs.readFileSync(base + file, "utf8"), base + file)
     try {
       compare(plain, tokens, lang.mode, open)
