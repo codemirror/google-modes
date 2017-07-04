@@ -11,7 +11,8 @@
     "build-go": "grammar-mode --es-module --names src/go.grammar --output src/go.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/go.js -o dist/go.js -f umd",
     "build-java": "grammar-mode --es-module --names src/java.grammar --output src/java.mode.js && rollup -e codemirror,codemirror-grammar-mode -g codemirror:CodeMirror src/java.js -o dist/java.js -f umd",
     "build": "npm run build-js && npm run build-c && npm run build-cpp && npm run build-py && npm run build-go && npm run build-java",
-    "test": "node test/run.js"
+    "test": "node test/run.js",
+    "prepare": "npm run build && npm test"
   },
   "dependencies": {
     "codemirror": "^5.27.4"

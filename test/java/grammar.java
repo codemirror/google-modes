@@ -5,7 +5,7 @@
 
 [comment /** multi]
 [comment  * line]
-[comment  * comment */]
+[comment  * comment ][comment&tag @tag][comment */]
 
 @[variable Foo](x = [string "something"])
 @[variable Bar]

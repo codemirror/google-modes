@@ -1,3 +1,5 @@
+include "./javadoc.grammar" as doccomment
+
 start top { whitespace separated(Statement) }
 
 skip whitespace {
@@ -150,7 +152,7 @@ tokens {
 
   variableName="variable" { identifier }
 
-  comment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
+  comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 }
 
 kw(word)="keyword" { word !identifierChar }

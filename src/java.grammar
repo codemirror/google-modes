@@ -1,3 +1,5 @@
+include "./javadoc.grammar" as doccomment
+
 start top {
   (whitespace Statement)+
 }
@@ -177,7 +179,7 @@ tokens {
     ("!" | "+" | "-" | "/" | "*" | "%" | ">" ">"? | "<" "<"? | "=" | "|" "|"? | "&" "&"?) "="?
   }
 
-  comment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
+  comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 }
 
 calleeName="builtin" { identifier ~"(" }
