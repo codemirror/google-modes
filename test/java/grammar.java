@@ -7,9 +7,9 @@
 [comment  * line]
 [comment  * comment ][comment&tag @tag][comment */]
 
-@[variable Foo](x = [string "something"])
-@[variable Bar]
-@[variable Baz]([variable Something].[property OK])
+[meta @Foo](x = [string "something"])
+[meta @Bar]
+[meta @baz.argh]([variable Something].[property OK])
 [keyword public] [keyword class] [def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
   [comment // line comment]
   [keyword private] [keyword final] [keyword volatile] [type Font] [def fonts][[]];

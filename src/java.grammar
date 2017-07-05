@@ -30,7 +30,11 @@ skip whitespace {
   context StatementModifiers { Modifier* }
 
   Annotation {
-    "@" plainVariableName ("." fieldName)* ("(" CommaSep(maybe(identifier "=")? (Annotation | Expr)) ")")?
+    AnnotationHead ("(" CommaSep(maybe(identifier "=")? (Annotation | Expr)) ")")?
+  }
+
+  AnnotationHead="meta" {
+    "@" identifier ("." identifier)*
   }
 
   context EnumBody {
