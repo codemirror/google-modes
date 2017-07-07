@@ -15,12 +15,12 @@ require("../dist/java")
 
 let filter = process.argv[2]
 
-;[{dir: "c", mode: "c"},
-  {dir: "cpp", mode: "cpp"},
-  {dir: "js", mode: "javascript"},
-  {dir: "py", mode: "python"},
-  {dir: "go", mode: "go"},
-  {dir: "java", mode: "java"}
+;[{dir: "c", mode: "google-c"},
+  {dir: "cpp", mode: "google-cpp"},
+  {dir: "js", mode: "google-javascript"},
+  {dir: "py", mode: "google-python"},
+  {dir: "go", mode: "google-go"},
+  {dir: "java", mode: "google-java"}
  ].forEach(lang => {
   let base = __dirname + "/" + lang.dir + "/"
   fs.readdirSync(base).forEach(file => {

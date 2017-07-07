@@ -81,6 +81,4 @@ PythonMode.prototype.closeBrackets = {triples: "'\""}
 PythonMode.prototype.lineComment = "#"
 PythonMode.prototype.fold = "indent"
 
-CodeMirror.defineMode("python", conf => new PythonMode(conf))
-
-CodeMirror.defineMIME("text/x-python", "python")
+CodeMirror.defineMode("google-python", conf => new PythonMode(conf))

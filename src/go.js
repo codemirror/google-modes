@@ -66,6 +66,4 @@ GoMode.prototype.blockCommentEnd = "*/"
 GoMode.prototype.lineComment = "//"
 GoMode.prototype.fold = "brace"
 
-CodeMirror.defineMode("go", conf => new GoMode(conf))
-
-CodeMirror.defineMIME("text/x-go", "go");
+CodeMirror.defineMode("google-go", conf => new GoMode(conf))

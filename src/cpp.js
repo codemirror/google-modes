@@ -34,7 +34,4 @@ CppMode.prototype.blockCommentEnd = "*/"
 CppMode.prototype.lineComment = "//"
 CppMode.prototype.fold = "brace"
 
-CodeMirror.defineMode("cpp", conf => new CppMode(conf))
-
-CodeMirror.defineMIME("text/x-c++src", "cpp")
-CodeMirror.defineMIME("text/x-c++", "cpp")
+CodeMirror.defineMode("google-cpp", conf => new CppMode(conf))

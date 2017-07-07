@@ -27,6 +27,4 @@ JavaMode.prototype.blockCommentEnd = "*/"
 JavaMode.prototype.lineComment = "//"
 JavaMode.prototype.fold = "brace"
 
-CodeMirror.defineMode("java", conf => new JavaMode(conf))
-
-CodeMirror.defineMIME("text/x-java", "java")
+CodeMirror.defineMode("google-java", conf => new JavaMode(conf))
