@@ -12,7 +12,7 @@
 [meta @baz.argh]([variable Something].[property OK])
 [keyword public] [keyword class] [def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
   [comment // line comment]
-  [keyword private] [keyword final] [keyword volatile] [type Font] [def fonts][[]];
+  [keyword private] [keyword final] [keyword volatile] [meta java.blah.][type Font] [def fonts][[]];
 
   [keyword public] [def FontChoice]([type String] [def in], [type Globals] [def g]) {
     [keyword super]([variable-2 g]);

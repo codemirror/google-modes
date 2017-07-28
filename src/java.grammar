@@ -108,16 +108,11 @@ skip whitespace {
   context ArrayInitializer { "{" CommaSep(Expr) "}" }
 
   Type {
-    Annotation* typeName ("[" Expr? "]" | TypeSuffix)*
+    Annotation* packageQualifier* typeName ("[" Expr? "]" | TypeArgs)*
   }
 
   TypeNoArray {
-    Annotation* typeName TypeSuffix*
-  }
-
-  TypeSuffix {
-    "." fieldName |
-    TypeArgs
+    Annotation* packageQualifier* typeName TypeArgs*
   }
 
   DeclExpr { declName ("[" "]")? }
@@ -200,6 +195,8 @@ declName="def" { identifier }
 declNameParen="def" { identifier ~(" "* "(") }
 
 fieldName="property" { identifier }
+
+packageQualifier="meta" { identifier " "* "." }
 
 typeName="type" { identifier }
 
