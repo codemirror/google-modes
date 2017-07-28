@@ -63,6 +63,7 @@ GoMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/
 GoMode.prototype.closeBrackets = "()[]{}''\"\"``"
 GoMode.prototype.blockCommentStart = "/*"
 GoMode.prototype.blockCommentEnd = "*/"
+GoMode.prototype.blockCommentContinue = " * "
 GoMode.prototype.lineComment = "//"
 GoMode.prototype.fold = "brace"
 

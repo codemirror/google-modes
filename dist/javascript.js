@@ -763,6 +763,7 @@ var meta = {
   electricInput: /^\s*(?:case .*?:|default:|\{|\})$/,
   blockCommentStart: "/*",
   blockCommentEnd: "*/",
+  blockCommentContinue: " * ",
   lineComment: "//",
   fold: "brace",
   closeBrackets: "()[]{}''\"\"``"

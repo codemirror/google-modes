@@ -24,6 +24,7 @@ class JavaMode extends CodeMirror.GrammarMode {
 JavaMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/
 JavaMode.prototype.blockCommentStart = "/*"
 JavaMode.prototype.blockCommentEnd = "*/"
+JavaMode.prototype.blockCommentContinue = " * "
 JavaMode.prototype.lineComment = "//"
 JavaMode.prototype.fold = "brace"
 

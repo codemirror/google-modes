@@ -798,6 +798,7 @@ var JavaMode = (function (superclass) {
 JavaMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/;
 JavaMode.prototype.blockCommentStart = "/*";
 JavaMode.prototype.blockCommentEnd = "*/";
+JavaMode.prototype.blockCommentContinue = " * ";
 JavaMode.prototype.lineComment = "//";
 JavaMode.prototype.fold = "brace";
 

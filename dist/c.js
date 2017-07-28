@@ -569,6 +569,7 @@ var CMode = (function (superclass) {
 CMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/;
 CMode.prototype.blockCommentStart = "/*";
 CMode.prototype.blockCommentEnd = "*/";
+CMode.prototype.blockCommentContinue = " * ";
 CMode.prototype.lineComment = "//";
 CMode.prototype.fold = "brace";
 

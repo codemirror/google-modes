@@ -31,6 +31,7 @@ class CppMode extends CodeMirror.GrammarMode {
 CppMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/
 CppMode.prototype.blockCommentStart = "/*"
 CppMode.prototype.blockCommentEnd = "*/"
+CppMode.prototype.blockCommentContinue = " * "
 CppMode.prototype.lineComment = "//"
 CppMode.prototype.fold = "brace"
 
