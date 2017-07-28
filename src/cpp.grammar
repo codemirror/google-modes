@@ -8,7 +8,7 @@ skip whitespace {
     try Block (catch "(" Type declName? ")" Block)* |
     asm "{" string "}" |
     using (typename Type | namespace? variableName) ";" |
-    export? template TemplateParams Statement |
+    TemplateHead Statement |
     &constructorAhead declName FunctionDef |
     nameQualifier+ (MaybeType DeclRest | qualifiedVariableName ExpressionSuffix* ";") |
     super
@@ -39,6 +39,10 @@ skip whitespace {
     ("->" Type)?
     InitializerList?
     (";" | Block)
+  }
+
+  context TemplateHead {
+    export? template TemplateParams whitespace
   }
 
   context InitializerList { (":" ListOf(CtorInitializer))? }
