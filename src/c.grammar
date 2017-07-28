@@ -22,7 +22,7 @@ skip whitespace {
   }
 
   context DeclType {
-    ((modifier | qualifier)+ typeName | typeModifier+ modifiableType?) TypeSuffix* | MaybeType
+    ((modifier | qualifier)+ (auto | typeName) | typeModifier+ modifiableType?) TypeSuffix* | MaybeType
   }   
 
   DeclRest {
@@ -97,11 +97,11 @@ skip whitespace {
   }
 
   MaybeType {
-    maybeTypeName TypeSuffix*
+    (auto | maybeTypeName) TypeSuffix*
   }
 
   Type {
-    (modifier | qualifier)* typeName TypeSuffix*
+    (modifier | qualifier)* (auto | typeName) TypeSuffix*
   }
 
   Struct {
@@ -138,7 +138,8 @@ tokens {
   switch { kw("switch") }
   structUnion { kw("struct" | "union") }
   sizeof { kw("sizeof") }
-  modifier { kw("register" | "static" | "extern" | "typedef" | "auto") }
+  auto { kw("auto") }
+  modifier { kw("register" | "static" | "extern" | "typedef") }
   typeModifier="type" { ("unsigned" | "signed" | "long") !identifierChar }
   modifiableType="type" { ("int" | "float" | "double") !identifierChar }
   qualifier { kw("const" | "volatile") }
