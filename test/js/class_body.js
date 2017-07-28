@@ -1,6 +1,6 @@
 [keyword class] [def Foo] {
-  [property constructor]() {}
-  [property sayName]() {
+  [def constructor]() {}
+  [def sayName]() {
     [keyword return] [string-2 `foo${][variable foo][string-2 }oo`];
   }
 }

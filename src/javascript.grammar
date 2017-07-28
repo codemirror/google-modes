@@ -88,11 +88,11 @@ skip whitespace {
 
   context ArrayLiteral { "[" CommaSep(ExpressionNoComma) "]" }
 
-  context ObjectLiteral { "{" CommaSep(ObjectMember) "}" }
+  context ObjectLiteral { "{" CommaSep(ObjectMember(propName)) "}" }
 
-  context ObjectMember {
+  context ObjectMember(name) {
     propModifier?
-    ((propName | "[" Expression "]" | number | string) (asyncStar? FunctionDef | ":" ExpressionNoComma)? |
+    ((name | "[" Expression "]" | number | string) (asyncStar? FunctionDef | ":" ExpressionNoComma)? |
      "..." ExpressionNoComma)
   }
 
@@ -123,7 +123,7 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (kw("static")? ObjectMember | "@" Expression)* "}"
+    "{" (kw("static")? ObjectMember(declName) | "@" Expression)* "}"
   }
 
   Pattern {
