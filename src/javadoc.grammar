@@ -1,4 +1,4 @@
-comment { "/**" content* tagGroup* "*/" }
+comment { "/**" !"/" content* tagGroup* "*/" }
 
 content { (!("*/" | "@" | "{") _)+ | braced }
 

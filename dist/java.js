@@ -182,7 +182,7 @@ var nodes = [
    /^(?!\")./, 103,
    "\"", -1],
   [/^[^]/, 103],
-  ["/**", 106,
+  [/^\/\*\*(?!\/)/, 106,
    "/*", 110,
    /^\/\/.*/, -1],
   [0, 107,
@@ -764,7 +764,7 @@ function findIndent(cx, textAfter, curLine, config) {
 function indent(state, textAfter, line, config) {
   if (textAfter.charAt(0) == "#") { return 0 }
   var top = state.context && state.context.name;
-  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead")
+  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "TemplateHead")
     { return statementIndent(state.context, config) }
   if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^\s*(@|\*\/)/.test(textAfter))
     { return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }

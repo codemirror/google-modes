@@ -162,14 +162,14 @@ var nodes = [
   [2, 11, -1, {"name":"Statement"}],
   [1, 9, 92],
   [";", -1],
-  [/^(?:(?:L|u8?|U)(?=[\'\"]))?/, 94],
+  [/^(?:(?:L|u8?|U|R)(?=[\'\"]))?/, 94],
   [/^\'(?:\\.(?:(?!\').)*|.)\'/, -1,
    "\"", 95],
   ["\\", 96,
-   /^(?!\")./, 95,
+   [0, /^(?!\")/, /^[^]/], 95,
    "\"", -1],
   [/^[^]/, 95],
-  ["/**", 98,
+  [/^\/\*\*(?!\/)/, 98,
    "/*", 102,
    /^\/\/.*/, -1],
   [0, 99,
@@ -535,7 +535,7 @@ function findIndent(cx, textAfter, curLine, config) {
 function indent(state, textAfter, line, config) {
   if (textAfter.charAt(0) == "#") { return 0 }
   var top = state.context && state.context.name;
-  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead")
+  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "TemplateHead")
     { return statementIndent(state.context, config) }
   if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^\s*(@|\*\/)/.test(textAfter))
     { return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }

@@ -1,4 +1,4 @@
-[keyword package] [variable hello]
+[keyword package] [variable hello] [comment /**/]
 
 [keyword import] [def m] [string "lib/math"]
 
