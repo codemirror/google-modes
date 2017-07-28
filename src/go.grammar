@@ -15,6 +15,7 @@ skip whitespace {
     return CommaSep(Expr) |
     (break | continue) identifier? |
     (default | case CommaSep(Expr) | label) ":" |
+    Block |
     select Block |
     goto identifier |
     fallthrough |

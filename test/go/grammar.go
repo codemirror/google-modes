@@ -65,3 +65,9 @@
 		[variable b])),
 	[number 3], [number 4],
 }
+
+[keyword func] [def sieve]() {
+	{
+		[def m] [operator :=] [number 1];
+	}
+}
