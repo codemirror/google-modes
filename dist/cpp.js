@@ -662,12 +662,12 @@ var nodes = [
   [1, 157, 416,
    0, 416],
   [3, "keyword", e[54], 419,
-   3, "def", /^\~?[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?= *\()/, 424,
    0, 420],
   [1, 9, 418],
   [3, "keyword", e[30], 421,
    3, "keyword", e[31], 421,
    3, "keyword", e[32], 421,
+   3, "def", /^\~?[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?= *\()/, 424,
    1, 244, 422],
   [1, 9, 420],
   [1, 9, 423],
@@ -691,8 +691,7 @@ var nodes = [
   [1, 9, 437],
   [1, 244, 438],
   [1, 9, 435],
-  [":", 440,
-   0, -1],
+  [":", 440],
   [1, 9, 441],
   [1, 477, -1],
   ["<", 443],
@@ -903,8 +902,9 @@ function findIndent(cx, textAfter, curLine, config) {
   } else if (cx.name == "ArrowRest") {
     return plus(findIndent(cx.parent, textAfter, cx.startLine, config), config.indentUnit)
   } else {
+    if (cx.name == "FunctionDef") { console.log("for", textAfter, "add", cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0, "to", findIndent(cx.parent, textAfter, curLine, config)); }
     return plus(findIndent(cx.parent, textAfter, curLine, config),
-                (cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0))
+                cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0)
   }
 }
 

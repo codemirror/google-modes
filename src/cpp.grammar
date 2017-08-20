@@ -45,7 +45,7 @@ skip whitespace {
     export? template TemplateParams whitespace
   }
 
-  context InitializerList { (":" ListOf(CtorInitializer))? }
+  context InitializerList { (":" ListOf(CtorInitializer)) }
 
   CtorInitializer { fieldName ("(" ListOf(Expression) ")" | "{" ListOf(Expression) "}") }
 
@@ -78,8 +78,8 @@ skip whitespace {
   }
 
   context ObjectMember {
-    friend*
-    (ctorDtorName | (modifier | qualifier)* Type declName)
+    friend* (modifier | qualifier)*
+    (ctorDtorName | Type declName)
     (Initializer? ";" | FunctionDef)
   }
 

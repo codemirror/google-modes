@@ -75,7 +75,7 @@ function findIndent(cx, textAfter, curLine, config) {
     return plus(findIndent(cx.parent, textAfter, cx.startLine, config), config.indentUnit)
   } else {
     return plus(findIndent(cx.parent, textAfter, curLine, config),
-                (cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0))
+                cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0)
   }
 }
 
