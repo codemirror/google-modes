@@ -8,9 +8,9 @@ skip whitespace {
     type MaybeSet(declName Type) |
     import MaybeSet(("." | declName)? string) |
     package variableName |
-    if ExprNoBrace (";" ExprNoBrace)? Block (else (if ExprNoBrace (";" ExprNoBrace)?)? Block)* |
-    switch (ExprNoBrace (";" ExprNoBrace?)?)? Block |
-    for (AssignedNames ExprNoBrace | ExprNoBrace) (";" ExprNoBrace?)* Block |
+    IfStatement |
+    SwitchStatement |
+    ForStatement |
     (go | defer) Expr |
     return CommaSep(Expr) |
     (break | continue) identifier? |
@@ -21,6 +21,18 @@ skip whitespace {
     fallthrough |
     case Statement ":" |
     Expr ("," Expr)*
+  }
+
+  context IfStatement {
+    if ExprNoBrace (";" ExprNoBrace)? Block (else (if ExprNoBrace (";" ExprNoBrace)?)? Block)*
+  }
+
+  context ForStatement {
+    for (AssignedNames ExprNoBrace | ExprNoBrace) (";" ExprNoBrace?)* Block
+  }
+
+  context SwitchStatement {
+    switch (ExprNoBrace (";" ExprNoBrace?)?)? Block
   }
 
   MaybeSet(inner) { Set(inner) | inner }

@@ -71,3 +71,12 @@
 		[def m] [operator :=] [number 1];
 	}
 }
+
+[keyword func] [def main]() {
+	[keyword if] [def z] [operator :=] [number 1]; [variable-2 z] [operator %] [number 2] [operator ==] [number 1] {
+		[def i] [operator :=] [number 2];
+	} [keyword else] {
+		[variable-2 z] [operator =] [number 2];
+	}
+	[variable fmt].[callee&property Println]([variable z])
+}

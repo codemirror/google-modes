@@ -3,7 +3,7 @@ import "codemirror-grammar-mode"
 import * as grammar from "./go.mode"
 import {markLocals} from "./locals"
 
-const scopes = ["Block", "FunctionDef"]
+const scopes = ["Block", "FunctionDef", "IfStatement", "ForStatement", "SwitchStatement"]
 const allowNewline = ["LiteralBody", "Bracketed", "ArgList", "ParamList", "ParenExpr"]
 
 function skippableNewline(line, pos, cx) {
