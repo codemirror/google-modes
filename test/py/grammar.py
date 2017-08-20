@@ -30,6 +30,8 @@
 [keyword else]:
   [keyword assert] [atom False]
 
+[def empty] [operator =] {}
+
 [keyword class] [def B]:
   [keyword def] [def __init__]([atom self]):
     [keyword try]:

@@ -902,7 +902,6 @@ function findIndent(cx, textAfter, curLine, config) {
   } else if (cx.name == "ArrowRest") {
     return plus(findIndent(cx.parent, textAfter, cx.startLine, config), config.indentUnit)
   } else {
-    if (cx.name == "FunctionDef") { console.log("for", textAfter, "add", cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0, "to", findIndent(cx.parent, textAfter, curLine, config)); }
     return plus(findIndent(cx.parent, textAfter, curLine, config),
                 cx.name == "InitializerList" ? 2 : cx.name == "ThrowsClause" ? 2 * config.indentUnit : 0)
   }

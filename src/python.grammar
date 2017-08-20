@@ -89,7 +89,7 @@ skip whitespace {
   context ArrayLiteral { "[" MaybeComp? "]" }
 
   context ObjectLiteral {
-   "{" CommaSep(DictProp) CompFor? "}"
+   "{" (CommaSep(DictProp) CompFor?)? "}"
   }
 
   context DictProp {
