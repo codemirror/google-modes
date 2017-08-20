@@ -6,7 +6,7 @@
 [type void] [def f]([type void]* [def a],
        [type int][[]] [keyword const] [def b]) [keyword noexcept] {
   [meta std::][type vector]<[type bool]> [def quux];
-  [builtin something](
+  [variable&callee something](
       [variable-2 a], [variable-2 quux],
       [meta ::something::][qualified&variable a]);
 }

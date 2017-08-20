@@ -365,7 +365,7 @@ var nodes = [
    3, "keyword", e[4], 228,
    3, "keyword", e[13], 234,
    2, 304, -1, {"name":"ArrowFunc"},
-   3, "builtin", e[40], -1,
+   3, "variable callee", e[40], -1,
    3, "variable", e[18], -1,
    3, "number", e[35], -1,
    2, 127, -1, {"name":"string","token":"string"},
@@ -411,7 +411,7 @@ var nodes = [
   [1, 6, 245],
   [1, 146, -1],
   [1, 6, 247],
-  [3, "builtin", e[40], -1,
+  [3, "property callee", e[40], -1,
    3, "property", e[18], -1],
   [1, 6, 249],
   [1, 146, 250],
@@ -444,7 +444,7 @@ var nodes = [
   [1, 6, 270],
   [1, 159, -1],
   [1, 6, 272],
-  [3, "builtin", e[40], -1,
+  [3, "property callee", e[40], -1,
    3, "property", e[18], -1],
   [1, 6, 274],
   [1, 146, 275],
@@ -628,9 +628,14 @@ function isLocal(context, name) {
   return false
 }
 
+var varRE = /(^|\s)variable($|\s)/;
+
 function markLocals(type, scopes, stream, state) {
-  if (type == "def") { storeLocal(state.context, stream.current(), scopes); }
-  else if (type == "variable" && isLocal(state.context, stream.current())) { type = "variable-2"; }
+  if (type == "def")
+    { storeLocal(state.context, stream.current(), scopes); }
+  else if (varRE.test(type) && !/qualified/.test(type) &&
+           isLocal(state.context, stream.current()))
+    { type = type.replace(varRE, "$1variable-2$2"); }
   return type
 }
 

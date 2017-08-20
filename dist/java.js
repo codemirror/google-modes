@@ -4,7 +4,7 @@
 	(factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
 
-var e = [/^for(?![a-zA-Z\¡-\￿_0-9])/, /^while(?![a-zA-Z\¡-\￿_0-9])/, /^try(?![a-zA-Z\¡-\￿_0-9])/, /^do(?![a-zA-Z\¡-\￿_0-9])/, /^if(?![a-zA-Z\¡-\￿_0-9])/, /^switch(?![a-zA-Z\¡-\￿_0-9])/, /^(?:break|continue)(?![a-zA-Z\¡-\￿_0-9])/, /^assert(?![a-zA-Z\¡-\￿_0-9])/, /^return(?![a-zA-Z\¡-\￿_0-9])/, /^throw(?![a-zA-Z\¡-\￿_0-9])/, /^default(?![a-zA-Z\¡-\￿_0-9])/, /^case(?![a-zA-Z\¡-\￿_0-9])/, /^import(?![a-zA-Z\¡-\￿_0-9])/, /^catch(?![a-zA-Z\¡-\￿_0-9])/, /^finally(?![a-zA-Z\¡-\￿_0-9])/, /^(?:public|protected|private|abstract|static|final|transient|volatile|synchronized|native|strictfp|const)(?![a-zA-Z\¡-\￿_0-9])/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*/, /^else(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\+\+|\-\-|\!|\~|\&|\*)/, /^(?:true|false|null)(?![a-zA-Z\¡-\￿_0-9])/, /^this(?![a-zA-Z\¡-\￿_0-9])/, /^super(?![a-zA-Z\¡-\￿_0-9])/, /^(?:(?:0x|0X)[0-9_a-fA-F]+|(?:0b|0B)[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)[LlDdFf]?/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?=\()/, /^(?:\+\+|\-\-)/, /^(?:\!|\+|\-|\/|\*|\%|\>\>?|\<\<?|\=|\|\|?|\&\&?)\=?/, /^instanceof(?![a-zA-Z\¡-\￿_0-9])/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]* *\./, /^enum(?![a-zA-Z\¡-\￿_0-9])/, /^(?:class|interface)(?![a-zA-Z\¡-\￿_0-9])/, /^package(?![a-zA-Z\¡-\￿_0-9])/, /^implements(?![a-zA-Z\¡-\￿_0-9])/, /^extends(?![a-zA-Z\¡-\￿_0-9])/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z\¡-\￿_])/, /^\@[a-zA-Z\¡-\￿_]+/, /^[a-zA-Z\¡-\￿_]+/, [0, /^(?!\*\/|\@|\{)/, /^[^]/], /^new(?![a-zA-Z\¡-\￿_0-9])/, [0, [5, 371], /^[a-zA-Z\¡-\￿_]/, /^[a-zA-Z\¡-\￿_0-9]*/], /^throws(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\.\.\.)?/];
+var e = [/^for(?![a-zA-Z\¡-\￿_0-9])/, /^while(?![a-zA-Z\¡-\￿_0-9])/, /^try(?![a-zA-Z\¡-\￿_0-9])/, /^do(?![a-zA-Z\¡-\￿_0-9])/, /^if(?![a-zA-Z\¡-\￿_0-9])/, /^switch(?![a-zA-Z\¡-\￿_0-9])/, /^(?:break|continue)(?![a-zA-Z\¡-\￿_0-9])/, /^assert(?![a-zA-Z\¡-\￿_0-9])/, /^return(?![a-zA-Z\¡-\￿_0-9])/, /^throw(?![a-zA-Z\¡-\￿_0-9])/, /^default(?![a-zA-Z\¡-\￿_0-9])/, /^case(?![a-zA-Z\¡-\￿_0-9])/, /^import(?![a-zA-Z\¡-\￿_0-9])/, /^catch(?![a-zA-Z\¡-\￿_0-9])/, /^finally(?![a-zA-Z\¡-\￿_0-9])/, /^(?:public|protected|private|abstract|static|final|transient|volatile|synchronized|native|strictfp|const)(?![a-zA-Z\¡-\￿_0-9])/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*/, /^else(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\+\+|\-\-|\!|\~|\&|\*)/, /^(?:true|false|null)(?![a-zA-Z\¡-\￿_0-9])/, /^this(?![a-zA-Z\¡-\￿_0-9])/, /^super(?![a-zA-Z\¡-\￿_0-9])/, /^(?:(?:0x|0X)[0-9_a-fA-F]+|(?:0b|0B)[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)[LlDdFf]?/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?=\()/, /^(?:\+\+|\-\-)/, /^(?:\!|\+|\-|\/|\*|\%|\>\>?|\<\<?|\=|\|\|?|\&\&?)\=?/, /^instanceof(?![a-zA-Z\¡-\￿_0-9])/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]* *\./, /^enum(?![a-zA-Z\¡-\￿_0-9])/, /^(?:class|interface)(?![a-zA-Z\¡-\￿_0-9])/, /^package(?![a-zA-Z\¡-\￿_0-9])/, /^implements(?![a-zA-Z\¡-\￿_0-9])/, /^extends(?![a-zA-Z\¡-\￿_0-9])/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z\¡-\￿_])/, /^\@[a-zA-Z\¡-\￿_]+/, /^[a-zA-Z\¡-\￿_]+/, [0, /^(?!\*\/|\@|\{)/, /^[^]/], /^new(?![a-zA-Z\¡-\￿_0-9])/, [0, [5, 371], /^[a-zA-Z\¡-\￿_]/, /^[a-zA-Z\¡-\￿_0-9]*/], /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?= *\()/, /^throws(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\.\.\.)?/];
 var nodes = [
   [1, 5, 2],
   [/^[^]/, 0],
@@ -30,7 +30,7 @@ var nodes = [
    3, "keyword", e[21], -1,
    3, "keyword", e[7], -1,
    3, "keyword", e[9], -1,
-   3, "keyword", e[40], -1,
+   3, "keyword", e[41], -1,
    3, "keyword", e[2], -1,
    3, "keyword", e[13], -1,
    3, "keyword", e[14], -1,
@@ -39,7 +39,7 @@ var nodes = [
    3, "keyword", e[29], -1,
    3, "keyword", e[26], -1,
    3, "atom", e[19], -1,
-   3, "builtin", e[23], -1,
+   3, "variable callee", e[23], -1,
    3, "variable", e[16], -1,
    3, "number", e[22], -1,
    2, 102, -1, {"name":"string","token":"string"},
@@ -209,7 +209,7 @@ var nodes = [
    2, 102, 118, {"name":"string","token":"string"},
    2, 224, 118, {"name":"NewExpr"},
    2, 244, 118, {"name":"Lambda"},
-   3, "builtin", e[23], 118,
+   3, "variable callee", e[23], 118,
    3, "variable", e[16], 118,
    2, 253, 116, {"name":"ParenExpr"}],
   [1, 5, 114],
@@ -232,7 +232,7 @@ var nodes = [
   [1, 5, 128],
   [1, 114, 129],
   [2, 263, 120, {"name":"TypeArgs"},
-   3, "builtin", e[23], 120,
+   3, "property callee", e[40], 120,
    3, "property", e[16], 120],
   [1, 114, 120],
   [1, 114, 130],
@@ -583,7 +583,7 @@ var nodes = [
   [2, 112, 393, {"name":"BeforeStatement"}],
   [1, 5, 394],
   [2, 310, 395, {"name":"TypeParams"},
-   3, "def", /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?= *\()/, 396,
+   3, "def", e[40], 396,
    1, 162, -1],
   [1, 5, 397],
   [1, 5, 398],
@@ -611,7 +611,7 @@ var nodes = [
   [1, 5, 413],
   [1, 151, 414],
   [1, 5, 411],
-  [3, "keyword", e[40], 416],
+  [3, "keyword", e[41], 416],
   [1, 5, 417],
   [1, 294, -1],
   [/^(?!\}|\*\/)/, 419,
@@ -627,7 +627,7 @@ var nodes = [
    0, -1],
   [1, 5, 422],
   [1, 5, 425],
-  [e[41], 426],
+  [e[42], 426],
   [1, 5, 427],
   [3, "keyword", e[20], 428,
    1, 319, 428],
@@ -641,7 +641,7 @@ var nodes = [
    1, 151, 433],
   [1, 5, 431],
   [1, 5, 434],
-  [e[41], 435],
+  [e[42], 435],
   [1, 5, 436],
   [3, "keyword", e[20], 437,
    1, 319, 437],
@@ -676,9 +676,14 @@ function isLocal(context, name) {
   return false
 }
 
+var varRE = /(^|\s)variable($|\s)/;
+
 function markLocals(type, scopes, stream, state) {
-  if (type == "def") { storeLocal(state.context, stream.current(), scopes); }
-  else if (type == "variable" && isLocal(state.context, stream.current())) { type = "variable-2"; }
+  if (type == "def")
+    { storeLocal(state.context, stream.current(), scopes); }
+  else if (varRE.test(type) && !/qualified/.test(type) &&
+           isLocal(state.context, stream.current()))
+    { type = type.replace(varRE, "$1variable-2$2"); }
   return type
 }
 

@@ -269,7 +269,7 @@ var nodes = [
   [1, 9, 156],
   [";", -1],
   [0, 158,
-   3, "builtin", e[48], -1,
+   3, "variable callee", e[48], -1,
    3, "variable", e[45], -1],
   [3, "meta", e[26], 159],
   [0, 158,
@@ -490,7 +490,7 @@ var nodes = [
   [1, 9, 297],
   ["]", -1],
   [1, 9, 299],
-  [3, "builtin", e[48], -1,
+  [3, "property callee", e[48], -1,
    3, "property", e[35], -1],
   [1, 9, 301],
   [1, 204, -1],
@@ -818,9 +818,14 @@ function isLocal(context, name) {
   return false
 }
 
+var varRE = /(^|\s)variable($|\s)/;
+
 function markLocals(type, scopes, stream, state) {
-  if (type == "def") { storeLocal(state.context, stream.current(), scopes); }
-  else if (type == "variable" && isLocal(state.context, stream.current())) { type = "variable-2"; }
+  if (type == "def")
+    { storeLocal(state.context, stream.current(), scopes); }
+  else if (varRE.test(type) && !/qualified/.test(type) &&
+           isLocal(state.context, stream.current()))
+    { type = type.replace(varRE, "$1variable-2$2"); }
   return type
 }
 

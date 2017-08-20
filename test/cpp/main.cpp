@@ -8,15 +8,15 @@
   [type int] [def i];
 
   [comment // display the original size of vec]
-  [variable cout] [operator <<] [string "vector size = "] [operator <<] [variable-2 vec].[builtin size]() [operator <<] [variable endl];
+  [variable cout] [operator <<] [string "vector size = "] [operator <<] [variable-2 vec].[property&callee size]() [operator <<] [variable endl];
 
   [comment // push 5 values into the vector]
   [keyword for] ([variable-2 i] [operator =] [number 0]; [variable-2 i] [operator <] [number 5]; [variable-2 i][operator ++]) {
-    [variable-2 vec].[builtin push_back]([variable-2 i]);
+    [variable-2 vec].[property&callee push_back]([variable-2 i]);
   }
 
   [comment // display extended size of vec]
-  [variable cout] [operator <<] [string "extended vector size = "] [operator <<] [variable-2 vec].[builtin size]() [operator <<] [variable endl];
+  [variable cout] [operator <<] [string "extended vector size = "] [operator <<] [variable-2 vec].[property&callee size]() [operator <<] [variable endl];
 
   [comment // access 5 values from the vector]
   [keyword for] ([variable-2 i] [operator =] [number 0]; [variable-2 i] [operator <] [number 5]; [variable-2 i][operator ++]) {
@@ -24,8 +24,8 @@
   }
 
   [comment // use iterator to access the values]
-  [type vector]<[type int]>::[type iterator] [def v] [operator =] [variable-2 vec].[builtin begin]();
-  [keyword while] ([variable-2 v] [operator !=] [variable-2 vec].[builtin end]()) {
+  [type vector]<[type int]>::[type iterator] [def v] [operator =] [variable-2 vec].[property&callee begin]();
+  [keyword while] ([variable-2 v] [operator !=] [variable-2 vec].[property&callee end]()) {
     [variable cout] [operator <<] [string "value of v = "] [operator <<] [operator *][variable-2 v] [operator <<] [variable endl];
     [variable-2 v][operator ++];
   }

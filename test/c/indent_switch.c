@@ -3,6 +3,6 @@
     [keyword return] [number 20];
   }
   [keyword default]: {
-    [builtin printf]([string "foo %c"], [variable x]);
+    [variable&callee printf]([string "foo %c"], [variable x]);
   }
 }

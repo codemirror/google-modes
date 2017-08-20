@@ -9,8 +9,13 @@ function isLocal(context, name) {
   return false
 }
 
+const varRE = /(^|\s)variable($|\s)/
+
 export function markLocals(type, scopes, stream, state) {
-  if (type == "def") storeLocal(state.context, stream.current(), scopes)
-  else if (type == "variable" && isLocal(state.context, stream.current())) type = "variable-2"
+  if (type == "def")
+    storeLocal(state.context, stream.current(), scopes)
+  else if (varRE.test(type) && !/qualified/.test(type) &&
+           isLocal(state.context, stream.current()))
+    type = type.replace(varRE, "$1variable-2$2")
   return type
 }

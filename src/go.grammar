@@ -58,7 +58,7 @@ skip whitespace {
 
   ExprSuffix(Expr) {
     ".(" Type ")" |
-    "." (calleeName | propName) |
+    "." (calleeProp | propName) |
     suffixOp |
     binOp Expr |
     ArgList |
@@ -167,7 +167,8 @@ separated(expr) {
 identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
-calleeName="builtin" { identifier ~"(" }
+calleeName="variable callee" { identifier ~"(" }
+calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }
 propNameParen="property" { identifier ~(" " "(") }
 propNameColon="property" { identifier ~(" " ":") }

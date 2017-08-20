@@ -134,7 +134,7 @@ declName { operator (binOp | prefixOp) | nameQualifier* unqualifiedDeclName }
 
 unqualifiedDeclName="def" { "~"? identifier }
 
-unqualifiedCallee="builtin" { identifier ~"(" }
+unqualifiedCallee="variable callee" { identifier ~"(" }
 
 unqualifiedVariableName="variable" { "~"? identifier }
 

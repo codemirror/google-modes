@@ -101,7 +101,7 @@ skip whitespace {
     (binOp | kwBinOp) ContExpression |
     ArgList |
     template |
-    "." (calleeName | propName) |
+    "." (calleeProp | propName) |
     "[" Expression "]" |
     op("?") Expression op(":") ContExpression
   }
@@ -210,7 +210,8 @@ str2(value)="string-2" { value }
 
 propName="property" { identifier }
 declName="def" { identifier }
-calleeName="builtin" { identifier ~(" "* "(") }
+calleeName="variable callee" { identifier ~(" "* "(") }
+calleeProp="property callee" { identifier ~(" "* "(") }
 labelName { identifier ~(" "* ":") }
 
 declNameNoColon { declName !(identifierChar | " "* ":") }

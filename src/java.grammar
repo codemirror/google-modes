@@ -92,7 +92,7 @@ skip whitespace {
   ExprSuffix {
     ArgList |
     "[" Expr "]" |
-    "." (TypeArgs | calleeName | fieldName) |
+    "." (TypeArgs | calleeField | fieldName) |
     suffixOp |
     (binOp | instanceof) Expr |
     op("?") Expr op(":") Expr
@@ -181,7 +181,7 @@ tokens {
   comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 }
 
-calleeName="builtin" { identifier ~"(" }
+calleeName="variable callee" { identifier ~"(" }
 plainVariableName="variable" { identifier }
 
 identifier { identifierStart identifierChar* }
@@ -194,6 +194,7 @@ whitespace {
 declName="def" { identifier }
 declNameParen="def" { identifier ~(" "* "(") }
 
+calleeField="property callee" { identifier ~(" "* "(") }
 fieldName="property" { identifier }
 
 packageQualifier="meta" { identifier " "* "." }

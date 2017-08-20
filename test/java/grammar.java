@@ -20,8 +20,8 @@
     [variable totalwidth] [operator =] [number 30];
     [type int] [def i], [def last] [operator =] [number 0b0_1], [def j] [operator =] [number 0.33e+3f];
 
-    [keyword for] ([variable-2 i] [operator =] [number 0]; [variable-2 i] [operator <] [variable-2 in].[builtin length](); [variable-2 i][operator ++])
-      [keyword if] ([variable-2 in].[builtin charAt]([variable-2 i]) [operator ==] [string ' '])
+    [keyword for] ([variable-2 i] [operator =] [number 0]; [variable-2 i] [operator <] [variable-2 in].[property&callee length](); [variable-2 i][operator ++])
+      [keyword if] ([variable-2 in].[property&callee charAt]([variable-2 i]) [operator ==] [string ' '])
         [variable numofstyles][operator ++];
       [keyword else]
         [keyword throw] [keyword new]<[type Ugh]> [type Error]([string "double \" quoted"]);
@@ -33,18 +33,18 @@
 
   [keyword protected] [type void] [def setX]([type int] [def x]) {
     [variable g] [operator ||] [variable-2 x];
-    [keyword super].[builtin setX]([variable-2 x]);
-    [type FontMetrics]<[type Param]> [def fm] [operator =] [variable parent].[builtin getFontMetrics]([variable fonts][[ [variable i] ]]);
+    [keyword super].[property&callee setX]([variable-2 x]);
+    [type FontMetrics]<[type Param]> [def fm] [operator =] [variable parent].[property&callee getFontMetrics]([variable fonts][[ [variable i] ]]);
 
     label: [keyword try] {
       [keyword continue] label;
     } [keyword catch] ([type RuntimeException] [def e]) {
-      [variable system].[builtin println]([variable-2 e].[property message]);
+      [variable system].[property&callee println]([variable-2 e].[property message]);
     } [keyword finally] {
       [keyword return] [number 00l];
     }
 
-    [variable foo].[builtin addListeners](
+    [variable foo].[property&callee addListeners](
         ([def x], [def y]) [operator ->] [atom true],
         [def z] [operator ->] [atom false] [operator ?] [variable-2 z] [operator :] [atom null]
         );

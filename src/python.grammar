@@ -72,7 +72,7 @@ skip whitespace {
     (binop | binopKw) Expr |
     ArgList |
     Subscript |
-    "." (calleeName | propName) |
+    "." (calleeProp | propName) |
     if Expr (else Expr)?
   }
 
@@ -171,7 +171,8 @@ identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
 assignedName="def" { identifier ~(" "* ("=" | "in" !identifierChar)) }
-calleeName="builtin" { identifier ~"(" }
+calleeName="variable callee" { identifier ~"(" }
+calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }
 typeName="type" { identifier }
 

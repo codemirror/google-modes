@@ -87,7 +87,7 @@ skip whitespace {
     ArgList |
     "[" Expression "]" |
     suffixOp |
-    ("->" | ".") (calleeName | fieldName) |
+    ("->" | ".") (calleeProp | fieldName) |
     binOp Expression |
     "?" Expression ":" Expression
   }
@@ -175,7 +175,8 @@ tokens {
   comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 }
 
-calleeName="builtin" { identifier ~"(" }
+calleeName="variable callee" { identifier ~"(" }
+calleeProp="property callee" { identifier ~"(" }
 plainVariableName="variable" { identifier }
 
 identifier { identifierStart identifierChar* }

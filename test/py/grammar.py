@@ -3,11 +3,11 @@
 [keyword import] [variable foo].[property bar] [keyword as] [def ugh]
 [keyword from] [variable huh] [keyword import] *
 
-[def foo] [operator =] [string "bar"]; [variable abc_cde].[builtin prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
+[def foo] [operator =] [string "bar"]; [variable abc_cde].[property&callee prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
 
 [meta @foo.bar]
 [keyword async] [keyword def] [def f]([def v]: [type myType] [operator =] [number 0xffff], [operator **][def blah]):
-  [builtin print]([variable-2 v] [operator +] [string 'hi\''] [keyword if] [atom False] [keyword else] [string '''blah'''])
+  [variable&callee print]([variable-2 v] [operator +] [string 'hi\''] [keyword if] [atom False] [keyword else] [string '''blah'''])
   [keyword yield] [keyword from] [variable ugh]
 
 [keyword class] [def C]([variable hi]):
@@ -15,7 +15,7 @@
   [def x] [operator =] [number 100_000.0]
 
   [keyword def] [def method]([atom self], [def u]) -> [type t]:
-    [atom self].[builtin map]([keyword lambda] [def a]: [variable-2 x] [keyword not in] [variable-2 a])
+    [atom self].[property&callee map]([keyword lambda] [def a]: [variable-2 x] [keyword not in] [variable-2 a])
     [keyword return] [variable-2 u][[ : [number 1] : [number 2], [variable a] ]]
 
 [keyword if] [atom None]:
@@ -35,7 +35,7 @@
     [keyword try]:
       [keyword with] [string U"x"] [keyword as] [def ay]: [variable-2 ay]
     [keyword except] [variable Except] [keyword as] [def e]:
-      [builtin report]([variable-2 e])
+      [variable&callee report]([variable-2 e])
     [keyword finally]:
       [def hey] [operator =] [atom True] [keyword or] [atom False]
       [variable-2 hey] [operator <<=] [number 0b10] [operator @] [operator ~][number 0O7] [operator **] [variable n]
