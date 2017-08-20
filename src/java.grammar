@@ -46,7 +46,7 @@ skip whitespace {
     enum declName (implements CommaSep(Type))? EnumBody |
     classInterface declName TypeParams? (extends Type)? (implements CommaSep(Type))? ClassBody |
     package identifier ("." identifier)* ";" |
-    !new ~(Type !"instanceof" identifierChar)
+    ~(Annotation* packageQualifier* (className | primType))
       Type DeclExpr (FunctionDef | (op("=") Expr)? ("," DeclExpr (op("=") Expr)?)* ";")
   }
 
@@ -108,11 +108,11 @@ skip whitespace {
   context ArrayInitializer { "{" CommaSep(Expr) "}" }
 
   Type {
-    Annotation* packageQualifier* typeName ("[" Expr? "]" | TypeArgs)*
+    Annotation* packageQualifier* (className | primType) ("[" Expr? "]" | TypeArgs)*
   }
 
   TypeNoArray {
-    Annotation* packageQualifier* typeName TypeArgs*
+    Annotation* packageQualifier* (className | primType) TypeArgs*
   }
 
   DeclExpr { declName ("[" "]")? }
@@ -149,6 +149,9 @@ tokens {
   import { kw("import") }
   classInterface { kw("class" | "interface") }
   instanceof { kw("instanceof") }
+
+  primType="type" { ("boolean" | "char" | "byte" | "short" | "int" | "long" | "float" | "double" | "void") !identifierChar }
+  className="type" { "A"-"Z" identifierChar* }
 
   atom="atom" { ("true" | "false" | "null") !identifierChar }
 
