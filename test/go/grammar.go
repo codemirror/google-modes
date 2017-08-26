@@ -80,3 +80,7 @@
 	}
 	[variable fmt].[callee&property Println]([variable z])
 }
+
+[keyword func] ([def r] [type X]) [def y]() {
+	[callee&variable bar]([variable-2 r]);
+}

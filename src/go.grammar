@@ -52,7 +52,7 @@ skip whitespace {
     number |
     string |
     atom |
-    func declName? FunctionDef |
+    func FunctionDef |
     calleeName |
     variableName |
     Bracketed Type? |
@@ -60,7 +60,7 @@ skip whitespace {
     ParenExpr
   }
 
-  context FunctionDef { ParamList (ParamList | Type)? Block? }
+  context FunctionDef { ("(" declName Type ")")? declName? ParamList (ParamList | Type)? Block? }
   context ParenExpr { "(" CommaSep(Expr) ")" }
   context LiteralBody { "{" CommaSep((propNameColon | Expr) (":" Expr)?) "}" }
 
