@@ -32,6 +32,8 @@
 
 [def empty] [operator =] {}
 
+[keyword if] [variable pfile] [keyword is] [atom None] [keyword or] [variable pfile].[property project].[property disabled]: [keyword return]
+
 [keyword class] [def B]:
   [keyword def] [def __init__]([atom self]):
     [keyword try]:

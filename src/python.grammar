@@ -25,7 +25,7 @@ skip whitespace {
   SmallStatement {
     passBreakCont |
     del CommaSep(Expr) |
-    returnAssert CommaSep(Expr) |
+    returnAssert CommaSep(Expr)? |
     raise Expr (from Expr)? |
     import CommaSep(Expr (as declName)?) |
     from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
