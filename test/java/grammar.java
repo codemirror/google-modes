@@ -50,6 +50,9 @@
         );
   }
 
+  [def join]([type Bar]... [def bars]) {
+  }
+
   [keyword enum] [def TrafficLight] {
     [def RED]([number 30]), [def AMBER]([number 10]);
 

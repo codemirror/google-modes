@@ -200,7 +200,7 @@ declNameParen="def" { identifier ~(" "* "(") }
 calleeField="property callee" { identifier ~(" "* "(") }
 fieldName="property" { identifier }
 
-packageQualifier="meta" { identifier " "* "." }
+packageQualifier="meta" { identifier " "* "." !"." }
 
 typeName="type" { identifier }
 
