@@ -1,6 +1,6 @@
 comment { "/**" !"/" content* tagGroup* "*/" }
 
-content { (!("*/" | "@" | "{") _)+ | braced }
+content { (!("*/" | "@" letter | "{") _)+ | braced }
 
 context braced { "{" (tag (!("}" | "*/") _)* | type) "}" }
 

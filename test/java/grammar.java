@@ -4,6 +4,7 @@
 [keyword import] java.blah.[def imported];
 
 [comment /** multi]
+[comment  @<i>N</i>]
 [comment  * line]
 [comment  * comment ][comment&tag @tag][comment */]
 
