@@ -5,7 +5,7 @@
   [type ResolveConstantsTy] [def ResolveConstants];
   [type LLVMContext] &[def Context];
  [keyword public]:
-  [def BitcodeReaderValueList]([type LLVMContext] &[def C]) : [property Context]([variable-2 C]) {}
+  [def BitcodeReaderValueList]([type LLVMContext] &[def C]) : [callee&property Context]([variable-2 C]) {}
   [def ~BitcodeReaderValueList]() {
     [variable&callee assert]([variable ResolveConstants].[property&callee empty]() [operator &&] [string "Constants not resolved?"]);
   }

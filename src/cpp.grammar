@@ -110,7 +110,7 @@ tokens {
   alignas { kw("alignas") }
   cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
 
-  variableName { nameQualifier+ qualifiedVariableName | (unqualifiedCallee | unqualifiedVariableName) }
+  variableName { nameQualifier+ qualifiedVariableName | unqualifiedVariableName }
 
   modifier { kw("inline" | "virtual" | "explicit") | super }
 
@@ -134,9 +134,7 @@ declName { operator (binOp | prefixOp) | nameQualifier* unqualifiedDeclName }
 
 unqualifiedDeclName="def" { "~"? identifier }
 
-unqualifiedCallee="variable callee" { identifier ~"(" }
-
-unqualifiedVariableName="variable" { "~"? identifier }
+unqualifiedVariableName="variable" { maybeCallee }
 
 qualifiedVariableName="qualified" { unqualifiedVariableName }
 

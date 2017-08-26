@@ -87,7 +87,7 @@ skip whitespace {
     ArgList |
     "[" Expression "]" |
     suffixOp |
-    ("->" | ".") (calleeProp | fieldName) |
+    ("->" | ".") fieldName |
     binOp Expression |
     "?" Expression ":" Expression
   }
@@ -146,7 +146,7 @@ tokens {
 
   atom="atom" { ("true" | "false" | "null") !identifierChar }
 
-  variableName { calleeName | plainVariableName }
+  variableName { plainVariableName }
 
   number="number" {
     ("0x" (digit | "a"-"f" | "A"-"F")+ |
@@ -161,7 +161,7 @@ tokens {
   }
 
   prefixOp="operator" {
-    "++" | "--" | "!" | "~" | "&" | "*"
+    "++" | "--" | "!" | "~" | "&" | "*" | "+"
   }
 
   suffixOp="operator" {
@@ -175,9 +175,10 @@ tokens {
   comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 }
 
-calleeName="variable callee" { identifier ~"(" }
-calleeProp="property callee" { identifier ~"(" }
-plainVariableName="variable" { identifier }
+maybeCallee { callee | identifier }
+callee="callee" { identifier ~(" "* "(") }
+
+plainVariableName="variable" { maybeCallee }
 
 identifier { identifierStart identifierChar* }
 
@@ -191,7 +192,7 @@ preprocessorLine="meta" { "#" (!("//" | "/*" | "\\") . | "\\" _ )* }
 
 declName="def" { identifier }
 
-fieldName="property" { identifier }
+fieldName="property" { maybeCallee }
 
 typeName { typeModifier+ modifiableType? | typeNameInner }
 
