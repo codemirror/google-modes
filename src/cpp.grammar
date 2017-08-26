@@ -110,7 +110,11 @@ tokens {
   alignas { kw("alignas") }
   cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
 
-  variableName { nameQualifier+ qualifiedVariableName | unqualifiedVariableName }
+  variableName {
+    nameQualifier+ ((qualifiedTemplateName TemplateArgs)  | qualifiedVariableName) |
+    unqualifiedTemplateName TemplateArgs |
+    unqualifiedVariableName
+  }
 
   modifier { kw("inline" | "virtual" | "explicit") | super }
 
@@ -137,6 +141,9 @@ unqualifiedDeclName="def" { "~"? identifier }
 unqualifiedVariableName="variable" { maybeCallee }
 
 qualifiedVariableName="qualified" { unqualifiedVariableName }
+
+qualifiedTemplateName="variable qualified" { identifier ~"<" }
+unqualifiedTemplateName="variable" { identifier ~"<" }
 
 typeNameInner { nameQualifier* unqualifiedTypeName }
 
