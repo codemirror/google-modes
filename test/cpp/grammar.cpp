@@ -10,4 +10,5 @@
 }
 
 [keyword class] [def Z] {
+  [keyword typedef] [type void] (*[def Bar])([meta x::][type Y] [def z], [type void]* [def arg]);
 }

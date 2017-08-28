@@ -26,7 +26,11 @@ skip whitespace {
   }   
 
   DeclRest {
-    declName (FunctionDef | Initializer? ("," declName Initializer?)* ";")
+    Declarator (FunctionDef | Initializer? ("," declName Initializer?)* ";")
+  }
+
+  Declarator {
+    declOp* declName | "(" Declarator ")"
   }
 
   Loop {
@@ -174,6 +178,8 @@ tokens {
 
   comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 }
+
+declOp { "*" }
 
 maybeCallee { callee | identifier }
 callee="callee" { identifier ~(" "* "(") }

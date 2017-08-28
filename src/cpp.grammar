@@ -78,8 +78,8 @@ skip whitespace {
   }
 
   context ObjectMember {
-    friend* (modifier | qualifier)*
-    (ctorDtorName | Type declName)
+    (modifier | qualifier)*
+    (ctorDtorName | Type Declarator)
     (Initializer? ";" | FunctionDef)
   }
 
@@ -104,7 +104,6 @@ tokens {
   class { kw("class") }
   virtual { kw("virtual") }
   access { kw("private" | "public" | "protected") }
-  friend { kw("friend") }
   operator { kw("operator") }
   using { kw("using") }
   alignas { kw("alignas") }
@@ -116,7 +115,7 @@ tokens {
     unqualifiedVariableName
   }
 
-  modifier { kw("inline" | "virtual" | "explicit") | super }
+  modifier { kw("inline" | "virtual" | "explicit" | "friend" | "constexpr") | super }
 
   prefixOp="operator" {
     typename | super
@@ -136,6 +135,8 @@ nameQualifier="meta" { "::" | identifier " "* "::" }
 
 declName { operator (binOp | prefixOp) | nameQualifier* unqualifiedDeclName }
 
+declOp { "*" | "&&" | "&" }
+
 unqualifiedDeclName="def" { "~"? identifier }
 
 unqualifiedVariableName="variable" { maybeCallee }
@@ -153,4 +154,4 @@ maybeTypeName {
   !(("new" | "delete") !identifierChar) unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
 
-ctorDtorName="def" { "~"? identifier ~(" "* "(") }
+ctorDtorName="def" { &localConstructorAhead "~"? identifier }

@@ -9,12 +9,20 @@ function constructorAhead(line, pos) {
   return match && match[1] == match[2]
 }
 
+function localConstructorAhead(line, pos, cx) {
+  let ahead = /^~?(\w+)/.exec(line.slice(pos))
+  if (!ahead) return false
+  while (cx.name != "Statement") cx = cx.parent
+  let className = /\bclass\s+(\w+)/.exec(cx.startLine.slice(cx.startPos))
+  return className ? className[1] == ahead[1] : false
+}
+
 const scopes = ["Block", "FunctionDef"]
 
 class CppMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(cpp, {
-      predicates: {constructorAhead}
+      predicates: {constructorAhead, localConstructorAhead}
     })
     this.conf = conf
   }
