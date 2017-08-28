@@ -70,7 +70,7 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) (alignas "(" number ")")? declName (":" virtual? access? Type)? ClassBody
+    (class | structUnion) (alignas "(" number ")")? declName (":" virtual? access? Type)? (";" | ClassBody)
   }
 
   context ClassBody {
