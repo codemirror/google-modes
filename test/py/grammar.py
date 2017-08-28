@@ -42,6 +42,7 @@
       [variable&callee report]([variable-2 e])
     [keyword finally]:
       [def hey] [operator =] [atom True] [keyword or] [atom False]
+      [variable-2 hey] [operator =] [string "again"]
       [variable-2 hey] [operator <<=] [number 0b10] [operator @] [operator ~][number 0O7] [operator **] [variable n]
 
   [def dict] [operator =] {

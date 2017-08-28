@@ -68,7 +68,7 @@ class PythonMode extends CodeMirror.GrammarMode {
   }
 
   token(stream, state) {
-    return markLocals(super.token(stream, state), scopes, stream, state)
+    return markLocals(super.token(stream, state), scopes, stream, state, true)
   }
 
   indent(state, textAfter, line) {

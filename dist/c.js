@@ -456,10 +456,9 @@ var grammar = Object.freeze({
 	token: token
 });
 
-function storeLocal(context, name, scopes) {
+function getScope(context, scopes) {
   for (var cx = context; cx; cx = cx.parent)
-    { if (scopes.indexOf(cx.name) > -1)
-      { return (cx.locals || (cx.locals = [])).push(name) } }
+    { if (scopes.indexOf(cx.name) > -1) { return cx } }
 }
 function isLocal(context, name) {
   for (var cx = context; cx; cx = cx.parent)
@@ -469,12 +468,19 @@ function isLocal(context, name) {
 
 var varRE = /(^|\s)variable($|\s)/;
 
-function markLocals(type, scopes, stream, state) {
-  if (type == "def")
-    { storeLocal(state.context, stream.current(), scopes); }
-  else if (varRE.test(type) && !/qualified/.test(type) &&
-           isLocal(state.context, stream.current()))
-    { type = type.replace(varRE, "$1variable-2$2"); }
+function markLocals(type, scopes, stream, state, once) {
+  if (type == "def") {
+    var scope = getScope(state.context, scopes), name = stream.current();
+    if (scope) {
+      if (!scope.locals) { scope.locals = []; }
+      if (once && scope.locals.indexOf(name) > -1)
+        { return "variable-2" }
+      scope.locals.push(name);
+    }
+  } else if (varRE.test(type) && !/qualified/.test(type) &&
+             isLocal(state.context, stream.current())) {
+    type = type.replace(varRE, "$1variable-2$2");
+  }
   return type
 }
 
