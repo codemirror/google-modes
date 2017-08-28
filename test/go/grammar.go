@@ -40,20 +40,20 @@
 
 [keyword select] {
 [keyword case] [variable i1] [operator =] [operator <-][variable c1]:
-	[variable&callee print]([string "received "], [variable i1], [string " from c1\n"])
+	[builtin print]([string "received "], [variable i1], [string " from c1\n"])
 [keyword case] [variable c2] [operator <-] [variable i2]:
-	[variable&callee print]([string "sent "], [variable i2], [string " to c2\n"])
+	[builtin print]([string "sent "], [variable i2], [string " to c2\n"])
 [keyword case] [def i3], [def ok] [operator :=] ([operator <-][variable c3]):  [comment // same as: i3, ok := <-c3]
 	[keyword if] [variable-2 ok] {
-		[variable&callee print]([string "received "], [variable-2 i3], [string " from c3\n"])
+		[builtin print]([string "received "], [variable-2 i3], [string " from c3\n"])
 	} [keyword else] {
-		[variable&callee print]([string "c3 is closed\n"])
+		[builtin print]([string "c3 is closed\n"])
 	}
 [keyword case] [variable a][[[variable&callee f]()]] [operator =] [operator <-][variable c4]:
 	[comment // same as:]
 	[comment // case t := <-c4]
 [keyword default]:
-	[variable&callee print]([string "no communication\n"])
+	[builtin print]([string "no communication\n"])
 }
 
 [comment /* this is a comment]

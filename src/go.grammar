@@ -53,6 +53,7 @@ skip whitespace {
     string |
     atom |
     func FunctionDef |
+    builtin |
     calleeName |
     variableName |
     Bracketed Type? |
@@ -143,6 +144,12 @@ tokens {
   var { kw("var") }
 
   atom="atom" { ("true" | "false" | "nil") !identifierChar }
+
+  builtin="builtin" {
+    ("append" | "cap" | "close" | "complex" | "copy" | "delete" | "imag" |
+     "len" | "make" | "new" | "panic" | "print" | "println" | "real" |
+     "recover") !identifierChar
+  }
 
   binOp="operator" {
     ("+" | "&" "^"? | "-" | "|" | "*" | "^" | "/" | "<" "<"? | ">" ">"? | "%" | "=") "="? |
