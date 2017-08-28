@@ -7,7 +7,7 @@
 
 [meta @foo.bar]
 [keyword async] [keyword def] [def f]([def v]: [type myType] [operator =] [number 0xffff], [operator **][def blah]):
-  [variable&callee print]([variable-2 v] [operator +] [string 'hi\''] [keyword if] [atom False] [keyword else] [string '''blah'''])
+  [builtin print]([variable-2 v] [operator +] [string 'hi\''] [keyword if] [atom False] [keyword else] [string '''blah'''])
   [keyword yield] [keyword from] [variable ugh]
 
 [keyword class] [def C]([variable hi]):
@@ -45,10 +45,10 @@
       [variable-2 hey] [operator =] [string "again"]
       [variable-2 hey] [operator <<=] [number 0b10] [operator @] [operator ~][number 0O7] [operator **] [variable n]
 
-  [def dict] [operator =] {
+  [def dict1] [operator =] {
       [string "x"]: ([number 22]),
       [string "y"]: [operator ...],
       [number 3]: [string "str"] [string "more str"]
   }
 
-[variable hey] [operator |=] [variable dict]
+[variable hey] [operator |=] [variable dict1]

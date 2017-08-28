@@ -64,6 +64,7 @@ skip whitespace {
     self |
     yield (from Expr | CommaSep(Expr)) |
     lambda LambdaDef |
+    builtin |
     calleeName |
     variableName
   }
@@ -131,6 +132,20 @@ tokens {
   atom="atom" { ("None" | "True" | "False") !identifierChar }
   self="atom" { "self" !identifierChar }
   binopKw { kw("or" | "and" | "in" | "is" (" "+ "not")? | "not" (" "+ "in")?) }
+
+  builtin="builtin" {
+    ("abs" | "all" | "any" | "bin" | "bool" | "bytearray" | "callable" | "chr" |
+     "classmethod" | "compile" | "complex" | "delattr" | "dict" | "dir" | "divmod" |
+     "enumerate" | "eval" | "filter" | "float" | "format" | "frozenset" |
+     "getattr" | "globals" | "hasattr" | "hash" | "help" | "hex" | "id" |
+     "input" | "int" | "isinstance" | "issubclass" | "iter" | "len" |
+     "list" | "locals" | "map" | "max" | "memoryview" | "min" | "next" |
+     "object" | "oct" | "open" | "ord" | "pow" | "property" | "range" |
+     "repr" | "reversed" | "round" | "set" | "setattr" | "slice" |
+     "sorted" | "staticmethod" | "str" | "sum" | "super" | "tuple" |
+     "type" | "vars" | "zip" | "__import__" | "NotImplemented" |
+     "Ellipsis" | "__debug__" | "ascii" | "bytes" | "exec" | "print") !identifierChar
+  }
 
   binop {
     op(("^" | "&" | "|" | "<<" | ">>" | "+" | "-" | "*" "*"? | "@" | "/" | "%" | "/") "="? |
