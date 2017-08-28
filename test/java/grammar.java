@@ -30,6 +30,7 @@
       [keyword return];
 
     [variable names] [operator =] [keyword new] [type String][[ [variable numofstyles] ]];
+    [keyword return] ([type Bar]<[type K], [type V]>) [variable&callee baz]();
   }
 
   [keyword protected] [type void] [def setX]([type int] [def x]) {

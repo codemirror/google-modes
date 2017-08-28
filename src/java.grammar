@@ -82,7 +82,8 @@ skip whitespace {
     Lambda |
     calleeName |
     plainVariableName |
-    ParenExpr Expr?
+    "(" ~(className | primType) Type ")" Expr |
+    ParenExpr
   }
 
   context NewExpr {
