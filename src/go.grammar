@@ -99,7 +99,7 @@ skip whitespace {
   }
 
   context StructBody {
-    "{" separated((propName ("," propName)* | "*") Type string?) "}"
+    "{" separated((declName ("," declName)* | "*") Type string?) "}"
   }
 
   context InterfaceBody {

@@ -14,11 +14,11 @@
 )
 
 [keyword type] [def j] [keyword struct] {
-	[property x], [property y] [type int]
-	[property u] [type float32]
-	[property _] [type float32]  [comment // padding]
-	[property A] *[[]][type int]
-	[property F] [keyword func]()
+	[def x], [def y] [type int]
+	[def u] [type float32]
+	[def _] [type float32]  [comment // padding]
+	[def A] *[[]][type int]
+	[def F] [keyword func]()
 }
 
 [keyword if] [variable x] [operator +] [variable y] {
@@ -83,4 +83,8 @@
 
 [keyword func] ([def r] [type X]) [def y]() {
 	[callee&variable bar]([variable-2 r]);
+}
+
+[keyword type] [def Message] [keyword struct] {
+	[def Foo] [type string]
 }
