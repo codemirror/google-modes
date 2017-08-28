@@ -95,7 +95,7 @@ skip whitespace {
     map "[" Type "]" Type |
     (op("<-") | chan op("<-")?) Type |
     "(" Type ")" |
-    typeName ("." propName)*
+    typeQualifier* typeName
   }
 
   context StructBody {
@@ -192,6 +192,7 @@ propName="property" { identifier }
 propNameParen="property" { identifier ~(" " "(") }
 propNameColon="property" { identifier ~(" " ":") }
 typeName="type" { identifier }
+typeQualifier="meta" { identifier "." }
 label { identifier ~(" "* ":" !"=") }
 
 maybe(expr) { ~expr expr }

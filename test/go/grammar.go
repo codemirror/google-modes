@@ -86,5 +86,5 @@
 }
 
 [keyword type] [def Message] [keyword struct] {
-	[def Foo] [type string]
+	[def Foo] [meta foo.][type string]
 }
