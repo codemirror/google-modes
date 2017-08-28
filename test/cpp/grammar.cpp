@@ -9,6 +9,8 @@
   [keyword delete] [[]] [variable baz];
 }
 
+[type void] [def foo]([meta ::][type y] [def data], [type void]* [def arg], [type void] (*[def r])([type void]*));
+
 [keyword class] [def Z] {
   [keyword typedef] [type void] (*[def Bar])([meta x::][type Y] [def z], [type void]* [def arg]);
 }

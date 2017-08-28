@@ -5,7 +5,7 @@ skip whitespace {
     Class |
     namespace declName? (op("=") variableName ";" | Block) |
     throw Expression ";" |
-    try Block (catch "(" Type declName? ")" Block)* |
+    try Block (catch "(" Type Declarator? ")" Block)* |
     asm "{" string "}" |
     using (typename Type | namespace? variableName) ("=" Type)? ";" |
     TemplateHead Statement |
