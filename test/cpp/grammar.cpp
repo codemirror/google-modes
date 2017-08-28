@@ -1,3 +1,5 @@
+[keyword using] [variable Foo] = [meta ::][type Foo];
+
 [meta foo::][qualified&callee&variable bar]();
 
 [type void] [meta X::][def Y]() {

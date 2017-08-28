@@ -7,7 +7,7 @@ skip whitespace {
     throw Expression ";" |
     try Block (catch "(" Type declName? ")" Block)* |
     asm "{" string "}" |
-    using (typename Type | namespace? variableName) ";" |
+    using (typename Type | namespace? variableName) ("=" Type)? ";" |
     TemplateHead Statement |
     &constructorAhead declName FunctionDef |
     nameQualifier+ (MaybeType DeclRest | qualifiedVariableName ExpressionSuffix* ";") |
