@@ -25,7 +25,7 @@
       [keyword if] ([variable-2 in].[property&callee charAt]([variable-2 i]) [operator ==] [string ' '])
         [variable numofstyles][operator ++];
       [keyword else]
-        [keyword throw] [keyword new]<[type Ugh]> [type Error]([string "double \" quoted"]);
+        [keyword throw] [keyword new]<[type Ugh], ?> [type Error]([string "double \" quoted"]);
     [keyword if] ([variable numofstyles] [operator ==] [variable foo][[ [number 0] ]])
       [keyword return];
 

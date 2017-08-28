@@ -68,7 +68,7 @@ skip whitespace {
   context SimpleParamList { "(" CommaSep(declName) ")" }
 
   context TypeParams { "<" CommaSep(Annotation* declName (extends Type)*) ">" }
-  context TypeArgs { "<" CommaSep(Type | "?" (extends | super_) Type) ">" }
+  context TypeArgs { "<" CommaSep(Type | "?" ((extends | super_) Type)?) ">" }
 
   Expr { prefixOp* BaseExpr ExprSuffix* }
 
