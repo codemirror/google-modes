@@ -10,7 +10,7 @@ function constructorAhead(line, pos) {
 }
 
 function localConstructorAhead(line, pos, cx) {
-  let ahead = /^~?(\w+)/.exec(line.slice(pos))
+  let ahead = /^~?(\w+)\s*\(/.exec(line.slice(pos))
   if (!ahead) return false
   while (cx.name != "Statement") cx = cx.parent
   let className = /\bclass\s+(\w+)/.exec(cx.startLine.slice(cx.startPos))

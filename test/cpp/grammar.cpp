@@ -13,4 +13,8 @@
 
 [keyword class] [def Z] {
   [keyword typedef] [type void] (*[def Bar])([meta x::][type Y] [def z], [type void]* [def arg]);
+
+ [keyword public]:
+  [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def x]);
+  [type Z]& [keyword operator][operator =]([type Z]&& [def x]);
 }

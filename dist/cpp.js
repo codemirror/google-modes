@@ -966,7 +966,7 @@ function constructorAhead(line, pos) {
 }
 
 function localConstructorAhead(line, pos, cx) {
-  var ahead = /^~?(\w+)/.exec(line.slice(pos));
+  var ahead = /^~?(\w+)\s*\(/.exec(line.slice(pos));
   if (!ahead) { return false }
   while (cx.name != "Statement") { cx = cx.parent; }
   var className = /\bclass\s+(\w+)/.exec(cx.startLine.slice(cx.startPos));
