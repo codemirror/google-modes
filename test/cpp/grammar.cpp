@@ -2,6 +2,8 @@
 
 [keyword class] [def Foo];
 
+[type void] [def foo]([type Bar]& [def x], [type Bar]& [def y]) [keyword noexcept];
+
 [meta foo::][qualified&callee&variable bar]();
 
 [type void] [meta X::][def Y]() {
