@@ -27,6 +27,11 @@ skip whitespace {
     super
   }
 
+  ExpressionSuffix {
+    BlockOf(Expression, ",") |
+    super
+  }
+
   Lambda {
     "[" ListOf("&" variableName? | "=" | this) "]" FunctionDef
   }
@@ -108,7 +113,8 @@ tokens {
   cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
 
   variableName {
-    nameQualifier+ ((qualifiedTemplateName TemplateArgs)  | qualifiedVariableName) |
+    nameQualifier+ ((qualifiedTemplateName TemplateArgs)  | initializedName | qualifiedVariableName) |
+    initializedName |
     unqualifiedTemplateName TemplateArgs |
     unqualifiedVariableName
   }
@@ -136,6 +142,8 @@ declName { operator (binOp | prefixOp) | nameQualifier* unqualifiedDeclName }
 declOp { "*" | "&&" | "&" }
 
 unqualifiedDeclName="def" { "~"? identifier }
+
+initializedName="type" { identifier ~"{" }
 
 unqualifiedVariableName="variable" { maybeCallee }
 

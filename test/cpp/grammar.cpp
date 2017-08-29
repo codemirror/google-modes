@@ -38,5 +38,7 @@
 
 [keyword template] <[keyword typename] [def T]>
 [keyword inline] [keyword typename] [meta std::][type enable_if]<[meta std::][type is_same]<[type T], [type int]>::[type value], [type void]>::[type type]
-[def Foo]() {}
+[def Foo]() {
+  [keyword return] [type Foo]{[number 0]} [operator ||] [meta std::][type Foo]{[number 1]};
+}
 }
