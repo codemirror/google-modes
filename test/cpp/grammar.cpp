@@ -24,3 +24,10 @@
   [meta std::][type array]<[type char], [type max_size]> [def data];
   [type size_t] [def size];
 };
+
+[keyword template] <[keyword typename] [def X]>
+[keyword inline] [type void] [def Foo]([type X]* [def x]) {
+  [keyword for] ([keyword typename] [meta X::][type iterator] [def it] [operator =] [variable-2 x]->[callee&property begin]();
+    [variable-2 it] [operator !=] [variable-2 x]->[callee&property end](); [operator ++][variable-2 it])
+    [variable&callee Bar]([operator &]([operator *][variable-2 it]));
+}

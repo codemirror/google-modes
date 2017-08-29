@@ -88,9 +88,7 @@ skip whitespace {
 
 tokens {
   namespace { kw("namespace") }
-
   typename { kw("typename") }
-
   new { kw("new") }
   delete { kw("delete") }
   this { kw("this") }
@@ -151,6 +149,7 @@ typeNameInner { nameQualifier* unqualifiedTypeName }
 unqualifiedTypeName="type" { identifier }
 
 maybeTypeName {
+  typename whitespace typeNameInner |
   !(("new" | "delete") !identifierChar) unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
 
