@@ -145,7 +145,7 @@ tokens {
   auto { kw("auto") }
   modifier { kw("register" | "static" | "extern" | "typedef") }
   typeModifier="type" { ("unsigned" | "signed" | "long") !identifierChar }
-  modifiableType="type" { ("int" | "float" | "double") !identifierChar }
+  modifiableType="type" { ("int" | "float" | "double" | "char" | "short") !identifierChar }
   qualifier { kw("const" | "volatile") }
 
   atom="atom" { ("true" | "false" | "null") !identifierChar }
@@ -200,7 +200,7 @@ declName="def" { identifier }
 
 fieldName="property" { maybeCallee }
 
-typeName { typeModifier+ modifiableType? | typeNameInner }
+typeName { typeModifier+ (whitespace modifiableType)? | typeNameInner }
 
 typeNameInner="type" { identifier }
 

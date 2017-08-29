@@ -4,6 +4,8 @@
 
 [type void] [def foo]([type Bar]& [def x], [type Bar]& [def y]) [keyword noexcept];
 
+[type void] [def Foo]([keyword const] [type unsigned] [type char]* [def in_bytes], [type char]* [def out]);
+
 [meta foo::][qualified&callee&variable bar]();
 
 [type void] [meta X::][def Y]() {
