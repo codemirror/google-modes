@@ -31,3 +31,8 @@
     [variable-2 it] [operator !=] [variable-2 x]->[callee&property end](); [operator ++][variable-2 it])
     [variable&callee Bar]([operator &]([operator *][variable-2 it]));
 }
+
+[keyword template] <[keyword typename] [def T]>
+[keyword inline] [keyword typename] [meta std::][type enable_if]<[meta std::][type is_same]<[type T], [type int]>::[type value], [type void]>::[type type]
+[def Foo]() {}
+}

@@ -144,12 +144,12 @@ qualifiedVariableName="qualified" { unqualifiedVariableName }
 qualifiedTemplateName="variable qualified" { identifier ~"<" }
 unqualifiedTemplateName="variable" { identifier ~"<" }
 
-typeNameInner { nameQualifier* unqualifiedTypeName }
+typeNameInner { (typename whitespace)? nameQualifier* unqualifiedTypeName }
 
 unqualifiedTypeName="type" { identifier }
 
 maybeTypeName {
-  typename whitespace typeNameInner |
+  typename whitespace nameQualifier* unqualifiedTypeName |
   !(("new" | "delete") !identifierChar) unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
 }
 
