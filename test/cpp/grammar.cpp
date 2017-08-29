@@ -5,7 +5,7 @@
 [meta foo::][qualified&callee&variable bar]();
 
 [type void] [meta X::][def Y]() {
-  [variable x_]->[callee&property Y]([variable&callee A]([keyword this], [operator &][meta B::][qualified&variable C]<[type D]>));
+  [variable x_]->[callee&property Y]([variable&callee A]([keyword this], [operator &][meta B::][qualified&variable C]<[type D], [number 2]>));
   [keyword delete] [[]] [variable baz];
 }
 

@@ -62,11 +62,11 @@ skip whitespace {
   }
 
   context TemplateArgs {
-    "<" ListOf(TypeParam | modifier* Type Initializer?) ">"
+    "<" ListOf(TypeParam | modifier* Type Initializer? | number) ">"
   }
 
   TypeParam {
-     (template TemplateArgs)? (class | typename) declName (op("=") variableName)?
+     (template TemplateArgs)? (class | typename) declName (op("=") (variableName | number))?
   }
 
   Class {
