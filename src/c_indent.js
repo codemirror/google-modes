@@ -10,6 +10,11 @@ function isSwitch(context) {
     /^switch\b/.test(context.startLine.slice(context.startPos))
 }
 
+function isNamespace(context) {
+  return context && context.name == "Statement" &&
+    /^namespace\b/.test(context.startLine.slice(context.startPos))
+}
+
 function isLabel(text) {
   return text && /^\s*(case|default)\b/.test(text)
 }
@@ -55,7 +60,7 @@ function findIndent(cx, textAfter, curLine, config) {
         skipCx = cx.parent.parent
       return statementIndent(skipCx, config) + (
         /^(public|private|protected)\s*:/.test(textAfter) ? 1 :
-        closed ? 0 :
+        closed || isNamespace(cx.parent) ? 0 :
         isSwitch(cx.parent) && !isLabel(textAfter) ? 2 * config.indentUnit
         : config.indentUnit
       )

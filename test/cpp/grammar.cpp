@@ -8,7 +8,7 @@
 
 [meta foo::][qualified&callee&variable bar]();
 
-[type void] [meta X::][def Y]() {
+[type void] [meta X::][qualified&def Y]() {
   [variable x_]->[callee&property Y]([variable&callee A]([keyword this], [operator &][meta B::][qualified&variable C]<[type D], [number 2]>));
   [keyword delete] [[]] [variable baz];
 }
@@ -40,5 +40,12 @@
 [keyword inline] [keyword typename] [meta std::][type enable_if]<[meta std::][type is_same]<[type T], [type int]>::[type value], [type void]>::[type type]
 [def Foo]() {
   [keyword return] [type Foo]{[number 0]} [operator ||] [meta std::][type Foo]{[number 1]};
+}
+}
+
+[keyword namespace] [def ns] {
+[type void] [meta A::][qualified&def B]() {}
+[type void] [meta X::][qualified&def Y]() {
+  [callee&variable B]();
 }
 }

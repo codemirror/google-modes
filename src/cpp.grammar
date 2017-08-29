@@ -137,11 +137,12 @@ digits { (digit | "'")* }
 
 nameQualifier="meta" { "::" | identifier " "* "::" }
 
-declName { operator (binOp | prefixOp) | nameQualifier* unqualifiedDeclName }
+declName { operator (binOp | prefixOp) | nameQualifier+ qualifiedDeclName | unqualifiedDeclName }
 
 declOp { "*" | "&&" | "&" }
 
 unqualifiedDeclName="def" { "~"? identifier }
+qualifiedDeclName="qualified def" { "~"? identifier }
 
 initializedName="type" { identifier ~"{" }
 

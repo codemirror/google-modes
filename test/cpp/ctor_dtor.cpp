@@ -1,7 +1,7 @@
-[meta Foo::][def Foo]([type int] [def y])
+[meta Foo::][qualified&def Foo]([type int] [def y])
     : [callee&property x]([variable-2 y]), [callee&property Foo]() {
 }
-[meta Foo::][def ~Foo]() {}
+[meta Foo::][qualified&def ~Foo]() {}
 
 [keyword template] <[keyword class] [def A1]>
 [keyword class] [def Foo] {
