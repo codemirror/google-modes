@@ -18,3 +18,9 @@
   [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def x]);
   [type Z]& [keyword operator][operator =]([type Z]&& [def x]);
 }
+
+[keyword template] <[type size_t] [def max_size]>
+[keyword struct] [def Foo] {
+  [meta std::][type array]<[type char], [type max_size]> [def data];
+  [type size_t] [def size];
+};

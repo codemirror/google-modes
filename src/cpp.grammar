@@ -58,7 +58,7 @@ skip whitespace {
   }
 
   TemplateParams {
-    "<" ListOf(TypeParam | modifier* declName Initializer?) ">"
+    "<" ListOf(TypeParam | modifier* Type declName Initializer?) ">"
   }
 
   context TemplateArgs {
