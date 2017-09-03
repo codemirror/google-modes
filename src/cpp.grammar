@@ -71,7 +71,7 @@ skip whitespace {
   }
 
   TypeParam {
-     (template TemplateArgs)? (class | typename) declName (op("=") (variableName | number))?
+     (template TemplateArgs)? (class | typename) typeDeclName (op("=") (variableName | number))?
   }
 
   Class {
@@ -138,6 +138,8 @@ digits { (digit | "'")* }
 nameQualifier="meta" { "::" | identifier " "* "::" }
 
 declName { operator (binOp | prefixOp) | nameQualifier+ qualifiedDeclName | unqualifiedDeclName }
+
+typeDeclName="def type" { identifier }
 
 declOp { "*" | "&&" | "&" }
 

@@ -776,7 +776,7 @@ var nodes = [
   [3, "keyword", e[0], 501,
    3, "keyword", e[23], 501],
   [1, 9, 502],
-  [1, 239, 503],
+  [3, "def type", e[46], 503],
   [1, 9, 504],
   [3, "operator", "=", 505,
    0, -1],
@@ -857,7 +857,6 @@ function isLocal(context, name) {
     { if (cx.locals && cx.locals.indexOf(name) > -1) { return true } }
   return false
 }
-
 var varRE = /(^|\s)variable($|\s)/;
 
 function markLocals(type, scopes, stream, state, once) {

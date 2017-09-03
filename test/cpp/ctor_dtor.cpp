@@ -3,7 +3,7 @@
 }
 [meta Foo::][qualified&def ~Foo]() {}
 
-[keyword template] <[keyword class] [def A1]>
+[keyword template] <[keyword class] [type&def A1]>
 [keyword class] [def Foo] {
  [keyword public]:
   [keyword virtual] [def ~Foo]() { }

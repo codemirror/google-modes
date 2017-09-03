@@ -29,14 +29,14 @@
   [type size_t] [def size];
 };
 
-[keyword template] <[keyword typename] [def X]>
+[keyword template] <[keyword typename] [type&def X]>
 [keyword inline] [type void] [def Foo]([type X]* [def x]) {
   [keyword for] ([keyword typename] [meta X::][type iterator] [def it] [operator =] [variable-2 x]->[callee&property begin]();
     [variable-2 it] [operator !=] [variable-2 x]->[callee&property end](); [operator ++][variable-2 it])
     [variable&callee Bar]([operator &]([operator *][variable-2 it]));
 }
 
-[keyword template] <[keyword typename] [def T]>
+[keyword template] <[keyword typename] [type&def T]>
 [keyword inline] [keyword typename] [meta std::][type enable_if]<[meta std::][type is_same]<[type T], [type int]>::[type value], [type void]>::[type type]
 [def Foo]() {
   [keyword return] [type Foo]{[number 0]} [operator ||] [meta std::][type Foo]{[number 1]};

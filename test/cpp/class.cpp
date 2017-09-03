@@ -18,7 +18,7 @@
   [type Foo] [keyword operator][operator +]([keyword const] [type Box]& [def b]) {}
 }
 
-[keyword template] <[keyword class] [def T], [keyword class] [def V]>
+[keyword template] <[keyword class] [type&def T], [keyword class] [type&def V]>
 [keyword class] [def Class] : [keyword public] [type BaseClass] {
   [keyword const] [type MyType]<[type T], [type V]> [def member_];
 }
