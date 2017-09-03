@@ -46,12 +46,12 @@ skip whitespace {
     enum declName (implements CommaSep(Type))? EnumBody |
     classInterface declName TypeParams? (extends Type)? (implements CommaSep(Type))? ClassBody |
     package identifier ("." identifier)* ";" |
-    ~(Annotation* packageQualifier* (className | primType))
+    ~(Annotation* TypeParams? (primType | packageQualifier* className))
       Type DeclExpr (FunctionDef | (op("=") Expr)? ("," DeclExpr (op("=") Expr)?)* ";")
   }
 
   context ClassItem {
-    BeforeStatement(Modifier*) ((TypeParams declName | declNameParen) FunctionDef | Declaration)
+    BeforeStatement(Modifier*) TypeParams? (declNameParen FunctionDef | Declaration)
   }
 
   context ClassBody {
@@ -67,7 +67,7 @@ skip whitespace {
   context ParamList { "(" CommaSep((Annotation | Modifier)* Type "..."? (this | DeclExpr)) ")" }
   context SimpleParamList { "(" CommaSep(declName) ")" }
 
-  context TypeParams { "<" CommaSep(Annotation* declName (extends Type)*) ">" }
+  context TypeParams { "<" CommaSep(Annotation* typeDeclName (extends Type)*) ">" }
   context TypeArgs { "<" CommaSep(Type | "?" ((extends | super_) Type)?) ">" }
 
   Expr { prefixOp* BaseExpr ExprSuffix* }
@@ -82,7 +82,7 @@ skip whitespace {
     Lambda |
     calleeName |
     plainVariableName |
-    "(" ~(className | primType) Type ")" Expr |
+    "(" ~typeID Type ")" Expr |
     ParenExpr
   }
 
@@ -109,11 +109,11 @@ skip whitespace {
   context ArrayInitializer { "{" CommaSep(Expr) "}" }
 
   Type {
-    Annotation* packageQualifier* (className | primType) ("[" Expr? "]" | TypeArgs)*
+    Annotation* typeID ("[" Expr? "]" | TypeArgs)*
   }
 
   TypeNoArray {
-    Annotation* packageQualifier* (className | primType) TypeArgs*
+    Annotation* typeID TypeArgs*
   }
 
   DeclExpr { declName ("[" "]")? }
@@ -198,12 +198,17 @@ whitespace {
 declName="def" { identifier }
 declNameParen="def" { identifier ~(" "* "(") }
 
+typeDeclName="type def" { identifier }
+
 calleeField="property callee" { identifier ~(" "* "(") }
 fieldName="property" { identifier }
 
 packageQualifier="meta" { identifier " "* "." !"." }
 
 typeName="type" { identifier }
+
+typeID { primType | packageQualifier+ qualifiedClassName | className }
+qualifiedClassName="qualified" { className }
 
 kw(value)="keyword" { value !identifierChar }
 op(value)="operator" { value }

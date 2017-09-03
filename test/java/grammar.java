@@ -13,7 +13,7 @@
 [meta @baz.argh]([variable Something].[property OK])
 [keyword public] [keyword class] [def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
   [comment // line comment]
-  [keyword private] [keyword final] [keyword volatile] [meta java.blah.][type Font] [def fonts][[]];
+  [keyword private] [keyword final] [keyword volatile] [meta java.blah.][qualified&type Font] [def fonts][[]];
 
   [keyword public] [def FontChoice]([type String] [def in], [type Globals] [def g]) {
     [keyword super]([variable-2 g]);
@@ -67,5 +67,10 @@
     [type int] [def getSeconds]() {
       [keyword return] [variable seconds];
     }
+  }
+}
+
+[keyword class] [def Foo] {
+  <[type&def X]> [type void] [def foo]([type X] [def x], [type Y] [def y]) {
   }
 }
