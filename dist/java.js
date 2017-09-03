@@ -700,6 +700,11 @@ function isLocal(context, name) {
     { if (cx.locals && cx.locals.indexOf(name) > -1) { return true } }
   return false
 }
+function isLocalType(context, name) {
+  for (var cx = context; cx; cx = cx.parent)
+    { if (cx.localTypes && cx.localTypes.indexOf(name) > -1) { return true } }
+  return false
+}
 
 var varRE = /(^|\s)variable($|\s)/;
 
@@ -715,6 +720,22 @@ function markLocals(type, scopes, stream, state, once) {
   } else if (varRE.test(type) && !/qualified/.test(type) &&
              isLocal(state.context, stream.current())) {
     type = type.replace(varRE, "$1variable-2$2");
+  }
+  return type
+}
+
+var typeRE = /(^|\s)type($|\s)/;
+
+function markTypeLocals(type, scopes, stream, state) {
+  if (type == "type def") {
+    var scope = getScope(state.context, scopes);
+    if (scope) {
+      if (!scope.localTypes) { scope.localTypes = []; }
+      scope.localTypes.push(stream.current());
+    }
+  } else if (typeRE.test(type) && !/qualified/.test(type) &&
+             isLocalType(state.context, stream.current())) {
+    type += " local";
   }
   return type
 }
@@ -817,6 +838,7 @@ function indent(state, textAfter, line, config) {
 }
 
 var scopes = ["Block", "FunctionDef", "Lambda"];
+var typeScopes = ["ClassItem", "Statement"];
 
 var JavaMode = (function (superclass) {
   function JavaMode(conf) {
@@ -829,7 +851,7 @@ var JavaMode = (function (superclass) {
   JavaMode.prototype.constructor = JavaMode;
 
   JavaMode.prototype.token = function token$$1 (stream, state) {
-    return markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state)
+    return markTypeLocals(markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state), typeScopes, stream, state)
   };
 
   JavaMode.prototype.indent = function indent$1 (state, textAfter, line) {

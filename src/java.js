@@ -1,10 +1,11 @@
 import * as CodeMirror from "codemirror"
 import "codemirror-grammar-mode"
 import * as grammar from "./java.mode"
-import {markLocals} from "./locals"
+import {markLocals, markTypeLocals} from "./locals"
 import {indent} from "./c_indent"
 
 const scopes = ["Block", "FunctionDef", "Lambda"]
+const typeScopes = ["ClassItem", "Statement"]
 
 class JavaMode extends CodeMirror.GrammarMode {
   constructor(conf) {
@@ -13,7 +14,7 @@ class JavaMode extends CodeMirror.GrammarMode {
   }
 
   token(stream, state) {
-    return markLocals(super.token(stream, state), scopes, stream, state)
+    return markTypeLocals(markLocals(super.token(stream, state), scopes, stream, state), typeScopes, stream, state)
   }
 
   indent(state, textAfter, line) {

@@ -71,6 +71,6 @@
 }
 
 [keyword class] [def Foo] {
-  <[type&def X]> [type void] [def foo]([type X] [def x], [type Y] [def y]) {
+  <[type&def X]> [type void] [def foo]([type&local X] [def x], [type Y] [def y]) {
   }
 }

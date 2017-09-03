@@ -7,6 +7,11 @@ function isLocal(context, name) {
     if (cx.locals && cx.locals.indexOf(name) > -1) return true
   return false
 }
+function isLocalType(context, name) {
+  for (let cx = context; cx; cx = cx.parent)
+    if (cx.localTypes && cx.localTypes.indexOf(name) > -1) return true
+  return false
+}
 
 const varRE = /(^|\s)variable($|\s)/
 
@@ -22,6 +27,22 @@ export function markLocals(type, scopes, stream, state, once) {
   } else if (varRE.test(type) && !/qualified/.test(type) &&
              isLocal(state.context, stream.current())) {
     type = type.replace(varRE, "$1variable-2$2")
+  }
+  return type
+}
+
+const typeRE = /(^|\s)type($|\s)/
+
+export function markTypeLocals(type, scopes, stream, state) {
+  if (type == "type def") {
+    let scope = getScope(state.context, scopes)
+    if (scope) {
+      if (!scope.localTypes) scope.localTypes = []
+      scope.localTypes.push(stream.current())
+    }
+  } else if (typeRE.test(type) && !/qualified/.test(type) &&
+             isLocalType(state.context, stream.current())) {
+    type += " local"
   }
   return type
 }
