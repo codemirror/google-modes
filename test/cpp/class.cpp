@@ -20,5 +20,5 @@
 
 [keyword template] <[keyword class] [type&def T], [keyword class] [type&def V]>
 [keyword class] [def Class] : [keyword public] [type BaseClass] {
-  [keyword const] [type MyType]<[type T], [type V]> [def member_];
+  [keyword const] [type MyType]<[type&local T], [type&local V]> [def member_];
 }

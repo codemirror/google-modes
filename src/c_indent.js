@@ -89,7 +89,7 @@ function findIndent(cx, textAfter, curLine, config) {
 export function indent(state, textAfter, line, config) {
   if (textAfter.charAt(0) == "#") return 0
   let top = state.context && state.context.name
-  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "TemplateHead")
+  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template")
     return statementIndent(state.context, config)
   if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^\s*(@|\*\/)/.test(textAfter))
     return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit

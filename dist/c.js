@@ -467,7 +467,6 @@ function isLocal(context, name) {
     { if (cx.locals && cx.locals.indexOf(name) > -1) { return true } }
   return false
 }
-
 var varRE = /(^|\s)variable($|\s)/;
 
 function markLocals(type, scopes, stream, state, once) {
@@ -575,7 +574,7 @@ function findIndent(cx, textAfter, curLine, config) {
 function indent(state, textAfter, line, config) {
   if (textAfter.charAt(0) == "#") { return 0 }
   var top = state.context && state.context.name;
-  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "TemplateHead")
+  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template")
     { return statementIndent(state.context, config) }
   if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^\s*(@|\*\/)/.test(textAfter))
     { return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }

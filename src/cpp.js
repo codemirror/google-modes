@@ -1,7 +1,7 @@
 import * as CodeMirror from "codemirror"
 import "codemirror-grammar-mode"
 import * as cpp from "./cpp.mode"
-import {markLocals} from "./locals"
+import {markLocals, markTypeLocals} from "./locals"
 import {indent} from "./c_indent"
 
 function constructorAhead(line, pos) {
@@ -17,7 +17,7 @@ function localConstructorAhead(line, pos, cx) {
   return className ? className[1] == ahead[1] : false
 }
 
-const scopes = ["Block", "FunctionDef"]
+const scopes = ["Block", "FunctionDef"], typeScopes = ["Template"]
 
 class CppMode extends CodeMirror.GrammarMode {
   constructor(conf) {
@@ -28,7 +28,7 @@ class CppMode extends CodeMirror.GrammarMode {
   }
 
   token(stream, state) {
-    return markLocals(super.token(stream, state), scopes, stream, state)
+    return markTypeLocals(markLocals(super.token(stream, state), scopes, stream, state), typeScopes, stream, state)
   }
 
   indent(state, textAfter, line) {

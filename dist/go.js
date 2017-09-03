@@ -640,7 +640,6 @@ function isLocal(context, name) {
     { if (cx.locals && cx.locals.indexOf(name) > -1) { return true } }
   return false
 }
-
 var varRE = /(^|\s)variable($|\s)/;
 
 function markLocals(type, scopes, stream, state, once) {

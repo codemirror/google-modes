@@ -8,7 +8,7 @@ skip whitespace {
     try Block (catch "(" Type Declarator? ")" Block)* |
     asm "{" string "}" |
     using (typename Type | namespace? variableName) ("=" Type)? ";" |
-    TemplateHead Statement |
+    Template |
     &constructorAhead declName FunctionDef |
     nameQualifier+ (MaybeType DeclRest | qualifiedVariableName ExpressionSuffix* ";") |
     super
@@ -46,8 +46,8 @@ skip whitespace {
     (";" | Block)
   }
 
-  context TemplateHead {
-    export? template TemplateParams whitespace
+  context Template {
+    export? template TemplateParams whitespace Statement
   }
 
   context InitializerList { (":" ListOf(CtorInitializer)) }
@@ -139,7 +139,7 @@ nameQualifier="meta" { "::" | identifier " "* "::" }
 
 declName { operator (binOp | prefixOp) | nameQualifier+ qualifiedDeclName | unqualifiedDeclName }
 
-typeDeclName="def type" { identifier }
+typeDeclName="type def" { identifier }
 
 declOp { "*" | "&&" | "&" }
 
