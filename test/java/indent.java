@@ -85,6 +85,10 @@ public class Foo {
           FooException {
     
   }
+
+  void bar() throws
+      Ex {
+  }
 }
 
 public class Foo {
@@ -171,4 +175,3 @@ foo =
       }
       
     };
-
