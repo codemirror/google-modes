@@ -25,9 +25,10 @@ let filter = process.argv[2]
   let base = __dirname + "/" + lang.dir + "/"
   fs.readdirSync(base).forEach(file => {
     if (file[0] == "." || (filter && filter != file)) return
-    let {tokens, plain, open} = parseTestSpec(fs.readFileSync(base + file, "utf8"), base + file)
+    let {tokens, plain, open, conf = {}} = parseTestSpec(fs.readFileSync(base + file, "utf8"), base + file)
+    conf.name = lang.mode
     try {
-      compare(plain, tokens, lang.mode, open)
+      compare(plain, tokens, conf, open)
     } catch(e) {
       console.log(`${file}: ${e.stack || e.message}`)
     }
@@ -36,10 +37,12 @@ let filter = process.argv[2]
 
 function parseTestSpec(file, fileName) {
   let directive = /(?:\/\/|#)\s*test:\s*(.*)/.exec(file)
+  if (directive) file = file.slice(0, directive.index) + file.slice(directive.index + directive[0].length)
   if (directive && /\bindent_only\b/.test(directive[1]))
     return {tokens: [{text: file, type: null}], plain: file, open: true}
   let result = parseSpec(file, fileName)
   result.open = directive && /\bopen\b/.test(directive[1])
+  result.conf = directive && /^\s*\{.*?\}\s*$/.test(directive[1]) && JSON.parse(directive[1]) || undefined
   return result
 }
 
@@ -60,7 +63,7 @@ function compare(text, tokens, mode, open) {
     if (text == "\n") {
       line++
       ch = 0
-      if (modeObj.indent) {
+      if (modeObj.indent && curState) {
         let str = lines[line - 1], ws = str.match(/^(\s*)(.*)/)
         if (str) {
           let indent = modeObj.indent(curState, ws[2], str)

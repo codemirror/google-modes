@@ -228,7 +228,7 @@ variableAs { variable ~(" "* "as") }
 
 identifier { identifierStart identifierChar* }
 
-semi { ";" | ~"}" | &startOfLine } // FIXME
+semi { ";" | ~"}" | &canInsertSemi }
 
 letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
 

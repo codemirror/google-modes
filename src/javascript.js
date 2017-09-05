@@ -6,7 +6,7 @@ import {indent} from "./c_indent"
 
 const scopes = ["Block", "FunctionDef", "ArrowFunc"]
 
-function startOfLine(string, pos) {
+function canInsertSemi(string, pos) {
   for (let i = pos - 1; i >= 0; i--) {
     let ch = string.charCodeAt(i)
     if (ch === 10) break
@@ -16,9 +16,9 @@ function startOfLine(string, pos) {
 }
 
 class JSMode extends CodeMirror.GrammarMode {
-  constructor(conf) {
+  constructor(conf, modeConf) {
     super(grammar, {
-      predicates: {startOfLine}
+      predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : () => false}
     })
     this.conf = conf
   }
@@ -46,4 +46,4 @@ for (let prop in meta) JSMode.prototype[prop] = meta[prop]
 
 CodeMirror.registerHelper("wordChars", "javascript", /[\w$]/)
 
-CodeMirror.defineMode("google-javascript", conf => new JSMode(conf))
+CodeMirror.defineMode("google-javascript", (conf, modeConf) => new JSMode(conf, modeConf))

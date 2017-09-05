@@ -84,7 +84,7 @@ foo().bar(a =>
 foo = 
     function() {
   
-}
+};
 
 foo =
     function() {
@@ -114,7 +114,7 @@ class Foo {
 }
 
 if (x) {
-  statement
+  statement;
   
-  more
+  more;
 }

@@ -4,7 +4,7 @@
 	(factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
 
-var e = [/^(?:var|let|const)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:while|with)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^debugger(?![a-zA-Z\¡-\￿_0-9_\$])/, /^if(?![a-zA-Z\¡-\￿_0-9_\$])/, /^function(?![a-zA-Z\¡-\￿_0-9_\$])/, /^for(?![a-zA-Z\¡-\￿_0-9_\$])/, /^default(?![a-zA-Z\¡-\￿_0-9_\$])/, /^case(?![a-zA-Z\¡-\￿_0-9_\$])/, /^return(?![a-zA-Z\¡-\￿_0-9_\$])/, /^throw(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:break|continue)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^switch(?![a-zA-Z\¡-\￿_0-9_\$])/, /^try(?![a-zA-Z\¡-\￿_0-9_\$])/, /^class(?![a-zA-Z\¡-\￿_0-9_\$])/, /^export(?![a-zA-Z\¡-\￿_0-9_\$])/, /^import(?![a-zA-Z\¡-\￿_0-9_\$])/, [0, "async", /^(?![a-zA-Z\¡-\￿_0-9_\$])/, [5, 125]], /^else(?![a-zA-Z\¡-\￿_0-9_\$])/, /^[a-zA-Z\¡-\￿__\$][a-zA-Z\¡-\￿_0-9_\$]*/, [1, ";", /^(?=\})/, [7, "startOfLine"]], /^catch(?![a-zA-Z\¡-\￿_0-9_\$])/, /^finally(?![a-zA-Z\¡-\￿_0-9_\$])/, /^extends(?![a-zA-Z\¡-\￿_0-9_\$])/, /^from(?![a-zA-Z\¡-\￿_0-9_\$])/, /^as(?![a-zA-Z\¡-\￿_0-9_\$])/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z\¡-\￿_])/, /^\@[a-zA-Z\¡-\￿_]+/, /^[a-zA-Z\¡-\￿_]+/, [0, /^(?!\*\/|\@[a-zA-Z\¡-\￿_]|\{)/, /^[^]/], /^(?:true|false|null|undefined|NaN|Infinity)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:super|this)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:delete|typeof|yield|await)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:\.\.\.|\!|\+\+?|\-\-?)/, /^new(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:0x[0-9a-fA-F]+|0o[0-7]+|0b[01]+|(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][\+\-]?[0-9]+)?)/, /^\/(?![\/\*])(?:\\.|.)+\//, /^(?:\+\+|\-\-)/, /^(?:\+|\-|\%|\*|\/(?![\/\*])|\>\>?\>?|\<\<?|\=|\&\&?|\|\|?|\^)\=?/, /^(?:in|instanceof)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^[a-zA-Z\¡-\￿__\$][a-zA-Z\¡-\￿_0-9_\$]*(?= *\()/, /^[a-zA-Z\¡-\￿__\$][a-zA-Z\¡-\￿_0-9_\$]*(?![a-z]|[A-Z]|[\¡-\￿]|_|[0-9]|_|\$| *\:)/, /^(?:get|set|async)(?![a-zA-Z\¡-\￿_0-9_\$])(?! *[\,\}\:])/];
+var e = [/^(?:var|let|const)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:while|with)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^debugger(?![a-zA-Z\¡-\￿_0-9_\$])/, /^if(?![a-zA-Z\¡-\￿_0-9_\$])/, /^function(?![a-zA-Z\¡-\￿_0-9_\$])/, /^for(?![a-zA-Z\¡-\￿_0-9_\$])/, /^default(?![a-zA-Z\¡-\￿_0-9_\$])/, /^case(?![a-zA-Z\¡-\￿_0-9_\$])/, /^return(?![a-zA-Z\¡-\￿_0-9_\$])/, /^throw(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:break|continue)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^switch(?![a-zA-Z\¡-\￿_0-9_\$])/, /^try(?![a-zA-Z\¡-\￿_0-9_\$])/, /^class(?![a-zA-Z\¡-\￿_0-9_\$])/, /^export(?![a-zA-Z\¡-\￿_0-9_\$])/, /^import(?![a-zA-Z\¡-\￿_0-9_\$])/, [0, "async", /^(?![a-zA-Z\¡-\￿_0-9_\$])/, [5, 125]], /^else(?![a-zA-Z\¡-\￿_0-9_\$])/, /^[a-zA-Z\¡-\￿__\$][a-zA-Z\¡-\￿_0-9_\$]*/, [1, ";", /^(?=\})/, [7, "canInsertSemi"]], /^catch(?![a-zA-Z\¡-\￿_0-9_\$])/, /^finally(?![a-zA-Z\¡-\￿_0-9_\$])/, /^extends(?![a-zA-Z\¡-\￿_0-9_\$])/, /^from(?![a-zA-Z\¡-\￿_0-9_\$])/, /^as(?![a-zA-Z\¡-\￿_0-9_\$])/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z\¡-\￿_])/, /^\@[a-zA-Z\¡-\￿_]+/, /^[a-zA-Z\¡-\￿_]+/, [0, /^(?!\*\/|\@[a-zA-Z\¡-\￿_]|\{)/, /^[^]/], /^(?:true|false|null|undefined|NaN|Infinity)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:super|this)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:delete|typeof|yield|await)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:\.\.\.|\!|\+\+?|\-\-?)/, /^new(?![a-zA-Z\¡-\￿_0-9_\$])/, /^(?:0x[0-9a-fA-F]+|0o[0-7]+|0b[01]+|(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][\+\-]?[0-9]+)?)/, /^\/(?![\/\*])(?:\\.|.)+\//, /^(?:\+\+|\-\-)/, /^(?:\+|\-|\%|\*|\/(?![\/\*])|\>\>?\>?|\<\<?|\=|\&\&?|\|\|?|\^)\=?/, /^(?:in|instanceof)(?![a-zA-Z\¡-\￿_0-9_\$])/, /^[a-zA-Z\¡-\￿__\$][a-zA-Z\¡-\￿_0-9_\$]*(?= *\()/, /^[a-zA-Z\¡-\￿__\$][a-zA-Z\¡-\￿_0-9_\$]*(?![a-z]|[A-Z]|[\¡-\￿]|_|[0-9]|_|\$| *\:)/, /^(?:get|set|async)(?![a-zA-Z\¡-\￿_0-9_\$])(?! *[\,\}\:])/];
 var nodes = [
   [1, 6, 2],
   [/^[^]/, 0],
@@ -743,7 +743,7 @@ function indent(state, textAfter, line, config) {
 
 var scopes = ["Block", "FunctionDef", "ArrowFunc"];
 
-function startOfLine(string, pos) {
+function canInsertSemi(string, pos) {
   for (var i = pos - 1; i >= 0; i--) {
     var ch = string.charCodeAt(i);
     if (ch === 10) { break }
@@ -753,9 +753,9 @@ function startOfLine(string, pos) {
 }
 
 var JSMode = (function (superclass) {
-  function JSMode(conf) {
+  function JSMode(conf, modeConf) {
     superclass.call(this, grammar, {
-      predicates: {startOfLine: startOfLine}
+      predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : function () { return false; }}
     });
     this.conf = conf;
   }
@@ -789,6 +789,6 @@ for (var prop in meta) { JSMode.prototype[prop] = meta[prop]; }
 
 CodeMirror.registerHelper("wordChars", "javascript", /[\w$]/);
 
-CodeMirror.defineMode("google-javascript", function (conf) { return new JSMode(conf); });
+CodeMirror.defineMode("google-javascript", function (conf, modeConf) { return new JSMode(conf, modeConf); });
 
 })));
