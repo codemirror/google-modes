@@ -62,7 +62,7 @@ skip whitespace {
     op("...") |
     atom |
     self |
-    yield (from Expr | CommaSep(Expr)) |
+    yield (from Expr | CommaSep(Expr)?) |
     lambda LambdaDef |
     builtin |
     calleeName |

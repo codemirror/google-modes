@@ -52,3 +52,9 @@
   }
 
 [variable hey] [operator |=] [variable dict1]
+
+[keyword def] [def foo]():
+  [keyword try]:
+    [keyword yield]
+  [keyword finally]:
+    [keyword return]
