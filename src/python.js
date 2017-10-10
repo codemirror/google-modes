@@ -26,6 +26,12 @@ function stillIndented(line, pos, cx) {
   return cx && countIndent(line, pos) > countIndent(cx.startLine, cx.startPos)
 }
 
+function isCompLocal(line, pos) {
+  let id = /\w*$/.exec(line.slice(0, pos))[0]
+  let forDecl = /\s*for\s*(\w+)/.exec(line.slice(pos))
+  return forDecl ? forDecl[1] == id : false
+}
+
 function aligned(cx) {
   return !/^\s*((#.*)?$)/.test(cx.startLine.slice(cx.startPos + 1))
 }
@@ -62,7 +68,7 @@ function findIndent(cx, textAfter, curLine, config) {
 class PythonMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar, {
-      predicates: {maySkipNewline, stillIndented}
+      predicates: {maySkipNewline, stillIndented, isCompLocal}
     })
     this.conf = conf
   }

@@ -4,7 +4,7 @@
 	(factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
 
-var e = [/^if(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:while|elif)(?![a-zA-Z\¡-\￿_0-9_])/, /^else(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:try|finally)(?![a-zA-Z\¡-\￿_0-9_])/, /^for(?![a-zA-Z\¡-\￿_0-9_])/, /^except(?![a-zA-Z\¡-\￿_0-9_])/, /^async(?![a-zA-Z\¡-\￿_0-9_])/, /^in(?![a-zA-Z\¡-\￿_0-9_])/, /^as(?![a-zA-Z\¡-\￿_0-9_])/, /^[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]*/, /^with(?![a-zA-Z\¡-\￿_0-9_])/, /^def(?![a-zA-Z\¡-\￿_0-9_])/, /^class(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:pass|break|continue)(?![a-zA-Z\¡-\￿_0-9_])/, /^del(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:return|assert)(?![a-zA-Z\¡-\￿_0-9_])/, /^raise(?![a-zA-Z\¡-\￿_0-9_])/, /^import(?![a-zA-Z\¡-\￿_0-9_])/, /^from(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:global|nonlocal)(?![a-zA-Z\¡-\￿_0-9_])/, /^[\*\+\-\~]/, /^(?:not|await)(?![a-zA-Z\¡-\￿_0-9_])/, /^[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]*(?= *(?:\, *[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]* *)*(?:\=|in(?![a-zA-Z\¡-\￿_0-9_])))/, /^(?:(?:0b|OB)[01_]+|(?:0o|0O)[0-7_]+|(?:0x|OX)[0-9a-fA-F_]+|(?:[0-9][0-9_]*(?:\.[0-9_]+)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?[jJ]?)/, /^(?:None|True|False)(?![a-zA-Z\¡-\￿_0-9_])/, /^self(?![a-zA-Z\¡-\￿_0-9_])/, /^yield(?![a-zA-Z\¡-\￿_0-9_])/, /^lambda(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:abs|all|any|bin|bool|bytearray|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__|NotImplemented|Ellipsis|__debug__|ascii|bytes|exec|print)(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:(?:\^|\&|\||\<\<|\>\>|\+|\-|\*\*?|\@|\/|\%|\/)\=?|\=|\<|\>|\=\=|\>\=|\<\=|\<\>|\!\=)/, /^(?:or|and|in|is(?: +not)?|not(?: +in)?)(?![a-zA-Z\¡-\￿_0-9_])/, /^[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]*(?=\()/, /^(?:\*|\*\*)/];
+var e = [/^if(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:while|elif)(?![a-zA-Z\¡-\￿_0-9_])/, /^else(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:try|finally)(?![a-zA-Z\¡-\￿_0-9_])/, /^for(?![a-zA-Z\¡-\￿_0-9_])/, /^except(?![a-zA-Z\¡-\￿_0-9_])/, /^async(?![a-zA-Z\¡-\￿_0-9_])/, /^in(?![a-zA-Z\¡-\￿_0-9_])/, /^as(?![a-zA-Z\¡-\￿_0-9_])/, /^[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]*/, /^with(?![a-zA-Z\¡-\￿_0-9_])/, /^def(?![a-zA-Z\¡-\￿_0-9_])/, /^class(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:pass|break|continue)(?![a-zA-Z\¡-\￿_0-9_])/, /^del(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:return|assert)(?![a-zA-Z\¡-\￿_0-9_])/, /^raise(?![a-zA-Z\¡-\￿_0-9_])/, /^import(?![a-zA-Z\¡-\￿_0-9_])/, /^from(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:global|nonlocal)(?![a-zA-Z\¡-\￿_0-9_])/, /^[\*\+\-\~]/, /^(?:not|await)(?![a-zA-Z\¡-\￿_0-9_])/, /^[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]*(?= *(?:\, *[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]* *)*(?:\=|in(?![a-zA-Z\¡-\￿_0-9_])))/, /^(?:(?:0b|OB)[01_]+|(?:0o|0O)[0-7_]+|(?:0x|OX)[0-9a-fA-F_]+|(?:[0-9][0-9_]*(?:\.[0-9_]+)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?[jJ]?)/, /^(?:None|True|False)(?![a-zA-Z\¡-\￿_0-9_])/, /^self(?![a-zA-Z\¡-\￿_0-9_])/, /^yield(?![a-zA-Z\¡-\￿_0-9_])/, /^lambda(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:abs|all|any|bin|bool|bytearray|callable|chr|classmethod|compile|complex|delattr|dict|dir|divmod|enumerate|eval|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|vars|zip|__import__|NotImplemented|Ellipsis|__debug__|ascii|bytes|exec|print)(?![a-zA-Z\¡-\￿_0-9_])/, /^(?:(?:\^|\&|\||\<\<|\>\>|\+|\-|\*\*?|\@|\/|\%|\/)\=?|\=|\<|\>|\=\=|\>\=|\<\=|\<\>|\!\=)/, /^(?:or|and|in|is(?: +not)?|not(?: +in)?)(?![a-zA-Z\¡-\￿_0-9_])/, /^[a-zA-Z\¡-\￿__][a-zA-Z\¡-\￿_0-9_]*(?=\()/, [0, /^[a-zA-Z\¡-\￿__]/, /^[a-zA-Z\¡-\￿_0-9_]*/, [7, "isCompLocal"]], /^(?:\*|\*\*)/];
 var nodes = [
   [1, 6, 2],
   [/^[^]/, 0],
@@ -408,7 +408,8 @@ var nodes = [
   [")", -1],
   ["(", 255],
   [1, 6, 256],
-  [1, 103, 257,
+  [3, "variable-2", e[32], 257,
+   1, 103, 257,
    0, 261],
   [1, 6, 258],
   [",", 259,
@@ -421,7 +422,8 @@ var nodes = [
   [")", -1],
   ["[", 264],
   [1, 6, 265],
-  [1, 103, 266,
+  [3, "variable-2", e[32], 266,
+   1, 103, 266,
    0, 270],
   [1, 6, 267],
   [",", 268,
@@ -530,7 +532,7 @@ var nodes = [
   [2, 395, 342, {"name":"DictProp"},
    0, 342],
   [1, 6, 339],
-  [3, "operator", e[32], 344,
+  [3, "operator", e[33], 344,
    0, 344],
   [1, 6, 345],
   [3, "def", e[9], 346],
@@ -543,7 +545,7 @@ var nodes = [
   [",", 352,
    0, -1],
   [1, 6, 353],
-  [3, "operator", e[32], 354,
+  [3, "operator", e[33], 354,
    0, 354,
    0, 355],
   [1, 6, 356],
@@ -674,6 +676,12 @@ function stillIndented(line, pos, cx) {
   return cx && countIndent(line, pos) > countIndent(cx.startLine, cx.startPos)
 }
 
+function isCompLocal(line, pos) {
+  var id = /\w*$/.exec(line.slice(0, pos))[0];
+  var forDecl = /\s*for\s*(\w+)/.exec(line.slice(pos));
+  return forDecl ? forDecl[1] == id : false
+}
+
 function aligned(cx) {
   return !/^\s*((#.*)?$)/.test(cx.startLine.slice(cx.startPos + 1))
 }
@@ -710,7 +718,7 @@ function findIndent(cx, textAfter, curLine, config) {
 var PythonMode = (function (superclass) {
   function PythonMode(conf) {
     superclass.call(this, grammar, {
-      predicates: {maySkipNewline: maySkipNewline, stillIndented: stillIndented}
+      predicates: {maySkipNewline: maySkipNewline, stillIndented: stillIndented, isCompLocal: isCompLocal}
     });
     this.conf = conf;
   }

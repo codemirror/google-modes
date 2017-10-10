@@ -81,7 +81,7 @@ skip whitespace {
   context ClassDef { declName ArgList? ":" Body }
   context FuncDef { ParamList ("->" Type)? ":" Body }
 
-  MaybeComp { Expr ("," CommaSep(Expr)? | CompFor)? }
+  MaybeComp { (compLocalName | Expr) ("," CommaSep(Expr)? | CompFor)? }
   CompFor { async? for CommaSep(assignedName | ExprNoIn) in Expr (CompFor | CompIf)? }
   CompIf { if Expr (CompFor | CompIf)? }
 
@@ -190,6 +190,7 @@ calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }
 typeName="type" { identifier }
+compLocalName="variable-2" { identifier &isCompLocal }
 
 whitespaceSimple { (" " | "\t" | comment) }
 
