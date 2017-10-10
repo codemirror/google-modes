@@ -30,7 +30,7 @@ skip whitespace {
     import CommaSep(Expr (as declName)?) |
     from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
     globalNonlocal CommaSep(variableName) |
-    assignedName op("=") Expr |
+    CommaSep(assignedName) op("=") Expr |
     CommaSep(Expr)
   }
 
@@ -185,7 +185,7 @@ context indentedBody { "\n" (whitespaceSimple | "\n")* (&stillIndented Statement
 identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
-assignedName="def" { identifier ~(" "* ("=" | "in" !identifierChar)) }
+assignedName="def" { identifier ~(" "* ("," " "* identifier " "*)* ("=" | "in" !identifierChar)) }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }

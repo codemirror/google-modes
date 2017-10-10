@@ -58,3 +58,9 @@
     [keyword yield]
   [keyword finally]:
     [keyword return]
+
+[keyword def] [def abc]():
+  [def x], [def y] [operator =] [number 1], [number 2]
+
+[keyword for] [def a], [def b] [keyword in] [builtin enumerate]([string 'xyz']):
+  [keyword pass]
