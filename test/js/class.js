@@ -4,4 +4,5 @@
     [keyword super]([string 'something']);
     [keyword this].[property x] [operator =] [variable-2 x];
   }
+  [def set]([def x]) {}
 }

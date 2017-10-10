@@ -220,7 +220,7 @@ declNameAndArrow { declName ~(whitespace "=>") }
 
 paramsAndArrow { "(" ~(whitespace CommaSep(Pattern) ")" whitespace "=>") whitespace CommaSep(Pattern) whitespace ")" }
 
-propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":")) }
+propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":" | "(")) }
 
 asyncStar="keyword" { "*" }
 
