@@ -17,7 +17,7 @@ skip whitespace {
     return Expr? ";" |
     throw Expr ";" |
     (default | case Expr | labelIdentifier) ":" |
-    import kw("static")? identifierDot* ("*" | declName) ";" |
+    import kw("static")? identifierDot* ("*" | identifier) ";" |
     ";" |
     BeforeStatement(Modifier*) Declaration |
     ExprComma ";"

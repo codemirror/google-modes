@@ -1,7 +1,7 @@
 [keyword package] foo.bar.baz;
 
 [keyword import] java.something.*;
-[keyword import] java.blah.[def imported];
+[keyword import] java.blah.imported;
 
 [comment /** multi]
 [comment  @<i>N</i>]
