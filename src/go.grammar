@@ -11,6 +11,7 @@ skip whitespace {
     IfStatement |
     SwitchStatement |
     ForStatement |
+    func FunctionDecl |
     (go | defer) Expr |
     return CommaSep(Expr) |
     (break | continue) identifier? |
@@ -52,7 +53,7 @@ skip whitespace {
     number |
     string |
     atom |
-    func FunctionDef |
+    func FunctionExpr |
     builtin |
     calleeName |
     variableName |
@@ -61,7 +62,8 @@ skip whitespace {
     ParenExpr
   }
 
-  context FunctionDef { ("(" declName Type ")")? declName? ParamList (ParamList | Type)? Block? }
+  context FunctionDecl { ("(" declName Type ")")? declName? ParamList (ParamList | Type)? Block? }
+  context FunctionExpr { ParamList (ParamList | Type)? Block }
   context ParenExpr { "(" CommaSep(Expr) ")" }
   context LiteralBody { "{" CommaSep((propNameColon | Expr) (":" Expr)?) "}" }
 

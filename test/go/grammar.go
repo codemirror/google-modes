@@ -88,3 +88,10 @@
 [keyword type] [def Message] [keyword struct] {
 	[def Foo] [meta foo.][type string]
 }
+
+[keyword func] [def foo]() {
+	[keyword var] [def wg] [meta sync.][type WaitGroup]
+	[variable-2 wg].[property&callee Add]([number 1])
+	[variable&callee f]([keyword func]() { [variable-2 wg].[property&callee Done]() })
+	[variable-2 wg].[property&callee Wait]()
+}
