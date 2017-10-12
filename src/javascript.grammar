@@ -176,7 +176,7 @@ tokens {
   variable="variable" { identifier }
 
   prefixOp="operator" { "..." | "!" | "+" "+"? | "-" "-"? }
-  binOp="operator" { ("+" | "-" | "%" | "*" | slash | ">" ">"? ">"? | "<" "<"? | "=" | "&" "&"? | "|" "|"? | "^") "="? }
+  binOp="operator" { ("+" | "-" | "%" | "*" | slash | ">" ">"? ">"? | "<" "<"? | "=" "="? | "&" "&"? | "|" "|"? | "^" | "!=") "="? }
   suffixOp="operator" { "++" | "--" }
 
   string="string" {
