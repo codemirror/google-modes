@@ -4,7 +4,7 @@
 	(factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
 
-var e = [/^for(?![a-zA-Z\¡-\￿_0-9])/, /^while(?![a-zA-Z\¡-\￿_0-9])/, /^try(?![a-zA-Z\¡-\￿_0-9])/, /^do(?![a-zA-Z\¡-\￿_0-9])/, /^if(?![a-zA-Z\¡-\￿_0-9])/, /^switch(?![a-zA-Z\¡-\￿_0-9])/, /^(?:break|continue)(?![a-zA-Z\¡-\￿_0-9])/, /^assert(?![a-zA-Z\¡-\￿_0-9])/, /^return(?![a-zA-Z\¡-\￿_0-9])/, /^throw(?![a-zA-Z\¡-\￿_0-9])/, /^default(?![a-zA-Z\¡-\￿_0-9])/, /^case(?![a-zA-Z\¡-\￿_0-9])/, /^import(?![a-zA-Z\¡-\￿_0-9])/, /^catch(?![a-zA-Z\¡-\￿_0-9])/, /^finally(?![a-zA-Z\¡-\￿_0-9])/, /^(?:public|protected|private|abstract|static|final|transient|volatile|synchronized|native|strictfp|const)(?![a-zA-Z\¡-\￿_0-9])/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*/, /^else(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\+\+|\-\-|\!|\~|\&|\*)/, /^(?:true|false|null)(?![a-zA-Z\¡-\￿_0-9])/, /^this(?![a-zA-Z\¡-\￿_0-9])/, /^super(?![a-zA-Z\¡-\￿_0-9])/, /^(?:(?:0x|0X)[0-9_a-fA-F]+|(?:0b|0B)[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)[LlDdFf]?/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?=\()/, /^(?:\+\+|\-\-)/, /^(?:\!|\+|\-|\/|\*|\%|\>\>?|\<\<?|\=|\|\|?|\&\&?)\=?/, /^instanceof(?![a-zA-Z\¡-\￿_0-9])/, /^(?:boolean|char|byte|short|int|long|float|double|void)(?![a-zA-Z\¡-\￿_0-9])/, /^[A-Z][a-zA-Z\¡-\￿_0-9]*/, /^enum(?![a-zA-Z\¡-\￿_0-9])/, /^(?:class|interface)(?![a-zA-Z\¡-\￿_0-9])/, /^package(?![a-zA-Z\¡-\￿_0-9])/, /^implements(?![a-zA-Z\¡-\￿_0-9])/, /^extends(?![a-zA-Z\¡-\￿_0-9])/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z\¡-\￿_])/, /^\@[a-zA-Z\¡-\￿_]+/, /^[a-zA-Z\¡-\￿_]+/, [0, /^(?!\*\/|\@[a-zA-Z\¡-\￿_]|\{)/, /^[^]/], /^new(?![a-zA-Z\¡-\￿_0-9])/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]* *\.(?!\.)/, [0, [5, 382], /^[a-zA-Z\¡-\￿_]/, /^[a-zA-Z\¡-\￿_0-9]*/], /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?= *\()/, /^throws(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\.\.\.)?/];
+var e = [/^for(?![a-zA-Z¡-￿_0-9])/, /^while(?![a-zA-Z¡-￿_0-9])/, /^try(?![a-zA-Z¡-￿_0-9])/, /^do(?![a-zA-Z¡-￿_0-9])/, /^if(?![a-zA-Z¡-￿_0-9])/, /^switch(?![a-zA-Z¡-￿_0-9])/, /^(?:break|continue)(?![a-zA-Z¡-￿_0-9])/, /^assert(?![a-zA-Z¡-￿_0-9])/, /^return(?![a-zA-Z¡-￿_0-9])/, /^throw(?![a-zA-Z¡-￿_0-9])/, /^default(?![a-zA-Z¡-￿_0-9])/, /^case(?![a-zA-Z¡-￿_0-9])/, /^import(?![a-zA-Z¡-￿_0-9])/, /^catch(?![a-zA-Z¡-￿_0-9])/, /^finally(?![a-zA-Z¡-￿_0-9])/, /^(?:public|protected|private|abstract|static|final|transient|volatile|synchronized|native|strictfp|const)(?![a-zA-Z¡-￿_0-9])/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*/, /^else(?![a-zA-Z¡-￿_0-9])/, /^(?:\+\+|\-\-|\!|\~|\&|\*)/, /^(?:true|false|null)(?![a-zA-Z¡-￿_0-9])/, /^this(?![a-zA-Z¡-￿_0-9])/, /^super(?![a-zA-Z¡-￿_0-9])/, /^(?:(?:0x|0X)[0-9_a-fA-F]+|(?:0b|0B)[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)[LlDdFf]?/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*(?=\()/, /^(?:\+\+|\-\-)/, /^(?:\!|\+|\-|\/|\*|\%|\>\>?|\<\<?|\=|\|\|?|\&\&?)\=?/, /^instanceof(?![a-zA-Z¡-￿_0-9])/, /^(?:boolean|char|byte|short|int|long|float|double|void)(?![a-zA-Z¡-￿_0-9])/, /^[A-Z][a-zA-Z¡-￿_0-9]*/, /^enum(?![a-zA-Z¡-￿_0-9])/, /^(?:class|interface)(?![a-zA-Z¡-￿_0-9])/, /^package(?![a-zA-Z¡-￿_0-9])/, /^implements(?![a-zA-Z¡-￿_0-9])/, /^extends(?![a-zA-Z¡-￿_0-9])/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z¡-￿_])/, /^\@[a-zA-Z¡-￿_]+/, /^[a-zA-Z¡-￿_]+/, [0, /^(?!\*\/|\@[a-zA-Z¡-￿_]|\{)/, /^[^]/], /^new(?![a-zA-Z¡-￿_0-9])/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]* *\.(?!\.)/, [0, [5, 382], /^[a-zA-Z¡-￿_]/, /^[a-zA-Z¡-￿_0-9]*/], /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*(?= *\()/, /^throws(?![a-zA-Z¡-￿_0-9])/, /^(?:\.\.\.)?/];
 var nodes = [
   [1, 5, 2],
   [/^[^]/, 0],
@@ -65,7 +65,7 @@ var nodes = [
    3, "keyword", e[9], 79,
    3, "keyword", e[10], 83,
    3, "keyword", e[11], 84,
-   [0, /^[a-zA-Z\¡-\￿_]/, /^[a-zA-Z\¡-\￿_0-9]*/, [5, 111]], 83,
+   [0, /^[a-zA-Z¡-￿_]/, /^[a-zA-Z¡-￿_0-9]*/, [5, 111]], 83,
    3, "keyword", e[12], 87,
    ";", -1,
    2, 112, 94, {"name":"BeforeStatement"},
@@ -134,7 +134,7 @@ var nodes = [
   [1, 5, 62],
   [2, 145, -1, {"name":"Block"}],
   [1, 5, 64],
-  [/^(?:[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*)?/, 65],
+  [/^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*)?/, 65],
   [1, 5, 66],
   [";", -1],
   [1, 5, 68],
@@ -160,11 +160,11 @@ var nodes = [
   [":", -1],
   [1, 114, 83],
   [1, 5, 88],
-  [3, "keyword", /^static(?![a-zA-Z\¡-\￿_0-9])/, 89,
+  [3, "keyword", /^static(?![a-zA-Z¡-￿_0-9])/, 89,
    0, 89],
   [1, 5, 90],
-  [/^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]* *\./, 91,
-   /^(?:\*|[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*)/, 92],
+  [/^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]* *\./, 91,
+   /^(?:\*|[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*)/, 92],
   [1, 5, 90],
   [1, 5, 93],
   [";", -1],

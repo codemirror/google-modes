@@ -4,7 +4,7 @@
 	(factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
 
-var e = [/^class(?![a-zA-Z\¡-\￿_0-9])/, /^(?:struct|union)(?![a-zA-Z\¡-\￿_0-9])/, /^namespace(?![a-zA-Z\¡-\￿_0-9])/, /^throw(?![a-zA-Z\¡-\￿_0-9])/, /^try(?![a-zA-Z\¡-\￿_0-9])/, /^asm(?![a-zA-Z\¡-\￿_0-9])/, /^using(?![a-zA-Z\¡-\￿_0-9])/, /^enum(?![a-zA-Z\¡-\￿_0-9])/, /^for(?![a-zA-Z\¡-\￿_0-9])/, /^while(?![a-zA-Z\¡-\￿_0-9])/, /^do(?![a-zA-Z\¡-\￿_0-9])/, /^if(?![a-zA-Z\¡-\￿_0-9])/, /^switch(?![a-zA-Z\¡-\￿_0-9])/, /^(?:break|continue)(?![a-zA-Z\¡-\￿_0-9])/, /^goto(?![a-zA-Z\¡-\￿_0-9])/, /^return(?![a-zA-Z\¡-\￿_0-9])/, /^default(?![a-zA-Z\¡-\￿_0-9])/, /^case(?![a-zA-Z\¡-\￿_0-9])/, /^alignas(?![a-zA-Z\¡-\￿_0-9])/, /^(?:0x[0-9a-fA-F\']+|0b[01\']+|(?:[0-9][0-9\']*(?:\.[0-9\']*)?|\.[0-9][0-9\']*)(?:[eE]\-?[0-9\']*)?)[LlUuFf]?/, /^virtual(?![a-zA-Z\¡-\￿_0-9])/, /^(?:private|public|protected)(?![a-zA-Z\¡-\￿_0-9])/, /^catch(?![a-zA-Z\¡-\￿_0-9])/, /^typename(?![a-zA-Z\¡-\￿_0-9])/, /^else(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\:\:|[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]* *\:\:)/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?=\<)/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?=\{)/, /^export(?![a-zA-Z\¡-\￿_0-9])/, /^template(?![a-zA-Z\¡-\￿_0-9])/, /^(?:inline|virtual|explicit|friend|constexpr)(?![a-zA-Z\¡-\￿_0-9])/, /^(?:register|static|extern|typedef)(?![a-zA-Z\¡-\￿_0-9])/, /^(?:const|volatile)(?![a-zA-Z\¡-\￿_0-9])/, /^(?:unsigned|signed|long)(?![a-zA-Z\¡-\￿_0-9])/, /^auto(?![a-zA-Z\¡-\￿_0-9])/, /^(?:int|float|double|char|short)(?![a-zA-Z\¡-\￿_0-9])/, /^delete(?![a-zA-Z\¡-\￿_0-9])/, /^new(?![a-zA-Z\¡-\￿_0-9])/, /^sizeof(?![a-zA-Z\¡-\￿_0-9])/, /^this(?![a-zA-Z\¡-\￿_0-9])/, /^(?:dynamic|static|const|reinterpret)_cast(?![a-zA-Z\¡-\￿_0-9])/, /^(?:true|false|null)(?![a-zA-Z\¡-\￿_0-9])/, /^operator(?![a-zA-Z\¡-\￿_0-9])/, /^(?:\!|\+|\-|\/|\*|\%|\>\>?|\<\<?|\=|\|\|?|\&\&?)\=?/, /^\~?[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*/, /^noexcept(?![a-zA-Z\¡-\￿_0-9])/, /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*/, /^(?:\+\+|\-\-)/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z\¡-\￿_])/, /^\@[a-zA-Z\¡-\￿_]+/, /^[a-zA-Z\¡-\￿_]+/, [0, /^(?!\*\/|\@[a-zA-Z\¡-\￿_]|\{)/, /^[^]/], /^[a-zA-Z\¡-\￿_][a-zA-Z\¡-\￿_0-9]*(?= *\()/];
+var e = [/^class(?![a-zA-Z¡-￿_0-9])/, /^(?:struct|union)(?![a-zA-Z¡-￿_0-9])/, /^namespace(?![a-zA-Z¡-￿_0-9])/, /^throw(?![a-zA-Z¡-￿_0-9])/, /^try(?![a-zA-Z¡-￿_0-9])/, /^asm(?![a-zA-Z¡-￿_0-9])/, /^using(?![a-zA-Z¡-￿_0-9])/, /^enum(?![a-zA-Z¡-￿_0-9])/, /^for(?![a-zA-Z¡-￿_0-9])/, /^while(?![a-zA-Z¡-￿_0-9])/, /^do(?![a-zA-Z¡-￿_0-9])/, /^if(?![a-zA-Z¡-￿_0-9])/, /^switch(?![a-zA-Z¡-￿_0-9])/, /^(?:break|continue)(?![a-zA-Z¡-￿_0-9])/, /^goto(?![a-zA-Z¡-￿_0-9])/, /^return(?![a-zA-Z¡-￿_0-9])/, /^default(?![a-zA-Z¡-￿_0-9])/, /^case(?![a-zA-Z¡-￿_0-9])/, /^alignas(?![a-zA-Z¡-￿_0-9])/, /^(?:0x[0-9a-fA-F\']+|0b[01\']+|(?:[0-9][0-9\']*(?:\.[0-9\']*)?|\.[0-9][0-9\']*)(?:[eE]\-?[0-9\']*)?)[LlUuFf]?/, /^virtual(?![a-zA-Z¡-￿_0-9])/, /^(?:private|public|protected)(?![a-zA-Z¡-￿_0-9])/, /^catch(?![a-zA-Z¡-￿_0-9])/, /^typename(?![a-zA-Z¡-￿_0-9])/, /^else(?![a-zA-Z¡-￿_0-9])/, /^(?:\:\:|[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]* *\:\:)/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*(?=\<)/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*(?=\{)/, /^export(?![a-zA-Z¡-￿_0-9])/, /^template(?![a-zA-Z¡-￿_0-9])/, /^(?:inline|virtual|explicit|friend|constexpr)(?![a-zA-Z¡-￿_0-9])/, /^(?:register|static|extern|typedef)(?![a-zA-Z¡-￿_0-9])/, /^(?:const|volatile)(?![a-zA-Z¡-￿_0-9])/, /^(?:unsigned|signed|long)(?![a-zA-Z¡-￿_0-9])/, /^auto(?![a-zA-Z¡-￿_0-9])/, /^(?:int|float|double|char|short)(?![a-zA-Z¡-￿_0-9])/, /^delete(?![a-zA-Z¡-￿_0-9])/, /^new(?![a-zA-Z¡-￿_0-9])/, /^sizeof(?![a-zA-Z¡-￿_0-9])/, /^this(?![a-zA-Z¡-￿_0-9])/, /^(?:dynamic|static|const|reinterpret)_cast(?![a-zA-Z¡-￿_0-9])/, /^(?:true|false|null)(?![a-zA-Z¡-￿_0-9])/, /^operator(?![a-zA-Z¡-￿_0-9])/, /^(?:\!|\+|\-|\/|\*|\%|\>\>?|\<\<?|\=|\|\|?|\&\&?)\=?/, /^\~?[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*/, /^noexcept(?![a-zA-Z¡-￿_0-9])/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*/, /^(?:\+\+|\-\-)/, [1, "\n", "\t", " "], /^\@(?:member|param|arg(?:ument)?|module|namespace|typedef)(?![a-zA-Z¡-￿_])/, /^\@[a-zA-Z¡-￿_]+/, /^[a-zA-Z¡-￿_]+/, [0, /^(?!\*\/|\@[a-zA-Z¡-￿_]|\{)/, /^[^]/], /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*(?= *\()/];
 var nodes = [
   [2, 6, 2, {"name":"preprocessorLine","token":"meta"},
    0, 2],
@@ -96,7 +96,7 @@ var nodes = [
    2, 189, 146, {"name":"DeclType"},
    3, "keyword", e[16], 148,
    3, "keyword", e[17], 149,
-   [0, /^[a-zA-Z\¡-\￿_]/, /^[a-zA-Z\¡-\￿_0-9]*/, [5, 199]], 148,
+   [0, /^[a-zA-Z¡-￿_]/, /^[a-zA-Z¡-￿_0-9]*/, [5, 199]], 148,
    ";", -1,
    1, 200, 154],
   [1, 9, 13],
@@ -469,9 +469,9 @@ var nodes = [
    2, 185, -1, {"name":"Block"}],
   [3, "keyword", e[34], 294,
    3, "keyword", e[23], 291,
-   /^(?!(?:new|delete)(?![a-zA-Z\¡-\￿_0-9]))/, 292],
+   /^(?!(?:new|delete)(?![a-zA-Z¡-￿_0-9]))/, 292],
   [1, 9, 293],
-  [3, "type", [0, /^[a-zA-Z\¡-\￿_]/, /^[a-zA-Z\¡-\￿_0-9]*/, [5, 468]], 294],
+  [3, "type", [0, /^[a-zA-Z¡-￿_]/, /^[a-zA-Z¡-￿_0-9]*/, [5, 468]], 294],
   [3, "meta", e[25], 293,
    3, "type", e[46], 294],
   [1, 9, 295],
@@ -698,7 +698,7 @@ var nodes = [
   [3, "keyword", e[30], 447,
    3, "keyword", e[31], 447,
    3, "keyword", e[32], 447,
-   3, "def", [0, [7, "localConstructorAhead"], /^\~?/, /^[a-zA-Z\¡-\￿_]/, /^[a-zA-Z\¡-\￿_0-9]*/], 450,
+   3, "def", [0, [7, "localConstructorAhead"], /^\~?/, /^[a-zA-Z¡-￿_]/, /^[a-zA-Z¡-￿_0-9]*/], 450,
    1, 249, 448],
   [1, 9, 446],
   [1, 9, 449],
@@ -725,11 +725,11 @@ var nodes = [
   [":", 466],
   [1, 9, 467],
   [1, 521, -1],
-  [/^(?![a-zA-Z\¡-\￿_0-9])/, 469],
+  [/^(?![a-zA-Z¡-￿_0-9])/, 469],
   [1, 9, 470],
   [1, 414, 470,
    1, 9, 471],
-  [/^[a-zA-Z\¡-\￿_]/, -1],
+  [/^[a-zA-Z¡-￿_]/, -1],
   [3, "operator", "=", 473,
    2, 426, -1, {"name":"BlockOf"}],
   [1, 9, 474],

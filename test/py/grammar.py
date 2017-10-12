@@ -19,7 +19,7 @@
     [keyword return] [variable-2 u][[ : [number 1] : [number 2], [variable a] ]]
 
 [keyword if] [atom None]:
-  [keyword for] [def i] [keyword in] [[ [variable k] [keyword for] [def k] [keyword in] [variable p] ]]:
+  [keyword for] [def i] [keyword in] [[ [variable-2 k] [keyword for] [def k] [keyword in] [variable p] ]]:
     [keyword global] [variable m]
     [keyword break]
 
