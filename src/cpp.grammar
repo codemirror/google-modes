@@ -131,6 +131,10 @@ tokens {
      (digit digits ("." digits)? | "." digit digits) (("e" | "E") "-"? digits)?)
     ("L" | "l" | "U" | "u" | "F" | "f")?
   }
+
+  string="string" {
+    "R\"(" (!")\"" _)* ")\"" | super
+  }
 }
 
 digits { (digit | "'")* }

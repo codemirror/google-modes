@@ -44,7 +44,9 @@
 }
 
 [keyword namespace] [def ns] {
-[type void] [meta A::][qualified&def B]() {}
+[type void] [meta A::][qualified&def B]() {
+  [keyword return] [string R"(foo " ) bar)"] [string "ok"];
+}
 [type void] [meta X::][qualified&def Y]() {
   [callee&variable B]();
 }
