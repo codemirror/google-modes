@@ -3,7 +3,54 @@
 
 <script src="node_modules/codemirror/lib/codemirror.js"></script>
 <link rel=stylesheet href="node_modules/codemirror/lib/codemirror.css">
+<script src="node_modules/codemirror/addon/wrap/hardwrap.js"></script>
+<script src="node_modules/codemirror/addon/selection/selection-pointer.js"></script>
+<script src="node_modules/codemirror/addon/selection/mark-selection.js"></script>
+<script src="node_modules/codemirror/addon/selection/active-line.js"></script>
+<script src="node_modules/codemirror/addon/search/searchcursor.js"></script>
+<script src="node_modules/codemirror/addon/search/search.js"></script>
+<script src="node_modules/codemirror/addon/search/matchesonscrollbar.js"></script>
+<script src="node_modules/codemirror/addon/search/match-highlighter.js"></script>
+<script src="node_modules/codemirror/addon/scroll/simplescrollbars.js"></script>
+<script src="node_modules/codemirror/addon/scroll/scrollpastend.js"></script>
+<script src="node_modules/codemirror/addon/scroll/annotatescrollbar.js"></script>
+<script src="node_modules/codemirror/addon/runmode/runmode.js"></script>
+<script src="node_modules/codemirror/addon/runmode/colorize.js"></script>
+<script src="node_modules/codemirror/addon/lint/yaml-lint.js"></script>
+<script src="node_modules/codemirror/addon/lint/lint.js"></script>
+<script src="node_modules/codemirror/addon/lint/json-lint.js"></script>
+<script src="node_modules/codemirror/addon/lint/javascript-lint.js"></script>
+<script src="node_modules/codemirror/addon/lint/html-lint.js"></script>
+<script src="node_modules/codemirror/addon/lint/css-lint.js"></script>
+<script src="node_modules/codemirror/addon/lint/coffeescript-lint.js"></script>
+<script src="node_modules/codemirror/addon/hint/xml-hint.js"></script>
+<script src="node_modules/codemirror/addon/hint/sql-hint.js"></script>
+<script src="node_modules/codemirror/addon/hint/show-hint.js"></script>
+<script src="node_modules/codemirror/addon/hint/javascript-hint.js"></script>
+<script src="node_modules/codemirror/addon/hint/html-hint.js"></script>
+<script src="node_modules/codemirror/addon/hint/css-hint.js"></script>
+<script src="node_modules/codemirror/addon/hint/anyword-hint.js"></script>
+<script src="node_modules/codemirror/addon/fold/xml-fold.js"></script>
+<script src="node_modules/codemirror/addon/fold/markdown-fold.js"></script>
+<script src="node_modules/codemirror/addon/fold/indent-fold.js"></script>
+<script src="node_modules/codemirror/addon/fold/foldgutter.js"></script>
+<script src="node_modules/codemirror/addon/fold/foldcode.js"></script>
+<script src="node_modules/codemirror/addon/fold/comment-fold.js"></script>
+<script src="node_modules/codemirror/addon/fold/brace-fold.js"></script>
+<script src="node_modules/codemirror/addon/edit/trailingspace.js"></script>
+<script src="node_modules/codemirror/addon/edit/matchtags.js"></script>
+<script src="node_modules/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="node_modules/codemirror/addon/edit/continuelist.js"></script>
+<script src="node_modules/codemirror/addon/edit/closetag.js"></script>
+<script src="node_modules/codemirror/addon/edit/closebrackets.js"></script>
+<script src="node_modules/codemirror/addon/display/rulers.js"></script>
+<script src="node_modules/codemirror/addon/display/placeholder.js"></script>
+<script src="node_modules/codemirror/addon/display/panel.js"></script>
+<script src="node_modules/codemirror/addon/display/fullscreen.js"></script>
+<script src="node_modules/codemirror/addon/display/autorefresh.js"></script>
+<script src="node_modules/codemirror/addon/dialog/dialog.js"></script>
 <script src="node_modules/codemirror/addon/comment/continuecomment.js"></script>
+<script src="node_modules/codemirror/addon/comment/comment.js"></script>
 <script src="node_modules/codemirror-grammar-mode/src/mode.js"></script>
 <script src="dist/javascript.js"></script>
 <script src="dist/java.js"></script>
@@ -127,7 +174,7 @@ public enum Enum {
 
 public class Class<T, V> implements MyInterface {
   public static final MyType<T, V> member;
-  
+
   private class InnerClass {
     public int zero() {
       return 0;
@@ -802,9 +849,32 @@ func main() {
     {name: "java"},
     {name: "cpp"},
     {name: "python"},
-    {name: "go", tabSize: 4, indentWithTabs: true, indentUnit: 4}
+    {name: "go", tabSize: 2, indentWithTabs: true, indentUnit: 2}
   ].forEach(spec => {
     editors[spec.name] = CodeMirror.fromTextArea(document.querySelector(`#code-${spec.name}`),
-                                                 Object.assign({mode: "google-" + spec.name}, spec))
+   Object.assign({
+    mode: "google-" + spec.name,
+    autoCloseBrackets: true,
+    continueComments: {key: "Enter", continueLineComment: false},
+    foldGutter: true,
+    gutters: ["gutter", "CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+    highlightSelectionMatches: {showToken: true, delay: 500, annotateScrollbar: true},
+    indentUnit: 2,
+    inputStyle: "textarea",
+    lineNumbers: true,
+    lineWrapping: false,
+    matchBrackets: {maxScanLines: 5000},
+    pasteLinesPerSelection: false,
+    readOnly: false,
+    scrollPastEnd: false,
+    showCursorWhenSelecting: true,
+    showTrailingSpace: true,
+    smartIndent: true,
+    styleActiveLine: true,
+    styleSelectedText: true,
+    tabSize: 2,
+    undoDepth: 500,
+    vimMode: false,
+  }, spec))
   })
 </script>
