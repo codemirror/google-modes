@@ -66,3 +66,8 @@
   [keyword pass]
 
 [callee&variable foo]([meta dir]=[string "a"], [meta file]=[string "b"])
+
+[keyword def] [def testRaise]():
+  [def bar] [operator =] [number 1]
+  [keyword raise] [variable Exception], [string 'blah']
+  [variable-2 bar] [operator =] [builtin map]([keyword lambda] [def x]: [number 1], [variable-2 bar])
