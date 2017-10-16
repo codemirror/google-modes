@@ -70,12 +70,16 @@ skip whitespace {
     "<" ListOf(TypeParam | modifier* Type declName (op("=") ExpressionNoGt)?) ">"
   }
 
-  context TemplateArgs {
-    "<" ListOf(TypeParam | modifier* Type Initializer? | number) ">"
-  }
-
   TypeParam {
      (template TemplateArgs)? (class | typename) typeDeclName (op("=") (variableName | number))?
+  }
+
+  context TemplateArgs {
+    "<" ListOf(TypeArg | modifier* Type Initializer? | number) ">"
+  }
+
+  TypeArg {
+     (template TemplateArgs)? (class | typename) Type
   }
 
   Class {
@@ -83,7 +87,7 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (access ":" | ObjectMember)* "}"
+    "{" (access ":" | Template | ObjectMember)* "}"
   }
 
   context ObjectMember {

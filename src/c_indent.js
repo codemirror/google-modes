@@ -33,7 +33,8 @@ const bracketed = {
 function statementIndent(cx, config) {
   for (;; cx = cx.parent) {
     if (!cx) return 0
-    if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr" || cx.name == "EnumConstant")
+    if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr" ||
+        cx.name == "EnumConstant" || cx.name == "Template")
       return CodeMirror.countColumn(cx.startLine, null, config.tabSize)
   }
 }
