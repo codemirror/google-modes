@@ -42,6 +42,7 @@
       [keyword continue] label;
     } [keyword catch] ([type RuntimeException] [def e]) {
       [variable system].[property&callee println]([variable-2 e].[property message]);
+    } [keyword catch] ([keyword final] [type Exception] | [type InterruptedException] [def e]) {
     } [keyword finally] {
       [keyword return] [number 00l];
     }

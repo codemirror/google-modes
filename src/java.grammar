@@ -8,7 +8,7 @@ skip whitespace {
   context Statement {
     for "(" Statement Expr? ";" Expr? ")" Statement |
     while CondExpr Statement |
-    try Block (catch "(" Modifier* Type declName ")" Block)* (finally Block)? |
+    try Block (catch "(" Modifier* Type ("|" Type)* declName ")" Block)* (finally Block)? |
     do Statement while CondExpr ";" |
     if CondExpr Statement (else Statement)? |
     switch CondExpr Block |
