@@ -95,3 +95,5 @@
 	[variable&callee f]([keyword func]() { [variable-2 wg].[property&callee Done]() })
 	[variable-2 wg].[property&callee Wait]()
 }
+
+[keyword var] [def imported] [operator =] [keyword map][[ [type string] ]][type bool]{}
