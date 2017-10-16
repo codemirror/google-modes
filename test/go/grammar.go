@@ -82,7 +82,7 @@
 }
 
 [keyword func] ([def r] [type X]) [def y]() {
-	[callee&variable bar]([variable-2 r]);
+	[callee&variable bar]([variable-2 r], [builtin make]([type Bar]));
 }
 
 [keyword type] [def Message] [keyword struct] {

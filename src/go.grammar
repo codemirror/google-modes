@@ -54,6 +54,7 @@ skip whitespace {
     string |
     atom |
     func FunctionExpr |
+    make TypeList |
     builtin |
     calleeName |
     variableName |
@@ -66,6 +67,7 @@ skip whitespace {
   context FunctionExpr { ParamList (ParamList | Type)? Block }
   context ParenExpr { "(" CommaSep(Expr) ")" }
   context LiteralBody { "{" CommaSep((propNameColon | Expr) (":" Expr)?) "}" }
+  context TypeList { "(" CommaSep(Type) ")" }
 
   ExprPrefix {
     prefixOp | range
@@ -144,12 +146,13 @@ tokens {
   import { kw("import") }
   return { kw("return") }
   var { kw("var") }
+  make="builtin" { "make" !identifierChar }
 
   atom="atom" { ("true" | "false" | "nil" | "iota") !identifierChar }
 
   builtin="builtin" {
     ("append" | "cap" | "close" | "complex" | "copy" | "delete" | "imag" |
-     "len" | "make" | "new" | "panic" | "print" | "println" | "real" |
+     "len" | "new" | "panic" | "print" | "println" | "real" |
      "recover") !identifierChar
   }
 
