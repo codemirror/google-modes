@@ -145,7 +145,7 @@ tokens {
   return { kw("return") }
   var { kw("var") }
 
-  atom="atom" { ("true" | "false" | "nil") !identifierChar }
+  atom="atom" { ("true" | "false" | "nil" | "iota") !identifierChar }
 
   builtin="builtin" {
     ("append" | "cap" | "close" | "complex" | "copy" | "delete" | "imag" |
