@@ -27,6 +27,10 @@ skip whitespace {
     super
   }
 
+  ExpressionNoGt {
+    ExpressionPrefix* BaseExpression (!">" ExpressionSuffix)*
+  }
+
   ExpressionSuffix {
     BlockOf(Expression, ",") |
     super
@@ -63,7 +67,7 @@ skip whitespace {
   }
 
   TemplateParams {
-    "<" ListOf(TypeParam | modifier* Type declName Initializer?) ">"
+    "<" ListOf(TypeParam | modifier* Type declName (op("=") ExpressionNoGt)?) ">"
   }
 
   context TemplateArgs {
