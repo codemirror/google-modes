@@ -93,7 +93,7 @@ skip whitespace {
   context ObjectMember {
     (modifier | qualifier)*
     (ctorDtorName | Type Declarator)
-    (FunctionDef | Initializer? ";")
+    (FunctionDef | (Initializer | ":" number | "[" number? "]")? ";")
   }
 
   Initializer { super | BlockOf(Expression, ",") | ArgList }
