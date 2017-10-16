@@ -82,7 +82,7 @@ skip whitespace {
     Lambda |
     calleeName |
     plainVariableName |
-    "(" ~typeID Type ")" Expr |
+    ~("(" typeID) "(" Type ")" Expr |
     ParenExpr
   }
 
