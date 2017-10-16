@@ -38,7 +38,10 @@ skip whitespace {
   }
 
   context EnumBody {
-    "{" CommaSep(Annotation? declName ArgList? Block?) (";" ClassItem*)? "}"
+    "{" CommaSep(EnumConstant) (";" ClassItem*)? "}"
+  }
+  context EnumConstant {
+    Annotation? declName ArgList? ClassBody?
   }
 
   Declaration {

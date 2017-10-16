@@ -33,7 +33,7 @@ const bracketed = {
 function statementIndent(cx, config) {
   for (;; cx = cx.parent) {
     if (!cx) return 0
-    if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr")
+    if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr" || cx.name == "EnumConstant")
       return CodeMirror.countColumn(cx.startLine, null, config.tabSize)
   }
 }
@@ -69,7 +69,7 @@ function findIndent(cx, textAfter, curLine, config) {
     let flat = closed && brack != ")" || curLine == cx.startLine && cx.name != "CondExpr"
     return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) +
       (flat ? 0 : config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1))
-  } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem") {
+  } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "EnumConstant") {
     let base = statementIndent(cx, config)
     if (!curLine && hasSubStatement(cx))
       return base + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)
