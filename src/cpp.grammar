@@ -111,6 +111,8 @@ tokens {
   using { kw("using") }
   alignas { kw("alignas") }
   cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
+  atom="atom" { "nullptr" !identifierChar | super }
+
 
   variableName {
     nameQualifier+ ((qualifiedTemplateName TemplateArgs)  | initializedName | qualifiedVariableName) |

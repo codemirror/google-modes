@@ -6,3 +6,4 @@
 [type string] [def raw_string] [operator =] [string R"delim(anything]
 [string you]
 [string want)delim"];
+[atom nullptr];
