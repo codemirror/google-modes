@@ -26,7 +26,9 @@ skip whitespace {
   }   
 
   DeclRest {
-    Declarator (FunctionDef | Initializer? ("," declName Initializer?)* ";")
+    Declarator
+    (~("(" (")" | modifier | qualifier | typeModifier | auto | maybeTypeName)) FunctionDef |
+     Initializer? ("," declName Initializer?)* ";")
   }
 
   Declarator {

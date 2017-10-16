@@ -93,10 +93,10 @@ skip whitespace {
   context ObjectMember {
     (modifier | qualifier)*
     (ctorDtorName | Type Declarator)
-    (Initializer? ";" | FunctionDef)
+    (FunctionDef | Initializer? ";")
   }
 
-  Initializer { super | BlockOf(Expression, ",") }
+  Initializer { super | BlockOf(Expression, ",") | ArgList }
 }
 
 tokens {
@@ -175,7 +175,7 @@ unqualifiedTypeName="type" { identifier }
 
 maybeTypeName {
   typename whitespace nameQualifier* unqualifiedTypeName |
-  !(("new" | "delete") !identifierChar) unqualifiedTypeName ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
+  !(("new" | "delete") !identifierChar) nameQualifier* unqualifiedTypeName ~(whitespace TypeSuffix* whitespace identifierStart)
 }
 
 ctorDtorName="def" { &localConstructorAhead "~"? identifier }
