@@ -849,7 +849,7 @@ func main() {
     {name: "java"},
     {name: "cpp"},
     {name: "python"},
-    {name: "go", tabSize: 2, indentWithTabs: true, indentUnit: 4}
+    {name: "go", tabSize: 2, indentWithTabs: true, indentUnit: 2}
   ].forEach(spec => {
     editors[spec.name] = CodeMirror.fromTextArea(document.querySelector(`#code-${spec.name}`),
    Object.assign({
@@ -858,7 +858,6 @@ func main() {
     continueComments: {key: "Enter", continueLineComment: false},
     foldGutter: true,
     gutters: ["gutter", "CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-    height: "100%",
     highlightSelectionMatches: {showToken: true, delay: 500, annotateScrollbar: true},
     indentUnit: 2,
     inputStyle: "textarea",
@@ -871,7 +870,6 @@ func main() {
     showCursorWhenSelecting: true,
     showTrailingSpace: true,
     smartIndent: true,
-    statementIndentUnit: 4,
     styleActiveLine: true,
     styleSelectedText: true,
     tabSize: 2,
