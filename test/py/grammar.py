@@ -64,3 +64,5 @@
 
 [keyword for] [def a], [def b] [keyword in] [builtin enumerate]([string 'xyz']):
   [keyword pass]
+
+[callee&variable foo]([meta dir]=[string "a"], [meta file]=[string "b"])
