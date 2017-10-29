@@ -188,7 +188,6 @@ labelName="meta" { identifier ~(" "* "=") }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }
-typeName="type" { identifier }
 compLocalName="variable-2" { identifier &isCompLocal }
 
 whitespaceSimple { (" " | "\t" | comment) }
