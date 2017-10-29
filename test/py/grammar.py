@@ -6,7 +6,7 @@
 [def foo] [operator =] [string "bar"]; [variable abc_cde].[property&callee prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
 
 [meta @foo.bar]
-[keyword async] [keyword def] [def f]([def v]: [type myType] [operator =] [number 0xffff], [operator **][def blah]):
+[keyword async] [keyword def] [def f]([def v]: [variable myType] [operator =] [number 0xffff], [operator **][def blah]):
   [builtin print]([variable-2 v] [operator +] [string 'hi\''] [keyword if] [atom False] [keyword else] [string '''blah'''])
   [keyword yield] [keyword from] [variable ugh]
 
@@ -14,7 +14,7 @@
   [string """my docstring"""]
   [def x] [operator =] [number 100_000.0]
 
-  [keyword def] [def method]([atom self], [def u]) -> [type t]:
+  [keyword def] [def method]([atom self], [def u]) -> [variable t]:
     [atom self].[property&callee map]([keyword lambda] [def a]: [variable-2 x] [keyword not in] [variable-2 a])
     [keyword return] [variable-2 u][[ : [number 1] : [number 2], [variable a] ]]
 
@@ -71,3 +71,9 @@
   [def bar] [operator =] [number 1]
   [keyword raise] [variable Exception], [string 'blah']
   [variable-2 bar] [operator =] [builtin map]([keyword lambda] [def x]: [number 1], [variable-2 bar])
+
+[keyword import] [variable typing]
+
+[keyword class] [def Example]([builtin object]):
+  [keyword def] [def method]([atom self], [def x]: [variable typing].[property List]):
+    [atom self].[property x] [operator =] [variable-2 x]

@@ -38,7 +38,7 @@ skip whitespace {
 
   context ArgList { "(" CommaSep((op("**") | labelName "=")? Expr)? ")" }
 
-  context ParamList { "(" CommaSep(op("*" "*"?)? (self | declName) (":" Type)? (op("=") Expr)?)? ")" }
+  context ParamList { "(" CommaSep(op("*" "*"?)? (self | declName) (":" Expr)? (op("=") Expr)?)? ")" }
 
   Expr {
     ExprPrefix* BaseExpr (ExprSuffix(Expr) | in Expr)*
@@ -79,7 +79,7 @@ skip whitespace {
 
   context LambdaDef { CommaSep(op("*" | "**")? declName (op("=") Expr)?)? ":" Expr }
   context ClassDef { declName ArgList? ":" Body }
-  context FuncDef { ParamList ("->" Type)? ":" Body }
+  context FuncDef { ParamList ("->" Expr)? ":" Body }
 
   MaybeComp { (compLocalName | Expr) ("," CommaSep(Expr)? | CompFor)? }
   CompFor { async? for CommaSep(assignedName | ExprNoIn) in Expr (CompFor | CompIf)? }
@@ -102,8 +102,6 @@ skip whitespace {
   CommaSep(expr) { expr ("," expr?)* }
 
   Body { SimpleStatement | indentedBody }
-
-  Type { typeName | Expr }
 }
 
 tokens {
