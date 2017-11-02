@@ -762,8 +762,8 @@ function aligned(cx) {
 var bracketed = {
   Block: "}", BlockOf: "}", ClassBody: "}", ObjectLiteral: "}", EnumBody: "}", ArrayInitializer: "}",
   ArrayLiteral: "]",
-  ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", TemplateArgs: ")", ForSpec: ")",
-  TypeParams: ">", TypeArgs: ">"
+  ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")",
+  TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
 };
 
 function statementIndent(cx, config) {

@@ -11,3 +11,11 @@
           [meta std::][type forward_iterator_tag]>::[type value],
       [type int]>::[type type];
 }
+
+[keyword template] <[keyword typename] [def&type Alpha], [keyword typename] [def&type Beta],
+          [keyword typename] [def&type Gamma]>
+[type Fooooooooooooooooooo] [meta Bar::MyNiceClass]<[local&type Alpha], [local&type Beta],
+                                      [local&type Gamma]>[meta ::][def&qualified Func]() [keyword const] {
+  [comment // Any comment.]
+  [type Foo] [def foo];
+}
