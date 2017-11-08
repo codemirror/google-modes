@@ -33,6 +33,7 @@ skip whitespace {
 
   ExpressionSuffix {
     BlockOf(Expression, ",") |
+    ArgList Block? |
     super
   }
 
