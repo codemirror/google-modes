@@ -97,3 +97,7 @@
 }
 
 [keyword var] [def imported] [operator =] [keyword map][[ [type string] ]][type bool]{}
+
+[keyword for] {
+	[def x] [operator :=] [operator <-][variable ch]
+}

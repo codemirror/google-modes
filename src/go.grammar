@@ -29,7 +29,7 @@ skip whitespace {
   }
 
   context ForStatement {
-    for (AssignedNames ExprNoBrace | ExprNoBrace) (";" ExprNoBrace?)* Block
+    for ((AssignedNames ExprNoBrace | ExprNoBrace) (";" ExprNoBrace?)*)? Block
   }
 
   context SwitchStatement {
