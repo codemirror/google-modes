@@ -277,10 +277,10 @@ var nodes = [
    2, 266, -1, {"name":"qualifiedVariableName","token":"qualified"}],
   [2, 329, -1, {"name":"TemplateArgs"}],
   [2, 329, -1, {"name":"TemplateArgs"}],
-  ["R\"(", 162,
-   /^(?:(?:L|u8?|U|R)(?=[\'\"]))?/, 163],
-  [[0, /^(?!\)\")/, /^[^]/], 162,
-   ")\"", -1],
+  [/^R\"(?:(?!\().)*\(/, 162,
+   /^(?:(?:L|u8?|U)(?=[\'\"]))?/, 163],
+  [[0, [7, "rawStringContinues"], /^[^]/], 162,
+   "\"", -1],
   [/^\'(?:\\.(?:(?!\').)*|.)\'/, -1,
    "\"", 164],
   ["\\", 165,
@@ -1086,13 +1086,21 @@ function localConstructorAhead(line, pos, cx) {
   return className ? className[1] == ahead[1] : false
 }
 
+var rawStringOpen = /R"(.*?)\(/g;
+
+function rawStringContinues(line, pos, cx) {
+  rawStringOpen.lastIndex = cx.startPos;
+  var closing = ")" + rawStringOpen.exec(cx.startLine)[1] + '"';
+  return pos < closing.length - 1 || line.slice(pos - closing.length + 1, pos + 1) != closing
+}
+
 var scopes = ["Block", "FunctionDef"];
 var typeScopes = ["Template"];
 
 var CppMode = (function (superclass) {
   function CppMode(conf) {
     superclass.call(this, cpp, {
-      predicates: {constructorAhead: constructorAhead, localConstructorAhead: localConstructorAhead}
+      predicates: {constructorAhead: constructorAhead, localConstructorAhead: localConstructorAhead, rawStringContinues: rawStringContinues}
     });
     this.conf = conf;
   }

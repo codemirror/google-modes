@@ -17,12 +17,20 @@ function localConstructorAhead(line, pos, cx) {
   return className ? className[1] == ahead[1] : false
 }
 
+const rawStringOpen = /R"(.*?)\(/g
+
+function rawStringContinues(line, pos, cx) {
+  rawStringOpen.lastIndex = cx.startPos
+  let closing = ")" + rawStringOpen.exec(cx.startLine)[1] + '"'
+  return pos < closing.length - 1 || line.slice(pos - closing.length + 1, pos + 1) != closing
+}
+
 const scopes = ["Block", "FunctionDef"], typeScopes = ["Template"]
 
 class CppMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(cpp, {
-      predicates: {constructorAhead, localConstructorAhead}
+      predicates: {constructorAhead, localConstructorAhead, rawStringContinues}
     })
     this.conf = conf
   }

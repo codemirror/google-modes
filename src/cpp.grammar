@@ -144,7 +144,7 @@ tokens {
   }
 
   string="string" {
-    "R\"(" (!")\"" _)* ")\"" | super
+    "R\"" (!"(" .)* "(" (&rawStringContinues _)* "\"" | super
   }
 }
 

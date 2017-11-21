@@ -51,3 +51,8 @@
   [callee&variable B]();
 }
 }
+
+[keyword const] [type char]* [def s1] [operator =] [string R"foo(]
+[string Hello can have "quotes"]
+[string World]
+[string )foo"];
