@@ -57,7 +57,7 @@
   }
 
   [keyword enum] [def TrafficLight] {
-    [def RED]([number 30]), [def AMBER]([number 10]);
+    [def RED]([number 30]), [def AMBER]([number 10]),;
 
     [keyword private] [keyword final] [type int] [def seconds];
 
