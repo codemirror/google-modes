@@ -107,7 +107,7 @@ skip whitespace {
   }
 
   context InterfaceBody {
-    "{" separated(propNameParen ParamList | Type) "}"
+    "{" separated(propNameParen ParamList (ParamList | Type)? | Type) "}"
   }
 
   context ParamList {
@@ -194,8 +194,8 @@ declName="def" { identifier }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }
-propNameParen="property" { identifier ~(" " "(") }
-propNameColon="property" { identifier ~(" " ":") }
+propNameParen="property" { identifier ~(" "* "(") }
+propNameColon="property" { identifier ~(" "* ":") }
 typeName="type" { identifier }
 typeQualifier="meta" { identifier "." }
 label { identifier ~(" "* ":" !"=") }

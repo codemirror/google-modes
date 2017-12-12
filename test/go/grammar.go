@@ -101,3 +101,9 @@
 [keyword for] {
 	[def x] [operator :=] [operator <-][variable ch]
 }
+
+[keyword type] [def A] [keyword interface] {
+	[property Foo]([def f] [meta foo.][type Bar]) [keyword map][[ [type string] ]][type string]
+	[property a]([def f] [meta foo.][type Bar])
+	[type u]
+}
