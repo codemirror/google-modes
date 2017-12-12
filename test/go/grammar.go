@@ -107,3 +107,5 @@
 	[property a]([def f] [meta foo.][type Bar])
 	[type u]
 }
+
+[callee&variable something]([keyword func]() { [keyword return] [number 22] })

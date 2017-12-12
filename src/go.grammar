@@ -41,7 +41,7 @@ skip whitespace {
 
   Expr {
     AssignedNames Expr |
-    ExprPrefix* (maybe(Type ~"{") | BaseExpr) (ExprSuffix(Expr) | LiteralBody)*
+    ExprPrefix* (!func maybe(Type ~"{") | BaseExpr) (ExprSuffix(Expr) | LiteralBody)*
   }
 
   ExprNoBrace {
