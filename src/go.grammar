@@ -66,7 +66,7 @@ skip whitespace {
   context FunctionDecl { ("(" declName Type ")")? declName? ParamList (ParamList | Type)? Block? }
   context FunctionExpr { ParamList (ParamList | Type)? Block }
   context ParenExpr { "(" CommaSep(Expr) ")" }
-  context LiteralBody { "{" CommaSep((propNameColon | Expr) (":" Expr)?) "}" }
+  context LiteralBody { "{" CommaSep((propNameColon | LiteralBody | Expr) (":" (LiteralBody | Expr))?) "}" }
   context TypeList { "(" CommaSep(Type) ")" }
 
   ExprPrefix {

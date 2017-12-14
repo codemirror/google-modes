@@ -109,3 +109,8 @@
 }
 
 [callee&variable something]([keyword func]() { [keyword return] [number 22] })
+
+[def abcd] [operator :=] [[]][meta bar.][type Baz]{
+	{},
+}
+[keyword var] [def hashes] [operator =] [number 123]
