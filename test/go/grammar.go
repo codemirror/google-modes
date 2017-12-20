@@ -108,6 +108,10 @@
 	[type u]
 }
 
+[keyword type] [def Span] [keyword struct] {
+	[type Range]
+}
+
 [callee&variable something]([keyword func]() { [keyword return] [number 22] })
 
 [def abcd] [operator :=] [[]][meta bar.][type Baz]{

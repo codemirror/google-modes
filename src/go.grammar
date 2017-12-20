@@ -103,7 +103,7 @@ skip whitespace {
   }
 
   context StructBody {
-    "{" separated((declName ("," declName)* | "*") Type string?) "}"
+    "{" separated((~(identifier (identifierStart | "[" | "," | "*" | "<" | "(")) declName ("," declName)* | "*")? Type string?) "}"
   }
 
   context InterfaceBody {
