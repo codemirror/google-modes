@@ -34,7 +34,7 @@ skip whitespace {
   }
 
   AnnotationHead="meta" {
-    "@" identifier ("." identifier)*
+    !atInterface "@" identifier ("." identifier)*
   }
 
   context EnumBody {
@@ -48,6 +48,7 @@ skip whitespace {
     Block |
     enum declName (implements CommaSep(Type))? EnumBody |
     classInterface declName TypeParams? (extends Type)? (implements CommaSep(Type))? ClassBody |
+    atInterface declName AnnotationTypeBody |
     package identifier ("." identifier)* ";" |
     ~(Annotation* TypeParams? (primType | packageQualifier* className))
       Type DeclExpr (FunctionDef | (op("=") Expr)? ("," DeclExpr (op("=") Expr)?)* ";")
@@ -59,6 +60,16 @@ skip whitespace {
 
   context ClassBody {
     "{" ClassItem* "}"
+  }
+
+  context AnnotationTypeItem {
+    BeforeStatement(Modifier*)
+    (declNameParenBracketOrEquals (("[" "]")* op("=") Expr) | "(" ")" ("[" "]")* (default Expr)? |
+     Declaration)
+  }
+
+  context AnnotationTypeBody {
+    "{" AnnotationTypeItem* "}"
   }
 
   context Block { "{" Statement* "}" }
@@ -152,6 +163,7 @@ tokens {
   package { kw("package") }
   import { kw("import") }
   classInterface { kw("class" | "interface") }
+  atInterface { kw("@interface") }
   instanceof { kw("instanceof") }
 
   primType="type" { ("boolean" | "char" | "byte" | "short" | "int" | "long" | "float" | "double" | "void") !identifierChar }
@@ -200,6 +212,7 @@ whitespace {
 
 declName="def" { identifier }
 declNameParen="def" { identifier ~(" "* "(") }
+declNameParenBracketOrEquals="def" { identifier ~(" "* ("(" | "[" | "=")) }
 
 typeDeclName="type def" { identifier }
 

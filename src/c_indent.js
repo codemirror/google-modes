@@ -24,7 +24,7 @@ function aligned(cx) {
 }
 
 const bracketed = {
-  Block: "}", BlockOf: "}", ClassBody: "}", ObjectLiteral: "}", EnumBody: "}", ArrayInitializer: "}",
+  Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", EnumBody: "}", ArrayInitializer: "}",
   ArrayLiteral: "]",
   ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")",
   TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
@@ -34,7 +34,7 @@ function statementIndent(cx, config) {
   for (;; cx = cx.parent) {
     if (!cx) return 0
     if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr" ||
-        cx.name == "EnumConstant" || cx.name == "Template")
+        cx.name == "EnumConstant" || cx.name == "Template" || cx.name == "AnnotationTypeItem")
       return CodeMirror.countColumn(cx.startLine, null, config.tabSize)
   }
 }
@@ -53,7 +53,7 @@ function findIndent(cx, textAfter, curLine, config) {
     if (config.align !== false && curLine != cx.startLine && aligned(cx))
       return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1)
 
-    if (cx.name == "Block" || cx.name == "ClassBody" || cx.name == "BlockOf" || cx.name == "EnumBody") {
+    if (cx.name == "Block" || cx.name == "ClassBody" || cx.name == "AnnotationTypeBody" || cx.name == "BlockOf" || cx.name == "EnumBody") {
       // Skip wrapping statement context
       let skipCx = cx
       if (cx.parent && cx.parent.name == "Statement" && cx.parent.parent &&
@@ -70,7 +70,8 @@ function findIndent(cx, textAfter, curLine, config) {
     let flat = closed && brack != ")" || curLine == cx.startLine && cx.name != "CondExpr"
     return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) +
       (flat ? 0 : config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1))
-  } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "EnumConstant") {
+  } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "EnumConstant" ||
+             cx.name == "AnnotationTypeItem") {
     let base = statementIndent(cx, config)
     if (!curLine && hasSubStatement(cx))
       return base + (/^else\b/.test(textAfter) ? 0 : config.indentUnit)

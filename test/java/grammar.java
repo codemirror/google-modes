@@ -75,3 +75,7 @@
   <[type&def X]> [type void] [def foo]([type&local X] [def x], [type Y] [def y]) {
   }
 }
+
+[meta @BindingAnnotation]
+[keyword @interface] [def SomeInterface] { }
+[keyword public] [type void] [def run]() {}

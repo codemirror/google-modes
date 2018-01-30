@@ -5,7 +5,7 @@ import {markLocals, markTypeLocals} from "./locals"
 import {indent} from "./c_indent"
 
 const scopes = ["Block", "FunctionDef", "Lambda"]
-const typeScopes = ["ClassItem", "Statement"]
+const typeScopes = ["ClassItem", "Statement", "AnnotationTypeItem"]
 
 class JavaMode extends CodeMirror.GrammarMode {
   constructor(conf) {
