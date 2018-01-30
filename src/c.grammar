@@ -32,7 +32,7 @@ skip whitespace {
   }
 
   Declarator {
-    declOp* declName | "(" Declarator ")"
+    declOp* declName ("[" "]")* | "(" Declarator ")"
   }
 
   Loop {
