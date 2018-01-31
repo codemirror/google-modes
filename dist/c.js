@@ -574,9 +574,9 @@ function findIndent(cx, textAfter, curLine, config) {
       (flat ? 0 : config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1))
   } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "EnumConstant" ||
              cx.name == "AnnotationTypeItem") {
-    var base = statementIndent(cx, config);
-    if (!curLine && hasSubStatement(cx))
-      { return base + (/^else\b/.test(textAfter) ? 0 : config.indentUnit) }
+    var base = statementIndent(cx, config), sub;
+    if (!curLine && (sub = hasSubStatement(cx)))
+      { return base + (sub == "if" && (/[{;]\s*(\/\/.*)?$/.test(cx.startLine) || /^else\b/.test(textAfter)) ? 0 : config.indentUnit); }
     var flat$1 = curLine == cx.startLine ||
         curLine && CodeMirror.countColumn(curLine, null, config.tabSize) <= base;
     return base + (flat$1 ? 0 : 2 * config.indentUnit)
