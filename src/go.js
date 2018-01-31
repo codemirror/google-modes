@@ -19,26 +19,19 @@ const bracketed = {
   Set: ")", ParamList: ")", ArgList: ")", ParenExpr: ")"
 }
 
-function findIndent(cx, textAfter, curLine, config) {
+function findIndent(cx, textAfter, config) {
   if (!cx) return 0
   if (cx.name == "string" || cx.name == "comment") return CodeMirror.Pass
 
   let brack = bracketed[cx.name]
   if (brack) {
     let closed = textAfter && textAfter.charAt(0) == brack
-    let flat = closed || curLine == cx.startLine
-    if (cx.name == "Block") {
-      curLine = cx.parent.startLine
-      if (/^(case|default)\b/.test(textAfter)) flat = true
-    } else {
-      curLine = cx.startLine
-    }
-    return findIndent(cx.parent, closed ? null : textAfter, curLine, config) + (flat ? 0 : config.tabSize)
+    let flat = closed || cx.name == "Block" && /^(case|default)\b/.test(textAfter)
+    return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + (flat ? 0 : config.tabSize)
   } else if (cx.name == "Statement") {
-    return CodeMirror.countColumn(cx.startLine, null, config.tabSize) +
-      (curLine == cx.startLine ? 0 : config.tabSize)
+    return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + (inside ? config.tabSize : 0)
   } else {
-    return findIndent(cx.parent, textAfter, curLine, config)
+    return findIndent(cx.parent, textAfter, inside, config)
   }
 }
 
@@ -55,7 +48,7 @@ class GoMode extends CodeMirror.GrammarMode {
   }
 
   indent(state, textAfter, line) {
-    return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, null, this.conf)
+    return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, this.conf)
   }
 }
 

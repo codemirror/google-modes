@@ -118,3 +118,10 @@
 	{},
 }
 [keyword var] [def hashes] [operator =] [number 123]
+
+[def abs] [operator :=] [[]][keyword struct] {
+	[def a] [type string]
+	[def b] [type int]
+}{
+	[number 22]
+}
