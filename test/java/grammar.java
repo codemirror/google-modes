@@ -78,4 +78,6 @@
 
 [meta @BindingAnnotation]
 [keyword @interface] [def SomeInterface] { }
-[keyword public] [type void] [def run]() {}
+[keyword public] [type void] [def run]() {
+  [keyword return] [variable Foo].[keyword class];
+}
