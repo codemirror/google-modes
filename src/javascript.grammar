@@ -18,7 +18,7 @@ skip whitespace {
     breakCont identifier? semi |
     switch CondExpr Block |
     try Block (catch "(" declName ")" Block)? (finally Block)? |
-    class declName ClassDef |
+    class typeDeclName ClassDef |
     Export |
     Import |
     async Statement |
@@ -69,7 +69,7 @@ skip whitespace {
     (kwPrefix | prefixOp | async) BaseExpression |
     new ("." kw("target") | BaseExpression) |
     function asyncStar? declName? FunctionDef |
-    class (!kw("extends") declName)? ClassDef |
+    class (!kw("extends") typeDeclName)? ClassDef |
     ArrowFunc |
     calleeName |
     variable |
@@ -210,6 +210,7 @@ str2(value)="string-2" { value }
 
 propName="property" { identifier }
 declName="def" { identifier }
+typeDeclName="type def" { identifier }
 calleeName="variable callee" { identifier ~(" "* "(") }
 calleeProp="property callee" { identifier ~(" "* "(") }
 labelName { identifier ~(" "* ":") }

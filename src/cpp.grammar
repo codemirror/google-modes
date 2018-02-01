@@ -84,7 +84,7 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) (alignas "(" number ")")? declName (":" virtual? access? Type)? (";" | ClassBody)
+    (class | structUnion) (alignas "(" number ")")? typeDeclName (":" virtual? access? Type)? (";" | ClassBody)
   }
 
   context ClassBody {
@@ -159,8 +159,6 @@ parameterizedQualifier="meta" { identifier ~(" "* "<") }
 declQualifier { parameterizedQualifier whitespace TemplateArgs colons qualifiedDeclName | nameQualifier }
 
 declName { operator (binOp | prefixOp) | declQualifier+ qualifiedDeclName | unqualifiedDeclName }
-
-typeDeclName="type def" { identifier }
 
 declOp { "*" | "&&" | "&" }
 

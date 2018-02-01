@@ -1,5 +1,5 @@
 [keyword template] <[keyword typename] [type&def T], [type size_t] [def inlined] [operator =] [variable kFixedArrayUseDefault]>
-[keyword class] [def FixedArray] {
+[keyword class] [type&def FixedArray] {
   [keyword static] [keyword constexpr] [type size_t] [def kInlineBytesDefault] [operator =] [number 256];
 
   [comment // std::iterator_traits isn't guaranteed to be SFINAE-friendly until C++17,]

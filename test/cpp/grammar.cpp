@@ -1,6 +1,6 @@
 [keyword using] [variable Foo] = [meta ::][type Foo];
 
-[keyword class] [def Foo];
+[keyword class] [type&def Foo];
 
 [type void] [def foo]([type Bar]& [def x], [type Bar]& [def y]) [keyword noexcept];
 
@@ -15,7 +15,7 @@
 
 [type void] [def foo]([meta ::][type y] [def data], [type void]* [def arg], [type void] (*[def r])([type void]*));
 
-[keyword class] [def Z] {
+[keyword class] [type&def Z] {
   [keyword typedef] [type void] (*[def Bar])([meta x::][type Y] [def z], [type void]* [def arg]);
 
  [keyword public]:
@@ -24,7 +24,7 @@
 }
 
 [keyword template] <[type size_t] [def max_size]>
-[keyword struct] [def Foo] {
+[keyword struct] [type&def Foo] {
   [meta std::][type array]<[type char], [type max_size]> [def data];
   [type size_t] [def size];
 };

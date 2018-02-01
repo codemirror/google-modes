@@ -1,4 +1,4 @@
-[keyword class] [def BitcodeReaderValueList] {
+[keyword class] [type&def BitcodeReaderValueList] {
   [meta std::][type vector]<[type WeakVH]> [def ValuePtrs];
 
   [keyword typedef] [meta std::][type vector]<[meta std::][type pair]<[type Constant]*, [type unsigned]> > [def ResolveConstantsTy];
@@ -21,6 +21,6 @@
 [type BitcodeReaderValueList] [def a]([variable cx]);
 
 [keyword template] <[keyword class] [type&def T], [keyword class] [type&def V]>
-[keyword class] [def Class] : [keyword public] [type BaseClass] {
+[keyword class] [type&def Class] : [keyword public] [type BaseClass] {
   [keyword const] [type MyType]<[type&local T], [type&local V]> [def member_];
 }

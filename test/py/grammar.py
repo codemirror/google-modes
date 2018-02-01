@@ -10,7 +10,7 @@
   [builtin print]([variable-2 v] [operator +] [string 'hi\''] [keyword if] [atom False] [keyword else] [string '''blah'''])
   [keyword yield] [keyword from] [variable ugh]
 
-[keyword class] [def C]([variable hi]):
+[keyword class] [type&def C]([variable hi]):
   [string """my docstring"""]
   [def x] [operator =] [number 100_000.0]
 
@@ -34,7 +34,7 @@
 
 [keyword if] [variable pfile] [keyword is] [atom None] [keyword or] [variable pfile].[property project].[property disabled]: [keyword return]
 
-[keyword class] [def B]:
+[keyword class] [type&def B]:
   [keyword def] [def __init__]([atom self]):
     [keyword try]:
       [keyword with] [string U"x"] [keyword as] [def ay]: [variable-2 ay]
@@ -74,6 +74,6 @@
 
 [keyword import] [variable typing]
 
-[keyword class] [def Example]([builtin object]):
+[keyword class] [type&def Example]([builtin object]):
   [keyword def] [def method]([atom self], [def x]: [variable typing].[property List]):
     [atom self].[property x] [operator =] [variable-2 x]

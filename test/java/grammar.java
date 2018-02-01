@@ -11,7 +11,7 @@
 [meta @Foo](x = [string "something"])
 [meta @Bar]
 [meta @baz.argh]([variable Something].[property OK])
-[keyword public] [keyword class] [def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
+[keyword public] [keyword class] [type&def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
   [comment // line comment]
   [keyword private] [keyword final] [keyword volatile] [meta java.blah.][qualified&type Font] [def fonts][[]];
 
@@ -56,7 +56,7 @@
   [def join]([type Bar]... [def bars]) {
   }
 
-  [keyword enum] [def TrafficLight] {
+  [keyword enum] [type&def TrafficLight] {
     [def RED]([number 30]), [def AMBER]([number 10]),;
 
     [keyword private] [keyword final] [type int] [def seconds];
@@ -71,7 +71,7 @@
   }
 }
 
-[keyword class] [def Foo] {
+[keyword class] [type&def Foo] {
   <[type&def X]> [type void] [def foo]([type&local X] [def x], [type Y] [def y]) {
   }
 }

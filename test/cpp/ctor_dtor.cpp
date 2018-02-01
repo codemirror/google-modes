@@ -4,7 +4,7 @@
 [meta Foo::][qualified&def ~Foo]() {}
 
 [keyword template] <[keyword class] [type&def A1]>
-[keyword class] [def Foo] {
+[keyword class] [type&def Foo] {
  [keyword public]:
   [keyword virtual] [def ~Foo]() { }
  [keyword protected]:
