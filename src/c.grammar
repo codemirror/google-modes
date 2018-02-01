@@ -58,7 +58,7 @@ skip whitespace {
   }
 
   context BlockOf(element, separator) {
-    "{" (element (separator element)*)? "}"
+    "{" (element (separator element?)*)? "}"
   }
 
   Enum { enum typeDeclName? BlockOf(declName (op("=") Expression)?, ",")? }
