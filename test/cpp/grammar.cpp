@@ -58,3 +58,12 @@
 [string Hello can have "quotes"]
 [string World]
 [string )foo"];
+
+[type string] [def xyzzy]([type Bar] [def s]) {
+  [keyword switch] ([variable-2 s]) {
+    [keyword case] [meta Bar::][qualified&variable OK]:
+      [keyword return] [string "OK"];
+    [keyword case] [meta Bar::][qualified&variable NotOK]:
+      [keyword return] [string "NOT OK"];
+  }
+}

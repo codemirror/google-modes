@@ -15,8 +15,8 @@ skip whitespace {
     goto identifier ";" |
     return Expression? ";" |
     Struct |
+    Label |
     DeclType DeclRest |
-    Label Statement |
     ";" |
     Expression ";"
   }
