@@ -192,7 +192,7 @@ identifier { identifierStart identifierChar* }
 
 whitespace {
   (" " | "\t" |
-   "\n" preprocessorLine? |
+   "\n" (" " | "\t")* preprocessorLine? |
    comment)*
 }
 
