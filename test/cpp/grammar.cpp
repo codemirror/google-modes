@@ -83,5 +83,6 @@
 }
 
 [type int] [def sizeofint]() {
+  ([variable u])[[ [number 1] ]];
   [keyword return] [keyword sizeof]([type int]);
 }
