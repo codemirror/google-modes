@@ -186,7 +186,7 @@ unqualifiedTypeName="type" { identifier }
 
 maybeTypeName {
   typename whitespace nameQualifier* unqualifiedTypeName |
-  !(("new" | "delete") !identifierChar) nameQualifier* unqualifiedTypeName ~(whitespace TypeSuffix* whitespace identifierStart)
+  !(("new" | "delete") !identifierChar) nameQualifier* unqualifiedTypeName ~(whitespace (TypeSuffix whitespace)* identifierStart)
 }
 
 ctorDtorName="def" { &localConstructorAhead "~"? identifier }

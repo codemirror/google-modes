@@ -219,7 +219,7 @@ typeNameInner="type" { identifier }
 maybeTypeName {
   // The lookahead tries to figure out whether this identifier is
   // followed by optionally some type suffix and then another identifier
-  typeNameInner ~(!identifierChar whitespace TypeSuffix* whitespace identifierStart)
+  typeNameInner ~(!identifierChar whitespace (TypeSuffix whitespace)* identifierStart)
 }
 
 kw(value)="keyword" { value !identifierChar }
