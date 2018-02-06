@@ -27,6 +27,7 @@
 [keyword struct] [type&def Foo] {
   [meta std::][type array]<[type char], [type max_size]> [def data];
   [type size_t] [def size];
+  [type bool] [keyword operator]()([keyword const] [meta std::][type pair]<[type int32], [type double]>& [def a]);
 };
 
 [keyword template] <[keyword typename] [type&def X]>

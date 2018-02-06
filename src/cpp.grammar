@@ -160,7 +160,9 @@ parameterizedQualifier="meta" { identifier ~(" "* "<") }
 
 declQualifier { parameterizedQualifier whitespace TemplateArgs colons qualifiedDeclName | nameQualifier }
 
-declName { operator (binOp | prefixOp) | declQualifier+ qualifiedDeclName | unqualifiedDeclName }
+declName { operator overloadableOp | declQualifier+ qualifiedDeclName | unqualifiedDeclName }
+
+overloadableOp { op("->*") | "," | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 
 declOp { "*" | "&&" | "&" }
 
