@@ -89,7 +89,11 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (access ":" | Template | Macro ";"? | ObjectMember)* "}"
+    "{" ClassItem* "}"
+  }
+
+  context ClassItem {
+    access ":" | Template | Macro ";"? | Class | ObjectMember
   }
 
   context ObjectMember {

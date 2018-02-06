@@ -34,6 +34,10 @@
 [keyword class] [def&type Foo] : [keyword public] [type Bar] {
   [meta SOME_MACRO]([variable SomethingCapitalized], [variable SomethingCapitalized1]);
   [meta SOME_MACRO]([variable SomethingCapitalized], [variable SomethingCapitalized1]);
+  [keyword class] [def&type Baz] {
+   [keyword public]:
+    [type void] [def abc]();
+  }
 };
 [meta SOME_OTHER_MACRO]([variable SomethingThatLooksLikeAType]);
 
