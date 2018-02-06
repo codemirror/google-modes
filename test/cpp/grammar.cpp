@@ -30,6 +30,12 @@
   [type bool] [keyword operator]()([keyword const] [meta std::][type pair]<[type int32], [type double]>& [def a]) [keyword override];
 };
 
+[keyword class] [def&type Foo] : [keyword public] [type Bar] {
+  [meta SOME_MACRO]([variable SomethingCapitalized], [variable SomethingCapitalized1]);
+  [meta SOME_MACRO]([variable SomethingCapitalized], [variable SomethingCapitalized1]);
+};
+[meta SOME_OTHER_MACRO]([variable SomethingThatLooksLikeAType]);
+
 [keyword template] <[keyword typename] [type&def X]>
 [keyword inline] [type void] [def Foo]([type&local X]* [def x]) {
   [keyword for] ([keyword typename] [meta X::][type iterator] [def it] [operator =] [variable-2 x]->[callee&property begin]();

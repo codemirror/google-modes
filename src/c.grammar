@@ -16,6 +16,7 @@ skip whitespace {
     return Expression? ";" |
     Struct |
     Label |
+    Macro ";"? |
     DeclType DeclRest |
     ";" |
     Expression ";"
@@ -83,6 +84,7 @@ skip whitespace {
     number |
     string |
     BlockOf(Expression, ",") |
+    macroName |
     variableName
   }
 
@@ -127,6 +129,10 @@ skip whitespace {
   ListOf(expr) {
     (expr ("," expr)*)?
   }
+
+  Macro {
+    macroName ArgList?
+  }
 }
 
 tokens {
@@ -151,6 +157,8 @@ tokens {
   qualifier { kw("const" | "volatile") }
 
   atom="atom" { ("true" | "false" | "null") !identifierChar }
+
+  macroName="meta" { "_" ("A"-"Z" | "_")+ | "A"-"Z"+ "_" ("A"-"Z" | "_")* }
 
   variableName { plainVariableName }
 
