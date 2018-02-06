@@ -75,7 +75,7 @@ skip whitespace {
   }
 
   ExpressionPrefix {
-    prefixOp | sizeof
+    prefixOp
   }
 
   BaseExpression {
@@ -84,6 +84,7 @@ skip whitespace {
     number |
     string |
     BlockOf(Expression, ",") |
+    sizeof ("(" Type ")" | "..."? Expression) 
     macroName |
     variableName
   }
@@ -149,7 +150,7 @@ tokens {
   case { kw("case") }
   switch { kw("switch") }
   structUnion { kw("struct" | "union") }
-  sizeof { kw("sizeof") }
+  sizeof { kw("sizeof" | "alignof") }
   auto { kw("auto") }
   modifier { kw("register" | "static" | "extern" | "typedef") }
   typeModifier="type" { ("unsigned" | "signed" | "long") !identifierChar }

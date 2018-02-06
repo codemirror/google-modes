@@ -81,3 +81,7 @@
       [keyword return] [string "NOT OK"];
   }
 }
+
+[type int] [def sizeofint]() {
+  [keyword return] [keyword sizeof]([type int]);
+}
