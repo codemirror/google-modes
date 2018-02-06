@@ -47,6 +47,7 @@ skip whitespace {
     ("&" | "&&")?
     (noexcept ("(" Expression ")")? | throw "(" ListOf(Type) ")")?
     ("->" Type)?
+    virtSpec*
     InitializerList?
     (";" | Block)
   }
@@ -122,6 +123,7 @@ tokens {
   using { kw("using") }
   alignas { kw("alignas") }
   cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
+  virtSpec { kw("override" | "final" | "new") }
   atom="atom" { "nullptr" !identifierChar | super }
 
 
