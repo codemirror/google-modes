@@ -7,10 +7,10 @@ skip whitespace {
     throw Expression ";" |
     try Block (catch "(" Type Declarator? ")" Block)* |
     asm "{" string "}" |
-    using (typename Type | namespace? variableName) ("=" Type)? ";" |
+    using (typename Type | namespace? variableName) (op("=") Type)? ";" |
     Template |
     &constructorAhead declName FunctionDef |
-    nameQualifier+ (MaybeType DeclRest | qualifiedVariableName ExpressionSuffix* ";") |
+    nameQualifier+ (MaybeType DeclRest | ((qualifiedTemplateName TemplateArgs) | qualifiedVariableName) ExpressionSuffix* ";") |
     super
   }
 
@@ -76,7 +76,7 @@ skip whitespace {
   }
 
   context TemplateArgs {
-    "<" ListOf(TypeArg | modifier* Type Initializer? | number) ">"
+    "<" ListOf(TypeArg | modifier* Type (ParamList | Initializer)? | number) ">"
   }
 
   TypeArg {

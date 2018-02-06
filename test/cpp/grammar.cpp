@@ -1,4 +1,4 @@
-[keyword using] [variable Foo] = [meta ::][type Foo];
+[keyword using] [variable Foo] [operator =] [meta ::][type Foo];
 
 [keyword class] [type&def Foo];
 
@@ -58,6 +58,10 @@
 [string Hello can have "quotes"]
 [string World]
 [string )foo"];
+
+[keyword using] [variable FooOrder] [operator =] [meta std::][type function]<[type bool]([keyword const] [type Foo]&, [keyword const] [type Foo]&)>;
+
+[meta std::][qualified&variable xyz]<[keyword class] [type foo]>;
 
 [type string] [def xyzzy]([type Bar] [def s]) {
   [keyword switch] ([variable-2 s]) {
