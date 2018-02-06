@@ -28,6 +28,7 @@
   [meta std::][type array]<[type char], [type max_size]> [def data];
   [type size_t] [def size];
   [type bool] [keyword operator]()([keyword const] [meta std::][type pair]<[type int32], [type double]>& [def a]) [keyword override];
+  [type void] [def foo]() [operator =] [keyword delete];
 };
 
 [keyword class] [def&type Foo] : [keyword public] [type Bar] {

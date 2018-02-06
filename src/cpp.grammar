@@ -49,7 +49,7 @@ skip whitespace {
     ("->" Type)?
     virtSpec*
     InitializerList?
-    (";" | Block)
+    (";" | Block | op("=") (default | delete) ";")
   }
 
   context Template {
