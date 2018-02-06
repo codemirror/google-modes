@@ -654,11 +654,6 @@ function isSwitch(context) {
     /^switch\b/.test(context.startLine.slice(context.startPos))
 }
 
-function isNamespace(context) {
-  return context && context.name == "Statement" &&
-    /^namespace\b/.test(context.startLine.slice(context.startPos))
-}
-
 function isLabel(text) {
   return text && /^\s*(case|default)\b/.test(text)
 }
@@ -668,7 +663,8 @@ function aligned(cx) {
 }
 
 var bracketed = {
-  Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", EnumBody: "}", ArrayInitializer: "}",
+  Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", EnumBody: "}",
+  ArrayInitializer: "}", NamespaceBlock: "}",
   ArrayLiteral: "]",
   ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")",
   TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
@@ -697,7 +693,7 @@ function findIndent(cx, textAfter, curLine, config) {
     if (config.align !== false && curLine != cx.startLine && aligned(cx))
       { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
 
-    if (cx.name == "Block" || cx.name == "ClassBody" || cx.name == "AnnotationTypeBody" || cx.name == "BlockOf" || cx.name == "EnumBody") {
+    if (cx.name == "Block" || cx.name == "NamespaceBlock" || cx.name == "ClassBody" || cx.name == "AnnotationTypeBody" || cx.name == "BlockOf" || cx.name == "EnumBody") {
       // Skip wrapping statement context
       var skipCx = cx;
       if (cx.parent && cx.parent.name == "Statement" && cx.parent.parent &&
@@ -705,7 +701,7 @@ function findIndent(cx, textAfter, curLine, config) {
         { skipCx = cx.parent.parent; }
       return statementIndent(skipCx, config) + (
         /^(public|private|protected)\s*:/.test(textAfter) ? 1 :
-        closed || isNamespace(cx.parent) ? 0 :
+        closed || cx.name == "NamespaceBlock" ? 0 :
         isSwitch(cx.parent) && !isLabel(textAfter) ? 2 * config.indentUnit
         : config.indentUnit
       )

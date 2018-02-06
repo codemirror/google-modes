@@ -3,7 +3,7 @@ extends "./c.grammar"
 skip whitespace {
   context Statement {
     Class |
-    namespace declName? (op("=") variableName ";" | Block) |
+    namespace declName? (op("=") variableName ";" | NamespaceBlock) |
     throw Expression ";" |
     try Block (catch "(" Type Declarator? ")" Block)* |
     asm "{" string "}" |
@@ -98,6 +98,8 @@ skip whitespace {
   }
 
   Initializer { super | BlockOf(Expression, ",") | ArgList }
+
+  context NamespaceBlock { "{" Statement* "}" }
 }
 
 tokens {

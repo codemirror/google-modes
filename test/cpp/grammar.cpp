@@ -44,6 +44,8 @@
 }
 
 [keyword namespace] [def ns] {
+[type int] [def x];
+[type int] [def y] [operator =] [variable x];
 [type void] [meta A::][qualified&def B]() {
   [keyword return] [string R"(foo " ) bar)"] [string "ok"];
 }
