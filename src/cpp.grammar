@@ -2,6 +2,7 @@ extends "./c.grammar"
 
 skip whitespace {
   context Statement {
+    Attributes |
     Class |
     namespace declName? (op("=") variableName ";" | NamespaceBlock) |
     throw Expression ";" |
@@ -17,6 +18,7 @@ skip whitespace {
   TypeSuffix {
     TemplateArgs |
     "::" Type |
+    Attributes |
     super
   }
 
@@ -46,6 +48,7 @@ skip whitespace {
     qualifier*
     ("&" | "&&")?
     (noexcept ("(" Expression ")")? | throw "(" ListOf(Type) ")")?
+    Attributes?
     ("->" Type)?
     virtSpec*
     InitializerList?
@@ -61,7 +64,7 @@ skip whitespace {
   CtorInitializer { fieldName ("(" ListOf(Expression) ")" | "{" ListOf(Expression) "}") }
 
   ExpressionPrefix {
-    delete ("[" "]")? | new ("[" "]")? ("(" Expression ")")? | super
+    delete ("[" "]")? | new ("[" "]")? ("(" Expression ")")? Attributes? | super
   }
 
   Type {
@@ -85,7 +88,7 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) (alignas "(" number ")")? typeDeclName (":" virtual? access? Type)? (";" | ClassBody)
+    (class | structUnion) Attributes? typeDeclName (":" virtual? access? Type)? (";" | ClassBody)
   }
 
   context ClassBody {
@@ -109,6 +112,16 @@ skip whitespace {
   Initializer { super | BlockOf(Expression, ",") | ArgList }
 
   context NamespaceBlock { "{" Statement* "}" }
+
+  Attributes {
+    (alignas "(" number ")" | Attribute)+
+  }
+  Attribute {
+    ~("[" " "* "[") "[" "[" ListOf(nameQualifier* attributeName ("(" BalancedToken* ")")? "..."?) "]" "]"
+  }
+  BalancedToken {
+    number | string | identifier | binOp | "," | "(" BalancedToken* ")" | "[" BalancedToken* "]" | "{" BalancedToken* "}"
+  }
 }
 
 tokens {
@@ -167,6 +180,8 @@ nameQualifier="meta" { "::" | identifier " "* "::" }
 colons="meta" { "::" }
 
 parameterizedQualifier="meta" { identifier ~(" "* "<") }
+
+attributeName="meta" { identifier }
 
 declQualifier { parameterizedQualifier whitespace TemplateArgs colons qualifiedDeclName | nameQualifier }
 

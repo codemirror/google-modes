@@ -1,5 +1,6 @@
 [keyword using] [variable Foo] [operator =] [meta ::][type Foo];
 
+[[[[ [meta foo::target](gpu, [[cpu]]) ]]]]
 [keyword class] [type&def Foo];
 
 [type void] [def foo]([type Bar]& [def&local x], [type Bar]& [def&local y]) [keyword noexcept];
@@ -91,6 +92,7 @@
   
 }
 
+[[[[ [meta noreturn] ]]]]
 [type int] [def sizeofint]() {
   ([variable u])[[ [number 1] ]];
   [keyword return] [keyword sizeof]([type int]);
