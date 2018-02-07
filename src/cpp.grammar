@@ -38,7 +38,7 @@ skip whitespace {
   }
 
   Lambda {
-    ~("[" spaceChar* ("&" | "=" | "this" | "]")) "[" ListOf("&" variableName? | "=" | this) "]" FunctionDef
+    ~("[" spaceChar* ("&" | "=" | "this" | "]")) "[" ListOf("&" variableName? | "=" | this) "]" (FunctionDef | Block)
   }
 
   context FunctionDef {
