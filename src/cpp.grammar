@@ -93,7 +93,7 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) Attributes? typeDeclName (":" virtual? access? Type)? (";" | ClassBody)
+    (class | structUnion) Attributes? typeDeclName (":" virtual? access? Type)? (";" | ClassBody ";"?)
   }
 
   context ClassBody {
