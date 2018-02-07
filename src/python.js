@@ -65,6 +65,16 @@ function findIndent(cx, textAfter, curLine, config) {
   }
 }
 
+function pythonMarkLocals(token, stream, state) {
+  let marked = markLocals(token, scopes, stream, state, true)
+  if (token == "def") {
+    let cx = state.context
+    while (cx && scopes.indexOf(cx.name) == -1) cx = cx.parent
+    if (cx && cx.name == "ClassDef") marked = "def property"
+  }
+  return marked
+}  
+
 class PythonMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar, {
@@ -74,7 +84,7 @@ class PythonMode extends CodeMirror.GrammarMode {
   }
 
   token(stream, state) {
-    return markLocals(super.token(stream, state), scopes, stream, state, true)
+    return pythonMarkLocals(super.token(stream, state), stream, state)
   }
 
   indent(state, textAfter, line) {

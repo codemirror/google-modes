@@ -16,7 +16,7 @@
 [type void] [def foo]([meta ::][type y] [def data], [type void]* [def arg], [type void] (*[def r])([type void]*));
 
 [keyword class] [type&def Z] {
-  [keyword typedef] [type void] (*[def Bar])([meta x::][type Y] [def z], [type void]* [def arg]);
+  [keyword typedef] [type void] (*[def&property Bar])([meta x::][type Y] [def z], [type void]* [def arg]);
 
  [keyword public]:
   [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def x]);
@@ -25,10 +25,10 @@
 
 [keyword template] <[type size_t] [def max_size]>
 [keyword struct] [type&def Foo] {
-  [meta std::][type array]<[type char], [type max_size]> [def data];
-  [type size_t] [def size];
+  [meta std::][type array]<[type char], [type max_size]> [def&property data];
+  [type size_t] [def&property size];
   [type bool] [keyword operator]()([keyword const] [meta std::][type pair]<[type int32], [type double]> & [def a]) [keyword override];
-  [type void] [def foo]() [operator =] [keyword delete];
+  [type void] [def&property foo]() [operator =] [keyword delete];
 };
 
 [keyword class] [def&type Foo] : [keyword public] [type Bar] {
@@ -36,7 +36,7 @@
   [meta SOME_MACRO]([variable SomethingCapitalized], [variable SomethingCapitalized1]);
   [keyword class] [def&type Baz] {
    [keyword public]:
-    [type void] [def abc]();
+    [type void] [def&property abc]();
   }
 };
 [meta SOME_OTHER_MACRO]([variable SomethingThatLooksLikeAType]);

@@ -98,8 +98,12 @@ skip whitespace {
 
   context ObjectMember {
     (modifier | qualifier)*
-    (ctorDtorName | Type Declarator)
+    (ctorDtorName | Type PropDeclarator)
     (FunctionDef | (Initializer | ":" number | "[" number? "]")? ";")
+  }
+
+  PropDeclarator {
+    declOp* propDeclName ("[" "]")* | "(" PropDeclarator ")"
   }
 
   Initializer { super | BlockOf(Expression, ",") | ArgList }
@@ -166,7 +170,10 @@ parameterizedQualifier="meta" { identifier ~(" "* "<") }
 
 declQualifier { parameterizedQualifier whitespace TemplateArgs colons qualifiedDeclName | nameQualifier }
 
-declName { operator overloadableOp | declQualifier+ qualifiedDeclName | unqualifiedDeclName }
+rawPropDeclName="def property" { identifier }
+propDeclName { operator overloadableOp | rawPropDeclName }
+
+declName { declQualifier+ qualifiedDeclName | unqualifiedDeclName }
 
 overloadableOp { op("->*") | "," | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 

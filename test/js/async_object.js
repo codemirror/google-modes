@@ -1,1 +1,1 @@
-[keyword let] [def obj] [operator =] { [property async]: [atom false] };
+[keyword let] [def obj] [operator =] { [def&property async]: [atom false] };

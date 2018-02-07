@@ -12,9 +12,9 @@
 
 [keyword class] [type&def C]([variable hi]):
   [string """my docstring"""]
-  [def x] [operator =] [number 100_000.0]
+  [def&property x] [operator =] [number 100_000.0]
 
-  [keyword def] [def method]([atom self], [def u]) -> [variable t]:
+  [keyword def] [def&property method]([atom self], [def u]) -> [variable t]:
     [atom self].[property&callee map]([keyword lambda] [def a]: [variable-2 x] [keyword not in] [variable-2 a])
     [keyword return] [variable-2 u][[ : [number 1] : [number 2], [variable a] ]]
 
@@ -35,7 +35,7 @@
 [keyword if] [variable pfile] [keyword is] [atom None] [keyword or] [variable pfile].[property project].[property disabled]: [keyword return]
 
 [keyword class] [type&def B]:
-  [keyword def] [def __init__]([atom self]):
+  [keyword def] [def&property __init__]([atom self]):
     [keyword try]:
       [keyword with] [string U"x"] [keyword as] [def ay]: [variable-2 ay]
     [keyword except] [variable Except] [keyword as] [def e]:
@@ -45,7 +45,7 @@
       [variable-2 hey] [operator =] [string "again"]
       [variable-2 hey] [operator <<=] [number 0b10] [operator @] [operator ~][number 0O7] [operator **] [variable n]
 
-  [def dict1] [operator =] {
+  [def&property dict1] [operator =] {
       [string "x"]: ([number 22]),
       [string "y"]: [operator ...],
       [number 3]: [string "str"] [string "more str"]
@@ -75,5 +75,5 @@
 [keyword import] [variable typing]
 
 [keyword class] [type&def Example]([builtin object]):
-  [keyword def] [def method]([atom self], [def x]: [variable typing].[property List]):
+  [keyword def] [def&property method]([atom self], [def x]: [variable typing].[property List]):
     [atom self].[property x] [operator =] [variable-2 x]

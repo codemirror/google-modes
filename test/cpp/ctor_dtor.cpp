@@ -12,5 +12,5 @@
       : [callee&property t_]([meta ::bar::Baz::][qualified&variable VALUE]) { }
   [keyword explicit] [def Foo]([meta ::bar::Baz::][type Type] [def t])
       : [callee&property t_]([variable-2 t]) { }
-  [meta ::bar::][type Baz] [def t_];
+  [meta ::bar::][type Baz] [def&property t_];
 };

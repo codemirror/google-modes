@@ -718,6 +718,16 @@ function findIndent(cx, textAfter, curLine, config) {
   }
 }
 
+function pythonMarkLocals(token$$1, stream, state) {
+  var marked = markLocals(token$$1, scopes, stream, state, true);
+  if (token$$1 == "def") {
+    var cx = state.context;
+    while (cx && scopes.indexOf(cx.name) == -1) { cx = cx.parent; }
+    if (cx && cx.name == "ClassDef") { marked = "def property"; }
+  }
+  return marked
+}  
+
 var PythonMode = (function (superclass) {
   function PythonMode(conf) {
     superclass.call(this, grammar, {
@@ -731,7 +741,7 @@ var PythonMode = (function (superclass) {
   PythonMode.prototype.constructor = PythonMode;
 
   PythonMode.prototype.token = function token$$1 (stream, state) {
-    return markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state, true)
+    return pythonMarkLocals(superclass.prototype.token.call(this, stream, state), stream, state)
   };
 
   PythonMode.prototype.indent = function indent (state, textAfter, line) {

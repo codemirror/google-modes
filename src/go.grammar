@@ -103,7 +103,7 @@ skip whitespace {
   }
 
   context StructBody {
-    "{" separated((~(identifier (identifierStart | "[" | "," | "*" | "<" | "(")) declName ("," declName)* | "*")? Type string?) "}"
+    "{" separated((~(identifier (identifierStart | "[" | "," | "*" | "<" | "(")) propDeclName ("," propDeclName)* | "*")? Type string?) "}"
   }
 
   context InterfaceBody {
@@ -191,6 +191,7 @@ separated(expr) {
 identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
+propDeclName="def property" { identifier }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }

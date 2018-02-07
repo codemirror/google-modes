@@ -14,11 +14,11 @@
 )
 
 [keyword type] [def j] [keyword struct] {
-	[def x], [def y] [type int]
-	[def u] [type float32]
-	[def _] [type float32]  [comment // padding]
-	[def A] *[[]][type int]
-	[def F] [keyword func]()
+	[def&property x], [def&property y] [type int]
+	[def&property u] [type float32]
+	[def&property _] [type float32]  [comment // padding]
+	[def&property A] *[[]][type int]
+	[def&property F] [keyword func]()
 }
 
 [keyword if] [variable x] [operator +] [variable y] {
@@ -86,7 +86,7 @@
 }
 
 [keyword type] [def Message] [keyword struct] {
-	[def Foo] [meta foo.][type string]
+	[def&property Foo] [meta foo.][type string]
 }
 
 [keyword func] [def foo]() {
@@ -120,8 +120,8 @@
 [keyword var] [def hashes] [operator =] [number 123]
 
 [def abs] [operator :=] [[]][keyword struct] {
-	[def a] [type string]
-	[def b] [type int]
+	[def&property a] [type string]
+	[def&property b] [type int]
 }{
 	[number 22]
 }

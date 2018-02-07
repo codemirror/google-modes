@@ -13,9 +13,8 @@
 [meta @baz.argh]([variable Something].[property OK])
 [keyword public] [keyword class] [type&def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
   [comment // line comment]
-  [keyword private] [keyword final] [keyword volatile] [meta java.blah.][qualified&type Font] [def fonts][[]];
-
-  [keyword public] [def FontChoice]([type String] [def in], [type Globals] [def g]) {
+  [keyword private] [keyword final] [keyword volatile] [meta java.blah.][qualified&type Font] [def&property fonts][[]];
+  [keyword public] [def&property FontChoice]([type String] [def in], [type Globals] [def g]) {
     [keyword super]([variable-2 g]);
 
     [variable totalwidth] [operator =] [number 30];
@@ -33,7 +32,7 @@
     [keyword return] ([type Bar]<[type K], [type V]>) [variable&callee baz]();
   }
 
-  [keyword protected] [type void] [def setX]([type int] [def x]) {
+  [keyword protected] [type void] [def&property setX]([type int] [def x]) {
     [variable g] [operator ||] [variable-2 x];
     [keyword super].[property&callee setX]([variable-2 x]);
     [type FontMetrics]<[type Param]> [def fm] [operator =] [variable parent].[property&callee getFontMetrics]([variable fonts][[ [variable i] ]]);
@@ -53,26 +52,26 @@
         );
   }
 
-  [def join]([type Bar]... [def bars]) {
+  [def&property join]([type Bar]... [def bars]) {
   }
 
   [keyword enum] [type&def TrafficLight] {
-    [def RED]([number 30]), [def AMBER]([number 10]),;
+    [def&property RED]([number 30]), [def&property AMBER]([number 10]),;
 
-    [keyword private] [keyword final] [type int] [def seconds];
+    [keyword private] [keyword final] [type int] [def&property seconds];
 
-    [def TrafficLight]([type int] [def seconds]) {
+    [def&property TrafficLight]([type int] [def seconds]) {
       [keyword this].[property seconds] [operator =] [variable-2 seconds];
     }
 
-    [type int] [def getSeconds]() {
+    [type int] [def&property getSeconds]() {
       [keyword return] [variable seconds];
     }
   }
 }
 
 [keyword class] [type&def Foo] {
-  <[type&def X]> [type void] [def foo]([type&local X] [def x], [type Y] [def y]) {
+  <[type&def X]> [type void] [def&property foo]([type&local X] [def x], [type Y] [def y]) {
   }
 }
 

@@ -19,7 +19,7 @@ skip whitespace {
     (default | case Expr | labelIdentifier) ":" |
     import kw("static")? identifierDot* ("*" | identifier) ";" |
     ";" |
-    BeforeStatement(Modifier*) Declaration |
+    BeforeStatement(Modifier*) Declaration(declName) |
     ExprComma ";"
   }
 
@@ -41,21 +41,21 @@ skip whitespace {
     "{" (EnumConstant ","?)+ (";" ClassItem*)? "}"
   }
   context EnumConstant {
-    Annotation? declName ArgList? ClassBody?
+    Annotation? propDeclName ArgList? ClassBody?
   }
 
-  Declaration {
+  Declaration(name) {
     Block |
     enum typeDeclName (implements CommaSep(Type))? EnumBody |
     classInterface typeDeclName TypeParams? (extends Type)? (implements CommaSep(Type))? ClassBody |
     atInterface declName AnnotationTypeBody |
     package identifier ("." identifier)* ";" |
     ~(Annotation* TypeParams? (primType | packageQualifier* className))
-      Type DeclExpr (FunctionDef | (op("=") Expr)? ("," DeclExpr (op("=") Expr)?)* ";")
+      Type DeclExpr(name) (FunctionDef | (op("=") Expr)? ("," DeclExpr(name) (op("=") Expr)?)* ";")
   }
 
   context ClassItem {
-    BeforeStatement(Modifier*) TypeParams? (declNameParen FunctionDef | Declaration)
+    BeforeStatement(Modifier*) TypeParams? (propDeclNameParen FunctionDef | Declaration(propDeclName))
   }
 
   context ClassBody {
@@ -65,7 +65,7 @@ skip whitespace {
   context AnnotationTypeItem {
     BeforeStatement(Modifier*)
     (declNameParenBracketOrEquals (("[" "]")* op("=") Expr) | "(" ")" ("[" "]")* (default Expr)? |
-     Declaration)
+     Declaration(declName))
   }
 
   context AnnotationTypeBody {
@@ -78,7 +78,7 @@ skip whitespace {
 
   context ThrowsClause { throws CommaSep(Type) }
 
-  context ParamList { "(" CommaSep((Annotation | Modifier)* Type "..."? (this | DeclExpr)) ")" }
+  context ParamList { "(" CommaSep((Annotation | Modifier)* Type "..."? (this | DeclExpr(declName))) ")" }
   context SimpleParamList { "(" CommaSep(declName) ")" }
 
   context TypeParams { "<" CommaSep(Annotation* typeDeclName (extends Type)*) ">" }
@@ -130,7 +130,7 @@ skip whitespace {
     Annotation* typeID TypeArgs*
   }
 
-  DeclExpr { declName ("[" "]")? }
+  DeclExpr(name) { name ("[" "]")? }
 
   CommaSep(expr) { (expr ("," expr)*)? }
 }
@@ -211,7 +211,8 @@ whitespace {
 }
 
 declName="def" { identifier }
-declNameParen="def" { identifier ~(" "* "(") }
+propDeclName="def property" { identifier }
+propDeclNameParen="def property" { identifier ~(" "* "(") }
 declNameParenBracketOrEquals="def" { identifier ~(" "* ("(" | "[" | "=")) }
 
 typeDeclName="type def" { identifier }

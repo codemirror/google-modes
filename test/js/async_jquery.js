@@ -1,5 +1,5 @@
 [variable $].[property&callee ajax]({
-  [property url]: [variable url],
-  [property async]: [atom true],
-  [property method]: [string 'GET']
+  [def&property url]: [variable url],
+  [def&property async]: [atom true],
+  [def&property method]: [string 'GET']
 });

@@ -62,7 +62,7 @@ skip whitespace {
     "{" (element (separator element?)*)? "}"
   }
 
-  Enum { enum typeDeclName? BlockOf(declName (op("=") Expression)?, ",")? }
+  Enum { enum typeDeclName? BlockOf(propDeclName (op("=") Expression)?, ",")? }
 
   Initializer { op("=") Expression }
 
@@ -208,6 +208,7 @@ whitespace {
 preprocessorLine="meta" { "#" (!("//" | "/*" | "\\") . | "\\" _ )* }
 
 declName="def" { identifier }
+propDeclName="def property" { identifier }
 typeDeclName="type def" { identifier }
 
 fieldName="property" { maybeCallee }
