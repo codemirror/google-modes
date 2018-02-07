@@ -824,6 +824,7 @@ function markLocals(type, scopes, stream, state, once) {
       if (once && scope.locals.indexOf(name) > -1)
         { return "variable-2" }
       scope.locals.push(name);
+      if (state.context.name != "funcName") { return "def local" }
     }
   } else if (varRE.test(type) && !/qualified/.test(type) &&
              isLocal(state.context, stream.current())) {

@@ -1,1 +1,1 @@
-[keyword for]([keyword let] [def of] [keyword of] [variable something]) {}
+[keyword for]([keyword let] [def&local of] [keyword of] [variable something]) {}

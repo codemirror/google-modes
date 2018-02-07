@@ -4,7 +4,7 @@ import * as grammar from "./javascript.mode"
 import {markLocals} from "./locals"
 import {indent} from "./c_indent"
 
-const scopes = ["Block", "FunctionDef", "ArrowFunc"]
+const scopes = ["Block", "FunctionDef", "ArrowFunc", "ForStatement"]
 
 function canInsertSemi(string, pos) {
   for (let i = pos - 1; i >= 0; i--) {

@@ -4,8 +4,8 @@
 
 [type int] [def main]() {
   [comment // create a vector to store int]
-  [type vector]<[type int]> [def vec];
-  [type int] [def i];
+  [type vector]<[type int]> [def&local vec];
+  [type int] [def&local i];
 
   [comment // display the original size of vec]
   [variable cout] [operator <<] [string "vector size = "] [operator <<] [variable-2 vec].[property&callee size]() [operator <<] [variable endl];
@@ -24,7 +24,7 @@
   }
 
   [comment // use iterator to access the values]
-  [type vector]<[type int]>::[type iterator] [def v] [operator =] [variable-2 vec].[property&callee begin]();
+  [type vector]<[type int]>::[type iterator] [def&local v] [operator =] [variable-2 vec].[property&callee begin]();
   [keyword while] ([variable-2 v] [operator !=] [variable-2 vec].[property&callee end]()) {
     [variable cout] [operator <<] [string "value of v = "] [operator <<] [operator *][variable-2 v] [operator <<] [variable endl];
     [variable-2 v][operator ++];

@@ -2,9 +2,9 @@
 
 [keyword class] [type&def Foo];
 
-[type void] [def foo]([type Bar]& [def x], [type Bar]& [def y]) [keyword noexcept];
+[type void] [def foo]([type Bar]& [def&local x], [type Bar]& [def&local y]) [keyword noexcept];
 
-[type void] [def Foo]([keyword const] [type unsigned] [type char]* [def in_bytes], [type char]* [def out]);
+[type void] [def Foo]([keyword const] [type unsigned] [type char]* [def&local in_bytes], [type char]* [def&local out]);
 
 [meta foo::][qualified&callee&variable bar]();
 
@@ -13,21 +13,21 @@
   [keyword delete] [[]] [variable baz];
 }
 
-[type void] [def foo]([meta ::][type y] [def data], [type void]* [def arg], [type void] (*[def r])([type void]*));
+[type void] [def foo]([meta ::][type y] [def&local data], [type void]* [def&local arg], [type void] (*[def&local r])([type void]*));
 
 [keyword class] [type&def Z] {
-  [keyword typedef] [type void] (*[def&property Bar])([meta x::][type Y] [def z], [type void]* [def arg]);
+  [keyword typedef] [type void] (*[def&property Bar])([meta x::][type Y] [def&local z], [type void]* [def&local arg]);
 
  [keyword public]:
-  [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def x]);
-  [type Z]& [keyword operator][operator =]([type Z]&& [def x]);
+  [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def&local x]);
+  [type Z]& [keyword operator][operator =]([type Z]&& [def&local x]);
 }
 
 [keyword template] <[type size_t] [def max_size]>
 [keyword struct] [type&def Foo] {
   [meta std::][type array]<[type char], [type max_size]> [def&property data];
   [type size_t] [def&property size];
-  [type bool] [keyword operator]()([keyword const] [meta std::][type pair]<[type int32], [type double]> & [def a]) [keyword override];
+  [type bool] [keyword operator]()([keyword const] [meta std::][type pair]<[type int32], [type double]> & [def&local a]) [keyword override];
   [type void] [def&property foo]() [operator =] [keyword delete];
 };
 
@@ -42,8 +42,8 @@
 [meta SOME_OTHER_MACRO]([variable SomethingThatLooksLikeAType]);
 
 [keyword template] <[keyword typename] [type&def X]>
-[keyword inline] [type void] [def Foo]([type&local X]* [def x]) {
-  [keyword for] ([keyword typename] [meta X::][type iterator] [def it] [operator =] [variable-2 x]->[callee&property begin]();
+[keyword inline] [type void] [def Foo]([type&local X]* [def&local x]) {
+  [keyword for] ([keyword typename] [meta X::][type iterator] [def&local it] [operator =] [variable-2 x]->[callee&property begin]();
     [variable-2 it] [operator !=] [variable-2 x]->[callee&property end](); [operator ++][variable-2 it])
     [variable&callee Bar]([operator &]([operator *][variable-2 it]));
 }
@@ -77,7 +77,7 @@
 
 [meta std::][qualified&variable xyz]<[keyword class] [type foo]>;
 
-[type string] [def xyzzy]([type Bar] [def s]) {
+[type string] [def xyzzy]([type Bar] [def&local s]) {
   [keyword switch] ([variable-2 s]) {
     [keyword case] [meta Bar::][qualified&variable OK]:
       [keyword return] [string "OK"];

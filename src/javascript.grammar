@@ -11,7 +11,7 @@ skip whitespace {
     debugger |
     if CondExpr Statement (else Statement)? |
     function asyncStar? declName FunctionDef |
-    for ForSpec Statement |
+    for ForStatement |
     Label |
     return (semi | Expression semi) |
     throw Expression semi |
@@ -32,6 +32,7 @@ skip whitespace {
 
   Label { (default | labelName | case Expression) ":" }
 
+  context ForStatement { ForSpec Statement }
   context ForSpec {
     "(" Statement (kw("of") Expression | Expression? ";" Expression?)? ")"
   }

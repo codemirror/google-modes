@@ -1,4 +1,4 @@
 [variable&callee TEST]([variable ATest], [variable Move]) {
-  [type int] [def foo];
+  [type int] [def&local foo];
   [keyword break];
 };

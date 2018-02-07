@@ -2,8 +2,8 @@
 
 [keyword import] [def m] [string "lib/math"]
 
-[keyword func] [def generate]([def ch] [keyword chan][operator <-] [type int]) {
-	[keyword for] [def i] [operator :=] [number 2]; ; [variable-2 i][operator ++] {
+[keyword func] [def generate]([def&local ch] [keyword chan][operator <-] [type int]) {
+	[keyword for] [def&local i] [operator :=] [number 2]; ; [variable-2 i][operator ++] {
 		[variable-2 ch] [operator <-] [variable-2 i]  [comment // Send 'i' to channel 'ch'.]
 	}
 }
@@ -43,7 +43,7 @@
 	[builtin print]([string "received "], [variable i1], [string " from c1\n"])
 [keyword case] [variable c2] [operator <-] [variable i2]:
 	[builtin print]([string "sent "], [variable i2], [string " to c2\n"])
-[keyword case] [def i3], [def ok] [operator :=] ([operator <-][variable c3]):  [comment // same as: i3, ok := <-c3]
+[keyword case] [def&local i3], [def&local ok] [operator :=] ([operator <-][variable c3]):  [comment // same as: i3, ok := <-c3]
 	[keyword if] [variable-2 ok] {
 		[builtin print]([string "received "], [variable-2 i3], [string " from c3\n"])
 	} [keyword else] {
@@ -68,20 +68,20 @@
 
 [keyword func] [def sieve]() {
 	{
-		[def m] [operator :=] [number 1];
+		[def&local m] [operator :=] [number 1];
 	}
 }
 
 [keyword func] [def main]() {
-	[keyword if] [def z] [operator :=] [number 1]; [variable-2 z] [operator %] [number 2] [operator ==] [number 1] {
-		[def i] [operator :=] [number 2];
+	[keyword if] [def&local z] [operator :=] [number 1]; [variable-2 z] [operator %] [number 2] [operator ==] [number 1] {
+		[def&local i] [operator :=] [number 2];
 	} [keyword else] {
 		[variable-2 z] [operator =] [number 2];
 	}
 	[variable fmt].[callee&property Println]([variable z])
 }
 
-[keyword func] ([def r] [type X]) [def y]() {
+[keyword func] ([def&local r] [type X]) [def y]() {
 	[callee&variable bar]([variable-2 r], [builtin make]([type Bar]));
 }
 
@@ -90,7 +90,7 @@
 }
 
 [keyword func] [def foo]() {
-	[keyword var] [def wg] [meta sync.][type WaitGroup]
+	[keyword var] [def&local wg] [meta sync.][type WaitGroup]
 	[variable-2 wg].[property&callee Add]([number 1])
 	[variable&callee f]([keyword func]() { [variable-2 wg].[property&callee Done]() })
 	[variable-2 wg].[property&callee Wait]()
@@ -99,12 +99,12 @@
 [keyword var] [def imported] [operator =] [keyword map][[ [type string] ]][type bool]{}
 
 [keyword for] {
-	[def x] [operator :=] [operator <-][variable ch]
+	[def&local x] [operator :=] [operator <-][variable ch]
 }
 
 [keyword type] [def A] [keyword interface] {
-	[property Foo]([def f] [meta foo.][type Bar]) [keyword map][[ [type string] ]][type string]
-	[property a]([def f] [meta foo.][type Bar])
+	[property Foo]([def&local f] [meta foo.][type Bar]) [keyword map][[ [type string] ]][type string]
+	[property a]([def&local f] [meta foo.][type Bar])
 	[type u]
 }
 

@@ -5,17 +5,17 @@
   [type ResolveConstantsTy] [def&property ResolveConstants];
   [type LLVMContext] &[def&property Context];
  [keyword public]:
-  [def BitcodeReaderValueList]([type LLVMContext] &[def C]) : [callee&property Context]([variable-2 C]) {}
+  [def BitcodeReaderValueList]([type LLVMContext] &[def&local C]) : [callee&property Context]([variable-2 C]) {}
   [def ~BitcodeReaderValueList]() {
     [variable&callee assert]([variable ResolveConstants].[property&callee empty]() [operator &&] [string "Constants not resolved?"]);
   }
 
   [comment // vector compatibility methods]
   [type unsigned] [def&property size]() [keyword const] { [keyword return] [variable ValuePtrs].[property&callee size](); }
-  [type void] [def&property resize]([type unsigned] [def N]) { [variable ValuePtrs].[property&callee resize]([variable-2 N]); }
-  [type void] [def&property push_back]([type Value] *[def V]) { [variable ValuePtrs].[property&callee emplace_back]([variable-2 V]); }
+  [type void] [def&property resize]([type unsigned] [def&local N]) { [variable ValuePtrs].[property&callee resize]([variable-2 N]); }
+  [type void] [def&property push_back]([type Value] *[def&local V]) { [variable ValuePtrs].[property&callee emplace_back]([variable-2 V]); }
 
-  [type Foo] [keyword operator][operator +]([keyword const] [type Box]& [def b]) {}
+  [type Foo] [keyword operator][operator +]([keyword const] [type Box]& [def&local b]) {}
 }
 
 [type BitcodeReaderValueList] [def a]([variable cx]);

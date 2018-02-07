@@ -63,7 +63,7 @@ skip whitespace {
     ParenExpr
   }
 
-  context FunctionDecl { ("(" declName Type ")")? declName? ParamList (ParamList | Type)? Block? }
+  context FunctionDecl { ("(" declName Type ")")? funcName? ParamList (ParamList | Type)? Block? }
   context FunctionExpr { ParamList (ParamList | Type)? Block }
   context ParenExpr { "(" CommaSep(Expr) ")" }
   context LiteralBody { "{" CommaSep((propNameColon | LiteralBody | Expr) (":" (LiteralBody | Expr))?) "}" }
@@ -191,6 +191,7 @@ separated(expr) {
 identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
+context funcName { declName }
 propDeclName="def property" { identifier }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }

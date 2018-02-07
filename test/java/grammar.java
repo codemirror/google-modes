@@ -14,11 +14,11 @@
 [keyword public] [keyword class] [type&def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
   [comment // line comment]
   [keyword private] [keyword final] [keyword volatile] [meta java.blah.][qualified&type Font] [def&property fonts][[]];
-  [keyword public] [def&property FontChoice]([type String] [def in], [type Globals] [def g]) {
+  [keyword public] [def&property FontChoice]([type String] [def&local in], [type Globals] [def&local g]) {
     [keyword super]([variable-2 g]);
 
     [variable totalwidth] [operator =] [number 30];
-    [type int] [def i], [def last] [operator =] [number 0b0_1], [def j] [operator =] [number 0.33e+3f];
+    [type int] [def&local i], [def&local last] [operator =] [number 0b0_1], [def&local j] [operator =] [number 0.33e+3f];
 
     [keyword for] ([variable-2 i] [operator =] [number 0]; [variable-2 i] [operator <] [variable-2 in].[property&callee length](); [variable-2 i][operator ++])
       [keyword if] ([variable-2 in].[property&callee charAt]([variable-2 i]) [operator ==] [string ' '])
@@ -32,27 +32,27 @@
     [keyword return] ([type Bar]<[type K], [type V]>) [variable&callee baz]();
   }
 
-  [keyword protected] [type void] [def&property setX]([type int] [def x]) {
+  [keyword protected] [type void] [def&property setX]([type int] [def&local x]) {
     [variable g] [operator ||] [variable-2 x];
     [keyword super].[property&callee setX]([variable-2 x]);
-    [type FontMetrics]<[type Param]> [def fm] [operator =] [variable parent].[property&callee getFontMetrics]([variable fonts][[ [variable i] ]]);
+    [type FontMetrics]<[type Param]> [def&local fm] [operator =] [variable parent].[property&callee getFontMetrics]([variable fonts][[ [variable i] ]]);
 
     label: [keyword try] {
       [keyword continue] label;
-    } [keyword catch] ([type RuntimeException] [def e]) {
+    } [keyword catch] ([type RuntimeException] [def&local e]) {
       [variable system].[property&callee println]([variable-2 e].[property message]);
-    } [keyword catch] ([keyword final] [type Exception] | [type InterruptedException] [def e]) {
+    } [keyword catch] ([keyword final] [type Exception] | [type InterruptedException] [def&local e]) {
     } [keyword finally] {
       [keyword return] [number 00l];
     }
 
     [variable foo].[property&callee addListeners](
-        ([def x], [def y]) [operator ->] [atom true],
-        [def z] [operator ->] [atom false] [operator ?] [variable-2 z] [operator :] [atom null]
+        ([def&local x], [def&local y]) [operator ->] [atom true],
+        [def&local z] [operator ->] [atom false] [operator ?] [variable-2 z] [operator :] [atom null]
         );
   }
 
-  [def&property join]([type Bar]... [def bars]) {
+  [def&property join]([type Bar]... [def&local bars]) {
   }
 
   [keyword enum] [type&def TrafficLight] {
@@ -60,7 +60,7 @@
 
     [keyword private] [keyword final] [type int] [def&property seconds];
 
-    [def&property TrafficLight]([type int] [def seconds]) {
+    [def&property TrafficLight]([type int] [def&local seconds]) {
       [keyword this].[property seconds] [operator =] [variable-2 seconds];
     }
 
@@ -71,7 +71,7 @@
 }
 
 [keyword class] [type&def Foo] {
-  <[type&def X]> [type void] [def&property foo]([type&local X] [def x], [type Y] [def y]) {
+  <[type&def X]> [type void] [def&property foo]([type&local X] [def&local x], [type Y] [def&local y]) {
   }
 }
 

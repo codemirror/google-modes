@@ -1,4 +1,4 @@
-[meta Foo::][qualified&def Foo]([type int] [def y])
+[meta Foo::][qualified&def Foo]([type int] [def&local y])
     : [callee&property x]([variable-2 y]), [callee&property Foo]() {
 }
 [meta Foo::][qualified&def ~Foo]() {}
@@ -10,7 +10,7 @@
  [keyword protected]:
   [def Foo]()
       : [callee&property t_]([meta ::bar::Baz::][qualified&variable VALUE]) { }
-  [keyword explicit] [def Foo]([meta ::bar::Baz::][type Type] [def t])
+  [keyword explicit] [def Foo]([meta ::bar::Baz::][type Type] [def&local t])
       : [callee&property t_]([variable-2 t]) { }
   [meta ::bar::][type Baz] [def&property t_];
 };

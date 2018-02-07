@@ -17,5 +17,5 @@
 [type Fooooooooooooooooooo] [meta Bar::MyNiceClass]<[local&type Alpha], [local&type Beta],
                                       [local&type Gamma]>[meta ::][def&qualified Func]() [keyword const] {
   [comment // Any comment.]
-  [type Foo] [def foo];
+  [type Foo] [def&local foo];
 }
