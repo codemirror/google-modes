@@ -9,7 +9,7 @@ skip whitespace {
     Block |
     ";" |
     debugger |
-    if CondExpr Statement (else Statement)? |
+    Conditional |
     function asyncStar? declName FunctionDef |
     for ForStatement |
     Label |
@@ -142,6 +142,13 @@ skip whitespace {
   }
 
   CommaSep(expr) { (expr ("," expr?)*)? }
+}
+
+Conditional {
+  if whitespace CondExpr whitespace Statement Alternative
+}
+context Alternative {
+  whitespace (else whitespace Statement)?
 }
 
 tokens {

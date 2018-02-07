@@ -42,10 +42,6 @@ skip whitespace {
     do Statement while CondExpr ";"
   }
 
-  Conditional {
-    if CondExpr Statement (else Statement)?
-  }
-
   Switch {
     switch CondExpr Block
   }
@@ -134,6 +130,14 @@ skip whitespace {
   Macro {
     macroName ArgList?
   }
+}
+
+Conditional {
+  if whitespace CondExpr whitespace Statement Alternative
+}
+
+context Alternative {
+  whitespace (else whitespace Statement)?
 }
 
 tokens {

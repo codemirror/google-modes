@@ -64,10 +64,12 @@ function findIndent(cx, textAfter, config) {
     return base + config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1)
   } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "EnumConstant" ||
              cx.name == "AnnotationTypeItem") {
-    let sub = hasSubStatement(cx)
-    if (sub == "if" && (/^else\b/.test(textAfter) || /[{;]\s*(\/\/.*)?$/.test(cx.startLine))) return base
-    if (sub) return base + config.indentUnit;
+    if (hasSubStatement(cx)) return base + config.indentUnit;
     return base + 2 * config.indentUnit
+  } else if (cx.name == "Alternative") {
+    base = baseIndent(cx.parent, config.tabSize)
+    if (!textAfter || /^else\b/.test(textAfter)) return base
+    return base + config.indentUnit
   } else if (cx.name == "ArrowRest") {
     return base + config.indentUnit
   } else if (cx.name == "InitializerList") {

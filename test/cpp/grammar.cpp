@@ -84,6 +84,11 @@
     [keyword case] [meta Bar::][qualified&variable NotOK]:
       [keyword return] [string "NOT OK"];
   }
+  [keyword if] ([variable foo] [operator &&]
+      [variable foo]) {
+    [number 2];
+  }
+  
 }
 
 [type int] [def sizeofint]() {

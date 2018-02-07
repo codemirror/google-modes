@@ -10,7 +10,7 @@ skip whitespace {
     while CondExpr Statement |
     try Block (catch "(" Modifier* Type ("|" Type)* declName ")" Block)* (finally Block)? |
     do Statement while CondExpr ";" |
-    if CondExpr Statement (else Statement)? |
+    Conditional |
     switch CondExpr Block |
     breakCont identifier ? ";" |
     assert Expr (":" Expr)? ";" |
@@ -133,6 +133,13 @@ skip whitespace {
   DeclExpr(name) { name ("[" "]")? }
 
   CommaSep(expr) { (expr ("," expr)*)? }
+}
+
+Conditional {
+  if whitespace CondExpr whitespace Statement Alternative
+}
+context Alternative {
+  whitespace (else whitespace Statement)?
 }
 
 tokens {
