@@ -1292,7 +1292,7 @@ var CppMode = (function (superclass) {
   return CppMode;
 }(CodeMirror.GrammarMode));
 
-CppMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/;
+CppMode.prototype.electricInput = /^\s*(?:case .*?:|(?:public|private|protected|default):|\{\}?|\})$/;
 CppMode.prototype.blockCommentStart = "/*";
 CppMode.prototype.blockCommentEnd = "*/";
 CppMode.prototype.blockCommentContinue = " * ";
