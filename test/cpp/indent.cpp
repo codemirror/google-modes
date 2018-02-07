@@ -122,3 +122,10 @@ MyClass::MyClass(
       some_other_var_(var + 1) {
   
 }
+
+auto something = MakeSomething(
+    // Some comment comes here
+    +[](Bar* bar) {
+      // Another comment
+      return bar->get(1);
+    });

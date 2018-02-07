@@ -609,7 +609,8 @@ function statementIndent(cx, config) {
   for (;; cx = cx.parent) {
     if (!cx) { return 0 }
     if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr" ||
-        cx.name == "EnumConstant" || cx.name == "Template" || cx.name == "AnnotationTypeItem")
+        cx.name == "EnumConstant" || cx.name == "Template" || cx.name == "AnnotationTypeItem" ||
+        cx.parent && bracketed[cx.parent.name])
       { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) }
   }
 }
