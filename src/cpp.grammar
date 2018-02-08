@@ -12,7 +12,6 @@ skip whitespace {
     Using |
     Template |
     &constructorAhead declName FunctionDef |
-    nameQualifier+ (MaybeType DeclRest | ((qualifiedTemplateName TemplateArgs) | qualifiedVariableName) ExpressionSuffix* ";") |
     super
   }
 
@@ -222,8 +221,7 @@ typeNameInner { (typename whitespace)? nameQualifier* unqualifiedTypeName }
 unqualifiedTypeName="type" { identifier }
 
 maybeTypeName {
-  typename whitespace nameQualifier* unqualifiedTypeName |
-  !(("new" | "delete") !identifierChar) nameQualifier* unqualifiedTypeName ~(whitespace (TypeSuffix whitespace)* identifierStart)
+  ~(!(("new" | "delete") !identifierChar) typeNameInner whitespace (TypeSuffix whitespace)* identifierStart) typeNameInner
 }
 
 ctorDtorName="def" { &localConstructorAhead "~"? identifier }
