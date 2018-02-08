@@ -4,6 +4,7 @@ skip whitespace {
   context Statement {
     Attributes |
     Class |
+    StaticAssert |
     namespace declName? (op("=") variableName ";" | NamespaceBlock) |
     throw Expression ";" |
     try Block (catch "(" Type Declarator? ")" Block)* |
@@ -17,7 +18,7 @@ skip whitespace {
 
   TypeSuffix {
     TemplateArgs |
-    "::" Type |
+    colons Type |
     Attributes |
     super
   }
@@ -101,7 +102,7 @@ skip whitespace {
   }
 
   context ClassItem {
-    access ":" | Template | Using | Macro ";"? | Class | ObjectMember
+    access ":" | Template | Using | StaticAssert | Macro ";"? | Class | ObjectMember
   }
 
   context ObjectMember {
@@ -127,6 +128,10 @@ skip whitespace {
   BalancedToken {
     number | string | identifier | binOp | "," | "(" BalancedToken* ")" | "[" BalancedToken* "]" | "{" BalancedToken* "}"
   }
+
+  StaticAssert {
+    staticAssert ArgList ";"
+  }
 }
 
 tokens {
@@ -148,13 +153,14 @@ tokens {
   operator { kw("operator") }
   using { kw("using") }
   alignas { kw("alignas") }
+  staticAssert { kw("static_assert") }
   cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
   virtSpec { kw("override" | "final" | "new") }
   atom="atom" { "nullptr" !identifierChar | super }
 
 
   variableName {
-    nameQualifier+ ((qualifiedTemplateName TemplateArgs)  | initializedName | qualifiedVariableName) |
+    nameQualifier+ (qualifiedTemplateName TemplateArgs (colons variableName)? | initializedName | qualifiedVariableName) |
     initializedName |
     unqualifiedTemplateName TemplateArgs |
     unqualifiedVariableName

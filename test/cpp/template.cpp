@@ -7,9 +7,9 @@
   [keyword template] <[keyword typename] [type&def Iter]>
   [keyword using] [variable EnableIfForwardIterator] [operator =] [keyword typename] [meta std::][type enable_if]<
       [meta std::][type is_convertible]<
-          [keyword typename] [meta std::][type iterator_traits]<[local&type Iter]>::[type iterator_category],
-          [meta std::][type forward_iterator_tag]>::[type value],
-      [type int]>::[type type];
+          [keyword typename] [meta std::][type iterator_traits]<[local&type Iter]>[meta ::][type iterator_category],
+          [meta std::][type forward_iterator_tag]>[meta ::][type value],
+      [type int]>[meta ::][type type];
 }
 
 [keyword template] <[keyword typename] [def&type Alpha], [keyword typename] [def&type Beta],

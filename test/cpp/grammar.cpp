@@ -22,6 +22,10 @@
  [keyword public]:
   [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def&local x]);
   [type Z]& [keyword operator][operator =]([type Z]&& [def&local x]);
+
+  [keyword static_assert]([variable compliant] [operator ||] [operator !][meta std::][qualified&variable is_trivially_destructible]<[type T]>[meta ::][variable value],
+                [string "Not compliant with std::is_trivially_destructible; "]
+                [string "Standard: true, Implementation: false"]);
 }
 
 [keyword template] <[type size_t] [def max_size]>
@@ -50,7 +54,7 @@
 }
 
 [keyword template] <[keyword typename] [type&def T]>
-[keyword inline] [keyword typename] [meta std::][type enable_if]<[meta std::][type is_same]<[type&local T], [type int]>::[type value], [type void]>::[type type]
+[keyword inline] [keyword typename] [meta std::][type enable_if]<[meta std::][type is_same]<[type&local T], [type int]>[meta ::][type value], [type void]>[meta ::][type type]
 [def Foo]() {
   [keyword return] [type Foo]{[number 0]} [operator ||] [meta std::][type Foo]{[number 1]};
 }
