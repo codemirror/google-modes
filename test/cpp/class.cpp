@@ -1,7 +1,7 @@
 [keyword class] [type&def BitcodeReaderValueList] {
-  [meta std::][type vector]<[type WeakVH]> [def&property ValuePtrs];
+  [type&qualifier std]::[type&qualified vector]<[type WeakVH]> [def&property ValuePtrs];
 
-  [keyword typedef] [meta std::][type vector]<[meta std::][type pair]<[type Constant]*, [type unsigned]> > [def&property ResolveConstantsTy];
+  [keyword typedef] [type&qualifier std]::[type&qualified vector]<[type&qualifier std]::[type&qualified pair]<[type Constant]*, [type unsigned]> > [def&property ResolveConstantsTy];
   [type ResolveConstantsTy] [def&property ResolveConstants];
   [type LLVMContext] &[def&property Context];
  [keyword public]:

@@ -41,7 +41,7 @@ export function markTypeLocals(type, scopes, stream, state) {
       if (!scope.localTypes) scope.localTypes = []
       scope.localTypes.push(stream.current())
     }
-  } else if (typeRE.test(type) && !/qualified/.test(type) &&
+  } else if (typeRE.test(type) && !/qualifie[rd]/.test(type) &&
              isLocalType(state.context, stream.current())) {
     type += " local"
   }

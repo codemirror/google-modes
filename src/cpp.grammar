@@ -17,7 +17,7 @@ skip whitespace {
 
   TypeSuffix {
     TemplateArgs |
-    colons Type |
+    "::" qualifiedTypeName |
     Attributes |
     super
   }
@@ -122,7 +122,7 @@ skip whitespace {
     (alignas "(" number ")" | Attribute)+
   }
   Attribute {
-    ~("[" " "* "[") "[" "[" ListOf(nameQualifier* attributeName ("(" BalancedToken* ")")? "..."?) "]" "]"
+    ~("[" " "* "[") "[" "[" ListOf(NameQualifier(attributeName)* attributeName ("(" BalancedToken* ")")? "..."?) "]" "]"
   }
   BalancedToken {
     number | string | identifier | binOp | "," | "(" BalancedToken* ")" | "[" BalancedToken* "]" | "{" BalancedToken* "}"
@@ -131,7 +131,13 @@ skip whitespace {
   StaticAssert {
     staticAssert ArgList ";"
   }
+
+  MatchingAngleBrackets {
+    "<" (!">" (MatchingAngleBrackets | string | _))* ">"
+  }
 }
+
+NameQualifier(type) { "::" | ~(type MatchingAngleBrackets? whitespace "::") type TemplateArgs? whitespace "::" }
 
 tokens {
   namespace { kw("namespace") }
@@ -159,10 +165,9 @@ tokens {
 
 
   variableName {
-    nameQualifier+ (qualifiedTemplateName TemplateArgs (colons variableName)? | initializedName | qualifiedVariableName) |
+    NameQualifier(variableQualifier)+ (qualifiedInitializedName | qualifiedVariableName) (TemplateArgs (~"::" variableName)?)? |
     initializedName |
-    unqualifiedTemplateName TemplateArgs |
-    unqualifiedVariableName
+    unqualifiedVariableName TemplateArgs?
   }
 
   modifier { kw("inline" | "virtual" | "explicit" | "friend" | "constexpr") | super }
@@ -185,20 +190,14 @@ tokens {
 
 digits { (digit | "'")* }
 
-nameQualifier="meta" { "::" | identifier " "* "::" }
-
-colons="meta" { "::" }
-
-parameterizedQualifier="meta" { identifier ~(" "* "<") }
+variableQualifier="variable qualifier" { identifier }
 
 attributeName="meta" { identifier }
-
-declQualifier { parameterizedQualifier whitespace TemplateArgs colons qualifiedDeclName | nameQualifier }
 
 rawPropDeclName="def property" { identifier }
 propDeclName { operator overloadableOp | rawPropDeclName }
 
-declName { declQualifier+ qualifiedDeclName | unqualifiedDeclName }
+declName { NameQualifier(declQualifier)+ qualifiedDeclName | unqualifiedDeclName }
 
 overloadableOp { op("->*") | "," | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 
@@ -206,19 +205,20 @@ declOp { "*" | "&&" | "&" }
 
 unqualifiedDeclName="def" { "~"? identifier }
 qualifiedDeclName="qualified def" { "~"? identifier }
+declQualifier="qualifier def" { identifier }
 
 initializedName="type" { identifier ~"{" }
+qualifiedInitializedName="type qualified" { identifier ~"{" }
 
 unqualifiedVariableName="variable" { maybeCallee }
 
 qualifiedVariableName="qualified" { unqualifiedVariableName }
 
-qualifiedTemplateName="variable qualified" { identifier ~"<" }
-unqualifiedTemplateName="variable" { identifier ~"<" }
-
-typeNameInner { (typename whitespace)? nameQualifier* unqualifiedTypeName }
+typeNameInner { (typename whitespace)? (NameQualifier(typeQualifier)+ qualifiedTypeName | unqualifiedTypeName) }
 
 unqualifiedTypeName="type" { identifier }
+qualifiedTypeName="type qualified" { identifier }
+typeQualifier="type qualifier" { identifier }
 
 maybeTypeName {
   ~(!(("new" | "delete") !identifierChar) typeNameInner whitespace (TypeSuffix whitespace)* identifierStart) typeNameInner

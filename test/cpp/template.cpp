@@ -5,17 +5,17 @@
   [comment // std::iterator_traits isn't guaranteed to be SFINAE-friendly until C++17,]
   [comment // but this seems to be mostly pedantic.]
   [keyword template] <[keyword typename] [type&def Iter]>
-  [keyword using] [variable EnableIfForwardIterator] [operator =] [keyword typename] [meta std::][type enable_if]<
-      [meta std::][type is_convertible]<
-          [keyword typename] [meta std::][type iterator_traits]<[local&type Iter]>[meta ::][type iterator_category],
-          [meta std::][type forward_iterator_tag]>[meta ::][type value],
-      [type int]>[meta ::][type type];
+  [keyword using] [variable EnableIfForwardIterator] [operator =] [keyword typename] [type&qualifier std]::[type&qualified enable_if]<
+      [type&qualifier std]::[type&qualifier is_convertible]<
+          [keyword typename] [type&qualifier std]::[type&qualifier iterator_traits]<[local&type Iter]>::[type&qualified iterator_category],
+          [type&qualifier std]::[type&qualified forward_iterator_tag]>::[type&qualified value],
+      [type int]>::[type&qualified type];
 }
 
 [keyword template] <[keyword typename] [def&type Alpha], [keyword typename] [def&type Beta],
           [keyword typename] [def&type Gamma]>
-[type Fooooooooooooooooooo] [meta Bar::MyNiceClass]<[local&type Alpha], [local&type Beta],
-                                      [local&type Gamma]>[meta ::][def&qualified Func]() [keyword const] {
+[type Fooooooooooooooooooo] [def&qualifier Bar]::[def&qualifier MyNiceClass]<[local&type Alpha], [local&type Beta],
+                                      [local&type Gamma]>::[def&qualified Func]() [keyword const] {
   [comment // Any comment.]
   [type Foo] [def&local foo];
 }
