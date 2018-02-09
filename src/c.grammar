@@ -28,7 +28,8 @@ skip whitespace {
 
   DeclRest {
     Declarator
-    (~("(" (")" | modifier | qualifier | typeModifier | auto | maybeTypeName)) FunctionDef |
+    (Macro ";"? |
+     ~("(" (")" | modifier | qualifier | typeModifier | auto | maybeTypeName)) FunctionDef |
      Initializer? ("," declName Initializer?)* ";")
   }
 

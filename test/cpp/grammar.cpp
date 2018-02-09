@@ -23,6 +23,8 @@
   [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def&local x]);
   [type Z]& [keyword operator][operator =]([type Z]&& [def&local x]);
 
+  [type int] [def&property num_to_block_] [meta GUARDED_BY]([variable lock_]);
+
   [keyword static_assert]([variable compliant] [operator ||] [operator !][variable&qualifier std]::[qualifier&variable is_trivially_destructible]<[type T]>::[qualified&variable value],
                 [string "Not compliant with std::is_trivially_destructible; "]
                 [string "Standard: true, Implementation: false"]);
