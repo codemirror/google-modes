@@ -52,24 +52,24 @@ return int(str(
     3))
 
 class Foo(object):
-  
+  pass
 
 def foo(
     a: int, 
     b: int) -> int:
-  
+  pass
 
 def foo(a: int,
         b: int) -> int:
-  
+  pass
 
 def foo(
     a: int, 
     b: int) -> int:
-  
+  pass
 
 if (True):
-  
+  pass
 
 return ("implicit line "
         "joining")
@@ -80,4 +80,3 @@ return ('fmt') % dict(
 a = ('afmt'
      'bfmt') % dict(
         x=y)
-

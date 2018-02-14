@@ -178,7 +178,7 @@ stringQuoted {
 kw(word)="keyword" { word !identifierChar }
 op(expr)="operator" { expr }
 
-context indentedBody { "\n" (whitespaceSimple | "\n")* (&stillIndented Statement (whitespaceSimple | "\n")*)* }
+context indentedBody { "\n" (whitespaceSimple | "\n")* (&stillIndented Statement (whitespaceSimple | "\n")*)+ }
 
 identifier { identifierStart identifierChar* }
 
