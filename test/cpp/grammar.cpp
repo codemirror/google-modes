@@ -98,6 +98,10 @@
   
 }
 
+[keyword struct] [def&type Extend] {
+  [keyword using] [variable type] [operator =] [type integer_sequence]<[type Ints]..., ([variable Ints] [operator +] [variable SeqSize])...>;
+};
+
 [[[[ [meta noreturn] ]]]]
 [type int] [def sizeofint]() {
   ([variable u])[[ [number 1] ]];

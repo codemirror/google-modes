@@ -85,7 +85,7 @@ skip whitespace {
   }
 
   context TemplateArgs {
-    "<" ListOf(TypeArg | modifier* Type "..."? (ParamList | Initializer)? | number) ">"
+    "<" ListOf(TypeArg | modifier* (~(Type ("..." | "(" | "=" | ">" | ",")) Type (ParamList | Initializer)? | ExpressionNoGt) "..."?) ">"
   }
 
   TypeArg {
