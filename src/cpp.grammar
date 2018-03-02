@@ -36,6 +36,7 @@ skip whitespace {
   ExpressionSuffix {
     BlockOf(Expression, ",") |
     ArgList Block? |
+    ("->" | !".." ".") fieldName TemplateArgs? |
     super
   }
 

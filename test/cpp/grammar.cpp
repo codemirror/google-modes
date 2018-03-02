@@ -12,6 +12,7 @@
 [type void] [def&qualifier X]::[qualified&def Y]() {
   [variable x_]->[callee&property Y]([variable&callee A]([keyword this], [operator &][variable&qualifier B]::[qualified&variable C]<[type D], [number 2]>));
   [keyword delete] [[]] [variable baz];
+  [variable baz].[property foo]<[type quux]>();
 }
 
 [type void] [def foo](::[qualified&type y] [def&local data], [type void]* [def&local arg], [type void] (*[def&local r])([type void]*));
