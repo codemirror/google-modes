@@ -50,7 +50,7 @@ skip whitespace {
     classInterface typeDeclName TypeParams? (extends Type)? (implements CommaSep(Type))? ClassBody |
     atInterface declName AnnotationTypeBody |
     package identifier ("." identifier)* ";" |
-    ~(Annotation* TypeParams? (primType | packageQualifier* className))
+    ~(Annotation* TypeParams? (primType | typeQualifier* className))
       Type DeclExpr(name) (FunctionDef | (op("=") Expr)? ("," DeclExpr(name) (op("=") Expr)?)* ";")
   }
 
@@ -227,11 +227,11 @@ typeDeclName="type def" { identifier }
 calleeField="property callee" { identifier ~(" "* "(") }
 fieldName="property" { identifier }
 
-packageQualifier="meta" { identifier " "* "." !"." }
+typeQualifier="type qualifier" { identifier " "* "." !"." }
 
 typeName="type" { identifier }
 
-typeID { primType | packageQualifier+ qualifiedClassName | className }
+typeID { primType | typeQualifier+ qualifiedClassName | className }
 qualifiedClassName="qualified" { className }
 
 kw(value)="keyword" { value !identifierChar }

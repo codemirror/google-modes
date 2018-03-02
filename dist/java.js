@@ -273,7 +273,7 @@ var nodes = [
    0, 157,
    3, "type", e[27], 159],
   [1, 5, 155],
-  [3, "meta", e[41], 158],
+  [3, "type qualifier", e[41], 158],
   [0, 157,
    2, 307, 159, {"name":"qualifiedClassName","token":"qualified"}],
   [1, 5, 160],
@@ -397,7 +397,7 @@ var nodes = [
    3, "type", e[27], 242],
   [1, 5, 240],
   [1, 5, 244],
-  [3, "meta", e[41], 245],
+  [3, "type qualifier", e[41], 245],
   [2, 280, 246, {"name":"TypeArgs"},
    1, 5, 247],
   [0, 243,
@@ -434,7 +434,7 @@ var nodes = [
   [3, "type", e[26], -1,
    0, 268,
    3, "type", e[27], -1],
-  [3, "meta", e[41], 269],
+  [3, "type qualifier", e[41], 269],
   [0, 268,
    2, 307, -1, {"name":"qualifiedClassName","token":"qualified"}],
   ["(", 271],
@@ -490,7 +490,7 @@ var nodes = [
   [1, 5, 311],
   [3, "type", e[26], -1,
    0, 312],
-  [3, "meta", e[41], 313,
+  [3, "type qualifier", e[41], 313,
    3, "type", e[27], -1],
   [1, 5, 312],
   [1, 155, 315,
@@ -780,7 +780,7 @@ var nodes = [
   [1, 5, 532],
   [3, "type", e[26], -1,
    0, 533],
-  [3, "meta", e[41], 534,
+  [3, "type qualifier", e[41], 534,
    3, "type", e[27], -1],
   [1, 5, 533],
   [3, "def property", e[16], 536],
@@ -843,7 +843,7 @@ function markTypeLocals(type, scopes, stream, state) {
       if (!scope.localTypes) { scope.localTypes = []; }
       scope.localTypes.push(stream.current());
     }
-  } else if (typeRE.test(type) && !/qualified/.test(type) &&
+  } else if (typeRE.test(type) && !/qualifie[rd]/.test(type) &&
              isLocalType(state.context, stream.current())) {
     type += " local";
   }
