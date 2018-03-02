@@ -93,7 +93,7 @@ skip whitespace {
     ArgList |
     "[" Expression "]" |
     suffixOp |
-    ("->" | !".." ".") fieldName |
+    ("->" | ".") fieldName |
     binOp Expression |
     "?" Expression ":" Expression
   }
@@ -164,7 +164,10 @@ tokens {
 
   atom="atom" { ("true" | "false" | "null") !identifierChar }
 
-  macroName="meta" { "_" ("A"-"Z" | digit | "_")+ !identifierChar | "A"-"Z" ("A"-"Z" digit)* "_" ("A"-"Z" | digit | "_")* !identifierChar }
+  macroName="meta" {
+    "_" ("A"-"Z" | digit | "_")+ !identifierChar |
+    "A"-"Z"+ ("A"-"Z" | digit)* "_" ("A"-"Z" | digit | "_")* !identifierChar
+  }
 
   variableName { plainVariableName }
 
