@@ -164,7 +164,7 @@ tokens {
 
   atom="atom" { ("true" | "false" | "null") !identifierChar }
 
-  macroName="meta" { "_" ("A"-"Z" | "_")+ !identifierChar | "A"-"Z"+ "_" ("A"-"Z" | "_")* !identifierChar }
+  macroName="meta" { "_" ("A"-"Z" | digit | "_")+ !identifierChar | "A"-"Z" ("A"-"Z" digit)* "_" ("A"-"Z" | digit | "_")* !identifierChar }
 
   variableName { plainVariableName }
 
