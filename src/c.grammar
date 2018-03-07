@@ -213,7 +213,7 @@ whitespace {
    comment)*
 }
 
-preprocessorLine="meta" { "#" (!("//" | "/*" | "\\") . | "\\" _ )* }
+preprocessorLine="meta" { "#" (comment | "\\" _ | .)* }
 
 declName="def" { identifier }
 propDeclName="def property" { identifier }
