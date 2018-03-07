@@ -93,7 +93,7 @@ skip whitespace {
     ArgList |
     "[" Expression "]" |
     suffixOp |
-    ("->" | ".") fieldName |
+    ("->" | !".." ".") fieldName |
     binOp Expression |
     "?" Expression ":" Expression
   }
