@@ -119,8 +119,9 @@ skip whitespace {
 
   context ParenExpr { "(" Expr? ")" }
   context CondExpr { "(" Expr? ")" }
-  context ArgList { "(" CommaSep(Expr) ")" }
-  context ArrayInitializer { "{" CommaSep(Expr) "}" }
+  context ArgList { "(" CommaSep(ArgExpr) ")" }
+  context ArgExpr { Expr }
+  context ArrayInitializer { "{" CommaSep(ArgExpr) "}" }
 
   Type {
     Annotation* typeID ("[" Expr? "]" | TypeArgs)*

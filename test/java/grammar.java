@@ -28,8 +28,18 @@
     [keyword if] ([variable numofstyles] [operator ==] [variable foo][[ [number 0] ]])
       [keyword return];
 
+    [variable&callee foo](
+        [number 1] [operator +] [number 2] [operator +]
+            [number 3] [operator +] [number 4]);
+
     [variable names] [operator =] [keyword new] [type String][[ [variable numofstyles] ]];
     [keyword return] ([type Bar]<[type K], [type V]>) [variable&callee baz]();
+  }
+
+  [type void] [def&property foo]() {
+    [keyword return] [keyword new] [type Foo](
+        [keyword new] [type Bar]().
+            [property Abc]);
   }
 
   [keyword protected] [type void] [def&property setX]([type int] [def&local x]) {

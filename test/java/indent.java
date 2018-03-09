@@ -18,7 +18,7 @@ Foo foo =
 Foo foo = Foo.newBuilder()
     .setBar(
         Bar
-        .newBuilder()
+            .newBuilder()
         )
     .build()
     ;

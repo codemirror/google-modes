@@ -63,7 +63,7 @@ function findIndent(cx, textAfter, config) {
     if (closed && brack != ")") return base
     return base + config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1)
   } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "EnumConstant" ||
-             cx.name == "AnnotationTypeItem") {
+             cx.name == "AnnotationTypeItem" | cx.name == "ArgExpr") {
     if (hasSubStatement(cx)) return base + config.indentUnit;
     return base + 2 * config.indentUnit
   } else if (cx.name == "Alternative") {
