@@ -24,7 +24,10 @@
   [type Z]& [keyword operator][operator =]([keyword const] [type Z]& [def&local x]);
   [type Z]& [keyword operator][operator =]([type Z]&& [def&local x]);
 
-  [type int] [def&property num_to_block_] [meta GUARDED_BY]([variable lock_]);
+  [type int] [def&property num_to_block_] [meta GUARDED_BY]([string "foo"] [operator ++] [variable lock_]);
+
+  [meta MOCK_METHOD3]([variable DoFoo], [keyword bool]([keyword const] [variable&qualifier ns]::[qualified&variable Something][operator &],
+                           [keyword const] [variable&qualifier std]::[qualified&variable vector][operator <][keyword int][operator >][operator &], [keyword const] [variable string]));
 
   [keyword static_assert]([variable compliant] [operator ||] [operator !][variable&qualifier std]::[qualifier&variable is_trivially_destructible]<[type T]>::[qualified&variable value],
                 [string "Not compliant with std::is_trivially_destructible; "]

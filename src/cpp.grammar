@@ -123,10 +123,11 @@ skip whitespace {
     (alignas "(" number ")" | Attribute)+
   }
   Attribute {
-    ~("[" " "* "[") "[" "[" ListOf(NameQualifier(attributeName)* attributeName ("(" BalancedToken* ")")? "..."?) "]" "]"
+    ~("[" " "* "[") "[" "[" ListOf(NameQualifier(attributeName)* attributeName ("(" BalancedAttributeToken* ")")? "..."?) "]" "]"
   }
-  BalancedToken {
-    number | string | identifier | binOp | "," | "(" BalancedToken* ")" | "[" BalancedToken* "]" | "{" BalancedToken* "}"
+  BalancedAttributeToken {
+    number | string | identifier | binOp | "," |
+    "(" BalancedAttributeToken* ")" | "[" BalancedAttributeToken* "]" | "{" BalancedAttributeToken* "}"
   }
 
   StaticAssert {
@@ -164,7 +165,6 @@ tokens {
   virtSpec { kw("override" | "final" | "new") }
   atom="atom" { "nullptr" !identifierChar | super }
 
-
   variableName {
     NameQualifier(variableQualifier)+ (qualifiedInitializedName | qualifiedVariableName) (TemplateArgs (~"::" variableName)?)? |
     initializedName |
@@ -187,6 +187,15 @@ tokens {
   string="string" {
     "R\"" (!"(" .)* "(" (&rawStringContinues _)* "\"" | super
   }
+}
+
+keyword {
+  super | kw("alignas" | "asm" | "bool" | "catch" | "class" | "compl" | "concept" | "constexpr" | "const_cast" | "decltype" | "delete" | "dynamic_cast" | "explicit" | "export" | "friend" | "import" | "module" | "mutable" | "namespace" | "new" | "noexcept" | "nullptr" | "operator" | "private" | "protected" | "public" | "reinterpret_cast" | "requires" | "static_assert" | "static_cast" | "synchronized" | "template" | "this" | "throw" | "try" | "typedef" | "typeid" | "using" | "virtual" | "wchar_t")
+}
+
+variableToken {
+  ("::" | ~(identifier "::") variableQualifier "::")+ qualifiedVariableName |
+  unqualifiedVariableName
 }
 
 digits { (digit | "'")* }
