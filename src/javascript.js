@@ -3,17 +3,9 @@ import "codemirror-grammar-mode"
 import * as grammar from "./javascript.mode"
 import {markLocals} from "./locals"
 import {indent} from "./c_indent"
+import {canInsertSemi} from "./js_semi"
 
 const scopes = ["Block", "FunctionDef", "ArrowFunc", "ForStatement"]
-
-function canInsertSemi(string, pos) {
-  for (let i = pos - 1; i >= 0; i--) {
-    let ch = string.charCodeAt(i)
-    if (ch === 10) break
-    if (ch !== 32 && ch !== 9) return false
-  }
-  return true
-}
 
 class JSMode extends CodeMirror.GrammarMode {
   constructor(conf, modeConf) {

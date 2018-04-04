@@ -94,7 +94,7 @@ skip whitespace {
   context ObjectMember {
     propModifier?
     ((propDeclName | "[" Expression "]" | number | string) (asyncStar? FunctionDef | ":" ExpressionNoComma)? |
-     "..." ExpressionNoComma)
+     op("...") ExpressionNoComma)
   }
 
   ExpressionSuffix(ContExpression) {
@@ -112,7 +112,7 @@ skip whitespace {
   }
 
   context ParamList {
-    "(" CommaSep(Pattern) ")"
+    "(" CommaSep(PatternDefault) ")"
   }
 
   context FunctionDef {
@@ -128,17 +128,21 @@ skip whitespace {
   }
 
   Pattern {
-    (declName | op("...") Pattern | ArrayPattern | ObjectPattern) (op("=") ExpressionNoComma)?
+    op("...")? (declName | ArrayPattern | ObjectPattern)
   }
 
-  context ArrayPattern { "[" CommaSep(Pattern) "]" }
+  PatternDefault {
+    Pattern (op("=") ExpressionNoComma)?
+  }
+
+  context ArrayPattern { "[" CommaSep(PatternDefault) "]" }
 
   context ObjectPattern { "{" CommaSep(PropPattern) "}" }
 
   PropPattern {
     declNameNoColon |
-    propName ":" Pattern |
-    "..." Pattern
+    propName ":" PatternDefault |
+    op("...") PatternDefault
   }
 
   CommaSep(expr) { (expr ("," expr?)*)? }
@@ -228,7 +232,7 @@ declNameNoColon { declName !(identifierChar | " "* ":") }
 
 declNameAndArrow { declName ~(whitespace "=>") }
 
-paramsAndArrow { "(" ~(whitespace CommaSep(Pattern) ")" whitespace "=>") whitespace CommaSep(Pattern) whitespace ")" }
+paramsAndArrow { "(" ~(whitespace CommaSep(PatternDefault) ")" whitespace "=>") whitespace CommaSep(PatternDefault) whitespace ")" }
 
 propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":" | "(")) }
 
