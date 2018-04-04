@@ -9,6 +9,7 @@ const {parseSpec, tokenType} = require("./parse_spec")
 require("../dist/cpp")
 require("../dist/c")
 require("../dist/javascript")
+require("../dist/typescript")
 require("../dist/python")
 require("../dist/go")
 require("../dist/java")
@@ -18,6 +19,7 @@ let filter = process.argv[2]
 ;[{dir: "c", mode: "google-c"},
   {dir: "cpp", mode: "google-cpp"},
   {dir: "js", mode: "google-javascript"},
+  {dir: "ts", mode: "google-typescript"},
   {dir: "py", mode: "google-python"},
   {dir: "go", mode: "google-go"},
   {dir: "java", mode: "google-java"}

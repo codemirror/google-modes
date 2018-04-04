@@ -1,13 +1,13 @@
 import * as CodeMirror from "codemirror"
 import "codemirror-grammar-mode"
-import * as grammar from "./javascript.mode"
+import * as grammar from "./typescript.mode"
 import {markLocals} from "./locals"
 import {indent} from "./c_indent"
 import {canInsertSemi} from "./js_semi"
 
-const scopes = ["Block", "FunctionDef", "ArrowFunc", "ForStatement"]
+const scopes = ["Block", "FunctionDef", "ArrowFunc", "ForStatement", "ParamListSpec"]
 
-class JSMode extends CodeMirror.GrammarMode {
+class TSMode extends CodeMirror.GrammarMode {
   constructor(conf, modeConf) {
     super(grammar, {
       predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : () => false}
@@ -34,8 +34,8 @@ let meta = {
   fold: "brace",
   closeBrackets: "()[]{}''\"\"``"
 }
-for (let prop in meta) JSMode.prototype[prop] = meta[prop]
+for (let prop in meta) TSMode.prototype[prop] = meta[prop]
 
-CodeMirror.registerHelper("wordChars", "google-javascript", /[\w$]/)
+CodeMirror.registerHelper("wordChars", "google-typescript", /[\w$]/)
 
-CodeMirror.defineMode("google-javascript", (conf, modeConf) => new JSMode(conf, modeConf))
+CodeMirror.defineMode("google-typescript", (conf, modeConf) => new TSMode(conf, modeConf))

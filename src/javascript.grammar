@@ -39,9 +39,8 @@ skip whitespace {
 
   Export {
     export
-    (("*" | default | "{" CommaSep(DeclMaybeAs) "}") (kw("from") string)? |
+    (("*" | default | "{" CommaSep(DeclMaybeAs) "}") (kw("from") string)? semi |
      Statement)
-    semi
   }
 
   Import {
@@ -63,7 +62,6 @@ skip whitespace {
   context ParenExpr { "(" Expression ")" }
   context CondExpr { "(" Expression ")" }
 
-  // FIXME fat arrows
   BaseExpression {
     atom |
     kwExpr |
@@ -83,7 +81,7 @@ skip whitespace {
     ParenExpr
   }
 
-  context ArrowFunc { (declNameAndArrow | paramsAndArrow) ArrowRest }
+  context ArrowFunc { (declNameAndArrow | ParamsAndArrow) ArrowRest }
 
   context ArrowRest { op("=>") (Block | ExpressionNoComma) }
 
@@ -146,6 +144,8 @@ skip whitespace {
   }
 
   CommaSep(expr) { (expr ("," expr?)*)? }
+
+  ParamsAndArrow { ~(ParamList "=>") ParamList }
 }
 
 Conditional {
@@ -231,8 +231,6 @@ labelName { identifier ~(" "* ":") }
 declNameNoColon { declName !(identifierChar | " "* ":") }
 
 declNameAndArrow { declName ~(whitespace "=>") }
-
-paramsAndArrow { "(" ~(whitespace CommaSep(PatternDefault) ")" whitespace "=>") whitespace CommaSep(PatternDefault) whitespace ")" }
 
 propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":" | "(")) }
 

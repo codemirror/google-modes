@@ -7,10 +7,11 @@
     "build-cpp": "grammar-mode --es-module src/cpp.grammar --output src/cpp.mode.js && rollup -c rollup.config.js src/cpp.js -o dist/cpp.js",
     "build-c": "grammar-mode --es-module src/c.grammar --output src/c.mode.js && rollup -c rollup.config.js src/c.js -o dist/c.js",
     "build-js": "grammar-mode --es-module src/javascript.grammar --output src/javascript.mode.js && rollup -c rollup.config.js src/javascript.js -o dist/javascript.js",
+    "build-ts": "grammar-mode --es-module src/typescript.grammar --output src/typescript.mode.js && rollup -c rollup.config.js src/typescript.js -o dist/typescript.js",
     "build-py": "grammar-mode --es-module src/python.grammar --output src/python.mode.js && rollup -c rollup.config.js src/python.js -o dist/python.js",
     "build-go": "grammar-mode --es-module src/go.grammar --output src/go.mode.js && rollup -c rollup.config.js src/go.js -o dist/go.js",
     "build-java": "grammar-mode --es-module src/java.grammar --output src/java.mode.js && rollup -c rollup.config.js src/java.js -o dist/java.js",
-    "build": "npm run build-js && npm run build-c && npm run build-cpp && npm run build-py && npm run build-go && npm run build-java",
+    "build": "npm run build-js && npm run build-ts && npm run build-c && npm run build-cpp && npm run build-py && npm run build-go && npm run build-java",
     "test": "node test/run.js",
     "prepare": "npm run build && npm test"
   },

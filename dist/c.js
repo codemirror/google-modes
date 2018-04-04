@@ -587,9 +587,9 @@ function aligned(cx) {
 }
 
 var bracketed = {
-  Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", EnumBody: "}",
+  Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", EnumBody: "}", ObjType: "}",
   ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
-  ArrayLiteral: "]", BracketTokens: "]",
+  ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
   ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
   TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
 };

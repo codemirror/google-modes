@@ -1,0 +1,122 @@
+extends "./javascript.grammar"
+
+skip whitespace {
+
+  context Statement {
+    type typeDeclName TypeParams? op("=") Type semi |
+    namespace (~(identifier ".") variable ".")* declName Block |
+    interface typeDeclName TypeParams? (extends CommaSep(Type))? ObjType |
+    (~(kw("const") enum) kw("const") enum | enum) typeDeclName EnumBody |
+    (declare | kw("abstract")) Statement |
+    super
+  }
+
+  context TypeParams { "<" CommaSep(typeDeclName (extends Type)?) ">" }
+
+  context TypeArgs { "<" CommaSep(Type) ">" }
+
+  Type { TypeAtom TypeSuffix* }
+
+  TypeAtom {
+    kw("this") |
+    atom |
+    kw("typeof") Expression |
+    kw("keyof") Type |
+    ~("(" !(")" | identifier ("?" | ":"))) "(" Type ")" |
+    new? TypeParams? ParamListSpec op("=>") Type |
+    (~(identifier ".") variable ".")* typeName TypeArgs? |
+    TupleType |
+    ObjType |
+    string |
+    number
+  }
+
+  TypeSuffix {
+    (op("&") | op("|")) Type |
+    "[" "]"
+  }
+
+  TypeAnn {
+    ":" Type
+  }
+
+  RetTypeAnn {
+    ":" (~(identifier kw("is")) variable kw("is"))? Type
+  }
+
+  context ParamListSpec { ParamList }
+
+  context ParamList { // FIXME typing comes before default values
+    "(" CommaSep(modifier* "..."? Pattern "?"? TypeAnn? (op("=") ExpressionNoComma)?) ")"
+  }
+
+  context ObjType { "{" ObjTypeField? (("," | ";") ObjTypeField?)* "}" }
+
+  context TupleType { "[" CommaSep(Type) "]" }
+
+  ObjTypeField {
+    new? TypeParams? ParamList RetTypeAnn? |
+    "[" identifier ":" Type "]" TypeAnn |
+    (propDeclName | string | number) "?"? (TypeParams? ParamList)? RetTypeAnn? 
+  }
+
+  BaseExpression {
+    TypeArgs BaseExpression |
+    calleeName TypeArgs? |
+    new ("." kw("target") | calleeName TypeArgs? | BaseExpression) |
+    super
+  }
+
+  ExpressionSuffix(ContExpression) {
+    kw("as") Type |
+    suffixOp |
+    (binOp | kwBinOp) ContExpression |
+    ArgList |
+    template |
+    "." (calleeProp TypeArgs? | propName) |
+    "[" Expression "]" |
+    op("?") Expression op(":") ContExpression
+  }
+
+  context FunctionDef {
+    TypeParams? ParamList RetTypeAnn? (Block | semi)
+  }
+
+  ClassDef {
+    (extends Type)? TypeParams? (kw("implements") CommaSep(Type))? ClassBody
+  }
+
+  context ClassBody {
+    "{" (modifier* ClassField | "@" Expression)* "}"
+  }
+
+  ClassField {
+    propModifier?
+    (propDeclName | "[" Expression "]" | number | string)
+    (asyncStar? FunctionDef | TypeAnn? (op("=") Expression)? semi)
+  }
+
+  VariableDeclarator { Pattern TypeAnn? (op("=") ExpressionNoComma)? }
+
+  context EnumBody { "{" CommaSep(propDeclName (op("=") ExpressionNoComma)?) "}" }
+
+  ParamsAndArrow { ~(ParamList RetTypeAnn? "=>") ParamList RetTypeAnn? }
+}
+
+modifier { kw("public" | "private" | "protected" | "readonly" | "abstract" | "static") }
+enum { kw("enum") }
+
+typeDeclName="def type" { identifier }
+typeName="type" { identifier }
+
+calleeName="variable callee" { identifier ~(" "* (typeArgStructure " "*)? "(") }
+calleeProp="property callee" { identifier ~(" "* (typeArgStructure " "*)? "(") }
+
+typeArgStructure { "<" (typeArgStructure | "=>" | !">" _)* ">" }
+
+declNameAndArrow { declName ~(whitespace (":" whitespace Type whitespace)? "=>") }
+
+type { kw("type") ~(spaceChar* identifierStart) }
+namespace { kw("namespace") ~(spaceChar* identifierStart) }
+interface { kw("interface") ~(spaceChar* identifierStart) }
+declare { kw("declare") ~(spaceChar* identifierStart) }

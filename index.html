@@ -53,13 +53,14 @@
 <script src="node_modules/codemirror/addon/comment/comment.js"></script>
 <script src="node_modules/codemirror-grammar-mode/src/mode.js"></script>
 <script src="dist/javascript.js"></script>
+<script src="dist/typescript.js"></script>
 <script src="dist/java.js"></script>
 <script src="dist/cpp.js"></script>
 <script src="dist/python.js"></script>
 <script src="dist/go.js"></script>
 
 <style>
-  .CodeMirror { border: 1px solid silver; height: 1000px; }
+  .CodeMirror { border: 1px solid silver; height: 500px; }
 </style>
 
 <title>Mode demos</title>
@@ -160,6 +161,22 @@ export function indent(state, textAfter, line, config) {
 
   return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, null, config)
 }
+</textarea>
+
+<h2>TypeScript</h2>
+
+<textarea id=code-typescript>
+function isString(test: any): test is string{
+    return typeof test === “string”;
+}
+
+function example(foo: any){
+    if(isString(foo)){
+        console.log(“it is a string” + foo);
+        console.log(foo.length); // string function
+    }
+}
+example(“hello world”);
 </textarea>
 
 <h2>Java</h2>
@@ -846,6 +863,7 @@ func main() {
   let editors = {}
   ;[
     {name: "javascript", continueComments: "Enter"},
+    {name: "typescript"},
     {name: "java"},
     {name: "cpp"},
     {name: "python"},
