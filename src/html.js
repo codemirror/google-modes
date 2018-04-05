@@ -3,7 +3,7 @@ import "codemirror-grammar-mode"
 import * as grammar from "./html.mode"
 
 function tagName(str) {
-  let m = /\s*([\w_\.-]+)/.exec(str)
+  let m = /^\s*([\w_\.-]+)/.exec(str)
   return m ? m[1].toLowerCase() : "x"
 }
 
@@ -14,28 +14,46 @@ function cxTagName(cx) {
 const selfClosers = "area base br col command embed frame hr img input keygen link meta param source track wbr menuitem".split(" ")
 
 function selfClosing(_string, _pos, cx) {
-  return selfClosers.indexOf(tagName(cx)) > -1
+  return selfClosers.indexOf(cxTagName(cx)) > -1
 }
 
 function matchingTag(string, pos, cx) {
   return tagName(string.slice(pos + 2)) == cxTagName(cx)
 }
 
+export let predicates = {selfClosing, matchingTag}
+
+export function indent(state, textAfter, line, config) {
+  let cx = state.contextAt(line, line.length - textAfter.length)
+  let closing = /^\s*<\/\s*([\w_\.-]+)/.exec(textAfter)
+  while (cx) {
+    if (cx.name == "tag") {
+      let base = CodeMirror.countColumn(cx.startLine, null, config.tabSize)
+      if (closing && closing[1].toLowerCase() == cxTagName(cx)) return base
+      else return base + config.indentUnit
+    } else if (cx.name == "openTag") {
+      return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + 2 * config.indentUnit
+    }
+    cx = cx.parent
+  }
+  return 0
+}
+
 class HTMLMode extends CodeMirror.GrammarMode {
   constructor(conf, modeConf) {
-    super(grammar, {predicates: {selfClosing, matchingTag}})
+    super(grammar, {predicates})
     this.conf = conf
   }
 
   indent(state, textAfter, line) {
-    return 0 // FIXME
+    return indent(state, textAfter, line, this.conf)
   }
 }
 
 let proto = HTMLMode.prototype
-proto.electricInput = /^\s*<\//,
-proto.blockCommentStart = "<!--",
-proto.blockCommentEnd = "-->",
+proto.electricInput = /^\s*<\/.*?>/
+proto.blockCommentStart = "<!--"
+proto.blockCommentEnd = "-->"
 proto.fold = "xml"
 
 CodeMirror.defineMode("google-html", (conf, modeConf) => new HTMLMode(conf, modeConf))

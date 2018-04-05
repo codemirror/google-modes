@@ -13,10 +13,14 @@ doctype="meta" {
 }
 
 context tag {
-  asTag("<") !(spaceChar* "/") spaceChar* tagName spaceChar* attribute*
+  openTag
   (asTag("/>") |
    &selfClosing asTag(">") |
    asTag(">") element* (~"</" (&matchingTag asTag("</") spaceChar* tagName asTag(">"))?))
+}
+
+context openTag {
+  asTag("<") !(spaceChar* "/") spaceChar* tagName spaceChar* attribute*
 }
 
 asTag(value)="tag" { value }
