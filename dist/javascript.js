@@ -712,7 +712,6 @@
   }
 
   function indent(state, textAfter, line, config) {
-    if (textAfter.charAt(0) == "#") { return 0 }
     var top = state.context && state.context.name;
     if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template")
       { return statementIndent(state.context, config) }

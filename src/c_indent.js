@@ -92,7 +92,6 @@ function statementIndent(cx, config) {
 }
 
 export function indent(state, textAfter, line, config) {
-  if (textAfter.charAt(0) == "#") return 0
   let top = state.context && state.context.name
   if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template")
     return statementIndent(state.context, config)

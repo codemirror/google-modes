@@ -40,6 +40,7 @@ class CppMode extends CodeMirror.GrammarMode {
   }
 
   indent(state, textAfter, line) {
+    if (textAfter.charAt(0) == "#") return 0
     return indent(state, textAfter, line, this.conf)
   }
 }
