@@ -5,7 +5,7 @@ element {
 }
 
 attribute {
-  (("*" | "#") attributeName | ("[" | "(")+ attributeName ("]" | ")")+ | bindOnAttributeName) spaceChar*
+  (("*" | "#") spaceChar* attributeName | ("[" | "(")+ spaceChar* attributeName spaceChar* ("]" | ")")+ | bindOnAttributeName) spaceChar*
   ("=" spaceChar* ngAttributeValue spaceChar*)? |
   super
 }

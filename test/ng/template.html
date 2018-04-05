@@ -1,0 +1,19 @@
+[comment <!-- hello -->]
+[tag <form] ([attribute ngSubmit])=[string "][callee&variable onSubmit]([variable heroForm])[string "]
+    #[attribute heroForm]=[string "][variable ngForm][string "][tag >]
+  [tag <div] [attribute class]=[string "form-group"][tag >]
+    [tag <label] [attribute for]=[string "name"][tag >]Name[atom &amp;]
+      [tag <input] [attribute class]=[string "form-control"] [attribute name]=[string "name"] [attribute required]
+          [[([attribute ngModel])]]=[string "][variable hero].[property name][string "][tag >]
+    [tag </label>]
+  [tag </div>]
+  [tag <button] [attribute type]=[string "submit"] [[ [attribute disabled] ]]=[string "][operator !][variable heroForm].[property form].[property valid][string "][tag >]Submit[tag </button>]
+[tag </form>]
+[tag <div] [[ [attribute hidden] ]]=[string "][operator !][variable heroForm].[property form].[property valid][string "][tag >]
+  {{[variable submitMessage]}}
+[tag </div>]
+
+
+[tag <app-hero-detail] *[attribute ngIf]=[string "][variable a].[property&callee f]([number 0x5f] [operator ==] [atom true] [comment /* x */])[string "][tag ></app-hero-detail>]
+
+[tag <button] [attribute on-click]=[string "][variable&callee onSave]()[string "] [attribute bind-src]=[string "][variable q][string "][tag >]On Save[tag </button>]
