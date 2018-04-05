@@ -58,6 +58,7 @@
 <script src="dist/cpp.js"></script>
 <script src="dist/python.js"></script>
 <script src="dist/go.js"></script>
+<script src="dist/angulartemplate.js"></script>
 
 <style>
   .CodeMirror { border: 1px solid silver; height: 500px; }
@@ -859,6 +860,22 @@ func main() {
 }
 </textarea>
 
+<h2>Angular Template</h2>
+
+<textarea id=code-angular-template>
+<form (ngSubmit)="onSubmit(heroForm)" #heroForm="ngForm">
+  <div class="form-group">
+    <label for="name">Name
+      <input class="form-control" name="name" required [(ngModel)]="hero.name">
+    </label>
+  </div>
+  <button type="submit" [disabled]="!heroForm.form.valid">Submit</button>
+</form>
+<div [hidden]="!heroForm.form.valid">
+  {{submitMessage}}
+</div>
+</textarea>
+
 <script>
   let editors = {}
   ;[
@@ -867,7 +884,8 @@ func main() {
     {name: "java"},
     {name: "cpp"},
     {name: "python"},
-    {name: "go", tabSize: 2, indentWithTabs: true, indentUnit: 2}
+    {name: "go", tabSize: 2, indentWithTabs: true, indentUnit: 2},
+    {name: "angular-template"}
   ].forEach(spec => {
     editors[spec.name] = CodeMirror.fromTextArea(document.querySelector(`#code-${spec.name}`),
    Object.assign({

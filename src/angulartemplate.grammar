@@ -1,0 +1,98 @@
+extends "./html.grammar"
+
+element {
+  "{{" ngExpression "}}" | super
+}
+
+attribute {
+  (("*" | "#") attributeName | ("[" | "(")+ attributeName ("]" | ")")+ | bindOnAttributeName) spaceChar*
+  ("=" spaceChar* ngAttributeValue spaceChar*)? |
+  super
+}
+
+text {
+  "\n" | (!("&" | "<" | "{{") .)+
+}
+
+bindOnAttributeName="attribute" {
+  ("bind" | "on")+ "-" wordChar+
+}
+
+ngAttributeValue {
+  quote ngExpression quote
+}
+
+skip (spaceChar | jsComment)* {
+  ngExpression { ngBaseExpression ngExpressionSuffix* }
+
+  ngBaseExpression {
+    atom |
+    kw("this") |
+    (kw("typeof") | op("!" | "-")) ngBaseExpression |
+    calleeName |
+    variable |
+    number |
+    string |
+    regexp |
+    "[" CommaSep(ngExpression) "]" |
+    "{" CommaSep(ngObjectMember) "}" |
+    "(" ngExpression ")"
+  }
+
+  ngExpressionSuffix {
+    (binOp | kw("in" | "instanceof")) ngExpression |
+    "(" CommaSep(ngExpression) ")" |
+    "." (calleeProp | propName) |
+    "[" ngExpression "]" |
+    op("?") ngExpression op(":") ngExpression
+  }
+
+  ngObjectMember {
+    (kw("get" | "set" | "async") !(" "* ("," | "}" | ":" | "(")))?
+    ((propName | "[" ngExpression "]" | number | string) (":" ngExpression)? |
+     op("...") ngExpression)
+  }
+
+  CommaSep(expr) { (expr ("," expr?)*)? }
+}
+
+quote="string" { "\"" }
+
+kw(value)="keyword" { value !identifierChar }
+op(value)="operator" { value }
+
+binOp {
+  op("+" | "-" | "%" | "*" | slash | ">" ("=" | ">" ">"?)? | "<" ("=" | "<")? | "=" ("=" "="?)? | "&" "&"? | "|" "|"? | "^" | "!=" "="?)
+}
+
+jsComment="comment" { "/*" (!"*/" _)* "*/" | "//" .* }
+
+atom="atom" { ("true" | "false" | "null" | "undefined" | "NaN" | "Infinity") !identifierChar }
+
+letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
+
+digit { "0"-"9" }
+
+identifierStart { letter | "_" | "$" }
+
+identifierChar { letter | digit | "_" | "$" }
+
+slash { "/" !("/" | "*") }
+
+identifier { identifierStart identifierChar* }
+
+propName="property" { identifier }
+variable="variable" { identifier }
+calleeName="variable callee" { identifier ~(" "* "(") }
+calleeProp="property callee" { identifier ~(" "* "(") }
+
+string="string" { "'" ("\\" _ | (!"'" .))* "'" }
+
+number="number" {
+  "0x" (digit | "a"-"f" | "A"-"F")+ |
+  "0o" "0"-"7"+ |
+  "0b" ("0" | "1")+ |
+  (digit+ ("." digit*)? | "." digit+) (("e" | "E") ("+" | "-")? digit+)?
+}
+
+regexp="string-2" { slash ("\\" . | .)+ "/" }
