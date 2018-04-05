@@ -1,7 +1,6 @@
 extends "./javascript.grammar"
 
 skip whitespace {
-
   context Statement {
     type typeDeclName TypeParams? op("=") Type semi |
     namespace (~(identifier ".") variable ".")* declName Block |

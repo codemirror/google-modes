@@ -1,0 +1,47 @@
+start top { element* }
+
+element {
+  comment | doctype | tag | entity | text
+}
+
+comment="comment" {
+  "<!--" (!"-->" _)* "-->"
+}
+
+doctype="meta" {
+  ("<!doctype" | "<!DOCTYPE") !wordChar (!">" _)* ">"
+}
+
+context tag {
+  asTag("<") !(spaceChar* "/") spaceChar* tagName spaceChar* attribute*
+  (asTag("/>") |
+   &selfClosing asTag(">") |
+   asTag(">") element* (~"</" (&matchingTag asTag("</") spaceChar* tagName asTag(">"))?))
+}
+
+asTag(value)="tag" { value }
+
+attribute {
+  attributeName spaceChar* ("=" spaceChar* attributeValue)? spaceChar*
+}
+
+attributeValue="string" {
+  "\"" (!"\"" _)* "\"" |
+  "'" (!"'" _)* "'" |
+  (!(spaceChar | ">") .)*
+}
+
+entity="atom" {
+  "&" (!(";" | spaceChar) .)* ";"
+}
+
+text {
+  "\n" | (!("&" | "<") .)+
+}
+
+tagName="tag" { wordChar+ }
+attributeName="attribute" { wordChar+ }
+
+wordChar { "a"-"z" | "A"-"Z" | "-" | "." | "0"-"9" | "_" }
+
+spaceChar { "\n" | "\t" | " " }
