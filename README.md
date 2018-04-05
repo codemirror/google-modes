@@ -1,10 +1,10 @@
 # Google mode pack
 
-This is a set of [CodeMirror](http://codemirror.net/) modes for the
-**C**, **C++**, **Java**, **Go**, **JavaScript**, and **Python**
-languages, providing a consistent highlighting style across these
-languages and an indentation style compatible with Google's style
-guides.
+This is a set of [CodeMirror](http://codemirror.net/) modes for **C**,
+**C++**, **Java**, **Go**, **JavaScript**, **TypeScript**, **Python**,
+**HTML**, and **Angular Templates**, providing a consistent
+highlighting style across these languages and an indentation style
+compatible with Google's style guides.
 
 The repository contains the sources needed to create the modes. To
 actually build them, run `npm install`. That will create files for the
