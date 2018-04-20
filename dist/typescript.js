@@ -473,6 +473,7 @@
     [/^[^]/, -1],
     [2, 387, 306, {"name":"TypeArgs"},
      3, "keyword", e[4], 308,
+     3, "keyword", e[36], -1,
      3, "variable callee", e[39], 314,
      3, "keyword", e[28], 316,
      3, "atom", e[27], -1,

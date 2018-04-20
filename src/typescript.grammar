@@ -62,6 +62,7 @@ skip whitespace {
   BaseExpression {
     TypeArgs BaseExpression |
     function asyncStar? declName? FunctionDef |
+    kwExpr |
     calleeName TypeArgs? |
     new ("." kw("target") | calleeName TypeArgs? | BaseExpression) |
     super
