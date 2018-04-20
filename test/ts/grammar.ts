@@ -95,7 +95,7 @@
 
 ({[def&property a]: [def&local p] [operator =>] [variable-2 p]});
 
-[keyword this].[callee&property a]<[type Type]>([variable foo]);
+[keyword this].[callee&property a]<[type Type]>([variable foo], [keyword function]([def&local a]) { [keyword return] [variable-2 a] [operator +] [number 2]; });
 [keyword this].[property a][operator <][variable Type][operator >][variable foo];
 
 [keyword class] [def&type Appler] {
