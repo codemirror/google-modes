@@ -69,6 +69,7 @@ skip whitespace {
 
   ExpressionSuffix(ContExpression) {
     kw("as") Type |
+    op("!") |
     suffixOp |
     (binOp | kwBinOp) ContExpression |
     ArgList |

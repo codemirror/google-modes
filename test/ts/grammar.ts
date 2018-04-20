@@ -123,3 +123,8 @@
 [keyword namespace] [def n] {
   [variable console].[callee&property log]([string "abc"]);
 }
+
+[keyword function] [def foo]() {
+  [keyword const] [def&local x] [operator =] [number 2][operator !];
+  [keyword const] [def&local y] [operator =] [number 3];
+}
