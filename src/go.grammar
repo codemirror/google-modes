@@ -45,7 +45,7 @@ skip whitespace {
   }
 
   ExprNoBrace {
-    AssignedNames Expr |
+    AssignedNames ExprNoBrace |
     ExprPrefix* BaseExpr ExprSuffix(ExprNoBrace)*
   }
 

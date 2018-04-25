@@ -28,7 +28,7 @@
 	[keyword return] [string `plain]
 [string stringthing`]
 } [keyword else] {
-	[keyword switch] [variable tag] {
+	[keyword switch] [def&local r] [operator :=] [variable tag] {
 	[keyword default]: [variable&callee s3]()
 	[keyword case] [number 0], [number 1], [number 2], [number 3]: [variable&callee s1]()
 	[keyword case] [number 4]: [keyword go] [variable&callee s2]()
