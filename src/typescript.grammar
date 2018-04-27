@@ -59,15 +59,9 @@ skip whitespace {
     (propDeclName | string | number) "?"? (TypeParams? ParamList)? RetTypeAnn? 
   }
 
-  BaseExpression {
-    TypeArgs BaseExpression |
-    function asyncStar? declName? FunctionDef |
-    kwExpr |
-    (kwPrefix | prefixOp | async) BaseExpression |
-    calleeName TypeArgs? |
-    new ("." kw("target") | calleeName TypeArgs? | BaseExpression) |
-    super
-  }
+  Callee { calleeName TypeArgs? }
+
+  NewExpression { new ("." kw("target") | calleeName TypeArgs? | BaseExpression) }
 
   ExpressionSuffix(ContExpression) {
     kw("as") Type |

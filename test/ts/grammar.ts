@@ -128,3 +128,5 @@
   [keyword const] [def&local x] [operator =] [number 2][operator !];
   [keyword const] [def&local y] [operator =] [number 3];
 }
+
+[keyword const] [def foo] [operator =] [keyword async] () [operator =>] {[keyword const] [def&local y] [operator =] [keyword await] [variable bar];};

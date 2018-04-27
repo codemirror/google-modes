@@ -70,7 +70,7 @@ skip whitespace {
     function asyncStar? declName? FunctionDef |
     class (!kw("extends") typeDeclName)? ClassDef |
     ArrowFunc |
-    calleeName |
+    Callee |
     variable |
     number |
     string |
@@ -80,6 +80,8 @@ skip whitespace {
     ObjectLiteral |
     ParenExpr
   }
+
+  Callee { calleeName }
 
   context ArrowFunc { (declNameAndArrow | ParamsAndArrow) ArrowRest }
 
