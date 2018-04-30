@@ -2,3 +2,5 @@
   [keyword let] {[def&local d], [property foo]: [def&local c][operator =][number 10], [def&local x]} [operator =] [variable&callee foo]([variable-2 a]);
   [[[variable-2 c], [variable y] ]] [operator =] [variable-2&callee d]();
 })();
+
+[keyword let] {[def a] [operator =] [number 3]}, [def b] [operator =] [number 20];
