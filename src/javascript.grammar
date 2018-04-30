@@ -240,7 +240,7 @@ propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":" | "(")) }
 
 asyncStar="keyword" { "*" }
 
-variableAs { variable ~(" "* "as") }
+variableAs { variable ~(" "+ "as") }
 
 identifier { identifierStart identifierChar* }
 
