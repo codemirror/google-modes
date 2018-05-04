@@ -1,25 +1,23 @@
 comment { "/**" !"/" content* tagGroup* "*/" }
 
-content { (!("*/" | "@" letter | "{") _)+ | braced }
+content { (!("*/" | "{"? "@" letter) _)+ }
 
-context braced { "{" (tag (!("}" | "*/") _)* | type) "}" }
-
-context tagGroup { tag content* }
+context tagGroup { (tag | "{" otherTag spaceChar* tagContent "}") content* }
 
 tag {
-  defTag spaceChar* ("{" type "}" spaceChar* def?)? |
+  defTag spaceChar* def? |
   otherTag
 }
 
-defTag="tag" { "@" ("member" | "param" | "arg" "ument"? | "module" | "namespace" | "typedef") !letter }
+defTag="tag" { "@" ("param" | "throws" | "exception") !letter }
 
 otherTag="tag" { "@" letter+ }
 
+tagContent="attribute" { toClosingBrace }
+
 toClosingBrace { (!("}" | "*/") ("{" toClosingBrace "}"? | _))* }
 
-type="type" { toClosingBrace }
-
-def="def" { letter+ }
+def="def" { (letter | ".")+ }
 
 spaceChar { "\n" | "\t" | " " }
 

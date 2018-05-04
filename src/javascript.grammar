@@ -1,4 +1,4 @@
-include "./javadoc.grammar" as doccomment
+include "./jsdoc.grammar" as doccomment
 
 skip whitespace {
   start top { whitespace Statement* }
