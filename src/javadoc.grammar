@@ -5,7 +5,7 @@ content { (!("*/" | "{"? "@" letter) _)+ }
 context tagGroup { (tag | "{" otherTag spaceChar* tagContent "}") content* }
 
 tag {
-  defTag spaceChar* def? |
+  defTag spaceChar* (def | typeDef)? |
   typeTag spaceChar* type? |
   otherTag
 }
@@ -21,6 +21,10 @@ tagContent="attribute" { toClosingBrace }
 toClosingBrace { (!("}" | "*/") ("{" toClosingBrace "}"? | _))* }
 
 def="def" { (letter | ".")+ }
+
+typeDef { "<" typeDefName ">" }
+
+typeDefName="type def" { letter+ }
 
 type="type" { (letter | ".")+ }
 

@@ -83,6 +83,7 @@
 }
 
 [keyword class] [type&def Foo] {
+  [comment /** ][comment&tag @param][comment <][comment&type&def X][comment > Doc comment! */]
   <[type&def X]> [type void] [def&property foo]([type&local X] [def&local x], [type Y] [def&local y]) {
   }
 }
