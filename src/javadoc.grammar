@@ -6,10 +6,13 @@ context tagGroup { (tag | "{" otherTag spaceChar* tagContent "}") content* }
 
 tag {
   defTag spaceChar* def? |
+  typeTag spaceChar* type? |
   otherTag
 }
 
-defTag="tag" { "@" ("param" | "throws" | "exception") !letter }
+defTag="tag" { "@param" !letter }
+
+typeTag="tag" { "@" ("throws" | "exception") !letter }
 
 otherTag="tag" { "@" letter+ }
 
@@ -18,6 +21,8 @@ tagContent="attribute" { toClosingBrace }
 toClosingBrace { (!("}" | "*/") ("{" toClosingBrace "}"? | _))* }
 
 def="def" { (letter | ".")+ }
+
+type="type" { (letter | ".")+ }
 
 spaceChar { "\n" | "\t" | " " }
 

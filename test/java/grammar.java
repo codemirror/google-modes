@@ -43,6 +43,7 @@
             [property Abc]);
   }
 
+  [comment /** ][comment&tag @throws][comment  ][comment&type FooError][comment  */]
   [keyword protected] [type void] [def&property setX]([type int] [def&local x]) {
     [variable g] [operator ||] [variable-2 x];
     [keyword super].[property&callee setX]([variable-2 x]);
