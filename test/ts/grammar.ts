@@ -27,6 +27,7 @@
           [def&local userId]: [type number],
           [def&local isActive]: [type boolean]
           ) [operator =>] [type Promise]<[type AccountHolderNotificationPreferenceInstance]>;
+      [keyword readonly] [def&property bar]: [type string];
     }
 
 [keyword const] [def hello]: {

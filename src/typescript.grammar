@@ -55,8 +55,8 @@ skip whitespace {
 
   ObjTypeField {
     new? TypeParams? ParamList RetTypeAnn? |
-    "[" identifier ":" Type "]" TypeAnn |
-    (propDeclName | string | number) "?"? (TypeParams? ParamList)? RetTypeAnn? 
+    modifier* ("[" identifier ":" Type "]" TypeAnn |
+               (propDeclName | string | number) "?"? (TypeParams? ParamList)? RetTypeAnn?)
   }
 
   Callee { calleeName TypeArgs? }
