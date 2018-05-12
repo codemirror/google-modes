@@ -90,7 +90,7 @@ skip whitespace {
   ClassField {
     propModifier?
     (propDeclName | "[" Expression "]" | number | string)
-    (asyncStar? FunctionDef | TypeAnn? (op("=") Expression)? semi)
+    (asyncStar? FunctionDef | "?"? TypeAnn? (op("=") Expression)? semi)
   }
 
   VariableDeclarator { Pattern TypeAnn? (op("=") ExpressionNoComma)? }
