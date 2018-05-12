@@ -103,6 +103,8 @@ skip whitespace {
 modifier { kw("public" | "private" | "protected" | "readonly" | "abstract" | "static") }
 enum { kw("enum") }
 
+propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":" | "(" | "<")) }
+
 typeDeclName="def type" { identifier }
 typeName="type" { identifier }
 
