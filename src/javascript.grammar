@@ -209,7 +209,7 @@ tokens {
 
   comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
 
-  regexp="string-2" { slash ("\\" . | .)+ "/" }
+  regexp="string-2" { slash ("\\" . | .)+ "/" ("g" | "i" | "m" | "y" | "u" | "s")* }
 
   template {
     str2("`")
