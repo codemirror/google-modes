@@ -7,7 +7,7 @@ context braced { "{" (tag (!("}" | "*/") _)* | type) "}" }
 context tagGroup { tag content* }
 
 tag {
-  defTag spaceChar* ("{" type "}" spaceChar* def?)? |
+  defTag spaceChar* (("{" type "}" spaceChar*)? def?)? |
   otherTag
 }
 
