@@ -6,7 +6,8 @@
 [comment /** multi]
 [comment  @<i>N</i>]
 [comment  * line]
-[comment  * {][comment&tag @code][comment  ][comment&attribute some @code{with braces}][comment }]
+[comment  * {][comment&tag @code][comment  ][comment&attribute some @code{with braces}]
+[comment  * ][comment&attribute continued code][comment }]
 [comment  * comment ][comment&tag @tag][comment */]
 
 [meta @Foo](x = [string "something"])

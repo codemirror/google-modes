@@ -2,7 +2,7 @@ comment { "/**" !"/" content* tagGroup* "*/" }
 
 content { (!("*/" | "{"? "@" letter) _)+ }
 
-context tagGroup { (tag | "{" otherTag spaceChar* tagContent "}") content* }
+context tagGroup { (tag | "{" otherTag spacing tagContent "}") content* }
 
 tag {
   defTag spaceChar* (def | typeDef)? |
@@ -16,9 +16,9 @@ typeTag="tag" { "@" ("throws" | "exception") !letter }
 
 otherTag="tag" { "@" letter+ }
 
-tagContent="attribute" { toClosingBrace }
+tagContent { (attr("{") tagContent (~"*/" | attr("}")) | attr((!("{" | "}" | "*/") .)+) | "\n" spacing ("*" spacing)?)* }
 
-toClosingBrace { (!("}" | "*/") ("{" toClosingBrace "}"? | _))* }
+attr(expr)="attribute" { expr }
 
 def="def" { (letter | ".")+ }
 
@@ -29,5 +29,7 @@ typeDefName="type def" { letter+ }
 type="type" { (letter | ".")+ }
 
 spaceChar { "\n" | "\t" | " " }
+
+spacing { ("\t" | " ")* }
 
 letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
