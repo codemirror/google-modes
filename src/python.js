@@ -65,8 +65,16 @@ function findIndent(cx, textAfter, curLine, config) {
   }
 }
 
+function testDef(scope, name, stream) {
+  if (!stream.lineOracle) return scope.locals.indexOf(name) == -1
+  let info = scope.firstDefs || (scope.firstDefs = {})
+  if (info[name] != null && info[name] < stream.lineOracle.line) return false
+  info[name] = stream.lineOracle.line
+  return true
+}
+
 function pythonMarkLocals(token, stream, state) {
-  let marked = markLocals(token, scopes, stream, state, true)
+  let marked = markLocals(token, scopes, stream, state, testDef)
   if (token == "def") {
     let cx = state.context
     while (cx && scopes.indexOf(cx.name) == -1) cx = cx.parent

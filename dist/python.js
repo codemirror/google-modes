@@ -641,13 +641,12 @@
 
   var varRE = /(^|\s)variable($|\s)/;
 
-  function markLocals(type, scopes, stream, state, once) {
+  function markLocals(type, scopes, stream, state, testDef) {
     if (type == "def") {
       var scope = getScope(state.context, scopes), name = stream.current();
       if (scope) {
         if (!scope.locals) { scope.locals = []; }
-        if (once && scope.locals.indexOf(name) > -1)
-          { return "variable-2" }
+        if (testDef && !testDef(scope, name, stream)) { return "variable-2" }
         scope.locals.push(name);
         if (state.context.name != "funcName") { return "def local" }
       }
@@ -720,8 +719,16 @@
     }
   }
 
+  function testDef(scope, name, stream) {
+    if (!stream.lineOracle) { return scope.locals.indexOf(name) == -1 }
+    var info = scope.firstDefs || (scope.firstDefs = {});
+    if (info[name] != null && info[name] < stream.lineOracle.line) { return false }
+    info[name] = stream.lineOracle.line;
+    return true
+  }
+
   function pythonMarkLocals(token$$1, stream, state) {
-    var marked = markLocals(token$$1, scopes, stream, state, true);
+    var marked = markLocals(token$$1, scopes, stream, state, testDef);
     if (token$$1 == "def") {
       var cx = state.context;
       while (cx && scopes.indexOf(cx.name) == -1) { cx = cx.parent; }

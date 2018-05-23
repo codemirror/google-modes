@@ -15,13 +15,12 @@ function isLocalType(context, name) {
 
 const varRE = /(^|\s)variable($|\s)/
 
-export function markLocals(type, scopes, stream, state, once) {
+export function markLocals(type, scopes, stream, state, testDef) {
   if (type == "def") {
     let scope = getScope(state.context, scopes), name = stream.current()
     if (scope) {
       if (!scope.locals) scope.locals = []
-      if (once && scope.locals.indexOf(name) > -1)
-        return "variable-2"
+      if (testDef && !testDef(scope, name, stream)) return "variable-2"
       scope.locals.push(name)
       if (state.context.name != "funcName") return "def local"
     }
