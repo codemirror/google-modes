@@ -21,7 +21,7 @@ skip whitespace {
     atom |
     kw("typeof") ExpressionNoComma |
     kw("keyof") Type |
-    ~("(" !(")" | identifier ("?" | ":"))) "(" Type ")" |
+    ~("(" !(")" | "..." | identifier ("?" | ":"))) "(" Type ")" |
     new? TypeParams? ParamListSpec op("=>") Type |
     (~(identifier ".") variable ".")* typeName TypeArgs? |
     TupleType |
