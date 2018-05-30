@@ -29,9 +29,9 @@ function findIndent(cx, textAfter, config) {
     let flat = closed || cx.name == "Block" && /^(case|default)\b/.test(textAfter)
     return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + (flat ? 0 : config.tabSize)
   } else if (cx.name == "Statement") {
-    return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + (inside ? config.tabSize : 0)
+    return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + config.tabSize
   } else {
-    return findIndent(cx.parent, textAfter, inside, config)
+    return findIndent(cx.parent, textAfter, config)
   }
 }
 
