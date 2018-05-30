@@ -32,7 +32,7 @@ skip whitespace {
 
   TypeSuffix {
     (op("&") | op("|")) Type |
-    "[" "]"
+    "[" Type? "]"
   }
 
   TypeAnn {
