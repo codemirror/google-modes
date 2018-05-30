@@ -641,13 +641,12 @@
 
   var varRE = /(^|\s)variable($|\s)/;
 
-  function markLocals(type, scopes, stream, state, testDef) {
+  function markLocals(type, scopes, stream, state) {
     if (type == "def") {
       var scope = getScope(state.context, scopes), name = stream.current();
       if (scope) {
         if (!scope.locals) { scope.locals = []; }
-        if (testDef && !testDef(scope, name, stream)) { return "variable-2" }
-        scope.locals.push(name);
+        if (scope.locals.indexOf(name) == -1) { scope.locals.push(name); }
         if (state.context.name != "funcName") { return "def local" }
       }
     } else if (varRE.test(type) && !/qualified/.test(type) &&
@@ -719,20 +718,13 @@
     }
   }
 
-  function testDef(scope, name, stream) {
-    if (!stream.lineOracle) { return scope.locals.indexOf(name) == -1 }
-    var info = scope.firstDefs || (scope.firstDefs = {});
-    if (info[name] != null && info[name] < stream.lineOracle.line) { return false }
-    info[name] = stream.lineOracle.line;
-    return true
-  }
-
   function pythonMarkLocals(token$$1, stream, state) {
-    var marked = markLocals(token$$1, scopes, stream, state, testDef);
+    var marked = markLocals(token$$1, scopes, stream, state);
     if (token$$1 == "def") {
       var cx = state.context;
       while (cx && scopes.indexOf(cx.name) == -1) { cx = cx.parent; }
       if (cx && cx.name == "ClassDef") { marked = "def property"; }
+      else if (marked == "def local") { marked = "variable-2"; }
     }
     return marked
   }  

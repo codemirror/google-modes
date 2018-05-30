@@ -6,7 +6,7 @@
 [def foo] [operator =] [string "bar"]; [variable abc_cde].[property&callee prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
 
 [meta @foo.bar]
-[keyword async] [keyword def] [def f]([def&local v]: [variable myType] [operator =] [number 0xffff], [operator **][def&local blah]):
+[keyword async] [keyword def] [def f]([variable-2 v]: [variable myType] [operator =] [number 0xffff], [operator **][variable-2 blah]):
   [builtin print]([variable-2 v] [operator +] [string 'hi\''] [keyword if] [atom False] [keyword else] [string '''blah'''])
   [keyword yield] [keyword from] [variable ugh]
 
@@ -14,8 +14,8 @@
   [string """my docstring"""]
   [def&property x] [operator =] [number 100_000.0]
 
-  [keyword def] [def&property method]([atom self], [def&local u]) -> [variable t]:
-    [atom self].[property&callee map]([keyword lambda] [def&local a]: [variable-2 x] [keyword not in] [variable-2 a])
+  [keyword def] [def&property method]([atom self], [variable-2 u]) -> [variable t]:
+    [atom self].[property&callee map]([keyword lambda] [variable-2 a]: [variable-2 x] [keyword not in] [variable-2 a])
     [keyword return] [variable-2 u][[ : [number 1] : [number 2], [variable a] ]]
 
 [keyword if] [atom None]:
@@ -37,11 +37,11 @@
 [keyword class] [type&def B]:
   [keyword def] [def&property __init__]([atom self]):
     [keyword try]:
-      [keyword with] [string U"x"] [keyword as] [def&local ay]: [variable-2 ay]
-    [keyword except] [variable Except] [keyword as] [def&local e]:
+      [keyword with] [string U"x"] [keyword as] [variable-2 ay]: [variable-2 ay]
+    [keyword except] [variable Except] [keyword as] [variable-2 e]:
       [variable&callee report]([variable-2 e])
     [keyword finally]:
-      [def&local hey] [operator =] [atom True] [keyword or] [atom False]
+      [variable-2 hey] [operator =] [atom True] [keyword or] [atom False]
       [variable-2 hey] [operator =] [string "again"]
       [variable-2 hey] [operator <<=] [number 0b10] [operator @] [operator ~][number 0O7] [operator **] [variable n]
 
@@ -60,7 +60,7 @@
     [keyword return]
 
 [keyword def] [def abc]():
-  [def&local x], [def&local y] [operator =] [number 1], [number 2]
+  [variable-2 x], [variable-2 y] [operator =] [number 1], [number 2]
 
 [keyword for] [def a], [def b] [keyword in] [builtin enumerate]([string 'xyz']):
   [keyword pass]
@@ -68,12 +68,12 @@
 [callee&variable foo]([meta dir]=[string "a"], [meta file]=[string "b"])
 
 [keyword def] [def testRaise]():
-  [def&local bar] [operator =] [number 1]
+  [variable-2 bar] [operator =] [number 1]
   [keyword raise] [variable Exception], [string 'blah']
-  [variable-2 bar] [operator =] [builtin map]([keyword lambda] [def&local x]: [number 1], [variable-2 bar])
+  [variable-2 bar] [operator =] [builtin map]([keyword lambda] [variable-2 x]: [number 1], [variable-2 bar])
 
 [keyword import] [variable typing]
 
 [keyword class] [type&def Example]([builtin object]):
-  [keyword def] [def&property method]([atom self], [def&local x]: [variable typing].[property List]):
+  [keyword def] [def&property method]([atom self], [variable-2 x]: [variable typing].[property List]):
     [atom self].[property x] [operator =] [variable-2 x]
