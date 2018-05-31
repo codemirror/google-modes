@@ -28,6 +28,7 @@ skip (spaceChar | jsComment)* {
   ngBaseExpression {
     atom |
     kw("this") |
+    kw("let" | "const" | "var") ngBaseExpression |
     (kw("typeof") | op("!" | "-")) ngBaseExpression |
     calleeName |
     variable |
@@ -40,11 +41,12 @@ skip (spaceChar | jsComment)* {
   }
 
   ngExpressionSuffix {
-    (binOp | kw("in" | "instanceof")) ngExpression |
+    (binOp | kw("in" | "instanceof" | "of" | "as")) ngExpression |
     "(" CommaSep(ngExpression) ")" |
     "." (calleeProp | propName) |
     "[" ngExpression "]" |
-    op("?") ngExpression op(":") ngExpression
+    op("?") ngExpression op(":") ngExpression |
+    ";" ngExpression?
   }
 
   ngObjectMember {
