@@ -94,7 +94,7 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) Attributes? typeDeclName (":" ListOf(virtual? access? Type))? (";" | ClassBody)
+    (class | structUnion) Attributes? typeDeclName classVirtSpec* (":" ListOf(virtual? access? Type))? (";" | ClassBody)
   }
 
   context ClassBody {
@@ -163,6 +163,7 @@ tokens {
   staticAssert { kw("static_assert") }
   cast { kw(("dynamic" | "static" | "const" | "reinterpret") "_cast") }
   virtSpec { kw("override" | "final" | "new") }
+  classVirtSpec { kw("final" | "explicit") }
   atom="atom" { "nullptr" !identifierChar | super }
 
   variableName {
