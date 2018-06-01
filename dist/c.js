@@ -581,6 +581,10 @@
     TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
   };
 
+  var blockish = ["Block", "NamespaceBlock", "ClassBody", "AnnotationTypeBody", "BlockOf", "EnumBody"];
+
+  var statementish = ["Statement", "ObjectMember", "ClassItem", "EnumConstant", "AnnotationTypeItem", "ArgExpr"];
+
   function baseIndent(cx, config) {
     for (var startLine = cx.startLine;; cx = cx.parent) {
       if (cx.name == "CondExpr")
@@ -599,8 +603,7 @@
     if (brack && config.align !== false && aligned(cx))
       { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
 
-    if (brack && (cx.name == "Block" || cx.name == "NamespaceBlock" || cx.name == "ClassBody" ||
-                  cx.name == "AnnotationTypeBody" || cx.name == "BlockOf" || cx.name == "EnumBody")) {
+    if (brack && blockish.indexOf(cx.name) > -1) {
       var parent = cx.parent;
       if (parent && parent.name == "Statement" && parent.parent &&
           parent.parent.name == "Statement" && hasSubStatement(parent.parent))
@@ -617,8 +620,7 @@
     if (brack) {
       if (closed && brack != ")") { return base }
       return base + config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1)
-    } else if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "EnumConstant" ||
-               cx.name == "AnnotationTypeItem" | cx.name == "ArgExpr") {
+    } else if (statementish.indexOf(cx.name) > -1) {
       if (hasSubStatement(cx)) { return base + config.indentUnit; }
       return base + 2 * config.indentUnit
     } else if (cx.name == "Alternative") {
@@ -650,6 +652,7 @@
     var top = state.context && state.context.name;
     if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template")
       { return statementIndent(state.context, config) }
+
     if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^[@*]/.test(textAfter))
       { return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }
 

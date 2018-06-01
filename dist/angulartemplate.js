@@ -118,7 +118,7 @@
      0, 35],
     [3, "atom", /^(?:true|false|null|undefined|NaN|Infinity)(?![a-zA-Z¡-￿_0-9_\$])/, -1,
      3, "keyword", /^this(?![a-zA-Z¡-￿_0-9_\$])/, -1,
-     3, "keyword", /^let(?![a-zA-Z¡-￿_0-9_\$])/, 48,
+     3, "keyword", /^(?:let|const|var)(?![a-zA-Z¡-￿_0-9_\$])/, 48,
      3, "keyword", /^typeof(?![a-zA-Z¡-￿_0-9_\$])/, 49,
      3, "operator", /^[\!\-]/, 49,
      3, "variable callee", e[2], -1,
