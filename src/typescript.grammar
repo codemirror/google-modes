@@ -80,7 +80,7 @@ skip whitespace {
   }
 
   ClassDef {
-    (extends Type)? TypeParams? (kw("implements") CommaSep(Type))? ClassBody
+    TypeParams? (extends Type)? (kw("implements") CommaSep(Type))? ClassBody
   }
 
   context ClassBody {

@@ -131,3 +131,5 @@
 }
 
 [keyword const] [def foo] [operator =] [keyword async] () [operator =>] {[keyword const] [def&local y] [operator =] [keyword await] [variable bar];};
+
+[keyword export] [keyword abstract] [keyword class] [def&type A]<[type&def T]> [keyword extends] [type B] {}
