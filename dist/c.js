@@ -583,12 +583,14 @@
 
   var blockish = ["Block", "NamespaceBlock", "ClassBody", "AnnotationTypeBody", "BlockOf", "EnumBody"];
 
-  var statementish = ["Statement", "ObjectMember", "ClassItem", "EnumConstant", "AnnotationTypeItem", "ArgExpr"];
+  var statementish = ["Statement", "ObjectMember", "ClassItem", "EnumConstant", "AnnotationTypeItem", "ArgExpr", "StatementMaybeOf", "NewExpr"];
 
   function baseIndent(cx, config) {
     for (var startLine = cx.startLine;; cx = cx.parent) {
       if (cx.name == "CondExpr")
         { return CodeMirror.countColumn(cx.startLine, cx.startPos + 1, config.tabSize) }
+      if (statementish.indexOf(cx.name) > -1 && /(^\s*|[\(\{\[])$/.test(cx.startLine.slice(0, cx.startPos)))
+        { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) }
       if (!cx.parent || cx.parent.startLine != startLine)
         { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) }
     }
@@ -641,9 +643,7 @@
   function statementIndent(cx, config) {
     for (;; cx = cx.parent) {
       if (!cx) { return 0 }
-      if (cx.name == "Statement" || cx.name == "ObjectMember" || cx.name == "ClassItem" || cx.name == "NewExpr" ||
-          cx.name == "EnumConstant" || cx.name == "Template" || cx.name == "AnnotationTypeItem" ||
-          cx.parent && bracketed[cx.parent.name])
+      if (statementish.indexOf(cx.name) > -1 || (cx.parent && bracketed[cx.parent.name]))
         { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) }
     }
   }

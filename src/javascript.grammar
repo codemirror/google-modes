@@ -34,7 +34,11 @@ skip whitespace {
 
   context ForStatement { ForSpec Statement }
   context ForSpec {
-    "(" Statement (kw("of") Expression | Expression? ";" Expression?)? ")"
+    "(" StatementMaybeOf (Expression? ";" Expression?)? ")"
+  }
+
+  context StatementMaybeOf {
+    Statement (kw("of") Expression)?
   }
 
   Export {

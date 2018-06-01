@@ -3,3 +3,9 @@
      [variable-2 i][operator ++])
   [variable&callee doSomething]([variable-2 i]);
 [keyword debugger];
+
+[keyword for] ([keyword const] [def&local name] [keyword of] [variable Object].[callee&property getOwnPropertyNames](
+         [variable Object].[callee&property getPrototypeOf]([variable instance]))) {}
+
+[keyword for] ([keyword let] [def&local x] [keyword of] [number 1] [operator +]
+         [number 1]) {}
