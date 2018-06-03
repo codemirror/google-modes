@@ -125,3 +125,12 @@
 }{
 	[number 22]
 }
+
+[keyword for] [def&local _], [def&local x] [operator :=] [[]][type int]{
+	{
+		[property foo]: [string "bar"],
+		[property baz]: [number 2]
+	},
+} {
+	[number 1]
+}

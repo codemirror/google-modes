@@ -29,7 +29,7 @@ skip whitespace {
   }
 
   context ForStatement {
-    for ((AssignedNames ExprNoBrace | ExprNoBrace) (";" ExprNoBrace?)*)? Block
+    for (ExprNoBrace (";" ExprNoBrace?)*)? Block
   }
 
   context SwitchStatement {
@@ -41,7 +41,7 @@ skip whitespace {
 
   Expr {
     AssignedNames Expr |
-    ExprPrefix* (!func maybe(Type ~"{") | BaseExpr) (ExprSuffix(Expr) | LiteralBody)*
+    ExprPrefix* (!func ~(Type "{") Type (LiteralBody | "(" Expr ")") | BaseExpr) ExprSuffix(Expr)*
   }
 
   ExprNoBrace {
@@ -58,6 +58,7 @@ skip whitespace {
     builtin |
     calleeName |
     variableName |
+    ~(map? "[" "]" | struct | "*") Type (LiteralBody | "(" Expr ")") |
     Bracketed Type? |
     "*" Type |
     ParenExpr
@@ -201,8 +202,6 @@ propNameColon="property" { identifier ~(" "* ":") }
 typeName="type" { identifier }
 typeQualifier="meta" { identifier "." }
 label { identifier ~(" "* ":" !"=") }
-
-maybe(expr) { ~expr expr }
 
 whitespaceSimple { (" " | "\t" | comment) }
 whitespace { (whitespaceSimple | ~"\n" &skippableNewline "\n")* }
