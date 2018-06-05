@@ -109,5 +109,8 @@
 [[[[ [meta noreturn] ]]]]
 [type int] [def sizeofint]() {
   ([variable u])[[ [number 1] ]];
+  [variable&callee foo]([[ [variable argv] ]] {
+    [variable&callee bar]([variable argv]);
+  });
   [keyword return] [keyword sizeof]([type int]);
 }

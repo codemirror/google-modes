@@ -76,7 +76,7 @@ skip whitespace {
   }
 
   BaseExpression {
-    ParenExpr Expression? |
+    ParenExpr (!("[" | "(" | "-" | "+") Expression)? |
     atom |
     number |
     string |
