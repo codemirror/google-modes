@@ -5,7 +5,8 @@ skip whitespace {
 
   context Statement {
     var VariableDeclarator ("," VariableDeclarator)* semi |
-    whileWith CondExpr Statement |
+    (while | with) CondExpr Statement |
+    do Statement (while CondExpr semi)? |
     Block |
     ";" |
     debugger |
@@ -165,7 +166,8 @@ context Alternative {
 
 tokens {
   var { kw("var" | "let" | "const") }
-  whileWith { kw("while" | "with") }
+  while { kw("while") }
+  with { kw("with") }
   else { kw("else") }
   do { kw("do") }
   try { kw("try") }
