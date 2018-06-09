@@ -134,4 +134,4 @@
 
 [keyword export] [keyword abstract] [keyword class] [def&type A]<[type&def T]> [keyword extends] [type B] {}
 
-[keyword export] [keyword type] [type&def Filter]<[type&def T], [type&def U]> [operator =] [type T] [keyword extends] [type U] [operator ?] [type T] [operator :] [type never];
+[keyword export] [keyword type] [type&def Filter]<[type&def T] [operator =] [type X], [type&def U]> [operator =] [type T] [keyword extends] [type U] [operator ?] [type T] [operator :] [type never];

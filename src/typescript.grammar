@@ -10,7 +10,7 @@ skip whitespace {
     super
   }
 
-  context TypeParams { "<" CommaSep(typeDeclName (extends Type)?) ">" }
+  context TypeParams { "<" CommaSep(typeDeclName (extends Type)? (op("=") Type)?) ">" }
 
   context TypeArgs { "<" CommaSep(Type) ">" }
 
