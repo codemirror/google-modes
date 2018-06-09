@@ -5,7 +5,7 @@ skip whitespace {
     (if | whileElif) Expr ":" Body |
     (else | tryFinally) ":" Body |
     for CommaSep(assignedName | ExprNoIn) in CommaSep(Expr) ":" Body |
-    except Expr (as declName)? ":" Body |
+    except (Expr (as declName)?)? ":" Body |
     async AsyncStatement |
     AsyncStatement |
     Annotation ArgList? "\n" |
@@ -26,7 +26,7 @@ skip whitespace {
     passBreakCont |
     del CommaSep(Expr) |
     returnAssert CommaSep(Expr)? |
-    raise CommaSep(Expr) (from Expr)? |
+    raise CommaSep(Expr)? (from Expr)? |
     import CommaSep(Expr (as declName)?) |
     from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
     globalNonlocal CommaSep(variableName) |
