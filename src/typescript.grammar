@@ -31,8 +31,9 @@ skip whitespace {
   }
 
   TypeSuffix {
-    (op("&") | op("|")) Type |
-    "[" Type? "]"
+    (op("&" | "|") | kw("extends" | "implements")) Type |
+    "[" Type? "]" |
+    op("?") Type op(":") Type
   }
 
   TypeAnn {
