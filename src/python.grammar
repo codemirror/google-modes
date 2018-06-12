@@ -70,7 +70,7 @@ skip whitespace {
   }
 
   ExprSuffix(Expr) {
-    (binop | binopKw) Expr |
+    (binop | binopKw | ",") Expr |
     ArgList |
     Subscript |
     "." (calleeProp | propName) |
