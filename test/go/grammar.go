@@ -123,6 +123,7 @@
 	[def&property a] [type string]
 	[def&property b] [type int]
 }{
+	[builtin make]([[]][type byte], [number 128])
 	[number 22]
 }
 

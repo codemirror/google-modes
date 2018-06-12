@@ -68,7 +68,7 @@ skip whitespace {
   context FunctionExpr { ParamList (ParamList | Type)? Block }
   context ParenExpr { "(" CommaSep(Expr) ")" }
   context LiteralBody { "{" CommaSep((propNameColon | LiteralBody | Expr) (":" (LiteralBody | Expr))?) "}" }
-  context TypeList { "(" CommaSep(Type) ")" }
+  context TypeList { "(" CommaSep(Type | number) ")" }
 
   ExprPrefix {
     prefixOp | range
