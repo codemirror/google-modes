@@ -4,7 +4,7 @@ skip whitespace {
   context Statement {
     (if | whileElif) Expr ":" Body |
     (else | tryFinally) ":" Body |
-    for CommaSep(assignedName | ExprNoIn) in CommaSep(Expr) ":" Body |
+    for CommaSep(assignedName | ExprNoIn) in Expr ":" Body |
     except (Expr (as declName)?)? ":" Body |
     async AsyncStatement |
     AsyncStatement |
@@ -13,7 +13,7 @@ skip whitespace {
   }
 
   AsyncStatement {
-    with CommaSep(Expr (as declName)?) ":" Body |
+    with CommaSep(ExprNoComma (as declName)?) ":" Body |
     def declName FuncDef |
     class ClassDef
   }
@@ -24,24 +24,28 @@ skip whitespace {
 
   SmallStatement {
     passBreakCont |
-    del CommaSep(Expr) |
-    returnAssert CommaSep(Expr)? |
-    raise CommaSep(Expr)? (from Expr)? |
-    import CommaSep(Expr (as declName)?) |
+    del Expr |
+    returnAssert Expr? |
+    raise Expr? (from Expr)? |
+    import CommaSep(ExprNoComma (as declName)?) |
     from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
     globalNonlocal CommaSep(variableName) |
     CommaSep(assignedName) op("=") Expr |
-    CommaSep(Expr)
+    Expr
   }
 
   Annotation="meta" { "@" identifier ("." identifier)* }
 
-  context ArgList { "(" CommaSep((op("**") | labelName "=")? Expr)? ")" }
+  context ArgList { "(" CommaSep((op("**") | labelName "=")? ExprNoComma)? ")" }
 
-  context ParamList { "(" CommaSep(op("*" "*"?)? (self | declName) (":" Expr)? (op("=") Expr)?)? ")" }
+  context ParamList { "(" CommaSep(op("*" "*"?)? (self | declName) (":" ExprNoComma)? (op("=") ExprNoComma)?)? ")" }
 
   Expr {
-    ExprPrefix* BaseExpr (ExprSuffix(Expr) | in Expr)*
+    ExprPrefix* BaseExpr (ExprSuffix(Expr) | (in | ",") Expr)*
+  }
+
+  ExprNoComma {
+    ExprPrefix* BaseExpr (ExprSuffix(ExprNoComma) | in Expr)*
   }
 
   ExprNoIn {
@@ -62,7 +66,7 @@ skip whitespace {
     op("...") |
     atom |
     self |
-    yield (from Expr | CommaSep(Expr)?) |
+    yield (from Expr | Expr)? |
     lambda LambdaDef |
     builtin |
     calleeName |
@@ -70,18 +74,18 @@ skip whitespace {
   }
 
   ExprSuffix(Expr) {
-    (binop | binopKw | ",") Expr |
+    (binop | binopKw) Expr |
     ArgList |
     Subscript |
     "." (calleeProp | propName) |
     if Expr (else Expr)?
   }
 
-  context LambdaDef { CommaSep(op("*" | "**")? declName (op("=") Expr)?)? ":" Expr }
+  context LambdaDef { CommaSep(op("*" | "**")? declName (op("=") ExprNoComma)?)? ":" ExprNoComma }
   context ClassDef { typeDeclName ArgList? ":" Body }
   context FuncDef { ParamList ("->" Expr)? ":" Body }
 
-  MaybeComp { (compLocalName | Expr) ("," CommaSep(Expr)? | CompFor)? }
+  MaybeComp { (compLocalName | ExprNoComma) ("," CommaSep(ExprNoComma) | CompFor)? }
   CompFor { async? for CommaSep(assignedName | ExprNoIn) in Expr (CompFor | CompIf)? }
   CompIf { if Expr (CompFor | CompIf)? }
 
@@ -94,10 +98,10 @@ skip whitespace {
   }
 
   context DictProp {
-    op("**") Expr | Expr (":" Expr)?
+    op("**") ExprNoComma | ExprNoComma (":" ExprNoComma)?
   }
 
-  context Subscript { "[" CommaSep(Expr (":" Expr?)? | ":" Expr? (":" Expr?)?) "]" }
+  context Subscript { "[" CommaSep(ExprNoComma (":" ExprNoComma?)? | ":" ExprNoComma? (":" ExprNoComma?)?) "]" }
 
   CommaSep(expr) { expr ("," expr?)* }
 
