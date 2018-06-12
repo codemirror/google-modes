@@ -96,10 +96,10 @@ skip whitespace {
     struct StructBody |
     interface InterfaceBody |
     "*" Type |
-    func ParamList (ParamList | Type)? |
+    func ParamList (~("(" (identifier ("," identifier)* ":" | ")")) ParamList | Type)? |
     map "[" Type "]" Type |
     (op("<-") | chan op("<-")?) Type |
-    "(" Type ")" |
+    "(" CommaSep(Type) ")" |
     typeQualifier* typeName
   }
 

@@ -19,6 +19,7 @@
 	[def&property _] [type float32]  [comment // padding]
 	[def&property A] *[[]][type int]
 	[def&property F] [keyword func]()
+	[def&property dial] [keyword func]([def network], [def address] [type string]) ([meta net.][type Conn], [type error])
 }
 
 [keyword if] [variable x] [operator +] [variable y] {
