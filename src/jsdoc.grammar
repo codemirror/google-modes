@@ -7,7 +7,7 @@ context braced { "{" (tag (!("}" | "*/") _)* | type) "}" }
 context tagGroup { tag content* }
 
 tag {
-  defTag spaceChar* (("{" type "}" (spaceChar | "*")*)? def?)? |
+  defTag spaceChar* (("{" type "}" (spaceChar | "*" !"/")*)? def?)? |
   otherTag
 }
 
@@ -15,7 +15,7 @@ defTag="tag" { "@" ("member" | "param" | "arg" "ument"? | "module" | "namespace"
 
 otherTag="tag" { "@" letter+ }
 
-context type { (tp("{") type (~"*/" | tp("}")) | tp((!("{" | "}" | "*/") .)+) | "\n" spacing ("*" spacing)?)* }
+context type { (tp("{") type (~"*/" | tp("}")) | tp((!("{" | "}" | "*/") .)+) | "\n" spacing ("*" !"/" spacing)?)* }
 
 tp(expr)="type" { expr }
 
