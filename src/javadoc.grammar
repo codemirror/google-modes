@@ -16,7 +16,7 @@ typeTag="tag" { "@" ("throws" | "exception") !letter }
 
 otherTag="tag" { "@" letter+ }
 
-tagContent { (attr("{") tagContent (~"*/" | attr("}")) | attr((!("{" | "}" | "*/") .)+) | "\n" spacing ("*" spacing)?)* }
+tagContent { (attr("{") tagContent (~"*/" | attr("}")) | attr((!("{" | "}" | "*/") .)+) | "\n" spacing ("*" !"/" spacing)?)* }
 
 attr(expr)="attribute" { expr }
 
