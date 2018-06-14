@@ -47,7 +47,7 @@ skip whitespace {
   context ParamListSpec { ParamList }
 
   context ParamList { // FIXME typing comes before default values
-    "(" CommaSep(modifier* "..."? Pattern "?"? TypeAnn? (op("=") ExpressionNoComma)?) ")"
+    "(" CommaSep(("@" Expression)? modifier* "..."? Pattern "?"? TypeAnn? (op("=") ExpressionNoComma)?) ")"
   }
 
   context ObjType { "{" ObjTypeField? (("," | ";") ObjTypeField?)* "}" }

@@ -51,7 +51,7 @@
 
 [keyword class] [def&type Foo]<[def&type T]> {
   [def&property bar]() {}
-  [def&property foo](): [type Foo] {}
+  [def&property foo](@[variable ann] [def&local x]: [type number]): [type Foo] {}
 }
 
 [keyword export] [keyword type] [def&type AB] [operator =] [type A] [operator |] [type B];
