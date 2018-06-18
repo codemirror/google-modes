@@ -64,6 +64,8 @@ skip whitespace {
 
   NewExpression { new ("." kw("target") | calleeName TypeArgs? | BaseExpression) }
 
+  context ArrowRest { op("=>") TypeParams? (Block | ExpressionNoComma) }
+
   ExpressionSuffix(ContExpression) {
     kw("as") Type |
     op("!") |
