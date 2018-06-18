@@ -142,7 +142,7 @@ skip whitespace {
     Pattern (op("=") ExpressionNoComma)?
   }
 
-  context ArrayPattern { "[" CommaSep(PatternDefault) "]" }
+  context ArrayPattern { "[" CommaSep(PatternDefault?) "]" }
 
   context ObjectPattern { "{" CommaSep(PropPattern) "}" }
 
