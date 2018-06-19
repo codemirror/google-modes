@@ -55,11 +55,11 @@ skip whitespace {
     atom |
     func FunctionExpr |
     make TypeList |
+    ~(map | "[" "]" | struct | "*") Type (LiteralBody | "(" Expr ")") |
     builtin |
     calleeName |
     variableName |
-    ~(map? "[" "]" | struct | "*") Type (LiteralBody | "(" Expr ")") |
-    Bracketed Type? |
+    Bracketed Type? (LiteralBody | "(" Expr ")")? |
     "*" Type |
     ParenExpr
   }

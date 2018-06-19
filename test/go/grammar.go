@@ -13,6 +13,15 @@
 	[def p] [[]][type Something]; [def u] [operator =] [string '\n']
 )
 
+[keyword for] [def&local a] [operator :=] [keyword range] [keyword map][[ *[meta baz.][type Banana] ]] [[]][meta baz.][type Apple]{
+	{
+		[property Fish]: [number 1],
+		[property Gorilla]: [[]][type string]{},
+	}: [atom nil],
+} {
+	[variable t].[property&callee Run]()
+}
+
 [keyword type] [def j] [keyword struct] {
 	[def&property x], [def&property y] [type int]
 	[def&property u] [type float32]
