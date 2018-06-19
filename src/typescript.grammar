@@ -96,7 +96,7 @@ skip whitespace {
     (asyncStar? FunctionDef | "?"? TypeAnn? (op("=") Expression)? semi)
   }
 
-  VariableDeclarator { Pattern TypeAnn? (op("=") ExpressionNoComma)? }
+  VariableDeclarator { Pattern op("!")? TypeAnn? (op("=") ExpressionNoComma)? }
 
   context EnumBody { "{" CommaSep(propDeclName (op("=") ExpressionNoComma)?) "}" }
 
