@@ -11,6 +11,7 @@
 [keyword interface] [def&type MyAttributes] {
   [def&property truthy]: [string 'true'] [operator |] [number 1] [operator |] [atom true];
   [def&property falsy]: [string 'false'] [operator |] [number 0] [operator |] [atom false];
+  [[ [variable NAME] ]]: [type Something];
 }
 [keyword interface] [def&type MyInstance] [keyword extends] [variable Sequelize].[type Instance] < [type MyAttributes] > {
   [def&property rawAttributes]: [type MyAttributes];
