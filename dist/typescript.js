@@ -1065,8 +1065,8 @@
   }
 
   var bracketed = {
-    Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", EnumBody: "}", ObjType: "}",
-    ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
+    Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", ObjectPattern: "}", EnumBody: "}",
+    ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
     ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
     ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
     TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
