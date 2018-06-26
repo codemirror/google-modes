@@ -148,7 +148,7 @@ skip whitespace {
 
   PropPattern {
     declNameNoColon (op("=") ExpressionNoComma)? |
-    propName ":" PatternDefault |
+    (propName | number | string) ":" PatternDefault |
     op("...") PatternDefault
   }
 
