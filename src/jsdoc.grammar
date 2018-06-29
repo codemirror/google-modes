@@ -2,7 +2,7 @@ comment { "/**" !"/" content* tagGroup* "*/" }
 
 content { (!("*/" | "@" letter | "{") _)+ | braced }
 
-context braced { "{" (tag (!("}" | "*/") _)* | type) "}" }
+context braced { "{" (tag (!("}" | "*/") _)* | type) ("}" | ~"*/") }
 
 context tagGroup { tag content* }
 
