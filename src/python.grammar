@@ -188,7 +188,7 @@ identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
 typeDeclName="type def" { identifier }
-assignedName="def" { identifier ~(" "* ("," " "* identifier " "*)* ("=" | "in" !identifierChar)) }
+assignedName="def" { identifier !identifierChar ~(" "* ("," " "* identifier !identifierChar " "*)* ("=" | "in" !identifierChar)) }
 labelName="meta" { identifier ~(" "* "=") }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }

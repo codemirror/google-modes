@@ -77,3 +77,5 @@
 [keyword class] [type&def Example]([builtin object]):
   [keyword def] [def&property method]([atom self], [variable-2 x]: [variable typing].[property List]):
     [atom self].[property x] [operator =] [variable-2 x]
+
+[variable&callee main]()
