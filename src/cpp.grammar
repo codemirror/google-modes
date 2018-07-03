@@ -172,7 +172,7 @@ tokens {
     unqualifiedVariableName TemplateArgs?
   }
 
-  modifier { kw("inline" | "virtual" | "explicit" | "friend" | "constexpr") | super }
+  modifier { kw("inline" | "virtual" | "explicit" | "friend" | "constexpr" | "mutable" | "thread_local") | super }
 
   prefixOp="operator" {
     typename | super
