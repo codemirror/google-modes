@@ -22,7 +22,7 @@ skip whitespace {
     kw("typeof") ExpressionNoComma |
     kw("keyof") Type |
     ~("(" !(")" | "..." | identifier ("?" | ":"))) "(" Type ")" |
-    new? TypeParams? ParamListSpec op("=>") Type |
+    new? TypeParams? ParamListSpec op("=>") RetType |
     (~(identifier ".") variable ".")* typeName TypeArgs? |
     TupleType |
     ObjType |
@@ -40,8 +40,8 @@ skip whitespace {
     ":" Type
   }
 
-  RetTypeAnn {
-    ":" (~(identifier kw("is")) variable kw("is"))? Type
+  RetType {
+    (~(identifier kw("is")) variable kw("is"))? Type
   }
 
   context ParamListSpec { ParamList }
@@ -55,9 +55,9 @@ skip whitespace {
   context TupleType { "[" CommaSep(Type) "]" }
 
   ObjTypeField {
-    new? TypeParams? ParamList RetTypeAnn? |
+    new? TypeParams? ParamList (":" RetType)? |
     modifier* ("[" (~(identifier ":") identifier ":" Type | Expression) "]" TypeAnn |
-               (propDeclName | string | number) "?"? (TypeParams? ParamList)? RetTypeAnn?)
+               (propDeclName | string | number) "?"? (TypeParams? ParamList)? (":" RetType)?)
   }
 
   Callee { calleeName TypeArgs? }
@@ -79,7 +79,7 @@ skip whitespace {
   }
 
   context FunctionDef {
-    TypeParams? ParamList RetTypeAnn? (Block | semi)
+    TypeParams? ParamList (":" RetType)? (Block | semi)
   }
 
   ClassDef {
@@ -100,7 +100,7 @@ skip whitespace {
 
   context EnumBody { "{" CommaSep(propDeclName (op("=") ExpressionNoComma)?) "}" }
 
-  ParamsAndArrow { ~(ParamList RetTypeAnn? "=>") ParamList RetTypeAnn? }
+  ParamsAndArrow { ~(ParamList (":" RetType)? "=>") ParamList (":" RetType)? }
 }
 
 modifier { kw("public" | "private" | "protected" | "readonly" | "abstract" | "static") }
