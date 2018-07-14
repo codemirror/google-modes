@@ -30,11 +30,7 @@ skip whitespace {
   context StatementModifiers { Modifier* }
 
   Annotation {
-    AnnotationHead ("(" CommaSep(maybe(identifier "=")? (Annotation | Expr)) ")")?
-  }
-
-  AnnotationHead="meta" {
-    !atInterface "@" identifier ("." identifier)*
+    annotationHead ("(" CommaSep(maybe(identifier "=")? (Annotation | Expr)) ")")?
   }
 
   context EnumBody {
@@ -213,6 +209,10 @@ plainVariableName="variable" { identifier }
 
 identifier { identifierStart identifierChar* }
 identifierDot { identifier " "* "." }
+
+annotationHead="meta" {
+  !atInterface "@" identifier ("." identifier)*
+}
 
 whitespace {
   (" " | "\t" | "\n" | comment)*
