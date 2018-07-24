@@ -88,7 +88,7 @@ skip whitespace {
 
   Callee { calleeName }
 
-  NewExpression { new ("." kw("target") | BaseExpression) }
+  context NewExpression { new ("." kw("target") | BaseExpression (ArgList | "." (calleeProp | propName))*) }
 
   context ArrowFunc { (declNameAndArrow | ParamsAndArrow) ArrowRest }
 

@@ -1132,6 +1132,8 @@
       return base + config.indentUnit
     } else if (cx.name == "ArrowRest") {
       return base + config.indentUnit
+    } else if (cx.name == "NewExpression" && cx.startLine.length > cx.startPos + 5) {
+      return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 2 * config.indentUnit
     } else if (cx.name == "InitializerList") {
       return base + 2
     } else if (cx.name == "ThrowsClause" && !/throws\s*$/.test(cx.startLine.slice(cx.startPos))) {

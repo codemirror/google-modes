@@ -4,3 +4,12 @@
         .[keyword target];
   }
 }
+
+[keyword const] [def foo] [operator =] [keyword new] [callee&variable Bar]()
+                .[property&callee baz]()
+                .[property&callee quux]();
+
+[keyword const] [def foo] [operator =]
+    [keyword new] [callee&variable Bar]()
+        .[property&callee baz]()
+        .[property&callee quux]();
