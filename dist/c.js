@@ -486,7 +486,7 @@
      "\n", 302,
      0, -1],
     [1, 300, 303],
-    [/^[\t ]*(?:\*[\t ]*)?/, 300],
+    [/^[\t ]*(?:\*(?!\/)[\t ]*)?/, 300],
     [/^(?=\*\/)/, 300,
      3, "attribute", "}", 300],
     ["[", 305],
@@ -557,7 +557,7 @@
   }
 
   function hasSubStatement(context) {
-    var m = /^(if|for|do|while)\b/.exec(context.startLine.slice(context.startPos));
+    var m = /^(if|for|do|while|try)\b/.exec(context.startLine.slice(context.startPos));
     return m && m[1]
   }
 
@@ -575,8 +575,8 @@
   }
 
   var bracketed = {
-    Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", EnumBody: "}", ObjType: "}",
-    ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
+    Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", ObjectPattern: "}", EnumBody: "}",
+    ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
     ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
     ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
     TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
@@ -609,7 +609,7 @@
     if (brack && blockish.indexOf(cx.name) > -1) {
       var parent = cx.parent;
       if (parent && parent.name == "Statement" && parent.parent &&
-          parent.parent.name == "Statement" && hasSubStatement(parent.parent))
+          parent.parent.name == "Statement" && hasSubStatement(parent.parent) && !hasSubStatement(parent))
         { parent = parent.parent; }
       var base$1 = statementIndent(parent, config);
 
@@ -626,12 +626,14 @@
     } else if (statementish.indexOf(cx.name) > -1) {
       if (hasSubStatement(cx)) { return base + config.indentUnit; }
       return base + 2 * config.indentUnit
-    } else if (cx.name == "Alternative") {
+    } else if (cx.name == "Alternative" || cx.name == "CatchFinally") {
       base = baseIndent(cx.parent, config.tabSize);
       if (!textAfter || /^else\b/.test(textAfter)) { return base }
       return base + config.indentUnit
     } else if (cx.name == "ArrowRest") {
       return base + config.indentUnit
+    } else if (cx.name == "NewExpression" && cx.startLine.length > cx.startPos + 5) {
+      return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 2 * config.indentUnit
     } else if (cx.name == "InitializerList") {
       return base + 2
     } else if (cx.name == "ThrowsClause" && !/throws\s*$/.test(cx.startLine.slice(cx.startPos))) {

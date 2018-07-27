@@ -1,7 +1,7 @@
 import * as CodeMirror from "codemirror"
 
 function hasSubStatement(context) {
-  let m = /^(if|for|do|while)\b/.exec(context.startLine.slice(context.startPos))
+  let m = /^(if|for|do|while|try)\b/.exec(context.startLine.slice(context.startPos))
   return m && m[1]
 }
 
@@ -53,7 +53,7 @@ function findIndent(cx, textAfter, config) {
   if (brack && blockish.indexOf(cx.name) > -1) {
     let parent = cx.parent
     if (parent && parent.name == "Statement" && parent.parent &&
-        parent.parent.name == "Statement" && hasSubStatement(parent.parent))
+        parent.parent.name == "Statement" && hasSubStatement(parent.parent) && !hasSubStatement(parent))
       parent = parent.parent
     let base = statementIndent(parent, config)
 
@@ -70,7 +70,7 @@ function findIndent(cx, textAfter, config) {
   } else if (statementish.indexOf(cx.name) > -1) {
     if (hasSubStatement(cx)) return base + config.indentUnit;
     return base + 2 * config.indentUnit
-  } else if (cx.name == "Alternative") {
+  } else if (cx.name == "Alternative" || cx.name == "CatchFinally") {
     base = baseIndent(cx.parent, config.tabSize)
     if (!textAfter || /^else\b/.test(textAfter)) return base
     return base + config.indentUnit

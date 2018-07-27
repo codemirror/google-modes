@@ -92,5 +92,9 @@
 [meta @BindingAnnotation]
 [keyword @interface] [def SomeInterface] { }
 [keyword public] [type void] [def run]() {
+  [keyword if] ([variable x])
+    [keyword try] {
+    } [keyword catch] ([type Exception] [def&local e]) {
+    }
   [keyword return] [variable Foo].[keyword class];
 }

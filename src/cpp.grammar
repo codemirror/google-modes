@@ -7,7 +7,7 @@ skip whitespace {
     StaticAssert |
     namespace declName? (op("=") variableName ";" | NamespaceBlock) |
     throw Expression ";" |
-    try Block (catch "(" Type Declarator? ")" Block)* |
+    try Block Catch |
     asm "{" string "}" |
     Using |
     Template |
@@ -43,6 +43,8 @@ skip whitespace {
   Lambda {
     "[" !"[" ListOf("&"? variableName? | "=" | this) "]" (FunctionDef | Block)
   }
+
+  context Catch { (catch "(" Type Declarator? ")" Block)* }
 
   context FunctionDef {
     ParamList
