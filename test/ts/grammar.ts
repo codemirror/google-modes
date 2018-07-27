@@ -138,3 +138,10 @@
 [keyword export] [keyword type] [type&def Filter]<[type&def T] [operator =] [type X], [type&def U]> [operator =] [type T] [keyword extends] [type U] [operator ?] [type T] [operator :] [type never];
 
 [keyword let] [def f]: ([def&local x]: [type any]) [operator =>] [variable m] [keyword is] [type string];
+
+[callee&variable describe]([string 'Foo'], () [operator =>] {
+  [keyword const] [def&local foo] [operator =] [callee&variable fooFunc]<{
+    [def&property spy]: [variable jasmine].[type SpyObj]<[type Bar]>,
+    [def&property bar]: [type Bar],
+  }>();
+});

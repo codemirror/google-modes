@@ -111,7 +111,7 @@ propModifier { kw("get" | "set" | "async") !(" "* ("," | "}" | ":" | "(" | "<"))
 typeDeclName="def type" { identifier }
 typeName="type" { identifier }
 
-calleeName="variable callee" { identifier ~(" "* (typeArgStructure " "*)? "(") }
+calleeName="variable callee" { identifier ~("<" !" " | " "* (typeArgStructure " "*)? "(") }
 calleeProp="property callee" { identifier ~(" "* (typeArgStructure " "*)? "(") }
 
 typeArgStructure { "<" (typeArgStructure | "=>" | !">" _)* ">" }
