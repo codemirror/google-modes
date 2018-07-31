@@ -96,7 +96,8 @@ skip whitespace {
   }
 
   Class {
-    (class | structUnion) Attributes? typeDeclName classVirtSpec* (":" ListOf(virtual? access? Type))? (";" | ClassBody)
+    (class | structUnion) Attributes? (NameQualifier(typeQualifier)+ qualifiedTypeName | typeDeclName) classVirtSpec*
+    (":" ListOf(virtual? access? Type))? (";" | ClassBody)
   }
 
   context ClassBody {
