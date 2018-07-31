@@ -210,7 +210,7 @@ attributeName="meta" { identifier }
 rawPropDeclName="def property" { identifier }
 propDeclName { operator overloadableOp | rawPropDeclName }
 
-declName { NameQualifier(declQualifier)+ qualifiedDeclName | unqualifiedDeclName }
+declName { operator overloadableOp | NameQualifier(declQualifier)+ qualifiedDeclName | unqualifiedDeclName }
 
 overloadableOp { op("->*") | "," | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 
