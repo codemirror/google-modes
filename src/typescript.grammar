@@ -56,7 +56,7 @@ skip whitespace {
 
   ObjTypeField {
     new? TypeParams? ParamList (":" RetType)? |
-    modifier* ("[" (~(identifier ":") identifier ":" Type | Expression) "]" TypeAnn |
+    modifier* ("[" (~(identifier (":" | "in")) identifier (":" | kw("in")) Type | Expression) "]" TypeAnn |
                (propDeclName | string | number) "?"? (TypeParams? ParamList)? (":" RetType)?)
   }
 
