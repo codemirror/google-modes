@@ -94,7 +94,7 @@ skip whitespace {
     "[" Expression "]" |
     suffixOp |
     ("->" | !".." ".") fieldName |
-    binOp Expression |
+    binOp Expression? |
     "?" Expression ":" Expression
   }
 
