@@ -32,4 +32,4 @@ spaceChar { "\n" | "\t" | " " }
 
 spacing { ("\t" | " ")* }
 
-letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
+letter { "a"-"z" | "A"-"Z" | "0"-"9" | "\u00a1"-"\uffff" | "_" }
