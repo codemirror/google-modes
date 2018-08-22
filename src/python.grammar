@@ -9,6 +9,7 @@ skip whitespace {
     async AsyncStatement |
     AsyncStatement |
     Annotation ArgList? "\n" |
+    print (ArgList | Expr) |
     SimpleStatement
   }
 
