@@ -150,6 +150,8 @@ tokens {
      "Ellipsis" | "__debug__" | "ascii" | "bytes" | "exec" | "print") !identifierChar
   }
 
+  print="builtin" { "print" !identifierChar }
+
   binop {
     op(("^" | "&" | "|" | "<<" | ">>" | "+" | "-" | "*" "*"? | "@" | "/" | "%" | "/") "="? |
        "=" | "<" | ">" | "==" | ">=" | "<=" | "<>" | "!=")
