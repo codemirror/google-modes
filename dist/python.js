@@ -738,7 +738,7 @@
         { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 1 }
 
       var closed = textAfter && textAfter.charAt(0) == brack;
-      var flat = closed && brack == "}" || curLine == cx.startLine;
+      var flat = closed && brack != ")" || curLine == cx.startLine;
       return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 2 * config.indentUnit)
     } else if (cx.name == "indentedBody") {
       for (;; cx = cx.parent) {

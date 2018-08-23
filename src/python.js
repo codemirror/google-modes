@@ -52,7 +52,7 @@ function findIndent(cx, textAfter, curLine, config) {
       return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 1
 
     let closed = textAfter && textAfter.charAt(0) == brack
-    let flat = closed && brack == "}" || curLine == cx.startLine
+    let flat = closed && brack != ")" || curLine == cx.startLine
     return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 2 * config.indentUnit)
   } else if (cx.name == "indentedBody") {
     for (;; cx = cx.parent) {

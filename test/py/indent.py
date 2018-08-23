@@ -29,7 +29,7 @@ meal = [spam,
 meal = [
     spam,
     beans,
-    ]
+]
 
 foo = {
     "x": x}

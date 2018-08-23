@@ -78,4 +78,7 @@
   [keyword def] [def&property method]([atom self], [variable-2 x]: [variable typing].[property List]):
     [atom self].[property x] [operator =] [variable-2 x]
 
-[variable&callee main]()
+[variable&callee main]([[
+    [number 1],
+    [number 2],
+]])
