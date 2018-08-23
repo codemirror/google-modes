@@ -86,7 +86,7 @@ skip whitespace {
   context ClassDef { typeDeclName ArgList? ":" Body }
   context FuncDef { ParamList ("->" Expr)? ":" Body }
 
-  MaybeComp { (compLocalName | ExprNoComma) ("," CommaSep(ExprNoComma)? | CompFor)? }
+  MaybeComp { (compLocalName ExprSuffix(ExprNoComma) | ExprNoComma) ("," CommaSep(ExprNoComma)? | CompFor)? }
   CompFor { async? for CommaSep(assignedName | ExprNoIn) in Expr (CompFor | CompIf)? }
   CompIf { if Expr (CompFor | CompIf)? }
 
