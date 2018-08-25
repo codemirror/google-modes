@@ -37,7 +37,7 @@ skip whitespace {
 
   Annotation="meta" { "@" identifier ("." identifier)* }
 
-  context ArgList { "(" CommaSep((op("**") | labelName "=")? ExprNoComma)? ")" }
+  context ArgList { "(" MaybeComp((op("**") | labelName "=")? ExprNoComma)? ")" }
 
   context ParamList { "(" CommaSep(op("*" "*"?)? (self | declName) (":" ExprNoComma)? (op("=") ExprNoComma)?)? ")" }
 
@@ -86,13 +86,13 @@ skip whitespace {
   context ClassDef { typeDeclName ArgList? ":" Body }
   context FuncDef { ParamList ("->" Expr)? ":" Body }
 
-  MaybeComp { (compLocalName ExprSuffix(ExprNoComma)? | ExprNoComma) ("," CommaSep(ExprNoComma)? | CompFor)? }
+  MaybeComp(E) { (compLocalName ExprSuffix(ExprNoComma)? | E) ("," CommaSep(E)? | CompFor)? }
   CompFor { async? for CommaSep(assignedName | ExprNoIn) in Expr (CompFor | CompIf)? }
   CompIf { if Expr (CompFor | CompIf)? }
 
-  context ParenExpr { "(" MaybeComp? ")" }
+  context ParenExpr { "(" MaybeComp(ExprNoComma)? ")" }
 
-  context ArrayLiteral { "[" MaybeComp? "]" }
+  context ArrayLiteral { "[" MaybeComp(ExprNoComma)? "]" }
 
   context ObjectLiteral {
    "{" (CommaSep(DictProp) CompFor?)? "}"
