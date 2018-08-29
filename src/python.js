@@ -94,7 +94,8 @@ class PythonMode extends CodeMirror.GrammarMode {
 }
 
 PythonMode.prototype.electricInput = /^\s*[\}\]\)]$/
-PythonMode.prototype.closeBrackets = {triples: "'\""}
+// ` also gets autoclosed since it's often used in comments/docstrings.
+PythonMode.prototype.closeBrackets = {triples: "'\"", pairs: "()[]{}''\"\"``",}
 PythonMode.prototype.lineComment = "#"
 PythonMode.prototype.fold = "indent"
 
