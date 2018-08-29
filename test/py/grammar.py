@@ -83,5 +83,10 @@
     [number 2],
 ]])
 
+\
+[string """]
+[string x]
+[string """]
+
 [def foo] [operator =] [builtin tuple]([variable-2 bar] [keyword for] [def bar] [keyword in] [variable baz])
 
