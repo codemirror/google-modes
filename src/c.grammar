@@ -115,11 +115,11 @@ skip whitespace {
   }
 
   StructField {
-    Type fieldName? (":" number | "[" number? "]")?
+    Type fieldName? (":" number | "[" Expression? "]")?
   }
 
   TypeSuffix {
-    "[" number? "]" |
+    "[" Expression? "]" |
     ("*" | "&") |
     qualifier
   }
