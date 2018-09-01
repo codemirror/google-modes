@@ -4,7 +4,7 @@ skip whitespace {
   context Statement {
     (if | whileElif) Expr ":" Body |
     (else | tryFinally) ":" Body |
-    for CommaSep(assignedName | ExprNoIn) in Expr ":" Body |
+    for CommaSep(MaybePattern(in) | ExprNoIn) in Expr ":" Body |
     except (Expr (as declName)?)? ":" Body |
     async AsyncStatement |
     AsyncStatement |
@@ -31,7 +31,7 @@ skip whitespace {
     import CommaSep(ExprNoComma (as declName)?) |
     from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
     globalNonlocal CommaSep(variableName) |
-    CommaSep(assignedName) op("=") Expr |
+    MaybePattern("=") op("=") Expr |
     Expr
   }
 
@@ -87,7 +87,7 @@ skip whitespace {
   context FuncDef { ParamList ("->" Expr)? ":" Body }
 
   MaybeComp(E) { (compLocalName ExprSuffix(ExprNoComma)? | E) ("," CommaSep(E)? | CompFor)? }
-  CompFor { async? for CommaSep(assignedName | ExprNoIn) in Expr (CompFor | CompIf)? }
+  CompFor { async? for (MaybePattern(in) | ExprNoIn) in Expr (CompFor | CompIf)? }
   CompIf { if Expr (CompFor | CompIf)? }
 
   context ParenExpr { "(" MaybeComp(ExprNoComma)? ")" }
@@ -107,6 +107,12 @@ skip whitespace {
   CommaSep(expr) { expr ("," expr?)* }
 
   Body { SimpleStatement | indentedBody }
+
+  Pattern { PatternAtom ("," Pattern)? }
+
+  PatternAtom { "(" Pattern ")" | "[" Pattern "]" | declName }
+
+  MaybePattern(after) { ~(Pattern after) Pattern }
 }
 
 tokens {
@@ -192,7 +198,6 @@ identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
 typeDeclName="type def" { identifier }
-assignedName="def" { identifier !identifierChar ~(" "* ("," " "* identifier !identifierChar " "*)* ("=" | "in" !identifierChar)) }
 labelName="meta" { identifier ~(" "* "=") }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }
