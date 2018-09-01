@@ -80,7 +80,7 @@ skip whitespace {
   }
 
   context TemplateParams {
-    "<" ListOf(TypeParam | modifier* Type "..."? declName (op("=") ExpressionNoGt)?) ">"
+    "<" ListOf(TypeParam | modifier* Type "..."? "..."? declName (op("=") ExpressionNoGt)?) ">"
   }
 
   TypeParam {
@@ -131,6 +131,10 @@ skip whitespace {
   BalancedAttributeToken {
     number | string | identifier | binOp | "," |
     "(" BalancedAttributeToken* ")" | "[" BalancedAttributeToken* "]" | "{" BalancedAttributeToken* "}"
+  }
+
+  context ArgList {
+    "(" ListOf(Expression "..."?) ")"
   }
 
   StaticAssert {
@@ -215,7 +219,7 @@ declName { operator overloadableOp | NameQualifier(declQualifier)+ qualifiedDecl
 
 overloadableOp { op("->*") | "," | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 
-declOp { "*" | "&&" | "&" }
+declOp { "*" | "&&" | "&" | "..." }
 
 unqualifiedDeclName="def" { "~"? identifier }
 qualifiedDeclName="qualified def" { "~"? identifier }
