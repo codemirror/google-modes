@@ -108,7 +108,7 @@ skip whitespace {
   ExprSuffix {
     ArgList |
     "[" Expr "]" |
-    "." (kw("class") | TypeArgs | calleeField | fieldName) |
+    "." (kw("class") | NewExpr | TypeArgs | calleeField | fieldName) |
     suffixOp |
     (binOp | instanceof) Expr |
     op("?") Expr op(":") Expr

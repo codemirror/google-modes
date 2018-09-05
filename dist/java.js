@@ -214,6 +214,7 @@
     [1, 5, 114],
     [1, 96, 115],
     [3, "keyword", /^class(?![a-zA-Z¡-￿_0-9])/, 106,
+     2, 220, 106, {"name":"NewExpr"},
      2, 275, 106, {"name":"TypeArgs"},
      3, "property callee", e[42], 106,
      3, "property", e[20], 106],
