@@ -15,7 +15,7 @@
 [meta @baz.argh]([variable Something].[property OK])
 [keyword public] [keyword class] [type&def FontChoice] [keyword extends] [type Choice]<[type Param][[]]> {
   [comment // line comment]
-  [keyword private] [keyword final] [keyword volatile] [type&qualifier java.blah.][qualified&type Font] [def&property fonts][[]];
+  [keyword private] [keyword final] [keyword volatile] [type&qualifier java].[type&qualifier blah].[qualified&type Font] [def&property fonts][[]];
   [keyword public] [def&property FontChoice]([type String] [def&local in], [type Globals] [def&local g]) {
     [keyword super]([variable-2 g]);
 
@@ -67,6 +67,8 @@
 
   [def&property join]([type Bar]... [def&local bars]) {
   }
+
+  [keyword public] [type&qualifier Foo]<[type Integer]>.[type&qualified Buar] [def&property bad]() {}
 
   [keyword enum] [type&def TrafficLight] {
     [def&property RED]([number 30]), [def&property AMBER]([number 10]),;

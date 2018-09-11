@@ -51,7 +51,7 @@ skip whitespace {
     classInterface typeDeclName TypeParams? (extends Type)? (implements CommaSep(Type))? ClassBody |
     atInterface declName AnnotationTypeBody |
     package identifier ("." identifier)* ";" |
-    ~(Annotation* TypeParams? (primType | typeQualifier* className))
+    ~(Annotation* TypeParams? (primType | (typeQualifier TypeArgs? ".")* className))
       Type DeclExpr(name) (FunctionDef | (op("=") Expr)? ("," DeclExpr(name) (op("=") Expr)?)* ";")
   }
 
@@ -97,7 +97,7 @@ skip whitespace {
     Lambda |
     calleeName |
     plainVariableName |
-    ~("(" typeID) "(" Type ")" Expr |
+    ~("(" TypeID) "(" Type ")" Expr |
     ParenExpr
   }
 
@@ -125,11 +125,17 @@ skip whitespace {
   context ArrayInitializer { "{" CommaSep(ArgExpr) "}" }
 
   Type {
-    Annotation* typeID ("[" Expr? "]" | TypeArgs)*
+    Annotation* TypeID ("[" Expr? "]" | TypeArgs)*
+  }
+
+  TypeID {
+     primType |
+     (typeQualifier TypeArgs? ".")+ qualifiedClassName |
+     className
   }
 
   TypeNoArray {
-    Annotation* typeID TypeArgs*
+    Annotation* TypeID TypeArgs*
   }
 
   DeclExpr(name) { name ("[" "]")? }
@@ -233,11 +239,10 @@ typeDeclName="type def" { identifier }
 calleeField="property callee" { identifier ~(" "* "(") }
 fieldName="property" { identifier }
 
-typeQualifier="type qualifier" { identifier " "* "." !"." }
+typeQualifier="type qualifier" { identifier ~(" "* (TypeArgs " "*)? "." !".") }
 
 typeName="type" { identifier }
 
-typeID { primType | typeQualifier+ qualifiedClassName | className }
 qualifiedClassName="qualified" { className }
 
 kw(value)="keyword" { value !identifierChar }
