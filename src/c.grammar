@@ -16,7 +16,7 @@ skip whitespace {
     return Expression? ";" |
     Struct |
     Label |
-    Macro (Block | ExpressionSuffix*)? ";"? |
+    Macro (Block | ExpressionSuffix*) |
     DeclType DeclRest |
     ";" |
     Expression ";"
