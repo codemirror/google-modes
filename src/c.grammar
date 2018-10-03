@@ -59,7 +59,9 @@ skip whitespace {
     "{" (element (separator element?)*)? "}"
   }
 
-  Enum { enum typeDeclName? BlockOf(propDeclName (op("=") Expression)?, ",")? }
+  Enum { EnumHead typeDeclName? BlockOf(propDeclName (op("=") Expression)?, ",")? }
+
+  EnumHead { enum }
 
   Initializer { op("=") Expression }
 
