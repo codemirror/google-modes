@@ -109,7 +109,7 @@ skip whitespace {
 
   context ObjectMember {
     (modifier | qualifier)*
-    (ctorDtorName | Type PropDeclarator)
+    (ctorDtorName | Type PropDeclarator ("," PropDeclarator)*)
     (FunctionDef | (Initializer | ":" number | "[" Expression? "]")? ";" | Macro ";"?)
   }
 
