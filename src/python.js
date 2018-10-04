@@ -4,7 +4,7 @@ import * as grammar from "./python.mode"
 import {markLocals} from "./locals"
 
 const scopes = ["LambdaDef", "FuncDef", "ClassDef"]
-const allowNewline = ["ArgList", "ParamList", "ParenExpr", "ArrayLiteral", "ObjectLiteral", "SubScript", "DictProp"]
+const allowNewline = ["ArgList", "ParamList", "ParenExpr", "ArrayLiteral", "ObjectLiteral", "Subscript", "DictProp"]
 
 function maySkipNewline(_line, _pos, cx) {
   return cx && allowNewline.indexOf(cx.name) > -1

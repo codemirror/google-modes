@@ -737,7 +737,7 @@
   }
 
   var scopes = ["LambdaDef", "FuncDef", "ClassDef"];
-  var allowNewline = ["ArgList", "ParamList", "ParenExpr", "ArrayLiteral", "ObjectLiteral", "SubScript", "DictProp"];
+  var allowNewline = ["ArgList", "ParamList", "ParenExpr", "ArrayLiteral", "ObjectLiteral", "Subscript", "DictProp"];
 
   function maySkipNewline(_line, _pos, cx) {
     return cx && allowNewline.indexOf(cx.name) > -1

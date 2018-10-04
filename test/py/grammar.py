@@ -92,3 +92,5 @@
 
 [def foo] [operator =] [builtin tuple]([variable-2 bar] [keyword for] [def bar] [keyword in] [variable baz])
 
+[variable x][[[variable a]
+    .[property x] ]]
