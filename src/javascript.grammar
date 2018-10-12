@@ -23,7 +23,7 @@ skip whitespace {
     Export |
     Import |
     async Statement |
-    "@" Expression Statement |
+    Decorator |
     Expression semi
   }
 
@@ -135,8 +135,10 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (kw("static")? ObjectMember | "@" Expression)* "}"
+    "{" (kw("static")? ObjectMember | Decorator)* "}"
   }
+
+  Decorator { "@" Expression }
 
   Pattern {
     op("...")? (declName | ArrayPattern | ObjectPattern)
