@@ -112,7 +112,7 @@ skip whitespace {
   }
 
   context ParamList {
-    "(" CommaSep((declName ("," declName)*)? "..."? Type?) ")"
+    "(" CommaSep((~(identifier ("," identifier)* ("..." | !(")" | ","))) CommaSep(declName))? "..."? Type) ")"
   } 
 
   AssignedNames {

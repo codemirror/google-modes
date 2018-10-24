@@ -145,3 +145,5 @@
 } {
 	[number 1]
 }
+
+[keyword func] [def foo]([def&local x], [def&local y] ... [type z]) ([type int], [type error]) {}
