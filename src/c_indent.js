@@ -72,7 +72,7 @@ function findIndent(cx, textAfter, config) {
     return base + 2 * config.indentUnit
   } else if (cx.name == "Alternative" || cx.name == "CatchFinally") {
     base = baseIndent(cx.parent, config.tabSize)
-    if (!textAfter || /^else\b/.test(textAfter)) return base
+    if (!textAfter || /^(else\b|\/[\/\*])/.test(textAfter)) return base
     return base + config.indentUnit
   } else if (cx.name == "ArrowRest") {
     return base + config.indentUnit
