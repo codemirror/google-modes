@@ -68,7 +68,11 @@ skip whitespace {
 
   context InitializerList { (":" ListOf(CtorInitializer)) }
 
-  CtorInitializer { NameQualifier(variableQualifier)* fieldName ("(" ListOf(Expression) ")" | "{" ListOf(Expression) "}") }
+  CtorInitializer {
+    NameQualifier(variableQualifier)* fieldName
+    TemplateArgs?
+    ("(" ListOf(Expression) ")" | "{" ListOf(Expression) "}")
+  }
 
   ExpressionPrefix {
     delete ("[" "]")? | new ("[" "]")? ("(" Expression ")")? Attributes? | super

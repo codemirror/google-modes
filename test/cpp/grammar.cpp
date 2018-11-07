@@ -114,3 +114,6 @@
   });
   [keyword return] [keyword sizeof]([type int]);
 }
+
+[def&qualifier DerivedClass]::[def&qualified DerivedClass]([type int] [def&local i])
+    : [variable&qualifier foo]::[variable&qualifier bar]::[property ParentClass]<[type SomeTemplateParameter]>([variable-2 i]) {}
