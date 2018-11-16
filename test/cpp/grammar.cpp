@@ -117,3 +117,12 @@
 
 [def&qualifier DerivedClass]::[def&qualified DerivedClass]([type int] [def&local i])
     : [variable&qualifier foo]::[variable&qualifier bar]::[property ParentClass]<[type SomeTemplateParameter]>([variable-2 i]) {}
+
+[keyword template] <[keyword const] [type int] &([def&qualifier Base]::*[def&qualified BaseValueProvider])() [keyword const]>
+[keyword class] [def&type Foo] {
+ [keyword public]:
+  [def Foo]() {}
+  [keyword const] [type int] [def&property Val]([type Base] &[def&local base]) {
+    [keyword return] ([variable-2 base].*[property BaseValueProvider])();
+  }
+};

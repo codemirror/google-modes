@@ -36,7 +36,7 @@ skip whitespace {
   ExpressionSuffix {
     BlockOf(Expression, ",") |
     ArgList Block? |
-    ("->" | !".." ".") fieldName TemplateArgs? |
+    ("->" | !".." ".") "*"? fieldName TemplateArgs? |
     super
   }
 
@@ -83,7 +83,7 @@ skip whitespace {
   }
 
   context TemplateParams {
-    "<" ListOf(TypeParam | modifier* Type "..."? "..."? declName (op("=") ExpressionNoGt)?) ">"
+    "<" ListOf(TypeParam | Type "..."* Declarator ParamList? (modifier | qualifier)* (op("=") ExpressionNoGt)?) ">"
   }
 
   TypeParam {
@@ -151,7 +151,10 @@ skip whitespace {
   EnumHead { enum (class | kw("struct"))? Attributes? }
 }
 
-NameQualifier(type) { "::" | ~(type MatchingAngleBrackets? whitespace "::") type TemplateArgs? whitespace "::" }
+NameQualifier(type) {
+  ("::" | ~(type MatchingAngleBrackets? whitespace "::") type TemplateArgs? whitespace "::")
+  whitespace "*"?
+}
 
 tokens {
   namespace { kw("namespace") }
