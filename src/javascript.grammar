@@ -18,7 +18,7 @@ skip whitespace {
     throw Expression semi |
     breakCont identifier? semi |
     switch CondExpr Block |
-    try Block Catch |
+    try Block CatchFinally |
     class typeDeclName ClassDef |
     Export |
     Import |
@@ -42,7 +42,7 @@ skip whitespace {
     Statement (kw("of") Expression)?
   }
 
-  context Catch {
+  context CatchFinally {
     (catch ("(" declName ")")? Block)? (finally Block)?
   }
 
