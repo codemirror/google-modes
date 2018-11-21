@@ -49,6 +49,7 @@
     [variable g] [operator ||] [variable-2 x];
     [keyword super].[property&callee setX]([variable-2 x]);
     [type FontMetrics]<[type Param]> [def&local fm] [operator =] [variable parent].[property&callee getFontMetrics]([variable fonts][[ [variable i] ]]);
+    [keyword var] [def&local z] [operator =] [number 2];
 
     label: [keyword try] {
       [keyword continue] label;
