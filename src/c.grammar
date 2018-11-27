@@ -84,7 +84,7 @@ skip whitespace {
     string |
     BlockOf(Expression, ",") |
     sizeof ("(" Type ")" | "..."? Expression) 
-    macroName ParenTokens? |
+    Macro |
     variableName
   }
 
@@ -178,7 +178,7 @@ tokens {
 
   macroName="meta" {
     "_" ("A"-"Z" | digit | "_")+ !identifierChar |
-    "A"-"Z"+ ("A"-"Z" | digit)* "_" ("A"-"Z" | digit | "_")* !identifierChar
+    "A"-"Z" ("A"-"Z" | digit | "_")+ !identifierChar
   }
 
   variableName { plainVariableName }
