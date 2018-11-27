@@ -140,7 +140,7 @@ skip whitespace {
     "(" ListOf(Expression "..."?) ")"
   }
 
-  context CondExpr { "(" (DeclType DeclRest | Expression)? ")" }
+  context CondExpr { "(" (!(identifier "&&") DeclType DeclRest | Expression)? ")" }
 
   StaticAssert {
     staticAssert ArgList ";"

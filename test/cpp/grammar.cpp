@@ -95,7 +95,7 @@
     [keyword case] [variable&qualifier Bar]::[qualified&variable NotOK]:
       [keyword return] [string "NOT OK"];
   }
-  [keyword if] ([variable foo] [operator +]
+  [keyword if] ([variable foo] [operator &&]
       [variable foo]) {
     [number 2];
   }
