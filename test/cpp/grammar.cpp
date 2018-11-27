@@ -95,7 +95,7 @@
     [keyword case] [variable&qualifier Bar]::[qualified&variable NotOK]:
       [keyword return] [string "NOT OK"];
   }
-  [keyword if] ([variable foo] [operator &&]
+  [keyword if] ([variable foo] [operator +]
       [variable foo]) {
     [number 2];
   }
@@ -123,6 +123,9 @@
  [keyword public]:
   [def Foo]() {}
   [keyword const] [type int] [def&property Val]([type Base] &[def&local base]) {
+    [keyword if] ([keyword const] [keyword auto]* [def&local foo] [operator =] [variable&callee bar]()) {
+      [keyword return] [number 1];
+    }
     [keyword return] ([variable-2 base].*[property BaseValueProvider])();
   }
 };
