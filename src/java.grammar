@@ -35,7 +35,7 @@ skip whitespace {
   context StatementModifiers { Modifier* }
 
   Annotation {
-    annotationHead ("(" CommaSep(maybe(identifier "=")? (Annotation | Expr)) ")")?
+    annotationHead ("(" CommaSep(maybe(identifier "=")? (Annotation | ArrayInitializer | Expr)) ")")?
   }
 
   context EnumBody {
