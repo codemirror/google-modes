@@ -140,7 +140,7 @@ skip whitespace {
 
   DeclExpr(name) { name ("[" "]")? }
 
-  CommaSep(expr) { (expr ("," expr)*)? }
+  CommaSep(expr) { (expr ("," expr?)*)? }
 }
 
 Conditional {
