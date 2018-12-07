@@ -64,8 +64,8 @@ skip whitespace {
     ParenExpr
   }
 
-  context FunctionDecl { ("(" declName Type ")")? funcName? ParamList (ParamList | Type)? Block? }
-  context FunctionExpr { ParamList (ParamList | Type)? Block }
+  context FunctionDecl { ("(" declName Type ")")? funcName? ParamList TypeOrParamList? Block? }
+  context FunctionExpr { ParamList TypeOrParamList? Block }
   context ParenExpr { "(" CommaSep(Expr) ")" }
   context LiteralBody { "{" CommaSep((propNameColon | LiteralBody | Expr) (":" (LiteralBody | Expr))?) "}" }
   context TypeList { "(" Type ("," CommaSep(Expr))? ")" }
@@ -96,11 +96,15 @@ skip whitespace {
     struct StructBody |
     interface InterfaceBody |
     "*" Type |
-    func ParamList (~("(" (identifier ("," identifier)* ":" | ")")) ParamList | Type)? |
+    func ParamList TypeOrParamList? |
     map "[" Type "]" Type |
     (op("<-") | chan op("<-")?) Type |
     "(" CommaSep(Type) ")" |
     typeQualifier* typeName
+  }
+
+  TypeOrParamList {
+    ~("(" (identifier ("," identifier)* ":" | ")")) ParamList | Type
   }
 
   context StructBody {
@@ -108,7 +112,7 @@ skip whitespace {
   }
 
   context InterfaceBody {
-    "{" separated(propNameParen ParamList (ParamList | Type)? | Type) "}"
+    "{" separated(propNameParen ParamList TypeOrParamList? | Type) "}"
   }
 
   context ParamList {

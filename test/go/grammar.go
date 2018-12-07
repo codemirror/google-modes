@@ -113,6 +113,7 @@
 }
 
 [keyword type] [def A] [keyword interface] {
+	[property Load]() ([keyword interface]{})
 	[property Foo]([def&local f] [meta foo.][type Bar]) [keyword map][[ [type string] ]][type string]
 	[property a]([def&local f] [meta foo.][type Bar])
 	[type u]
