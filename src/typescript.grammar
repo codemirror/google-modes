@@ -87,10 +87,10 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (modifier* ClassField | Decorator)* "}"
+    "{" (modifier* ClassItem | Decorator)* "}"
   }
 
-  ClassField {
+  context ClassItem {
     propModifier?
     (propDeclName | "[" Expression "]" | number | string)
     (asyncStar? FunctionDef | ("!" | "?")? TypeAnn? (op("=") Expression)? semi)
