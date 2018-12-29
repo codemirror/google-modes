@@ -108,9 +108,9 @@ skip whitespace {
 
   Body { SimpleStatement | indentedBody }
 
-  Pattern { PatternAtom ("," Pattern)? }
-
-  PatternAtom { "(" Pattern ")" | "[" Pattern "]" | declName }
+  context ParenPattern { "(" Pattern ")" }
+  context BracketPattern { "[" Pattern "]" }
+  Pattern { CommaSep(declName | ParenPattern | BracketPattern) }
 
   MaybePattern(after) { ~(Pattern after) Pattern }
 }

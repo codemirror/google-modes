@@ -94,3 +94,6 @@
 
 [variable x][[[variable a]
     .[property x] ]]
+
+([def a],
+ [def b]) [operator =] [variable c]
