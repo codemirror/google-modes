@@ -18,7 +18,7 @@
     "prepare": "npm run build && npm test"
   },
   "dependencies": {
-    "codemirror": "^5.40.0"
+    "codemirror": "^5.42.2"
   },
   "devDependencies": {
     "codemirror-grammar-mode": "^0.1.7",
