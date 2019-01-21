@@ -97,7 +97,7 @@
   }
   [keyword if] ([variable foo] [operator &&]
       [variable foo]) {
-    [number 2];
+    [number 2u] [operator +] [number 2ul] [operator +] [number 2uLl];
   }
   
 }

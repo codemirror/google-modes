@@ -199,7 +199,7 @@ tokens {
     ("0x" (digit | "a"-"f" | "A"-"F" | "'")+ |
      "0b" ("0" | "1" | "'")+ |
      (digit digits ("." digits)? | "." digit digits) (("e" | "E") "-"? digits)?)
-    ("L" | "l" | "U" | "u" | "F" | "f")?
+    (("L" | "l")+ | (("U" | "u") ("l" | "L")*) | "F" | "f")?
   }
 
   string="string" {
