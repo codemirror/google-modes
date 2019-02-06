@@ -26,11 +26,8 @@ skip whitespace {
     this |
     Lambda |
     cast "<" Type ">" "(" Expression ")" |
-    ArrayInitializer |
     super
   }
-
-  context ArrayInitializer { "{" ListOf(Expression) "}" }
 
   ExpressionNoGt {
     ExpressionPrefix* BaseExpression (!">" ExpressionSuffix)*
