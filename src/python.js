@@ -28,7 +28,7 @@ function stillIndented(line, pos, cx) {
 
 function isCompLocal(line, pos) {
   let id = /\w*$/.exec(line.slice(0, pos))[0]
-  let forDecl = /\s*for\s*(\w+)/.exec(line.slice(pos))
+  let forDecl = /\s+for\s+(\w+)/.exec(line.slice(pos))
   return forDecl ? forDecl[1] == id : false
 }
 
