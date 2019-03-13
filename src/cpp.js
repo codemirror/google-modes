@@ -13,7 +13,7 @@ function localConstructorAhead(line, pos, cx) {
   let ahead = /^~?(\w+)\s*\(/.exec(line.slice(pos))
   if (!ahead) return false
   while (cx.name != "Statement") cx = cx.parent
-  let className = /\bclass\s+(\w+)/.exec(cx.startLine.slice(cx.startPos))
+  let className = /\b(?:class|struct)\s+(\w+)/.exec(cx.startLine.slice(cx.startPos))
   return className ? className[1] == ahead[1] : false
 }
 
