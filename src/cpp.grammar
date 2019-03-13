@@ -40,7 +40,7 @@ skip whitespace {
     super
   }
 
-  Lambda {
+  context Lambda {
     "[" !"[" ListOf("&"? variableName? | "=" | this) "]" (FunctionDef | Block)
   }
 

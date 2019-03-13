@@ -99,7 +99,11 @@
       [variable foo]) {
     [number 2u] [operator +] [number 2ul] [operator +] [number 2uLl];
   }
-  
+
+  [keyword return] [variable&callee Foo]([[ [variable a],
+             [variable b] ]]() {
+    [number 3];
+  });
 }
 
 [keyword struct] [def&type Extend] {
