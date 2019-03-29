@@ -213,10 +213,10 @@ tokens {
   }
 
   number="number" {
-    "0x" (digit | "a"-"f" | "A"-"F")+ |
-    "0o" "0"-"7"+ |
-    "0b" ("0" | "1")+ |
-    (digit+ ("." digit*)? | "." digit+) (("e" | "E") ("+" | "-")? digit+)?
+    "0x" (digit | "a"-"f" | "A"-"F" | "_")+ |
+    "0o" ("0"-"7" | "_")+ |
+    "0b" ("0" | "1" | "_")+ |
+    (digit (digit | "_")* ("." (digit | "_")*)? | "." (digit | "_")+) (("e" | "E") ("+" | "-")? (digit | "_")+)?
   }
 
   comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
