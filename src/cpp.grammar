@@ -108,7 +108,7 @@ skip whitespace {
   }
 
   context ClassItem {
-    access ":" | Template | Using | StaticAssert | Enum ";"? | Macro ";"? | Class ";"? | ObjectMember
+    access ":" | Template | Using | StaticAssert | Macro ";"? | modifier* (Enum ";"? | Class ";"? | ObjectMember)
   }
 
   context ObjectMember {

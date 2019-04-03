@@ -132,4 +132,5 @@
     }
     [keyword return] ([variable-2 base].*[property BaseValueProvider])();
   }
+  [keyword friend] [keyword class] [def&type X];
 };
