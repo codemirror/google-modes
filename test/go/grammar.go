@@ -148,3 +148,5 @@
 }
 
 [keyword func] [def foo]([def&local x], [def&local y] ... [type z]) ([type int], [type error]) {}
+
+[keyword func] [def x] () ([def&local foo] [[ ]][type byte], [def&local bar] [type myType]) {}

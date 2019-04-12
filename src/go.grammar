@@ -104,7 +104,7 @@ skip whitespace {
   }
 
   TypeOrParamList {
-    ~("(" (identifier ("," identifier)* ":" | ")")) ParamList | Type
+    ~("(" (identifier ("," identifier)* !(")" | "{" | "," | ".") | ")")) ParamList | Type
   }
 
   context StructBody {
