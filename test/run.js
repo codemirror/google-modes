@@ -8,6 +8,7 @@ const {parseSpec, tokenType} = require("./parse_spec")
 
 require("../dist/cpp")
 require("../dist/c")
+require("../dist/flatbuffers")
 require("../dist/javascript")
 require("../dist/typescript")
 require("../dist/python")
@@ -19,6 +20,7 @@ let filter = process.argv[2]
 
 ;[{dir: "c", mode: "google-c"},
   {dir: "cpp", mode: "google-cpp"},
+  {dir: "flatbuffers", mode: "flatbuffers"},
   {dir: "js", mode: "google-javascript"},
   {dir: "ts", mode: "google-typescript"},
   {dir: "py", mode: "google-python"},
