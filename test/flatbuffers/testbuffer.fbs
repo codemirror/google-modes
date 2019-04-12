@@ -1,0 +1,44 @@
+[comment // example IDL file]
+
+[keyword namespace] MyGame.Actors;
+
+[keyword attribute] [attribute "priority"];
+[keyword attribute] [attribute Florb];
+
+
+[keyword enum] [type Color] : [builtin byte] {
+  [def&property Red] = [number 1],
+  [def&property Green] = [number 0x2fF],
+  [def&property Blue]
+}
+
+[keyword union] [type Any] { [type Monster], [type Weapon], [type Pickup] }
+
+[keyword struct] [type Vec3] {
+  [comment // this is a comment inside a struct]
+  [property x]:[builtin float];  [comment // this is a comment on a struct member]
+  [property y]:[builtin float];
+  [property z]:[builtin float];
+}
+
+[comment // /** multiline comments work, but]
+[comment //  *  testing infrastructure doesn't allow us to verify that :(]
+[comment //  */]
+[keyword table] [type Monster] {
+  [property pos]:[type Vec3];
+  [property mana]:[builtin short] = [number 150];
+  [property hp]:[builtin short] = [number 100];
+  [property name]:[builtin string];
+  [property friendly]:[builtin bool] = [builtin false] ([attribute deprecated], [attribute priority]: [number 1]);
+  [property inventory]:[[ [builtin ubyte] ]];
+  [property color]:[type Color] = [property Blue];
+  [property test]:[type Any];
+  [property float_member]:[builtin float] = [number 0.01];
+  [property small_float]:[builtin float] = [number 0.01E-9];
+}
+
+[keyword struct] [type Weapon] { [property foo]:[builtin int]; }
+[keyword struct] [type Pickup] { [property bar]:[builtin int]; }
+
+
+[keyword root_type] [type Monster];

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build-cpp": "grammar-mode --es-module src/cpp.grammar --output src/cpp.mode.js && rollup -c rollup.config.js src/cpp.js -o dist/cpp.js",
+    "build-fbs": "grammar-mode --es-module src/flatbuffers.grammar --output src/flatbuffers.mode.js && rollup -c rollup.config.js src/flatbuffers.js -o dist/flatbuffers.js",
     "build-c": "grammar-mode --es-module src/c.grammar --output src/c.mode.js && rollup -c rollup.config.js src/c.js -o dist/c.js",
     "build-js": "grammar-mode --es-module src/javascript.grammar --output src/javascript.mode.js && rollup -c rollup.config.js src/javascript.js -o dist/javascript.js",
     "build-ts": "grammar-mode --es-module src/typescript.grammar --output src/typescript.mode.js && rollup -c rollup.config.js src/typescript.js -o dist/typescript.js",
@@ -13,7 +14,7 @@
     "build-java": "grammar-mode --es-module src/java.grammar --output src/java.mode.js && rollup -c rollup.config.js src/java.js -o dist/java.js",
     "build-html": "grammar-mode --es-module src/html.grammar --output src/html.mode.js && rollup -c rollup.config.js src/html.js -o dist/html.js",
     "build-ng": "grammar-mode --es-module src/angulartemplate.grammar --output src/angulartemplate.mode.js && rollup -c rollup.config.js src/angulartemplate.js -o dist/angulartemplate.js",
-    "build": "npm run build-js && npm run build-ts && npm run build-c && npm run build-cpp && npm run build-py && npm run build-go && npm run build-java && npm run build-html && npm run build-ng",
+    "build": "npm run build-js && npm run build-ts && npm run build-c && npm run build-cpp && npm run build-fbs && npm run build-py && npm run build-go && npm run build-java && npm run build-html && npm run build-ng",
     "test": "node test/run.js",
     "prepare": "npm run build && npm test"
   },

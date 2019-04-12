@@ -1,0 +1,122 @@
+skip (" " | "\t" | "\n" | comment)* {
+  start top {
+   include_decl* ( namespace_decl | type_decl | enum_union_decl | root_decl |
+                   file_extension_decl | file_identifier_decl | attribute_decl |
+                   rpc_decl | object | comment)*
+  }
+
+  include_decl { include string_constant ";" }
+
+  namespace_decl { namespace ident ( "." ident )* ";" }
+
+  attribute_decl { attribute (attr | quoted_attribute) ";" }
+
+  type_decl { (table_decl | struct_decl) }
+
+  context table_decl {
+    table customType metadata "{" table_field_decl+ "}"
+  }
+  table_field_decl { prop ":" typename ( "=" scalar )? metadata ";" }
+
+  context struct_decl {
+    struct customType metadata "{" struct_field_decl+ "}"
+  }
+  struct_field_decl { prop ":" typename metadata ";" }
+
+  enum_union_decl { (enum_decl | union_decl) }
+  context enum_decl {
+    enum customType ( ":" typename )? metadata "{"
+    enumval_decl ("," enumval_decl)* "}"
+  }
+  enumval_decl { enum_value_def ( "=" int_or_bool_constant )? }
+
+  context union_decl {
+    union customType metadata "{"
+    unionval_decl ("," unionval_decl)* "}"
+  }
+  unionval_decl { customType }
+
+
+  root_decl { root_type typename ";" }
+
+  context rpc_decl { rpc_service def "{" rpc_method+ "}" }
+
+  rpc_method { def "(" customType ")" ":" customType metadata ";" }
+
+  metadata {
+    ( "(" attr ( ":" single_value )? ("," attr ( ":" single_value )? )* ")" )?
+  }
+
+  scalar { float_constant | int_or_bool_constant | enum_value }
+
+  context object { "{" prop ":" value ("," prop ":" value)* "}" }
+
+  single_value { scalar | string_constant }
+
+  value { single_value | object | list_literal }
+  context list_literal { "[" value ( "," value )* "]" }
+
+  file_extension_decl { file_extension string_constant ";" }
+
+  file_identifier_decl { file_identifier string_constant ";" }
+}
+
+tokens {
+  include { kw("include") }
+  namespace { kw("namespace") }
+  attribute { kw("attribute") }
+  table { kw("table") }
+  struct { kw("struct") }
+  enum { kw("enum") }
+  union { kw("union") }
+  root_type { kw("root_type") }
+  rpc_service { kw("rpc_service") }
+  file_extension { kw("file_extension") }
+  file_identifier { kw("file_identifier") }
+
+  comment="comment" {
+    single_line_comment | multiline_comment
+  }
+  single_line_comment { "//" .* "\n" }
+  multiline_comment { "/*" (!"*/" _)* "*/" }
+
+  int_or_bool_constant { integer_constant | bool_constant }
+  integer_constant="number" { hex_constant | decimal_constant }
+
+  hex_constant { "-"? "0x" hexdigit+ }
+  decimal_constant { "-"? digit+ }
+  bool_constant="builtin" { "true" | "false" }
+
+  float_constant="number" {
+    "-"? digit+ "." digit+ (("e"|"E")("+"|"-")? digit+)?
+  }
+
+  string_constant="string" { "\"" ("\\" _ | !"\"" .)* "\"" }
+  ident { identifierStart identifierChar* }
+  def="def" { ident }
+  enum_value_def="def property" { ident }
+  enum_value="property" { ident }
+  prop="property" { ident }
+  attr="attribute" { ident }
+  quoted_attribute="attribute" { "\"" ident "\"" }
+
+  builtin="builtin" {
+    ("bool" | "byte" | "ubyte" | "short" | "ushort" | "int" | "uint" | "float" |
+     "long" | "ulong" | "double" | "int8" | "uint8" | "int16" | "uint16" |
+     "int32" | "uint32"| "int64" | "uint64" | "float32" | "float64" | "string")
+    !identifierChar
+  }
+
+  customType="type" { ident }
+  listType { "[" " "* ( builtin | customType ) " "* "]" }
+  typename { listType | builtin | customType }
+
+}
+
+kw(word)="keyword" { word !identifierChar }
+op(expr)="operator" { expr }
+identifierStart { letter | "_" }
+identifierChar { letter | digit | "_" }
+letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
+digit { "0"-"9" }
+hexdigit { "0"-"9" | "a"-"f" | "A"-"F" }
