@@ -59,7 +59,7 @@ skip whitespace {
   }
 
   context Template {
-    export? template TemplateParams whitespace Statement
+    export? template TemplateParams? whitespace Statement
   }
 
   Using {
