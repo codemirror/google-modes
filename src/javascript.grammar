@@ -103,8 +103,8 @@ skip whitespace {
   context ObjectLiteral { "{" CommaSep(ObjectMember) "}" }
 
   context ObjectMember {
-    propModifier?
-    ((propDeclName | "[" Expression "]" | number | string) (asyncStar? FunctionDef | ":" ExpressionNoComma)? |
+    propModifier? asyncStar?
+    ((propDeclName | "[" Expression "]" | number | string) (FunctionDef | ":" ExpressionNoComma)? |
      op("...") ExpressionNoComma)
   }
 
