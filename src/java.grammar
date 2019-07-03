@@ -110,6 +110,7 @@ skip whitespace {
     ArgList |
     "[" Expr "]" |
     "." (kw("class") | NewExpr | TypeArgs | calleeField | fieldName) |
+    "::" (kw("new") | calleeField | fieldName) |
     suffixOp |
     (binOp | instanceof) Expr |
     op("?") Expr op(":") Expr
