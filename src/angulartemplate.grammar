@@ -43,7 +43,7 @@ skip (spaceChar | jsComment)* {
   ngExpressionSuffix {
     (binOp | kw("in" | "instanceof" | "of" | "as")) ngExpression |
     "(" CommaSep(ngExpression) ")" |
-    "." (calleeProp | propName) |
+    "?"? "." (calleeProp | propName) |
     "[" ngExpression "]" |
     op("?") ngExpression op(":") ngExpression |
     ";" ngExpression?
