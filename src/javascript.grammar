@@ -196,7 +196,7 @@ tokens {
   async { kw("async") ~(whitespace (function | identifier | "(")) }
   new { kw("new") }
   kwBinOp { kw("in" | "instanceof") }
-  kwPrefix { kw("delete" | "typeof" | "yield" | "await") }
+  kwPrefix { kw("delete" | "typeof" | "yield" | "await" | "void") }
   kwExpr { kw("super" | "this") }
 
   atom="atom" { ("true" | "false" | "null" | "undefined" | "NaN" | "Infinity") !identifierChar }
