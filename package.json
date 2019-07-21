@@ -12,9 +12,9 @@
     "build-py": "grammar-mode --es-module src/python.grammar --output src/python.mode.js && rollup -c rollup.config.js src/python.js -o dist/python.js",
     "build-go": "grammar-mode --es-module src/go.grammar --output src/go.mode.js && rollup -c rollup.config.js src/go.js -o dist/go.js",
     "build-java": "grammar-mode --es-module src/java.grammar --output src/java.mode.js && rollup -c rollup.config.js src/java.js -o dist/java.js",
+    "build-kotlin": "grammar-mode --es-module src/kotlin.grammar --output src/kotlin.mode.js && rollup -c rollup.config.js src/kotlin.js -o dist/kotlin.js",
     "build-html": "grammar-mode --es-module src/html.grammar --output src/html.mode.js && rollup -c rollup.config.js src/html.js -o dist/html.js",
     "build-ng": "grammar-mode --es-module src/angulartemplate.grammar --output src/angulartemplate.mode.js && rollup -c rollup.config.js src/angulartemplate.js -o dist/angulartemplate.js",
-    "build-kotlin": "grammar-mode --es-module src/kotlin.grammar --output src/kotlin.mode.js && rollup -c rollup.config.js src/kotlin.js -o dist/kotlin.js",
     "build": "npm run build-js && npm run build-ts && npm run build-c && npm run build-cpp && npm run build-fbs && npm run build-py && npm run build-go && npm run build-java && npm run build-html && npm run build-ng && npm run build-kotlin",
     "test": "node test/run.js",
     "prepare": "npm run build && npm test"

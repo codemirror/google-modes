@@ -19,10 +19,12 @@ function aligned(cx) {
 }
 
 const bracketed = {
-  Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", ObjectPattern: "}", EnumBody: "}",
+  Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}",
+  ObjectPattern: "}", EnumBody: "}", Lambda: "}", WhenBody: "}",
   ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
   ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
   ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
+  ParenthesizedExpression: ")",
   TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
 }
 
@@ -72,7 +74,7 @@ function findIndent(cx, textAfter, config) {
     return base + 2 * config.indentUnit
   } else if (cx.name == "Alternative" || cx.name == "CatchFinally") {
     base = baseIndent(cx.parent, config.tabSize)
-    if (!textAfter || /^(else\b|\/[\/\*])/.test(textAfter)) return base
+    if (!textAfter || /^((else|catch|finally)\b|\/[\/\*])/.test(textAfter)) return base
     return base + config.indentUnit
   } else if (cx.name == "ArrowRest") {
     return base + config.indentUnit
@@ -97,7 +99,7 @@ function statementIndent(cx, config) {
 
 export function indent(state, textAfter, line, config) {
   let top = state.context && state.context.name
-  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template")
+  if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template" || top == "str")
     return statementIndent(state.context, config)
 
   if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^[@*]/.test(textAfter))

@@ -14,6 +14,7 @@ require("../dist/typescript")
 require("../dist/python")
 require("../dist/go")
 require("../dist/java")
+require("../dist/kotlin")
 require("../dist/angulartemplate")
 
 let filter = process.argv[2]
@@ -26,6 +27,7 @@ let filter = process.argv[2]
   {dir: "py", mode: "google-python"},
   {dir: "go", mode: "google-go"},
   {dir: "java", mode: "google-java"},
+  {dir: "kotlin", mode: "google-kotlin"},
   {dir: "ng", mode: "google-angular-template"}
  ].forEach(lang => {
   let base = __dirname + "/" + lang.dir + "/"

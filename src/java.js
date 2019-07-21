@@ -18,6 +18,7 @@ class JavaMode extends CodeMirror.GrammarMode {
   }
 
   indent(state, textAfter, line) {
+    if (!textAfter) textAfter = line = "x" // Force getContextAt to terminate the statement, if needed
     return indent(state, textAfter, line, this.indentConf)
   }
 }

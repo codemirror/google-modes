@@ -4,13 +4,11 @@ import * as grammar from "./kotlin.mode"
 import {markLocals} from "./locals"
 import {indent} from "./c_indent"
 
-const scopes = ["Block", "FunctionDeclaration", "Lambda", "FunctionExpression", "ForStatement"]
+const scopes = ["Block", "FunctionSpec", "Lambda", "Constructor", "ForStatement", "CatchFinally"]
 
 class KotlinMode extends CodeMirror.GrammarMode {
   constructor(conf, modeConf) {
-    super(grammar, {
-      predicates: {noNL}
-    })
+    super(grammar)
     this.conf = conf
   }
 
@@ -21,10 +19,6 @@ class KotlinMode extends CodeMirror.GrammarMode {
   indent(state, textAfter, line) {
     return indent(state, textAfter, line, this.conf)
   }
-}
-
-function noNL(string, pos) {
-  return /\S/.test(string.slice(0, pos))
 }
 
 let meta = {
