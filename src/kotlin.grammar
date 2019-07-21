@@ -1,0 +1,313 @@
+include "./javadoc.grammar" as doccomment
+
+start top {
+  shebang? (whitespace TopItem)+
+}
+
+skip whitespace {
+  context TopItem {
+    package packageName ("." packageName)* semi |
+    import (identifierDot ".")* ("*" | declName (as declName)?) semi |
+    Declaration
+  }
+
+  Declaration {
+    Modifier*
+    (
+      ClassDeclaration |
+      ObjectDeclaration |
+      FunctionDeclaration |
+      PropertyDeclaration |
+      TypeAlias
+    )
+  }
+
+  ClassDeclaration {
+    (class | interface) declName TypeParams?
+    ((Modifier* constructor)? ParamList)?
+    Delegation?
+    TypeConstraints?
+    ClassBody?
+  }
+
+  TypeConstraints {
+    where commaSep1(Annotation* variableName ":" Type)
+  }
+
+  ObjectDeclaration {
+    object declName Delegation? ClassBody?
+  }
+
+  context FunctionDeclaration {
+    fun TypeParams? declName ParamList (":" Type)? TypeConstraints? (Block | op("=") Expression)
+  }
+
+  context Block { "{" Statement* "}" }
+
+  PropertyDeclaration {
+    valVar TypeParams? VariableDeclaration
+    TypeConstraints? (op("=") Expression | kw("by") Expression)? semi
+    (Getter (semi Setter)? | Setter (semi Getter?))?
+  }
+
+  VariableDeclaration {
+    "(" commaSep1(VariableDeclaration) ")" | Annotation* declName (":" Type)?
+  }
+
+  Getter {
+    Modifier* kw("get") ("(" ")")? (":" Type)? (Block | op("=") Expression)
+  }
+
+  Setter {
+    Modifier* kw("set") ParamList? (":" Type)? (Block | op("=") Expression)
+  }
+
+  TypeAlias {
+    typealias declName TypeParams? op("=") Type semi
+  }
+
+  context ClassBody {
+    "{" ClassItem* "}"
+  }
+
+  ClassItem {
+    Annotation*
+    (
+      Declaration |
+      companion object identifier? Delegation? ClassBody? |
+      init Block |
+      constructor ParamList (":" (this | super_) ArgList)? Block? |
+      EnumList
+    )
+  }
+
+  EnumList {
+    commaSep1(Modifier* declName ArgList? ClassBody?) ";"
+  }
+
+  Delegation { ":" commaSep1(Modifier* Type (kw("by") Expression | ArgList)?) }
+
+  context ParamList {
+    "(" commaSep(Modifier* valVar? declName ":" Type (op("=") Expression)?) ")"
+  }
+
+  context ArgList {
+    "(" commaSep(Annotation* (~(identifier "=") identifier op("="))? "*"? Expression) ")"
+  }
+
+  context Statement {
+    (label | Annotation)*
+    (
+      Declaration |
+      ForStatement |
+      while "(" Expression ")" (Block | Statement | ";") |
+      do (Block | Statement) while "(" Expression ")" |
+      Expression semi |
+      ";"
+    )
+  }
+
+  ForStatement {
+    for "(" Annotation* VariableDeclaration in Expression ")" (Block | Statement)
+  }
+
+  Annotation {
+    annotationHead ":"? (UnescapedAnnotation | "[" UnescapedAnnotation+ "]")
+  }
+
+  UnescapedAnnotation { Type ArgList? }
+
+  Modifier { modifierKw | Annotation }
+
+  ExpressionInner {
+    (~("(" (annotationHead | identifier ":")) FunctionExpression) |
+    ParenthesizedExpression |
+    atom |
+    number |
+    string |
+    char |
+    Lambda |
+    object Delegation? ClassBody |
+    this ("@" identifier)? |
+    super_ ("<" Type ">")? ("@" identifier)? |
+    if "(" Expression ")" (Block | Statement | ";") (else (Block | Statement | ";"))? |
+    when "(" (Annotation* kw("val") VariableDeclaration op("="))? Expression ")" WhenBody |
+    try Block (catch "(" Annotation* declName ":" Type ")" Block)* (finally Block)? |
+    throw Expression |
+    return ("@" identifier)? Expression |
+    breakCont ("@" identifier)? |
+    calleeName |
+    variableName
+  }
+
+  Expression {
+    prefixOp* ExpressionInner (&noNL ExpressionSuffix)*
+  }
+
+  ExpressionSuffix {
+    suffixOp |
+    (~TypeArgs TypeArgs) |
+    (binOp | in | is | as "?"?) ExpressionInner |
+    ArgList |
+    ("?"? "." | "::") (class | propertyCallee | propertyName | ParenthesizedExpression) |
+    "[" commaSep1(Expression) "]" |
+    infixCallee ExpressionInner
+  }
+
+  context TypeArgs {
+    "<" commaSep1("*" | (Annotation | kw("in" | "out"))* Type) ">"
+  }
+
+  context TypeParams {
+    "<" commaSep1(Modifier* typeName (":" Type)?) ">"
+  }
+
+  context Lambda {
+    "{" (~(VariableDeclaration "->") VariableDeclaration op("->"))? Statement* "}"
+  }
+
+  context FunctionExpression {
+    ParamList (":" Type)? TypeConstraints? (Block | op("=") Expression)
+  }
+
+  context ParenthesizedExpression { "(" Expression ")" }
+
+  context WhenBody { "{" WhenEntry "}" }
+
+  WhenEntry {
+    (else | commaSep1(~("!"? in) op("!")? in Expression | ~("!"? is) op("!")? is Type | Expression))
+    op("->") (Block | Statement | ";")
+  }
+
+  TypeInner {
+    dynamic |
+    typeName ("." typeName)* |
+    (~("(" (annotationHead | identifier ":")) ParamList op("->") Type) |
+    "(" Type ")"
+  }
+
+  Type {
+    (Annotation | kw("suspend"))* TypeInner "?"*
+  }
+
+  commaSep(inner) { commaSep1(inner)? }
+
+  commaSep1(inner) { inner ("," inner?)* }
+}
+
+tokens {
+  class { kw("class") }
+  interface { kw("interface") }
+  object { kw("object") }
+  constructor { kw("constructor") }
+  fun { kw("fun") }
+  typealias { kw("typealias") }
+  init { kw("init") }
+  companion { kw("companion") }
+  where { kw("where") }
+  return { kw("return") }
+  if { kw("if") }
+  else { kw("else") }
+  when { kw("when") }
+  for { kw("for") }
+  while { kw("while") }
+  do { kw("do") }
+  breakCont { kw("break" | "continue") }
+  in { kw("in") }
+  is { kw("is") }
+  as { kw("as") }
+  dynamic { kw("dynamic") }
+  modifierKw { kw("enum" | "sealed" | "annotation" | "data" | "inner" | "override" | "lateinit" |
+                  "public" | "private" | "internal" | "protected" | "tailred" | "operator" | "infix" |
+                  "inline" | "external" | "extend" | "const" | "abstract" | "final" | "open" |
+                  "vararg" | "noinline" | "crossinline" | "reified" | "expect" | "actual") }
+  this { kw("this") }
+  super_ { kw("super") }
+  throw { kw("throw") }
+  try { kw("try") }
+  catch { kw("catch") }
+  finally { kw("finally") }
+  package { kw("package") }
+  import { kw("import") }
+  valVar { kw("val" | "var") }
+
+  atom="atom" { ("true" | "false" | "null") !identifierChar }
+
+  number="number" {
+    (("0x" | "0X") (digit | "_" | "a"-"f" | "A"-"F")+ |
+     ("0b" | "0B") ("0" | "1" | "_")+ |
+     (digit (digit | "_")* ("." (digit | "_")*)? | "." (digit | "_")+) (("e" | "E") ("+" | "-")? (digit | "_")+)?)
+    ("u" | "U")? "L"?
+  }
+
+  string="string" {
+     "\"" ("\\" _ | (!"\"" .))* "\""
+  }
+
+  char="string-2" {
+    "'" ("\\" . (!"'" .)* | .) "'"
+  }
+
+  binOp="operator" {
+    ".." | "?:" | ("+" | "-" | "*" | "/" | "%" | "<" | ">") "="? | ("!" | "=") "=" "="? | "=" | "&&" | "||"
+  }
+
+  comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
+}
+
+identifier { identifierStart identifierChar* | "`" (!"`" .)+ "`" }
+
+annotationHead="meta" {
+  "@" identifier
+}
+
+label="meta" {
+  identifier "@"
+}
+
+whitespace {
+  (" " | "\t" | "\n" | "\r" | comment)*
+}
+
+declName="def" { identifier }
+
+typeDeclName="type def" { identifier }
+
+typeName="type" { identifier }
+
+variableName="variable" { identifier }
+
+calleeName="variable callee" { identifier ~(" "* "(") }
+
+infixCallee="variable callee" { identifier }
+
+propertyName="property" { identifier }
+
+propertyCallee="property callee" { identifier ~(" "* "(") }
+
+packageName="variable package" { identifier }
+
+identifierDot { identifier ~(" "* ".") }
+
+kw(value)="keyword" { value !identifierChar }
+op(value)="operator" { value }
+
+suffixOp { op("++" | "--" | "!!") }
+
+prefixOp { op("++" | "--" | "+" | "-" | "!") }
+
+maybe(value) { ~value value }
+
+letter { "a"-"z" | "A"-"Z" | "\u00a1"-"\uffff" | "_" }
+
+digit { "0"-"9" }
+
+identifierStart { letter }
+
+identifierChar { letter | digit }
+
+spaceChar { "\n" | "\t" | " " }
+
+shebang="meta" { "#!" .* }
+
+semi { ";"? }
