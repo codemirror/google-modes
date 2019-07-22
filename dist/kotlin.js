@@ -4,2269 +4,1111 @@
   (factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
 
-  var nodes = {
-    "_start": [
-      3, "meta", /^\#\!.*/, "_start$2",
-      0, "_start$2"
-    ],
-    "_start$1": [
-      /^[^]/, "_start"
-    ],
-    "_start$2": [
-      1, "l", "_start$3"
-    ],
-    "_start$3": [
-      3, "keyword", /^package(?![a-zA-Z¡-￿_0-9])/, "_start$4",
-      3, "keyword", /^import(?![a-zA-Z¡-￿_0-9])/, "_start$5",
-      2, "Statement", "_start$6", {"name":"Statement"}
-    ],
-    "_start$4": [
-      1, "l", "_start$7"
-    ],
-    "_start$5": [
-      1, "l", "_start$8"
-    ],
-    "_start$6": [
-      /^[ \t\r]+/, "_start$6",
-      2, "comment", "_start$6", {"name":"comment","token":"comment"},
-      "\n", "_start$6",
-      0, "_start$9"
-    ],
-    "_start$7": [
-      3, "variable package", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_start$10"
-    ],
-    "_start$8": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)(?= *\.)/, "_start$11",
-      "*", "_start$12",
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_start$13"
-    ],
-    "_start$9": [
-      0, "_start$3",
-      0, "_start$1"
-    ],
-    "_start$10": [
-      1, "s", "_start$14"
-    ],
-    "_start$11": [
-      1, "s", "_start$15"
-    ],
-    "_start$12": [
-      /^\;?/, "_start$6"
-    ],
-    "_start$13": [
-      1, "s", "_start$16"
-    ],
-    "_start$14": [
-      ".", "_start$17",
-      /^\;?/, "_start$6"
-    ],
-    "_start$15": [
-      ".", "_start$18"
-    ],
-    "_start$16": [
-      3, "keyword", /^as(?![a-zA-Z¡-￿_0-9])/, "_start$19",
-      0, "_start$12"
-    ],
-    "_start$17": [
-      1, "l", "_start$20"
-    ],
-    "_start$18": [
-      1, "l", "_start$8"
-    ],
-    "_start$19": [
-      1, "l", "_start$21"
-    ],
-    "_start$20": [
-      3, "variable package", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_start$22"
-    ],
-    "_start$21": [
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_start$23"
-    ],
-    "_start$22": [
-      1, "s", "_start$14"
-    ],
-    "_start$23": [
-      1, "s", "_start$12"
-    ],
-    "_token": [
-      3, "keyword", /^class(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^interface(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^object(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^constructor(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^fun(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^typealias(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^init(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^companion(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^where(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^return(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^if(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^else(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^when(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^for(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^while(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^do(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^(?:break|continue)(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^in(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^is(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^as(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^dynamic(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^(?:enum|sealed|annotation|data|inner|override|lateinit|public|private|internal|protected|tailred|operator|infix|inline|external|extend|const|abstract|final|open|vararg|noinline|crossinline|reified|expect|actual)(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^this(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^super(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^throw(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^try(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^catch(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^finally(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^package(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^import(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "keyword", /^(?:val|var)(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "atom", /^(?:true|false|null)(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "number", /^(?:(?:0x|0X)[0-9_a-fA-F]+|(?:0b|0B)[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)[uU]?L?/, -1,
-      1, "string", -1,
-      3, "string-2", /^\'(?:\\.(?:(?!\').)*|.)\'/, -1,
-      3, "operator", /^(?:\.\.|\?\:|[\+\-\*\/\%\<\>]\=?|[\!\=]\=\=?|\=|\&\&|\|\|)/, -1,
-      2, "comment", -1, {"name":"comment","token":"comment"},
-      /^[^]/, -1
-    ],
-    "l": [
-      /^[ \t\r]+/, "l",
-      2, "comment", "l", {"name":"comment","token":"comment"},
-      "\n", "l",
-      0, -1
-    ],
-    "Statement": [
-      3, "meta", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)\@/, -1,
-      1, "Annotation", -1,
-      1, "Declaration", -1,
-      3, "keyword", /^for(?![a-zA-Z¡-￿_0-9])/, "Statement$1",
-      3, "keyword", /^while(?![a-zA-Z¡-￿_0-9])/, "Statement$14",
-      3, "keyword", /^do(?![a-zA-Z¡-￿_0-9])/, "Statement$18",
-      1, "Expression", "Statement$24",
-      ";", -1
-    ],
-    "Statement$1": [
-      1, "l", "Statement$2"
-    ],
-    "Statement$2": [
-      "(", "Statement$3"
-    ],
-    "Statement$3": [
-      1, "l", "Statement$4"
-    ],
-    "Statement$4": [
-      1, "Annotation", "Statement$5",
-      1, "VariableDeclaration", "Statement$6"
-    ],
-    "Statement$5": [
-      1, "l", "Statement$4"
-    ],
-    "Statement$6": [
-      1, "l", "Statement$7"
-    ],
-    "Statement$7": [
-      3, "keyword", /^in(?![a-zA-Z¡-￿_0-9])/, "Statement$8"
-    ],
-    "Statement$8": [
-      1, "l", "Statement$9"
-    ],
-    "Statement$9": [
-      1, "Expression", "Statement$10"
-    ],
-    "Statement$10": [
-      1, "l", "Statement$11"
-    ],
-    "Statement$11": [
-      ")", "Statement$12"
-    ],
-    "Statement$12": [
-      1, "l", "Statement$13"
-    ],
-    "Statement$13": [
-      2, "Block", -1, {"name":"Block"},
-      2, "Statement", -1, {"name":"Statement"}
-    ],
-    "Statement$14": [
-      1, "l", "Statement$15"
-    ],
-    "Statement$15": [
-      2, "ParenthesizedExpression", "Statement$16", {"name":"ParenthesizedExpression"}
-    ],
-    "Statement$16": [
-      1, "l", "Statement$17"
-    ],
-    "Statement$17": [
-      2, "Block", -1, {"name":"Block"},
-      2, "Statement", -1, {"name":"Statement"},
-      ";", -1
-    ],
-    "Statement$18": [
-      1, "l", "Statement$19"
-    ],
-    "Statement$19": [
-      2, "Block", "Statement$20", {"name":"Block"},
-      2, "Statement", "Statement$20", {"name":"Statement"}
-    ],
-    "Statement$20": [
-      1, "l", "Statement$21"
-    ],
-    "Statement$21": [
-      3, "keyword", /^while(?![a-zA-Z¡-￿_0-9])/, "Statement$22"
-    ],
-    "Statement$22": [
-      1, "l", "Statement$23"
-    ],
-    "Statement$23": [
-      2, "ParenthesizedExpression", -1, {"name":"ParenthesizedExpression"}
-    ],
-    "Statement$24": [
-      1, "s", "Statement$25"
-    ],
-    "Statement$25": [
-      /^\;?/, -1
-    ],
-    "comment": [
-      /^\/\*\*(?!\/)/, "comment$1",
-      "/*", "comment$4",
-      /^\/\/.*/, -1
-    ],
-    "comment$1": [
-      [0, /^(?!\*\/|\{?\@[a-zA-Z0-9¡-￿_])/, /^[^]/], "comment$2",
-      0, "comment$3"
-    ],
-    "comment$2": [
-      0, "comment$1",
-      0, "comment$1"
-    ],
-    "comment$3": [
-      2, "doccomment.tagGroup", "comment$3", {"name":"doccomment.tagGroup"},
-      "*/", -1
-    ],
-    "comment$4": [
-      [0, /^(?!\*\/)/, /^[^]/], "comment$4",
-      "*/", -1
-    ],
-    "s": [
-      /^[ \t\r]+/, "s",
-      2, "comment", "s", {"name":"comment","token":"comment"},
-      0, -1
-    ],
-    "string": [
-      3, "string", "\"\"\"", "string$1",
-      3, "string", "\"", "string$6"
-    ],
-    "string$1": [
-      2, "str_1", "string$1", {"name":"str","token":"string"},
-      3, "string", "${", "string$2",
-      2, "str_4", "string$1", {"name":"str","token":"string"},
-      3, "string", "\"\"\"", -1
-    ],
-    "string$2": [
-      1, "l", "string$3"
-    ],
-    "string$3": [
-      1, "Expression", "string$4"
-    ],
-    "string$4": [
-      1, "l", "string$5"
-    ],
-    "string$5": [
-      3, "string", "}", "string$1"
-    ],
-    "string$6": [
-      2, "str_1", "string$6", {"name":"str","token":"string"},
-      3, "string", "${", "string$7",
-      3, "string", /^(?:(?!\"|\$\{|\\).)+/, "string$6",
-      3, "string", "\"", -1
-    ],
-    "string$7": [
-      1, "l", "string$8"
-    ],
-    "string$8": [
-      1, "Expression", "string$9"
-    ],
-    "string$9": [
-      1, "l", "string$10"
-    ],
-    "string$10": [
-      3, "string", "}", "string$6"
-    ],
-    "Annotation": [
-      2, "AnnotationHead", "Annotation$1", {"name":"AnnotationHead","token":"meta"}
-    ],
-    "Annotation$1": [
-      1, "l", "Annotation$2"
-    ],
-    "Annotation$2": [
-      1, "UnescapedAnnotation", -1,
-      "[", "Annotation$3"
-    ],
-    "Annotation$3": [
-      1, "l", "Annotation$4"
-    ],
-    "Annotation$4": [
-      1, "UnescapedAnnotation", "Annotation$5"
-    ],
-    "Annotation$5": [
-      1, "l", "Annotation$6"
-    ],
-    "Annotation$6": [
-      0, "Annotation$4",
-      "]", -1
-    ],
-    "Declaration": [
-      1, "Modifier", "Declaration$1",
-      3, "keyword", /^class(?![a-zA-Z¡-￿_0-9])/, "Declaration$2",
-      3, "keyword", /^interface(?![a-zA-Z¡-￿_0-9])/, "Declaration$2",
-      3, "keyword", /^object(?![a-zA-Z¡-￿_0-9])/, "Declaration$3",
-      3, "keyword", /^fun(?![a-zA-Z¡-￿_0-9])/, "Declaration$4",
-      3, "keyword", /^(?:val|var)(?![a-zA-Z¡-￿_0-9])/, "Declaration$5",
-      3, "keyword", /^typealias(?![a-zA-Z¡-￿_0-9])/, "Declaration$6"
-    ],
-    "Declaration$1": [
-      1, "l", "Declaration"
-    ],
-    "Declaration$2": [
-      1, "l", "Declaration$7"
-    ],
-    "Declaration$3": [
-      1, "l", "Declaration$8"
-    ],
-    "Declaration$4": [
-      1, "l", "Declaration$9"
-    ],
-    "Declaration$5": [
-      1, "l", "Declaration$10"
-    ],
-    "Declaration$6": [
-      1, "l", "Declaration$11"
-    ],
-    "Declaration$7": [
-      3, "type def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "Declaration$12"
-    ],
-    "Declaration$8": [
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "Declaration$13"
-    ],
-    "Declaration$9": [
-      2, "TypeParams", "Declaration$14", {"name":"TypeParams"},
-      0, "Declaration$14"
-    ],
-    "Declaration$10": [
-      2, "TypeParams", "Declaration$15", {"name":"TypeParams"},
-      0, "Declaration$15"
-    ],
-    "Declaration$11": [
-      3, "type def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "Declaration$16"
-    ],
-    "Declaration$12": [
-      1, "l", "Declaration$17"
-    ],
-    "Declaration$13": [
-      1, "l", "Declaration$18"
-    ],
-    "Declaration$14": [
-      1, "l", "Declaration$19"
-    ],
-    "Declaration$15": [
-      1, "l", "Declaration$20"
-    ],
-    "Declaration$16": [
-      1, "l", "Declaration$21"
-    ],
-    "Declaration$17": [
-      2, "TypeParams", "Declaration$22", {"name":"TypeParams"},
-      0, "Declaration$22"
-    ],
-    "Declaration$18": [
-      ":", "Declaration$23",
-      0, "Declaration$24"
-    ],
-    "Declaration$19": [
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "Declaration$25"
-    ],
-    "Declaration$20": [
-      1, "VariableDeclaration", "Declaration$26"
-    ],
-    "Declaration$21": [
-      2, "TypeParams", "Declaration$27", {"name":"TypeParams"},
-      0, "Declaration$27"
-    ],
-    "Declaration$22": [
-      1, "l", "Declaration$28"
-    ],
-    "Declaration$23": [
-      1, "l", "Declaration$29"
-    ],
-    "Declaration$24": [
-      1, "l", "Declaration$30"
-    ],
-    "Declaration$25": [
-      1, "l", "Declaration$31"
-    ],
-    "Declaration$26": [
-      1, "l", "Declaration$32"
-    ],
-    "Declaration$27": [
-      1, "l", "Declaration$33"
-    ],
-    "Declaration$28": [
-      2, "Constructor", "Declaration$34", {"name":"Constructor"},
-      0, "Declaration$34"
-    ],
-    "Declaration$29": [
-      1, "commaSep1_4", "Declaration$24"
-    ],
-    "Declaration$30": [
-      2, "ClassBody", -1, {"name":"ClassBody"},
-      0, -1
-    ],
-    "Declaration$31": [
-      2, "FunctionSpec", -1, {"name":"FunctionSpec"}
-    ],
-    "Declaration$32": [
-      3, "keyword", /^where(?![a-zA-Z¡-￿_0-9])/, "Declaration$35",
-      0, "Declaration$36"
-    ],
-    "Declaration$33": [
-      3, "operator", "=", "Declaration$37"
-    ],
-    "Declaration$34": [
-      1, "l", "Declaration$38"
-    ],
-    "Declaration$35": [
-      1, "l", "Declaration$39"
-    ],
-    "Declaration$36": [
-      1, "l", "Declaration$40"
-    ],
-    "Declaration$37": [
-      1, "l", "Declaration$41"
-    ],
-    "Declaration$38": [
-      ":", "Declaration$42",
-      0, "Declaration$43"
-    ],
-    "Declaration$39": [
-      1, "commaSep1_6", "Declaration$36"
-    ],
-    "Declaration$40": [
-      3, "operator", "=", "Declaration$44",
-      3, "keyword", /^by(?![a-zA-Z¡-￿_0-9])/, "Declaration$45",
-      0, "Declaration$46"
-    ],
-    "Declaration$41": [
-      1, "Type", "Declaration$47"
-    ],
-    "Declaration$42": [
-      1, "l", "Declaration$48"
-    ],
-    "Declaration$43": [
-      1, "l", "Declaration$49"
-    ],
-    "Declaration$44": [
-      1, "l", "Declaration$50"
-    ],
-    "Declaration$45": [
-      1, "l", "Declaration$51"
-    ],
-    "Declaration$46": [
-      1, "l", "Declaration$52"
-    ],
-    "Declaration$47": [
-      1, "l", "Declaration$53"
-    ],
-    "Declaration$48": [
-      1, "commaSep1_4", "Declaration$43"
-    ],
-    "Declaration$49": [
-      3, "keyword", /^where(?![a-zA-Z¡-￿_0-9])/, "Declaration$54",
-      0, "Declaration$55"
-    ],
-    "Declaration$50": [
-      1, "Expression", "Declaration$46"
-    ],
-    "Declaration$51": [
-      1, "Expression", "Declaration$46"
-    ],
-    "Declaration$52": [
-      /^\;?/, "Declaration$56"
-    ],
-    "Declaration$53": [
-      /^\;?/, -1
-    ],
-    "Declaration$54": [
-      1, "l", "Declaration$57"
-    ],
-    "Declaration$55": [
-      1, "l", "Declaration$58"
-    ],
-    "Declaration$56": [
-      1, "l", "Declaration$59"
-    ],
-    "Declaration$57": [
-      1, "commaSep1_6", "Declaration$55"
-    ],
-    "Declaration$58": [
-      2, "ClassBody", -1, {"name":"ClassBody"},
-      0, -1
-    ],
-    "Declaration$59": [
-      1, "Getter", "Declaration$60",
-      1, "Setter", "Declaration$61",
-      0, -1
-    ],
-    "Declaration$60": [
-      1, "l", "Declaration$62"
-    ],
-    "Declaration$61": [
-      1, "l", "Declaration$63"
-    ],
-    "Declaration$62": [
-      ";", "Declaration$64",
-      0, -1
-    ],
-    "Declaration$63": [
-      ";", "Declaration$65"
-    ],
-    "Declaration$64": [
-      1, "l", "Declaration$66"
-    ],
-    "Declaration$65": [
-      1, "l", "Declaration$67"
-    ],
-    "Declaration$66": [
-      1, "Setter", -1
-    ],
-    "Declaration$67": [
-      1, "Getter", -1,
-      0, -1
-    ],
-    "Expression": [
-      3, "operator", /^(?:\+\+|\-\-|\+|\-|\!)/, "Expression$1",
-      3, "meta", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)\@/, "Expression$1",
-      1, "Annotation", "Expression$1",
-      1, "ExpressionInner", "Expression$2"
-    ],
-    "Expression$1": [
-      1, "l", "Expression"
-    ],
-    "Expression$2": [
-      1, "s", "Expression$3"
-    ],
-    "Expression$3": [
-      3, "operator", /^(?:\+\+|\-\-|\!\!)/, "Expression$4",
-      [5, "_lookahead_13"], "Expression$5",
-      3, "operator", /^(?:\.\.|\?\:|[\+\-\*\/\%\<\>]\=?|[\!\=]\=\=?|\=|\&\&|\|\|)/, "Expression$6",
-      "!", "Expression$7",
-      0, "Expression$8",
-      3, "keyword", /^as(?![a-zA-Z¡-￿_0-9])/, "Expression$9",
-      2, "ArgList", "Expression$4", {"name":"ArgList"},
-      /^(?:\?\.|\.|\:\:)/, "Expression$10",
-      "[", "Expression$11",
-      3, "variable callee", [0, [6, "_lookahead_14"], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], "Expression$12",
-      0, -1
-    ],
-    "Expression$4": [
-      1, "s", "Expression$3"
-    ],
-    "Expression$5": [
-      2, "TypeArgs", "Expression$4", {"name":"TypeArgs"}
-    ],
-    "Expression$6": [
-      1, "l", "Expression$13"
-    ],
-    "Expression$7": [
-      1, "s", "Expression$8"
-    ],
-    "Expression$8": [
-      3, "keyword", /^in(?![a-zA-Z¡-￿_0-9])/, "Expression$6",
-      3, "keyword", /^is(?![a-zA-Z¡-￿_0-9])/, "Expression$6"
-    ],
-    "Expression$9": [
-      1, "s", "Expression$14"
-    ],
-    "Expression$10": [
-      1, "l", "Expression$15"
-    ],
-    "Expression$11": [
-      1, "l", "Expression$16"
-    ],
-    "Expression$12": [
-      1, "l", "Expression$17"
-    ],
-    "Expression$13": [
-      1, "ExpressionInner", "Expression$4"
-    ],
-    "Expression$14": [
-      "?", "Expression$18",
-      0, "Expression$6"
-    ],
-    "Expression$15": [
-      3, "keyword", /^class(?![a-zA-Z¡-￿_0-9])/, "Expression$4",
-      3, "property callee", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)(?= *\()/, "Expression$4",
-      3, "property", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "Expression$4",
-      2, "ParenthesizedExpression", "Expression$4", {"name":"ParenthesizedExpression"}
-    ],
-    "Expression$16": [
-      1, "commaSep1_10", "Expression$19"
-    ],
-    "Expression$17": [
-      1, "ExpressionInner", "Expression$4"
-    ],
-    "Expression$18": [
-      1, "s", "Expression$6"
-    ],
-    "Expression$19": [
-      1, "l", "Expression$20"
-    ],
-    "Expression$20": [
-      "]", "Expression$4"
-    ],
-    "VariableDeclaration": [
-      "(", "VariableDeclaration$1",
-      0, "VariableDeclaration$5"
-    ],
-    "VariableDeclaration$1": [
-      1, "l", "VariableDeclaration$2"
-    ],
-    "VariableDeclaration$2": [
-      1, "commaSep1_3", "VariableDeclaration$3"
-    ],
-    "VariableDeclaration$3": [
-      1, "l", "VariableDeclaration$4"
-    ],
-    "VariableDeclaration$4": [
-      ")", -1
-    ],
-    "VariableDeclaration$5": [
-      1, "Annotation", "VariableDeclaration$6",
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "VariableDeclaration$7"
-    ],
-    "VariableDeclaration$6": [
-      1, "l", "VariableDeclaration$5"
-    ],
-    "VariableDeclaration$7": [
-      1, "l", "VariableDeclaration$8"
-    ],
-    "VariableDeclaration$8": [
-      ":", "VariableDeclaration$9",
-      0, -1
-    ],
-    "VariableDeclaration$9": [
-      1, "l", "VariableDeclaration$10"
-    ],
-    "VariableDeclaration$10": [
-      1, "Type", -1
-    ],
-    "Block": [
-      "{", "Block$1"
-    ],
-    "Block$1": [
-      1, "l", "Block$2"
-    ],
-    "Block$2": [
-      2, "Statement", "Block$3", {"name":"Statement"},
-      "}", -1
-    ],
-    "Block$3": [
-      1, "l", "Block$2"
-    ],
-    "ParenthesizedExpression": [
-      "(", "ParenthesizedExpression$1"
-    ],
-    "ParenthesizedExpression$1": [
-      1, "l", "ParenthesizedExpression$2"
-    ],
-    "ParenthesizedExpression$2": [
-      1, "Expression", "ParenthesizedExpression$3"
-    ],
-    "ParenthesizedExpression$3": [
-      1, "l", "ParenthesizedExpression$4"
-    ],
-    "ParenthesizedExpression$4": [
-      ")", -1
-    ],
-    "doccomment.tagGroup": [
-      3, "tag", /^\@param(?![a-zA-Z0-9¡-￿_])/, "doccomment.tagGroup$1",
-      3, "tag", /^\@(?:throws|exception)(?![a-zA-Z0-9¡-￿_])/, "doccomment.tagGroup$2",
-      3, "tag", /^\@[a-zA-Z0-9¡-￿_]+/, "doccomment.tagGroup$9",
-      "{", "doccomment.tagGroup$3"
-    ],
-    "doccomment.tagGroup$1": [
-      [1, "\n", "\t", " "], "doccomment.tagGroup$1",
-      3, "def", /^[a-zA-Z0-9¡-￿_\.]+/, "doccomment.tagGroup$9",
-      "<", "doccomment.tagGroup$4",
-      0, "doccomment.tagGroup$9"
-    ],
-    "doccomment.tagGroup$2": [
-      [1, "\n", "\t", " "], "doccomment.tagGroup$2",
-      3, "type", /^[a-zA-Z0-9¡-￿_\.]+/, "doccomment.tagGroup$9",
-      0, "doccomment.tagGroup$9"
-    ],
-    "doccomment.tagGroup$3": [
-      3, "tag", /^\@[a-zA-Z0-9¡-￿_]+/, "doccomment.tagGroup$5"
-    ],
-    "doccomment.tagGroup$4": [
-      3, "type def", /^[a-zA-Z0-9¡-￿_]+/, "doccomment.tagGroup$6"
-    ],
-    "doccomment.tagGroup$5": [
-      /^[\t ]*/, "doccomment.tagGroup$7"
-    ],
-    "doccomment.tagGroup$6": [
-      ">", "doccomment.tagGroup$9"
-    ],
-    "doccomment.tagGroup$7": [
-      1, "doccomment.tagContent", "doccomment.tagGroup$8"
-    ],
-    "doccomment.tagGroup$8": [
-      "}", "doccomment.tagGroup$9"
-    ],
-    "doccomment.tagGroup$9": [
-      [0, /^(?!\*\/|\{?\@[a-zA-Z0-9¡-￿_])/, /^[^]/], "doccomment.tagGroup$10",
-      0, -1
-    ],
-    "doccomment.tagGroup$10": [
-      0, "doccomment.tagGroup$9",
-      0, "doccomment.tagGroup$9"
-    ],
-    "str_1": [
-      "\\", "str_1$1"
-    ],
-    "str_1$1": [
-      /^[^]/, -1
-    ],
-    "str_4": [
-      [0, /^(?!\"\"\"|\$\{|\\)/, /^[^]/], "str_4$1"
-    ],
-    "str_4$1": [
-      0, "str_4",
-      0, -1
-    ],
-    "AnnotationHead": [
-      "@", "AnnotationHead$1"
-    ],
-    "AnnotationHead$1": [
-      1, "s", "AnnotationHead$2"
-    ],
-    "AnnotationHead$2": [
-      [0, [5, "_lookahead"], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], "AnnotationHead$3",
-      0, -1
-    ],
-    "AnnotationHead$3": [
-      1, "s", "AnnotationHead$4"
-    ],
-    "AnnotationHead$4": [
-      ":", -1
-    ],
-    "UnescapedAnnotation": [
-      3, "meta", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "UnescapedAnnotation$1"
-    ],
-    "UnescapedAnnotation$1": [
-      1, "l", "UnescapedAnnotation$2"
-    ],
-    "UnescapedAnnotation$2": [
-      2, "TypeParams", "UnescapedAnnotation$3", {"name":"TypeParams"},
-      0, "UnescapedAnnotation$3"
-    ],
-    "UnescapedAnnotation$3": [
-      1, "l", "UnescapedAnnotation$4"
-    ],
-    "UnescapedAnnotation$4": [
-      ".", "UnescapedAnnotation$5",
-      2, "ArgList", -1, {"name":"ArgList"},
-      0, -1
-    ],
-    "UnescapedAnnotation$5": [
-      1, "l", "UnescapedAnnotation$6"
-    ],
-    "UnescapedAnnotation$6": [
-      3, "meta", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "UnescapedAnnotation$7"
-    ],
-    "UnescapedAnnotation$7": [
-      1, "l", "UnescapedAnnotation$8"
-    ],
-    "UnescapedAnnotation$8": [
-      2, "TypeParams", "UnescapedAnnotation$9", {"name":"TypeParams"},
-      0, "UnescapedAnnotation$9"
-    ],
-    "UnescapedAnnotation$9": [
-      1, "l", "UnescapedAnnotation$4"
-    ],
-    "Modifier": [
-      3, "keyword", /^(?:enum|sealed|annotation|data|inner|override|lateinit|public|private|internal|protected|tailred|operator|infix|inline|external|extend|const|abstract|final|open|vararg|noinline|crossinline|reified|expect|actual)(?![a-zA-Z¡-￿_0-9])/, -1,
-      1, "Annotation", -1
-    ],
-    "TypeParams": [
-      "<", "TypeParams$1"
-    ],
-    "TypeParams$1": [
-      1, "l", "TypeParams$2"
-    ],
-    "TypeParams$2": [
-      1, "commaSep1", "TypeParams$3"
-    ],
-    "TypeParams$3": [
-      1, "l", "TypeParams$4"
-    ],
-    "TypeParams$4": [
-      ">", -1
-    ],
-    "Constructor": [
-      1, "Modifier", "Constructor$1",
-      3, "keyword", /^constructor(?![a-zA-Z¡-￿_0-9])/, "Constructor$2",
-      0, "Constructor$2"
-    ],
-    "Constructor$1": [
-      1, "l", "Constructor"
-    ],
-    "Constructor$2": [
-      1, "l", "Constructor$3"
-    ],
-    "Constructor$3": [
-      2, "ParamList", -1, {"name":"ParamList"}
-    ],
-    "commaSep1_4": [
-      1, "Modifier", "commaSep1_4$1",
-      1, "Type", "commaSep1_4$2"
-    ],
-    "commaSep1_4$1": [
-      1, "l", "commaSep1_4"
-    ],
-    "commaSep1_4$2": [
-      1, "l", "commaSep1_4$3"
-    ],
-    "commaSep1_4$3": [
-      3, "keyword", /^by(?![a-zA-Z¡-￿_0-9])/, "commaSep1_4$4",
-      2, "ArgList", "commaSep1_4$6", {"name":"ArgList"},
-      0, "commaSep1_4$6"
-    ],
-    "commaSep1_4$4": [
-      1, "l", "commaSep1_4$5"
-    ],
-    "commaSep1_4$5": [
-      1, "Expression", "commaSep1_4$6"
-    ],
-    "commaSep1_4$6": [
-      1, "s", "commaSep1_4$7"
-    ],
-    "commaSep1_4$7": [
-      ",", "commaSep1_4$8",
-      0, -1
-    ],
-    "commaSep1_4$8": [
-      1, "l", "commaSep1_4$9"
-    ],
-    "commaSep1_4$9": [
-      1, "Modifier", "commaSep1_4$10",
-      1, "Type", "commaSep1_4$11",
-      0, "commaSep1_4$7"
-    ],
-    "commaSep1_4$10": [
-      1, "l", "commaSep1_4$9"
-    ],
-    "commaSep1_4$11": [
-      1, "l", "commaSep1_4$12"
-    ],
-    "commaSep1_4$12": [
-      3, "keyword", /^by(?![a-zA-Z¡-￿_0-9])/, "commaSep1_4$13",
-      2, "ArgList", "commaSep1_4$14", {"name":"ArgList"},
-      0, "commaSep1_4$14"
-    ],
-    "commaSep1_4$13": [
-      1, "l", "commaSep1_4$15"
-    ],
-    "commaSep1_4$14": [
-      1, "s", "commaSep1_4$7"
-    ],
-    "commaSep1_4$15": [
-      1, "Expression", "commaSep1_4$14"
-    ],
-    "ClassBody": [
-      "{", "ClassBody$1"
-    ],
-    "ClassBody$1": [
-      1, "l", "ClassBody$2"
-    ],
-    "ClassBody$2": [
-      1, "Annotation", "ClassBody$3",
-      1, "Declaration", "ClassBody$3",
-      3, "keyword", /^companion(?![a-zA-Z¡-￿_0-9])/, "ClassBody$4",
-      3, "keyword", /^init(?![a-zA-Z¡-￿_0-9])/, "ClassBody$5",
-      3, "keyword", /^constructor(?![a-zA-Z¡-￿_0-9])/, "ClassBody$6",
-      1, "commaSep1_7", "ClassBody$7",
-      "}", -1
-    ],
-    "ClassBody$3": [
-      1, "l", "ClassBody$2"
-    ],
-    "ClassBody$4": [
-      1, "l", "ClassBody$8"
-    ],
-    "ClassBody$5": [
-      1, "l", "ClassBody$9"
-    ],
-    "ClassBody$6": [
-      1, "l", "ClassBody$10"
-    ],
-    "ClassBody$7": [
-      1, "l", "ClassBody$11"
-    ],
-    "ClassBody$8": [
-      3, "keyword", /^object(?![a-zA-Z¡-￿_0-9])/, "ClassBody$12"
-    ],
-    "ClassBody$9": [
-      2, "Block", "ClassBody$3", {"name":"Block"}
-    ],
-    "ClassBody$10": [
-      2, "ParamList", "ClassBody$13", {"name":"ParamList"}
-    ],
-    "ClassBody$11": [
-      ";", "ClassBody$3"
-    ],
-    "ClassBody$12": [
-      1, "l", "ClassBody$14"
-    ],
-    "ClassBody$13": [
-      1, "l", "ClassBody$15"
-    ],
-    "ClassBody$14": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)?/, "ClassBody$16"
-    ],
-    "ClassBody$15": [
-      ":", "ClassBody$17",
-      0, "ClassBody$18"
-    ],
-    "ClassBody$16": [
-      1, "l", "ClassBody$19"
-    ],
-    "ClassBody$17": [
-      1, "l", "ClassBody$20"
-    ],
-    "ClassBody$18": [
-      1, "l", "ClassBody$21"
-    ],
-    "ClassBody$19": [
-      ":", "ClassBody$22",
-      0, "ClassBody$23"
-    ],
-    "ClassBody$20": [
-      3, "keyword", /^this(?![a-zA-Z¡-￿_0-9])/, "ClassBody$24",
-      3, "keyword", /^super(?![a-zA-Z¡-￿_0-9])/, "ClassBody$24"
-    ],
-    "ClassBody$21": [
-      2, "Block", "ClassBody$3", {"name":"Block"},
-      0, "ClassBody$3"
-    ],
-    "ClassBody$22": [
-      1, "l", "ClassBody$25"
-    ],
-    "ClassBody$23": [
-      1, "l", "ClassBody$26"
-    ],
-    "ClassBody$24": [
-      1, "l", "ClassBody$27"
-    ],
-    "ClassBody$25": [
-      1, "commaSep1_4", "ClassBody$23"
-    ],
-    "ClassBody$26": [
-      2, "ClassBody", "ClassBody$3", {"name":"ClassBody"},
-      0, "ClassBody$3"
-    ],
-    "ClassBody$27": [
-      2, "ArgList", "ClassBody$18", {"name":"ArgList"}
-    ],
-    "FunctionSpec": [
-      2, "ParamList", "FunctionSpec$1", {"name":"ParamList"}
-    ],
-    "FunctionSpec$1": [
-      1, "l", "FunctionSpec$2"
-    ],
-    "FunctionSpec$2": [
-      ":", "FunctionSpec$3",
-      0, "FunctionSpec$5"
-    ],
-    "FunctionSpec$3": [
-      1, "l", "FunctionSpec$4"
-    ],
-    "FunctionSpec$4": [
-      1, "Type", "FunctionSpec$5"
-    ],
-    "FunctionSpec$5": [
-      1, "l", "FunctionSpec$6"
-    ],
-    "FunctionSpec$6": [
-      3, "keyword", /^where(?![a-zA-Z¡-￿_0-9])/, "FunctionSpec$7",
-      0, "FunctionSpec$9"
-    ],
-    "FunctionSpec$7": [
-      1, "l", "FunctionSpec$8"
-    ],
-    "FunctionSpec$8": [
-      1, "commaSep1_6", "FunctionSpec$9"
-    ],
-    "FunctionSpec$9": [
-      1, "l", "FunctionSpec$10"
-    ],
-    "FunctionSpec$10": [
-      2, "Block", -1, {"name":"Block"},
-      3, "operator", "=", "FunctionSpec$11"
-    ],
-    "FunctionSpec$11": [
-      1, "l", "FunctionSpec$12"
-    ],
-    "FunctionSpec$12": [
-      1, "Expression", -1
-    ],
-    "commaSep1_6": [
-      1, "Annotation", "commaSep1_6$1",
-      3, "variable", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1_6$2"
-    ],
-    "commaSep1_6$1": [
-      1, "l", "commaSep1_6"
-    ],
-    "commaSep1_6$2": [
-      1, "l", "commaSep1_6$3"
-    ],
-    "commaSep1_6$3": [
-      ":", "commaSep1_6$4"
-    ],
-    "commaSep1_6$4": [
-      1, "l", "commaSep1_6$5"
-    ],
-    "commaSep1_6$5": [
-      1, "Type", "commaSep1_6$6"
-    ],
-    "commaSep1_6$6": [
-      1, "s", "commaSep1_6$7"
-    ],
-    "commaSep1_6$7": [
-      ",", "commaSep1_6$8",
-      0, -1
-    ],
-    "commaSep1_6$8": [
-      1, "l", "commaSep1_6$9"
-    ],
-    "commaSep1_6$9": [
-      1, "Annotation", "commaSep1_6$10",
-      3, "variable", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1_6$11",
-      0, "commaSep1_6$7"
-    ],
-    "commaSep1_6$10": [
-      1, "l", "commaSep1_6$9"
-    ],
-    "commaSep1_6$11": [
-      1, "l", "commaSep1_6$12"
-    ],
-    "commaSep1_6$12": [
-      ":", "commaSep1_6$13"
-    ],
-    "commaSep1_6$13": [
-      1, "l", "commaSep1_6$14"
-    ],
-    "commaSep1_6$14": [
-      1, "Type", "commaSep1_6$15"
-    ],
-    "commaSep1_6$15": [
-      1, "s", "commaSep1_6$7"
-    ],
-    "Type": [
-      1, "Annotation", "Type$1",
-      3, "keyword", /^suspend(?![a-zA-Z¡-￿_0-9])/, "Type$1",
-      3, "keyword", /^dynamic(?![a-zA-Z¡-￿_0-9])/, "Type$16",
-      3, "type", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "Type$2",
-      [5, "_lookahead_1"], "Type$3",
-      "(", "Type$4"
-    ],
-    "Type$1": [
-      1, "l", "Type"
-    ],
-    "Type$2": [
-      1, "s", "Type$5"
-    ],
-    "Type$3": [
-      2, "ParamTypeList", "Type$6", {"name":"ParamTypeList"}
-    ],
-    "Type$4": [
-      1, "l", "Type$7"
-    ],
-    "Type$5": [
-      ".", "Type$8",
-      0, "Type$16"
-    ],
-    "Type$6": [
-      1, "l", "Type$9"
-    ],
-    "Type$7": [
-      1, "Type", "Type$10"
-    ],
-    "Type$8": [
-      1, "l", "Type$11"
-    ],
-    "Type$9": [
-      3, "operator", "->", "Type$12"
-    ],
-    "Type$10": [
-      1, "l", "Type$13"
-    ],
-    "Type$11": [
-      3, "type", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "Type$14"
-    ],
-    "Type$12": [
-      1, "l", "Type$15"
-    ],
-    "Type$13": [
-      ")", "Type$16"
-    ],
-    "Type$14": [
-      1, "s", "Type$5"
-    ],
-    "Type$15": [
-      1, "Type", "Type$16"
-    ],
-    "Type$16": [
-      1, "s", "Type$17"
-    ],
-    "Type$17": [
-      "?", "Type$18",
-      0, -1
-    ],
-    "Type$18": [
-      1, "s", "Type$17"
-    ],
-    "Getter": [
-      1, "Modifier", "Getter$1",
-      3, "keyword", /^get(?![a-zA-Z¡-￿_0-9])/, "Getter$2"
-    ],
-    "Getter$1": [
-      1, "l", "Getter"
-    ],
-    "Getter$2": [
-      1, "l", "Getter$3"
-    ],
-    "Getter$3": [
-      "(", "Getter$4",
-      0, "Getter$6"
-    ],
-    "Getter$4": [
-      1, "l", "Getter$5"
-    ],
-    "Getter$5": [
-      ")", "Getter$6"
-    ],
-    "Getter$6": [
-      1, "l", "Getter$7"
-    ],
-    "Getter$7": [
-      ":", "Getter$8",
-      0, "Getter$10"
-    ],
-    "Getter$8": [
-      1, "l", "Getter$9"
-    ],
-    "Getter$9": [
-      1, "Type", "Getter$10"
-    ],
-    "Getter$10": [
-      1, "l", "Getter$11"
-    ],
-    "Getter$11": [
-      2, "Block", -1, {"name":"Block"},
-      3, "operator", "=", "Getter$12"
-    ],
-    "Getter$12": [
-      1, "l", "Getter$13"
-    ],
-    "Getter$13": [
-      1, "Expression", -1
-    ],
-    "Setter": [
-      1, "Modifier", "Setter$1",
-      3, "keyword", /^set(?![a-zA-Z¡-￿_0-9])/, "Setter$2"
-    ],
-    "Setter$1": [
-      1, "l", "Setter"
-    ],
-    "Setter$2": [
-      1, "l", "Setter$3"
-    ],
-    "Setter$3": [
-      2, "ParamList", "Setter$4", {"name":"ParamList"},
-      0, "Setter$4"
-    ],
-    "Setter$4": [
-      1, "l", "Setter$5"
-    ],
-    "Setter$5": [
-      ":", "Setter$6",
-      0, "Setter$8"
-    ],
-    "Setter$6": [
-      1, "l", "Setter$7"
-    ],
-    "Setter$7": [
-      1, "Type", "Setter$8"
-    ],
-    "Setter$8": [
-      1, "l", "Setter$9"
-    ],
-    "Setter$9": [
-      2, "Block", -1, {"name":"Block"},
-      3, "operator", "=", "Setter$10"
-    ],
-    "Setter$10": [
-      1, "l", "Setter$11"
-    ],
-    "Setter$11": [
-      1, "Expression", -1
-    ],
-    "ExpressionInner": [
-      2, "ParenthesizedExpression", -1, {"name":"ParenthesizedExpression"},
-      3, "atom", /^(?:true|false|null)(?![a-zA-Z¡-￿_0-9])/, -1,
-      3, "number", /^(?:(?:0x|0X)[0-9_a-fA-F]+|(?:0b|0B)[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)[uU]?L?/, -1,
-      1, "string", -1,
-      3, "string-2", /^\'(?:\\.(?:(?!\').)*|.)\'/, -1,
-      2, "Lambda", -1, {"name":"Lambda"},
-      3, "keyword", /^object(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$1",
-      3, "keyword", /^fun(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$7",
-      3, "keyword", /^this(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$9",
-      3, "keyword", /^super(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$13",
-      3, "keyword", /^if(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$23",
-      3, "keyword", /^when(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$28",
-      3, "keyword", /^try(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$43",
-      3, "keyword", /^throw(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$46",
-      3, "keyword", /^return(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$48",
-      3, "keyword", /^(?:break|continue)(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$54",
-      2, "calleeClassName", -1, {"name":"calleeClassName","token":"callee"},
-      3, "type", /^[A-Z][a-zA-Z¡-￿_0-9]*/, -1,
-      3, "variable callee", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)(?= *\()/, -1,
-      3, "variable", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, -1
-    ],
-    "ExpressionInner$1": [
-      1, "l", "ExpressionInner$2"
-    ],
-    "ExpressionInner$2": [
-      ":", "ExpressionInner$3",
-      0, "ExpressionInner$4"
-    ],
-    "ExpressionInner$3": [
-      1, "l", "ExpressionInner$5"
-    ],
-    "ExpressionInner$4": [
-      2, "ClassBody", -1, {"name":"ClassBody"}
-    ],
-    "ExpressionInner$5": [
-      1, "commaSep1_4", "ExpressionInner$6"
-    ],
-    "ExpressionInner$6": [
-      1, "l", "ExpressionInner$4"
-    ],
-    "ExpressionInner$7": [
-      1, "l", "ExpressionInner$8"
-    ],
-    "ExpressionInner$8": [
-      2, "FunctionSpec", -1, {"name":"FunctionSpec"}
-    ],
-    "ExpressionInner$9": [
-      1, "s", "ExpressionInner$10"
-    ],
-    "ExpressionInner$10": [
-      "@", "ExpressionInner$11",
-      0, -1
-    ],
-    "ExpressionInner$11": [
-      1, "s", "ExpressionInner$12"
-    ],
-    "ExpressionInner$12": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, -1
-    ],
-    "ExpressionInner$13": [
-      1, "s", "ExpressionInner$14"
-    ],
-    "ExpressionInner$14": [
-      "<", "ExpressionInner$15",
-      0, "ExpressionInner$16"
-    ],
-    "ExpressionInner$15": [
-      1, "l", "ExpressionInner$17"
-    ],
-    "ExpressionInner$16": [
-      "@", "ExpressionInner$18",
-      0, -1
-    ],
-    "ExpressionInner$17": [
-      1, "Type", "ExpressionInner$19"
-    ],
-    "ExpressionInner$18": [
-      1, "s", "ExpressionInner$20"
-    ],
-    "ExpressionInner$19": [
-      1, "l", "ExpressionInner$21"
-    ],
-    "ExpressionInner$20": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, -1
-    ],
-    "ExpressionInner$21": [
-      ">", "ExpressionInner$22"
-    ],
-    "ExpressionInner$22": [
-      1, "s", "ExpressionInner$16"
-    ],
-    "ExpressionInner$23": [
-      1, "l", "ExpressionInner$24"
-    ],
-    "ExpressionInner$24": [
-      2, "ParenthesizedExpression", "ExpressionInner$25", {"name":"ParenthesizedExpression"}
-    ],
-    "ExpressionInner$25": [
-      1, "l", "ExpressionInner$26"
-    ],
-    "ExpressionInner$26": [
-      2, "Block", "ExpressionInner$27", {"name":"Block"},
-      2, "Statement", "ExpressionInner$27", {"name":"Statement"},
-      ";", "ExpressionInner$27"
-    ],
-    "ExpressionInner$27": [
-      2, "Alternative", -1, {"name":"Alternative"}
-    ],
-    "ExpressionInner$28": [
-      1, "l", "ExpressionInner$29"
-    ],
-    "ExpressionInner$29": [
-      "(", "ExpressionInner$30"
-    ],
-    "ExpressionInner$30": [
-      1, "l", "ExpressionInner$31"
-    ],
-    "ExpressionInner$31": [
-      1, "Annotation", "ExpressionInner$32",
-      3, "keyword", /^val(?![a-zA-Z¡-￿_0-9])/, "ExpressionInner$33",
-      0, "ExpressionInner$34"
-    ],
-    "ExpressionInner$32": [
-      1, "l", "ExpressionInner$31"
-    ],
-    "ExpressionInner$33": [
-      1, "l", "ExpressionInner$35"
-    ],
-    "ExpressionInner$34": [
-      1, "l", "ExpressionInner$36"
-    ],
-    "ExpressionInner$35": [
-      1, "VariableDeclaration", "ExpressionInner$37"
-    ],
-    "ExpressionInner$36": [
-      1, "Expression", "ExpressionInner$38"
-    ],
-    "ExpressionInner$37": [
-      1, "l", "ExpressionInner$39"
-    ],
-    "ExpressionInner$38": [
-      1, "l", "ExpressionInner$40"
-    ],
-    "ExpressionInner$39": [
-      3, "operator", "=", "ExpressionInner$34"
-    ],
-    "ExpressionInner$40": [
-      ")", "ExpressionInner$41"
-    ],
-    "ExpressionInner$41": [
-      1, "l", "ExpressionInner$42"
-    ],
-    "ExpressionInner$42": [
-      2, "WhenBody", -1, {"name":"WhenBody"}
-    ],
-    "ExpressionInner$43": [
-      1, "l", "ExpressionInner$44"
-    ],
-    "ExpressionInner$44": [
-      2, "Block", "ExpressionInner$45", {"name":"Block"}
-    ],
-    "ExpressionInner$45": [
-      2, "CatchFinally", -1, {"name":"CatchFinally"}
-    ],
-    "ExpressionInner$46": [
-      1, "s", "ExpressionInner$47"
-    ],
-    "ExpressionInner$47": [
-      1, "Expression", -1
-    ],
-    "ExpressionInner$48": [
-      1, "s", "ExpressionInner$49"
-    ],
-    "ExpressionInner$49": [
-      "@", "ExpressionInner$50",
-      0, "ExpressionInner$51"
-    ],
-    "ExpressionInner$50": [
-      1, "s", "ExpressionInner$52"
-    ],
-    "ExpressionInner$51": [
-      1, "Expression", -1,
-      0, -1
-    ],
-    "ExpressionInner$52": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "ExpressionInner$53"
-    ],
-    "ExpressionInner$53": [
-      1, "s", "ExpressionInner$51"
-    ],
-    "ExpressionInner$54": [
-      1, "s", "ExpressionInner$55"
-    ],
-    "ExpressionInner$55": [
-      "@", "ExpressionInner$56",
-      0, -1
-    ],
-    "ExpressionInner$56": [
-      1, "s", "ExpressionInner$57"
-    ],
-    "ExpressionInner$57": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, -1
-    ],
-    "_lookahead_13": [
-      2, "TypeArgs", -1, {"name":"TypeArgs"}
-    ],
-    "ArgList": [
-      "(", "ArgList$1"
-    ],
-    "ArgList$1": [
-      1, "l", "ArgList$2"
-    ],
-    "ArgList$2": [
-      1, "commaSep1_2", "ArgList$3",
-      0, "ArgList$3"
-    ],
-    "ArgList$3": [
-      1, "l", "ArgList$4"
-    ],
-    "ArgList$4": [
-      ")", -1
-    ],
-    "_lookahead_14": [
-      3, "keyword", /^else(?![a-zA-Z¡-￿_0-9])/, -1
-    ],
-    "TypeArgs": [
-      "<", "TypeArgs$1"
-    ],
-    "TypeArgs$1": [
-      1, "l", "TypeArgs$2"
-    ],
-    "TypeArgs$2": [
-      1, "commaSep1_9", "TypeArgs$3"
-    ],
-    "TypeArgs$3": [
-      1, "l", "TypeArgs$4"
-    ],
-    "TypeArgs$4": [
-      ">", -1
-    ],
-    "commaSep1_10": [
-      1, "Expression", "commaSep1_10$1"
-    ],
-    "commaSep1_10$1": [
-      1, "s", "commaSep1_10$2"
-    ],
-    "commaSep1_10$2": [
-      ",", "commaSep1_10$3",
-      0, -1
-    ],
-    "commaSep1_10$3": [
-      1, "l", "commaSep1_10$4"
-    ],
-    "commaSep1_10$4": [
-      1, "Expression", "commaSep1_10$5",
-      0, "commaSep1_10$2"
-    ],
-    "commaSep1_10$5": [
-      1, "s", "commaSep1_10$2"
-    ],
-    "commaSep1_3": [
-      1, "VariableDeclaration", "commaSep1_3$1"
-    ],
-    "commaSep1_3$1": [
-      1, "s", "commaSep1_3$2"
-    ],
-    "commaSep1_3$2": [
-      ",", "commaSep1_3$3",
-      0, -1
-    ],
-    "commaSep1_3$3": [
-      1, "l", "commaSep1_3$4"
-    ],
-    "commaSep1_3$4": [
-      1, "VariableDeclaration", "commaSep1_3$5",
-      0, "commaSep1_3$2"
-    ],
-    "commaSep1_3$5": [
-      1, "s", "commaSep1_3$2"
-    ],
-    "doccomment.tagContent": [
-      3, "attribute", "{", "doccomment.tagContent$1",
-      3, "attribute", /^(?:(?!\{|\}|\*\/).)+/, "doccomment.tagContent",
-      "\n", "doccomment.tagContent$2",
-      0, -1
-    ],
-    "doccomment.tagContent$1": [
-      1, "doccomment.tagContent", "doccomment.tagContent$3"
-    ],
-    "doccomment.tagContent$2": [
-      /^[\t ]*(?:\*(?!\/)[\t ]*)?/, "doccomment.tagContent"
-    ],
-    "doccomment.tagContent$3": [
-      /^(?=\*\/)/, "doccomment.tagContent",
-      3, "attribute", "}", "doccomment.tagContent"
-    ],
-    "_lookahead": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_lookahead$1"
-    ],
-    "_lookahead$1": [
-      1, "s", "_lookahead$2"
-    ],
-    "_lookahead$2": [
-      ":", -1
-    ],
-    "commaSep1": [
-      1, "Modifier", "commaSep1$1",
-      3, "type", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1$2"
-    ],
-    "commaSep1$1": [
-      1, "l", "commaSep1"
-    ],
-    "commaSep1$2": [
-      1, "l", "commaSep1$3"
-    ],
-    "commaSep1$3": [
-      ":", "commaSep1$4",
-      0, "commaSep1$6"
-    ],
-    "commaSep1$4": [
-      1, "l", "commaSep1$5"
-    ],
-    "commaSep1$5": [
-      1, "Type", "commaSep1$6"
-    ],
-    "commaSep1$6": [
-      1, "s", "commaSep1$7"
-    ],
-    "commaSep1$7": [
-      ",", "commaSep1$8",
-      0, -1
-    ],
-    "commaSep1$8": [
-      1, "l", "commaSep1$9"
-    ],
-    "commaSep1$9": [
-      1, "Modifier", "commaSep1$10",
-      3, "type", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1$11",
-      0, "commaSep1$7"
-    ],
-    "commaSep1$10": [
-      1, "l", "commaSep1$9"
-    ],
-    "commaSep1$11": [
-      1, "l", "commaSep1$12"
-    ],
-    "commaSep1$12": [
-      ":", "commaSep1$13",
-      0, "commaSep1$14"
-    ],
-    "commaSep1$13": [
-      1, "l", "commaSep1$15"
-    ],
-    "commaSep1$14": [
-      1, "s", "commaSep1$7"
-    ],
-    "commaSep1$15": [
-      1, "Type", "commaSep1$14"
-    ],
-    "ParamList": [
-      "(", "ParamList$1"
-    ],
-    "ParamList$1": [
-      1, "l", "ParamList$2"
-    ],
-    "ParamList$2": [
-      1, "commaSep1_5", "ParamList$3",
-      0, "ParamList$3"
-    ],
-    "ParamList$3": [
-      1, "l", "ParamList$4"
-    ],
-    "ParamList$4": [
-      ")", -1
-    ],
-    "commaSep1_7": [
-      1, "Modifier", "commaSep1_7$1",
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1_7$2"
-    ],
-    "commaSep1_7$1": [
-      1, "l", "commaSep1_7"
-    ],
-    "commaSep1_7$2": [
-      1, "l", "commaSep1_7$3"
-    ],
-    "commaSep1_7$3": [
-      2, "ArgList", "commaSep1_7$4", {"name":"ArgList"},
-      0, "commaSep1_7$4"
-    ],
-    "commaSep1_7$4": [
-      1, "l", "commaSep1_7$5"
-    ],
-    "commaSep1_7$5": [
-      2, "ClassBody", "commaSep1_7$6", {"name":"ClassBody"},
-      0, "commaSep1_7$6"
-    ],
-    "commaSep1_7$6": [
-      1, "s", "commaSep1_7$7"
-    ],
-    "commaSep1_7$7": [
-      ",", "commaSep1_7$8",
-      0, -1
-    ],
-    "commaSep1_7$8": [
-      1, "l", "commaSep1_7$9"
-    ],
-    "commaSep1_7$9": [
-      1, "Modifier", "commaSep1_7$10",
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1_7$11",
-      0, "commaSep1_7$7"
-    ],
-    "commaSep1_7$10": [
-      1, "l", "commaSep1_7$9"
-    ],
-    "commaSep1_7$11": [
-      1, "l", "commaSep1_7$12"
-    ],
-    "commaSep1_7$12": [
-      2, "ArgList", "commaSep1_7$13", {"name":"ArgList"},
-      0, "commaSep1_7$13"
-    ],
-    "commaSep1_7$13": [
-      1, "l", "commaSep1_7$14"
-    ],
-    "commaSep1_7$14": [
-      2, "ClassBody", "commaSep1_7$15", {"name":"ClassBody"},
-      0, "commaSep1_7$15"
-    ],
-    "commaSep1_7$15": [
-      1, "s", "commaSep1_7$7"
-    ],
-    "_lookahead_1": [
-      "(", "_lookahead_1$1"
-    ],
-    "_lookahead_1$1": [
-      1, "l", "_lookahead_1$2"
-    ],
-    "_lookahead_1$2": [
-      2, "AnnotationHead", -1, {"name":"AnnotationHead","token":"meta"},
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_lookahead_1$3"
-    ],
-    "_lookahead_1$3": [
-      1, "l", "_lookahead_1$4"
-    ],
-    "_lookahead_1$4": [
-      ")", "_lookahead_1$5",
-      ":", -1
-    ],
-    "_lookahead_1$5": [
-      1, "l", "_lookahead_1$6"
-    ],
-    "_lookahead_1$6": [
-      "->", -1
-    ],
-    "ParamTypeList": [
-      "(", "ParamTypeList$1"
-    ],
-    "ParamTypeList$1": [
-      1, "l", "ParamTypeList$2"
-    ],
-    "ParamTypeList$2": [
-      1, "commaSep1_1", "ParamTypeList$3",
-      0, "ParamTypeList$3"
-    ],
-    "ParamTypeList$3": [
-      1, "l", "ParamTypeList$4"
-    ],
-    "ParamTypeList$4": [
-      ")", -1
-    ],
-    "Lambda": [
-      "{", "Lambda$1"
-    ],
-    "Lambda$1": [
-      1, "l", "Lambda$2"
-    ],
-    "Lambda$2": [
-      [5, "_lookahead_5"], "Lambda$3",
-      0, "Lambda$6"
-    ],
-    "Lambda$3": [
-      1, "VariableDeclaration", "Lambda$4"
-    ],
-    "Lambda$4": [
-      1, "l", "Lambda$5"
-    ],
-    "Lambda$5": [
-      3, "operator", "->", "Lambda$6"
-    ],
-    "Lambda$6": [
-      1, "l", "Lambda$7"
-    ],
-    "Lambda$7": [
-      2, "Statement", "Lambda$8", {"name":"Statement"},
-      "}", -1
-    ],
-    "Lambda$8": [
-      1, "l", "Lambda$7"
-    ],
-    "calleeClassName": [
-      3, "type", /^[A-Z][a-zA-Z¡-￿_0-9]*/, -1
-    ],
-    "Alternative": [
-      [5, "_lookahead_6"], "Alternative$1",
-      0, -1
-    ],
-    "Alternative$1": [
-      1, "l", "Alternative$2"
-    ],
-    "Alternative$2": [
-      3, "keyword", /^else(?![a-zA-Z¡-￿_0-9])/, "Alternative$3"
-    ],
-    "Alternative$3": [
-      1, "l", "Alternative$4"
-    ],
-    "Alternative$4": [
-      2, "Block", -1, {"name":"Block"},
-      2, "Statement", -1, {"name":"Statement"},
-      ";", -1
-    ],
-    "WhenBody": [
-      "{", "WhenBody$1"
-    ],
-    "WhenBody$1": [
-      1, "l", "WhenBody$2"
-    ],
-    "WhenBody$2": [
-      3, "keyword", /^else(?![a-zA-Z¡-￿_0-9])/, "WhenBody$3",
-      1, "commaSep1_8", "WhenBody$3"
-    ],
-    "WhenBody$3": [
-      1, "l", "WhenBody$4"
-    ],
-    "WhenBody$4": [
-      3, "operator", "->", "WhenBody$5"
-    ],
-    "WhenBody$5": [
-      1, "l", "WhenBody$6"
-    ],
-    "WhenBody$6": [
-      2, "Block", "WhenBody$7", {"name":"Block"},
-      2, "Statement", "WhenBody$7", {"name":"Statement"},
-      ";", "WhenBody$7"
-    ],
-    "WhenBody$7": [
-      1, "l", "WhenBody$8"
-    ],
-    "WhenBody$8": [
-      "}", -1
-    ],
-    "CatchFinally": [
-      [5, "_lookahead_11"], "CatchFinally$1",
-      [5, "_lookahead_12"], "CatchFinally$16",
-      0, -1
-    ],
-    "CatchFinally$1": [
-      1, "l", "CatchFinally$2"
-    ],
-    "CatchFinally$2": [
-      3, "keyword", /^catch(?![a-zA-Z¡-￿_0-9])/, "CatchFinally$3"
-    ],
-    "CatchFinally$3": [
-      1, "l", "CatchFinally$4"
-    ],
-    "CatchFinally$4": [
-      "(", "CatchFinally$5"
-    ],
-    "CatchFinally$5": [
-      1, "l", "CatchFinally$6"
-    ],
-    "CatchFinally$6": [
-      1, "Annotation", "CatchFinally$7",
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "CatchFinally$8"
-    ],
-    "CatchFinally$7": [
-      1, "l", "CatchFinally$6"
-    ],
-    "CatchFinally$8": [
-      1, "l", "CatchFinally$9"
-    ],
-    "CatchFinally$9": [
-      ":", "CatchFinally$10"
-    ],
-    "CatchFinally$10": [
-      1, "l", "CatchFinally$11"
-    ],
-    "CatchFinally$11": [
-      1, "Type", "CatchFinally$12"
-    ],
-    "CatchFinally$12": [
-      1, "l", "CatchFinally$13"
-    ],
-    "CatchFinally$13": [
-      ")", "CatchFinally$14"
-    ],
-    "CatchFinally$14": [
-      1, "l", "CatchFinally$15"
-    ],
-    "CatchFinally$15": [
-      2, "Block", "CatchFinally", {"name":"Block"}
-    ],
-    "CatchFinally$16": [
-      1, "l", "CatchFinally$17"
-    ],
-    "CatchFinally$17": [
-      3, "keyword", /^finally(?![a-zA-Z¡-￿_0-9])/, "CatchFinally$18"
-    ],
-    "CatchFinally$18": [
-      1, "l", "CatchFinally$19"
-    ],
-    "CatchFinally$19": [
-      2, "Block", -1, {"name":"Block"}
-    ],
-    "commaSep1_2": [
-      1, "Annotation", "commaSep1_2$1",
-      [0, [5, "_lookahead_4"], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], "commaSep1_2$2",
-      0, "commaSep1_2$3"
-    ],
-    "commaSep1_2$1": [
-      1, "l", "commaSep1_2"
-    ],
-    "commaSep1_2$2": [
-      1, "l", "commaSep1_2$4"
-    ],
-    "commaSep1_2$3": [
-      1, "l", "commaSep1_2$5"
-    ],
-    "commaSep1_2$4": [
-      3, "operator", "=", "commaSep1_2$3"
-    ],
-    "commaSep1_2$5": [
-      /^\*?/, "commaSep1_2$6"
-    ],
-    "commaSep1_2$6": [
-      1, "l", "commaSep1_2$7"
-    ],
-    "commaSep1_2$7": [
-      1, "Expression", "commaSep1_2$8"
-    ],
-    "commaSep1_2$8": [
-      1, "s", "commaSep1_2$9"
-    ],
-    "commaSep1_2$9": [
-      ",", "commaSep1_2$10",
-      0, -1
-    ],
-    "commaSep1_2$10": [
-      1, "l", "commaSep1_2$11"
-    ],
-    "commaSep1_2$11": [
-      1, "Annotation", "commaSep1_2$12",
-      [0, [5, "_lookahead_15"], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], "commaSep1_2$13",
-      0, "commaSep1_2$14",
-      0, "commaSep1_2$9"
-    ],
-    "commaSep1_2$12": [
-      1, "l", "commaSep1_2$11"
-    ],
-    "commaSep1_2$13": [
-      1, "l", "commaSep1_2$15"
-    ],
-    "commaSep1_2$14": [
-      1, "l", "commaSep1_2$16"
-    ],
-    "commaSep1_2$15": [
-      3, "operator", "=", "commaSep1_2$14"
-    ],
-    "commaSep1_2$16": [
-      /^\*?/, "commaSep1_2$17"
-    ],
-    "commaSep1_2$17": [
-      1, "l", "commaSep1_2$18"
-    ],
-    "commaSep1_2$18": [
-      1, "Expression", "commaSep1_2$19"
-    ],
-    "commaSep1_2$19": [
-      1, "s", "commaSep1_2$9"
-    ],
-    "commaSep1_9": [
-      "*", "commaSep1_9$3",
-      0, "commaSep1_9$1"
-    ],
-    "commaSep1_9$1": [
-      1, "Annotation", "commaSep1_9$2",
-      3, "keyword", /^(?:in|out)(?![a-zA-Z¡-￿_0-9])/, "commaSep1_9$2",
-      1, "Type", "commaSep1_9$3"
-    ],
-    "commaSep1_9$2": [
-      1, "l", "commaSep1_9$1"
-    ],
-    "commaSep1_9$3": [
-      1, "s", "commaSep1_9$4"
-    ],
-    "commaSep1_9$4": [
-      ",", "commaSep1_9$5",
-      0, -1
-    ],
-    "commaSep1_9$5": [
-      1, "l", "commaSep1_9$6"
-    ],
-    "commaSep1_9$6": [
-      "*", "commaSep1_9$7",
-      0, "commaSep1_9$8",
-      0, "commaSep1_9$4"
-    ],
-    "commaSep1_9$7": [
-      1, "s", "commaSep1_9$4"
-    ],
-    "commaSep1_9$8": [
-      1, "Annotation", "commaSep1_9$9",
-      3, "keyword", /^(?:in|out)(?![a-zA-Z¡-￿_0-9])/, "commaSep1_9$9",
-      1, "Type", "commaSep1_9$7"
-    ],
-    "commaSep1_9$9": [
-      1, "l", "commaSep1_9$8"
-    ],
-    "commaSep1_5": [
-      1, "Modifier", "commaSep1_5$1",
-      3, "keyword", /^(?:val|var)(?![a-zA-Z¡-￿_0-9])/, "commaSep1_5$2",
-      0, "commaSep1_5$2"
-    ],
-    "commaSep1_5$1": [
-      1, "l", "commaSep1_5"
-    ],
-    "commaSep1_5$2": [
-      1, "l", "commaSep1_5$3"
-    ],
-    "commaSep1_5$3": [
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1_5$4"
-    ],
-    "commaSep1_5$4": [
-      1, "l", "commaSep1_5$5"
-    ],
-    "commaSep1_5$5": [
-      ":", "commaSep1_5$6",
-      0, "commaSep1_5$7"
-    ],
-    "commaSep1_5$6": [
-      1, "l", "commaSep1_5$8"
-    ],
-    "commaSep1_5$7": [
-      1, "l", "commaSep1_5$9"
-    ],
-    "commaSep1_5$8": [
-      1, "Type", "commaSep1_5$7"
-    ],
-    "commaSep1_5$9": [
-      3, "operator", "=", "commaSep1_5$10",
-      0, "commaSep1_5$12"
-    ],
-    "commaSep1_5$10": [
-      1, "l", "commaSep1_5$11"
-    ],
-    "commaSep1_5$11": [
-      1, "Expression", "commaSep1_5$12"
-    ],
-    "commaSep1_5$12": [
-      1, "s", "commaSep1_5$13"
-    ],
-    "commaSep1_5$13": [
-      ",", "commaSep1_5$14",
-      0, -1
-    ],
-    "commaSep1_5$14": [
-      1, "l", "commaSep1_5$15"
-    ],
-    "commaSep1_5$15": [
-      1, "Modifier", "commaSep1_5$16",
-      3, "keyword", /^(?:val|var)(?![a-zA-Z¡-￿_0-9])/, "commaSep1_5$17",
-      0, "commaSep1_5$17",
-      0, "commaSep1_5$13"
-    ],
-    "commaSep1_5$16": [
-      1, "l", "commaSep1_5$15"
-    ],
-    "commaSep1_5$17": [
-      1, "l", "commaSep1_5$18"
-    ],
-    "commaSep1_5$18": [
-      3, "def", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "commaSep1_5$19"
-    ],
-    "commaSep1_5$19": [
-      1, "l", "commaSep1_5$20"
-    ],
-    "commaSep1_5$20": [
-      ":", "commaSep1_5$21",
-      0, "commaSep1_5$22"
-    ],
-    "commaSep1_5$21": [
-      1, "l", "commaSep1_5$23"
-    ],
-    "commaSep1_5$22": [
-      1, "l", "commaSep1_5$24"
-    ],
-    "commaSep1_5$23": [
-      1, "Type", "commaSep1_5$22"
-    ],
-    "commaSep1_5$24": [
-      3, "operator", "=", "commaSep1_5$25",
-      0, "commaSep1_5$26"
-    ],
-    "commaSep1_5$25": [
-      1, "l", "commaSep1_5$27"
-    ],
-    "commaSep1_5$26": [
-      1, "s", "commaSep1_5$13"
-    ],
-    "commaSep1_5$27": [
-      1, "Expression", "commaSep1_5$26"
-    ],
-    "commaSep1_1": [
-      [0, [5, "_lookahead_2"], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], "commaSep1_1$1",
-      0, "commaSep1_1$2"
-    ],
-    "commaSep1_1$1": [
-      1, "l", "commaSep1_1$3"
-    ],
-    "commaSep1_1$2": [
-      1, "l", "commaSep1_1$4"
-    ],
-    "commaSep1_1$3": [
-      ":", "commaSep1_1$2"
-    ],
-    "commaSep1_1$4": [
-      1, "Type", "commaSep1_1$5"
-    ],
-    "commaSep1_1$5": [
-      1, "s", "commaSep1_1$6"
-    ],
-    "commaSep1_1$6": [
-      ",", "commaSep1_1$7",
-      0, -1
-    ],
-    "commaSep1_1$7": [
-      1, "l", "commaSep1_1$8"
-    ],
-    "commaSep1_1$8": [
-      [0, [5, "_lookahead_3"], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], "commaSep1_1$9",
-      0, "commaSep1_1$10",
-      0, "commaSep1_1$6"
-    ],
-    "commaSep1_1$9": [
-      1, "l", "commaSep1_1$11"
-    ],
-    "commaSep1_1$10": [
-      1, "l", "commaSep1_1$12"
-    ],
-    "commaSep1_1$11": [
-      ":", "commaSep1_1$10"
-    ],
-    "commaSep1_1$12": [
-      1, "Type", "commaSep1_1$13"
-    ],
-    "commaSep1_1$13": [
-      1, "s", "commaSep1_1$6"
-    ],
-    "_lookahead_5": [
-      1, "VariableDeclaration", "_lookahead_5$1"
-    ],
-    "_lookahead_5$1": [
-      1, "l", "_lookahead_5$2"
-    ],
-    "_lookahead_5$2": [
-      "->", -1
-    ],
-    "_lookahead_6": [
-      1, "l", "_lookahead_6$1"
-    ],
-    "_lookahead_6$1": [
-      3, "keyword", /^else(?![a-zA-Z¡-￿_0-9])/, -1
-    ],
-    "commaSep1_8": [
-      [5, "_lookahead_7"], "commaSep1_8$1",
-      [5, "_lookahead_8"], "commaSep1_8$2",
-      1, "Expression", "commaSep1_8$11"
-    ],
-    "commaSep1_8$1": [
-      3, "operator", "!", "commaSep1_8$3",
-      0, "commaSep1_8$3"
-    ],
-    "commaSep1_8$2": [
-      3, "operator", "!", "commaSep1_8$4",
-      0, "commaSep1_8$4"
-    ],
-    "commaSep1_8$3": [
-      1, "l", "commaSep1_8$5"
-    ],
-    "commaSep1_8$4": [
-      1, "l", "commaSep1_8$6"
-    ],
-    "commaSep1_8$5": [
-      3, "keyword", /^in(?![a-zA-Z¡-￿_0-9])/, "commaSep1_8$7"
-    ],
-    "commaSep1_8$6": [
-      3, "keyword", /^is(?![a-zA-Z¡-￿_0-9])/, "commaSep1_8$8"
-    ],
-    "commaSep1_8$7": [
-      1, "l", "commaSep1_8$9"
-    ],
-    "commaSep1_8$8": [
-      1, "l", "commaSep1_8$10"
-    ],
-    "commaSep1_8$9": [
-      1, "Expression", "commaSep1_8$11"
-    ],
-    "commaSep1_8$10": [
-      1, "Type", "commaSep1_8$11"
-    ],
-    "commaSep1_8$11": [
-      1, "s", "commaSep1_8$12"
-    ],
-    "commaSep1_8$12": [
-      ",", "commaSep1_8$13",
-      0, -1
-    ],
-    "commaSep1_8$13": [
-      1, "l", "commaSep1_8$14"
-    ],
-    "commaSep1_8$14": [
-      [5, "_lookahead_9"], "commaSep1_8$15",
-      [5, "_lookahead_10"], "commaSep1_8$16",
-      1, "Expression", "commaSep1_8$17",
-      0, "commaSep1_8$12"
-    ],
-    "commaSep1_8$15": [
-      3, "operator", "!", "commaSep1_8$18",
-      0, "commaSep1_8$18"
-    ],
-    "commaSep1_8$16": [
-      3, "operator", "!", "commaSep1_8$19",
-      0, "commaSep1_8$19"
-    ],
-    "commaSep1_8$17": [
-      1, "s", "commaSep1_8$12"
-    ],
-    "commaSep1_8$18": [
-      1, "l", "commaSep1_8$20"
-    ],
-    "commaSep1_8$19": [
-      1, "l", "commaSep1_8$21"
-    ],
-    "commaSep1_8$20": [
-      3, "keyword", /^in(?![a-zA-Z¡-￿_0-9])/, "commaSep1_8$22"
-    ],
-    "commaSep1_8$21": [
-      3, "keyword", /^is(?![a-zA-Z¡-￿_0-9])/, "commaSep1_8$23"
-    ],
-    "commaSep1_8$22": [
-      1, "l", "commaSep1_8$24"
-    ],
-    "commaSep1_8$23": [
-      1, "l", "commaSep1_8$25"
-    ],
-    "commaSep1_8$24": [
-      1, "Expression", "commaSep1_8$17"
-    ],
-    "commaSep1_8$25": [
-      1, "Type", "commaSep1_8$17"
-    ],
-    "_lookahead_11": [
-      1, "l", "_lookahead_11$1"
-    ],
-    "_lookahead_11$1": [
-      3, "keyword", /^catch(?![a-zA-Z¡-￿_0-9])/, -1
-    ],
-    "_lookahead_12": [
-      1, "l", "_lookahead_12$1"
-    ],
-    "_lookahead_12$1": [
-      3, "keyword", /^finally(?![a-zA-Z¡-￿_0-9])/, -1
-    ],
-    "_lookahead_4": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_lookahead_4$1"
-    ],
-    "_lookahead_4$1": [
-      1, "l", "_lookahead_4$2"
-    ],
-    "_lookahead_4$2": [
-      "=", -1
-    ],
-    "_lookahead_15": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_lookahead_15$1"
-    ],
-    "_lookahead_15$1": [
-      1, "l", "_lookahead_15$2"
-    ],
-    "_lookahead_15$2": [
-      "=", -1
-    ],
-    "_lookahead_2": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_lookahead_2$1"
-    ],
-    "_lookahead_2$1": [
-      1, "l", "_lookahead_2$2"
-    ],
-    "_lookahead_2$2": [
-      ":", -1
-    ],
-    "_lookahead_3": [
-      /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, "_lookahead_3$1"
-    ],
-    "_lookahead_3$1": [
-      1, "l", "_lookahead_3$2"
-    ],
-    "_lookahead_3$2": [
-      ":", -1
-    ],
-    "_lookahead_7": [
-      /^\!?/, "_lookahead_7$1"
-    ],
-    "_lookahead_7$1": [
-      1, "l", "_lookahead_7$2"
-    ],
-    "_lookahead_7$2": [
-      3, "keyword", /^in(?![a-zA-Z¡-￿_0-9])/, -1
-    ],
-    "_lookahead_8": [
-      /^\!?/, "_lookahead_8$1"
-    ],
-    "_lookahead_8$1": [
-      1, "l", "_lookahead_8$2"
-    ],
-    "_lookahead_8$2": [
-      3, "keyword", /^is(?![a-zA-Z¡-￿_0-9])/, -1
-    ],
-    "_lookahead_9": [
-      /^\!?/, "_lookahead_9$1"
-    ],
-    "_lookahead_9$1": [
-      1, "l", "_lookahead_9$2"
-    ],
-    "_lookahead_9$2": [
-      3, "keyword", /^in(?![a-zA-Z¡-￿_0-9])/, -1
-    ],
-    "_lookahead_10": [
-      /^\!?/, "_lookahead_10$1"
-    ],
-    "_lookahead_10$1": [
-      1, "l", "_lookahead_10$2"
-    ],
-    "_lookahead_10$2": [
-      3, "keyword", /^is(?![a-zA-Z¡-￿_0-9])/, -1
-    ]
-  };
-  var start = "_start";
-  var token = "_token";
+  var e = [/^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/, /^as(?![a-zA-Z¡-￿_0-9])/, /^package(?![a-zA-Z¡-￿_0-9])/, /^import(?![a-zA-Z¡-￿_0-9])/, /^[ \t\r]+/, /^for(?![a-zA-Z¡-￿_0-9])/, /^while(?![a-zA-Z¡-￿_0-9])/, /^do(?![a-zA-Z¡-￿_0-9])/, /^in(?![a-zA-Z¡-￿_0-9])/, /^class(?![a-zA-Z¡-￿_0-9])/, /^interface(?![a-zA-Z¡-￿_0-9])/, /^fun(?![a-zA-Z¡-￿_0-9])/, /^typealias(?![a-zA-Z¡-￿_0-9])/, /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)\@/, /^(?:\.\.|\?\:|[\+\-\*\/\%\<\>]\=?|[\!\=]\=\=?|\=|\&\&|\|\|)/, /^is(?![a-zA-Z¡-￿_0-9])/, [1, "\n", "\t", " "], /^[a-zA-Z0-9¡-￿_\.]+/, /^\@[a-zA-Z0-9¡-￿_]+/, [0, /^(?!\*\/|\{?\@[a-zA-Z0-9¡-￿_])/, /^[^]/], /^(?:enum|sealed|annotation|data|inner|override|lateinit|public|private|internal|protected|tailred|operator|infix|inline|external|extend|const|abstract|final|open|vararg|noinline|crossinline|reified|expect|actual)(?![a-zA-Z¡-￿_0-9])/, /^object(?![a-zA-Z¡-￿_0-9])/, /^(?:val|var)(?![a-zA-Z¡-￿_0-9])/, /^where(?![a-zA-Z¡-￿_0-9])/, /^(?:true|false|null)(?![a-zA-Z¡-￿_0-9])/, /^(?:(?:0x|0X)[0-9_a-fA-F]+|(?:0b|0B)[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)[uU]?L?/, /^\'(?:\\.(?:(?!\').)*|.)\'/, /^this(?![a-zA-Z¡-￿_0-9])/, /^it(?![a-zA-Z¡-￿_0-9])/, /^super(?![a-zA-Z¡-￿_0-9])/, /^if(?![a-zA-Z¡-￿_0-9])/, /^when(?![a-zA-Z¡-￿_0-9])/, /^try(?![a-zA-Z¡-￿_0-9])/, /^throw(?![a-zA-Z¡-￿_0-9])/, /^return(?![a-zA-Z¡-￿_0-9])/, /^(?:break|continue)(?![a-zA-Z¡-￿_0-9])/, /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)(?= *\()/, /^else(?![a-zA-Z¡-￿_0-9])/, /^dynamic(?![a-zA-Z¡-￿_0-9])/, /^by(?![a-zA-Z¡-￿_0-9])/, /^constructor(?![a-zA-Z¡-￿_0-9])/, /^catch(?![a-zA-Z¡-￿_0-9])/, /^finally(?![a-zA-Z¡-￿_0-9])/, /^(?:in|out)(?![a-zA-Z¡-￿_0-9])/, /^companion(?![a-zA-Z¡-￿_0-9])/, /^init(?![a-zA-Z¡-￿_0-9])/];
+  var nodes = [
+    [3, "meta", /^\#\!.*/, 2,
+     0, 2],
+    [/^[^]/, 0],
+    [1, 25, 3],
+    [3, "keyword", e[2], 4,
+     3, "keyword", e[3], 5,
+     2, 26, 6, {"name":"Statement"}],
+    [1, 25, 7],
+    [1, 25, 8],
+    [e[4], 6,
+     2, 52, 6, {"name":"comment","token":"comment"},
+     "\n", 6,
+     0, 9],
+    [3, "variable package", e[0], 10],
+    [3, "variable package", /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)(?= *\.)/, 11,
+     "*", 12,
+     3, "def", e[0], 13],
+    [0, 3,
+     0, 1],
+    [1, 57, 14],
+    [1, 57, 15],
+    [/^\;?/, 6],
+    [1, 57, 16],
+    [".", 17,
+     /^\;?/, 6],
+    [".", 18],
+    [3, "keyword", e[1], 19,
+     0, 12],
+    [1, 25, 20],
+    [1, 25, 8],
+    [1, 25, 21],
+    [3, "variable package", e[0], 22],
+    [3, "def", e[0], 23],
+    [1, 57, 14],
+    [1, 57, 12],
+    [3, "keyword", e[9], -1,
+     3, "keyword", e[10], -1,
+     3, "keyword", e[21], -1,
+     3, "keyword", e[40], -1,
+     3, "keyword", e[11], -1,
+     3, "keyword", e[12], -1,
+     3, "keyword", e[45], -1,
+     3, "keyword", e[44], -1,
+     3, "keyword", e[23], -1,
+     3, "keyword", e[34], -1,
+     3, "keyword", e[30], -1,
+     3, "keyword", e[37], -1,
+     3, "keyword", e[31], -1,
+     3, "keyword", e[5], -1,
+     3, "keyword", e[6], -1,
+     3, "keyword", e[7], -1,
+     3, "keyword", e[35], -1,
+     3, "keyword", e[8], -1,
+     3, "keyword", e[15], -1,
+     3, "keyword", e[1], -1,
+     3, "keyword", e[38], -1,
+     3, "keyword", e[20], -1,
+     3, "keyword", e[27], -1,
+     3, "variable-2", e[28], -1,
+     3, "keyword", e[29], -1,
+     3, "keyword", e[33], -1,
+     3, "keyword", e[32], -1,
+     3, "keyword", e[41], -1,
+     3, "keyword", e[42], -1,
+     3, "keyword", e[2], -1,
+     3, "keyword", e[3], -1,
+     3, "keyword", e[22], -1,
+     3, "atom", e[24], -1,
+     3, "number", e[25], -1,
+     1, 58, -1,
+     3, "string-2", e[26], -1,
+     3, "operator", e[14], -1,
+     2, 52, -1, {"name":"comment","token":"comment"},
+     /^[^]/, -1],
+    [e[4], 25,
+     2, 52, 25, {"name":"comment","token":"comment"},
+     "\n", 25,
+     0, -1],
+    [3, "meta", e[13], -1,
+     1, 73, -1,
+     1, 80, -1,
+     3, "keyword", e[5], 27,
+     3, "keyword", e[6], 40,
+     3, "keyword", e[7], 44,
+     1, 92, 50,
+     ";", -1],
+    [1, 25, 28],
+    ["(", 29],
+    [1, 25, 30],
+    [1, 73, 31,
+     1, 113, 32],
+    [1, 25, 30],
+    [1, 25, 33],
+    [3, "keyword", e[8], 34],
+    [1, 25, 35],
+    [1, 92, 36],
+    [1, 25, 37],
+    [")", 38],
+    [1, 25, 39],
+    [2, 124, -1, {"name":"Block"},
+     2, 26, -1, {"name":"Statement"}],
+    [1, 25, 41],
+    [2, 128, 42, {"name":"ParenthesizedExpression"}],
+    [1, 25, 43],
+    [2, 124, -1, {"name":"Block"},
+     2, 26, -1, {"name":"Statement"},
+     ";", -1],
+    [1, 25, 45],
+    [2, 124, 46, {"name":"Block"},
+     2, 26, 46, {"name":"Statement"}],
+    [1, 25, 47],
+    [3, "keyword", e[6], 48],
+    [1, 25, 49],
+    [2, 128, -1, {"name":"ParenthesizedExpression"}],
+    [1, 57, 51],
+    [/^\;?/, -1],
+    [/^\/\*\*(?!\/)/, 53,
+     "/*", 56,
+     /^\/\/.*/, -1],
+    [e[19], 54,
+     0, 55],
+    [0, 53,
+     0, 53],
+    [2, 133, 55, {"name":"doccomment.tagGroup"},
+     "*/", -1],
+    [[0, /^(?!\*\/)/, /^[^]/], 56,
+     "*/", -1],
+    [e[4], 57,
+     2, 52, 57, {"name":"comment","token":"comment"},
+     0, -1],
+    [3, "string", "\"\"\"", 59,
+     3, "string", "\"", 66],
+    [2, 144, 59, {"name":"str","token":"string"},
+     3, "string", "${", 60,
+     3, "string", "$", 61,
+     2, 146, 59, {"name":"str","token":"string"},
+     3, "string", "\"\"\"", -1],
+    [1, 25, 62],
+    [1, 25, 63],
+    [1, 92, 64],
+    [3, "variable", e[0], 59],
+    [1, 25, 65],
+    [3, "string", "}", 59],
+    [2, 144, 66, {"name":"str","token":"string"},
+     3, "string", "${", 67,
+     3, "string", "$", 68,
+     3, "string", /^(?:(?![\"\$\\]).)+/, 66,
+     3, "string", "\"", -1],
+    [1, 25, 69],
+    [1, 25, 70],
+    [1, 92, 71],
+    [3, "variable", e[0], 66],
+    [1, 25, 72],
+    [3, "string", "}", 66],
+    [2, 148, 74, {"name":"AnnotationHead","token":"meta"}],
+    [1, 25, 75],
+    [1, 153, -1,
+     "[", 76],
+    [1, 25, 77],
+    [1, 153, 78],
+    [1, 25, 79],
+    [0, 77,
+     "]", -1],
+    [1, 163, 81,
+     3, "keyword", e[9], 82,
+     3, "keyword", e[10], 82,
+     1, 164, -1,
+     3, "keyword", e[11], 83,
+     1, 173, -1,
+     3, "keyword", e[12], 84],
+    [1, 25, 80],
+    [1, 25, 85],
+    [1, 25, 86],
+    [1, 25, 87],
+    [3, "type def", e[0], 88],
+    [2, 200, -1, {"name":"FunctionDeclaration"}],
+    [3, "type def", e[0], 89],
+    [1, 25, 90],
+    [1, 25, 91],
+    [2, 205, -1, {"name":"ClassSpec"}],
+    [2, 218, -1, {"name":"TypeAliasSpec"}],
+    [3, "operator", /^(?:\+\+|\-\-|\+|\-|\!)/, 93,
+     3, "meta", e[13], 93,
+     1, 73, 93,
+     1, 225, 94],
+    [1, 25, 92],
+    [1, 57, 95],
+    [3, "operator", /^(?:\+\+|\-\-|\!\!)/, 96,
+     [5, 283], 97,
+     3, "operator", e[14], 98,
+     "!", 99,
+     0, 100,
+     3, "keyword", e[1], 101,
+     2, 284, 96, {"name":"ArgList"},
+     /^(?:\?\.|\.|\:\:)/, 102,
+     "[", 103,
+     3, "variable callee", [0, [6, 289], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], 104,
+     0, -1],
+    [1, 57, 95],
+    [2, 290, 96, {"name":"TypeArgs"}],
+    [1, 25, 105],
+    [1, 57, 100],
+    [3, "keyword", e[8], 98,
+     3, "keyword", e[15], 98],
+    [1, 57, 106],
+    [1, 25, 107],
+    [1, 25, 108],
+    [1, 25, 109],
+    [1, 225, 96],
+    ["?", 110,
+     0, 98],
+    [3, "keyword", e[9], 96,
+     3, "property callee", e[36], 96,
+     3, "property", e[0], 96,
+     2, 128, 96, {"name":"ParenthesizedExpression"}],
+    [1, 295, 111],
+    [1, 225, 96],
+    [1, 57, 98],
+    [1, 25, 112],
+    ["]", 96],
+    ["(", 114,
+     0, 118],
+    [1, 25, 115],
+    [1, 301, 116],
+    [1, 25, 117],
+    [")", -1],
+    [1, 73, 119,
+     3, "def", e[0], 120],
+    [1, 25, 118],
+    [1, 25, 121],
+    [":", 122,
+     0, -1],
+    [1, 25, 123],
+    [1, 307, -1],
+    ["{", 125],
+    [1, 25, 126],
+    [2, 26, 127, {"name":"Statement"},
+     "}", -1],
+    [1, 25, 126],
+    ["(", 129],
+    [1, 25, 130],
+    [1, 92, 131],
+    [1, 25, 132],
+    [")", -1],
+    [3, "tag", /^\@param(?![a-zA-Z0-9¡-￿_])/, 134,
+     3, "tag", /^\@(?:throws|exception)(?![a-zA-Z0-9¡-￿_])/, 135,
+     3, "tag", e[18], 142,
+     "{", 136],
+    [e[16], 134,
+     3, "def", e[17], 142,
+     "<", 137,
+     0, 142],
+    [e[16], 135,
+     3, "type", e[17], 142,
+     0, 142],
+    [3, "tag", e[18], 138],
+    [3, "type def", /^[a-zA-Z0-9¡-￿_]+/, 139],
+    [/^[\t ]*/, 140],
+    [">", 142],
+    [1, 330, 141],
+    ["}", 142],
+    [e[19], 143,
+     0, -1],
+    [0, 142,
+     0, 142],
+    ["\\", 145],
+    [/^[^]/, -1],
+    [[0, /^(?!\"\"\"|\$|\\)/, /^[^]/], 147],
+    [0, 146,
+     0, -1],
+    ["@", 149],
+    [1, 57, 150],
+    [[0, [5, 334], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], 151,
+     0, -1],
+    [1, 57, 152],
+    [":", -1],
+    [3, "meta", e[0], 154],
+    [1, 25, 155],
+    [2, 290, 156, {"name":"TypeArgs"},
+     0, 156],
+    [1, 25, 157],
+    [".", 158,
+     2, 284, -1, {"name":"ArgList"},
+     0, -1],
+    [1, 25, 159],
+    [3, "meta", e[0], 160],
+    [1, 25, 161],
+    [2, 290, 162, {"name":"TypeArgs"},
+     0, 162],
+    [1, 25, 157],
+    [3, "keyword", e[20], -1,
+     1, 73, -1],
+    [3, "keyword", e[21], 165],
+    [1, 25, 166],
+    [3, "def", e[0], 167],
+    [1, 25, 168],
+    [":", 169,
+     0, 171],
+    [1, 25, 170],
+    [1, 337, 171],
+    [1, 25, 172],
+    [2, 353, -1, {"name":"ClassBody"},
+     0, -1],
+    [3, "keyword", e[22], 174],
+    [1, 25, 175],
+    [2, 357, 176, {"name":"TypeParams"},
+     0, 176],
+    [1, 25, 177],
+    [1, 113, 178],
+    [1, 25, 179],
+    [3, "keyword", e[23], 180,
+     0, 182],
+    [1, 25, 181],
+    [1, 362, 182],
+    [1, 25, 183],
+    [3, "operator", "=", 184,
+     3, "keyword", e[39], 185,
+     0, 188],
+    [1, 25, 186],
+    [1, 25, 187],
+    [1, 92, 188],
+    [1, 92, 188],
+    [1, 25, 189],
+    [/^\;?/, 190],
+    [1, 25, 191],
+    [1, 378, 192,
+     1, 392, 193,
+     0, -1],
+    [1, 25, 194],
+    [1, 25, 195],
+    [";", 196,
+     0, -1],
+    [";", 197],
+    [1, 25, 198],
+    [1, 25, 199],
+    [1, 392, -1],
+    [1, 378, -1,
+     0, -1],
+    [2, 357, 201, {"name":"TypeParams"},
+     0, 201],
+    [1, 25, 202],
+    [3, "def", e[0], 203],
+    [1, 25, 204],
+    [2, 404, -1, {"name":"FunctionSpec"}],
+    [2, 357, 206, {"name":"TypeParams"},
+     0, 206],
+    [1, 25, 207],
+    [2, 417, 208, {"name":"Constructor"},
+     0, 208],
+    [1, 25, 209],
+    [":", 210,
+     0, 212],
+    [1, 25, 211],
+    [1, 337, 212],
+    [1, 25, 213],
+    [3, "keyword", e[23], 214,
+     0, 216],
+    [1, 25, 215],
+    [1, 362, 216],
+    [1, 25, 217],
+    [2, 353, -1, {"name":"ClassBody"},
+     0, -1],
+    [2, 357, 219, {"name":"TypeParams"},
+     0, 219],
+    [1, 25, 220],
+    [3, "operator", "=", 221],
+    [1, 25, 222],
+    [1, 307, 223],
+    [1, 25, 224],
+    [/^\;?/, -1],
+    [2, 128, -1, {"name":"ParenthesizedExpression"},
+     3, "atom", e[24], -1,
+     3, "number", e[25], -1,
+     1, 58, -1,
+     3, "string-2", e[26], -1,
+     2, 421, -1, {"name":"Lambda"},
+     3, "keyword", e[21], 226,
+     3, "keyword", e[11], 232,
+     3, "keyword", e[27], 234,
+     3, "variable-2", e[28], -1,
+     3, "keyword", e[29], 238,
+     3, "keyword", e[30], 248,
+     3, "keyword", e[31], 253,
+     3, "keyword", e[32], 268,
+     3, "keyword", e[33], 271,
+     3, "keyword", e[34], 273,
+     3, "keyword", e[35], 279,
+     2, 430, -1, {"name":"calleeClassName","token":"callee"},
+     3, "type", /^[A-Z][a-zA-Z¡-￿_0-9]*/, -1,
+     3, "variable callee", e[36], -1,
+     3, "variable", e[0], -1],
+    [1, 25, 227],
+    [":", 228,
+     0, 229],
+    [1, 25, 230],
+    [2, 353, -1, {"name":"ClassBody"}],
+    [1, 337, 231],
+    [1, 25, 229],
+    [1, 25, 233],
+    [2, 404, -1, {"name":"FunctionSpec"}],
+    [1, 57, 235],
+    ["@", 236,
+     0, -1],
+    [1, 57, 237],
+    [e[0], -1],
+    [1, 57, 239],
+    ["<", 240,
+     0, 241],
+    [1, 25, 242],
+    ["@", 243,
+     0, -1],
+    [1, 307, 244],
+    [1, 57, 245],
+    [1, 25, 246],
+    [e[0], -1],
+    [">", 247],
+    [1, 57, 241],
+    [1, 25, 249],
+    [2, 128, 250, {"name":"ParenthesizedExpression"}],
+    [1, 25, 251],
+    [2, 124, 252, {"name":"Block"},
+     2, 26, 252, {"name":"Statement"},
+     ";", 252],
+    [2, 431, -1, {"name":"Alternative"}],
+    [1, 25, 254],
+    ["(", 255],
+    [1, 25, 256],
+    [1, 73, 257,
+     3, "keyword", /^val(?![a-zA-Z¡-￿_0-9])/, 258,
+     0, 259],
+    [1, 25, 256],
+    [1, 25, 260],
+    [1, 25, 261],
+    [1, 113, 262],
+    [1, 92, 263],
+    [1, 25, 264],
+    [1, 25, 265],
+    [3, "operator", "=", 259],
+    [")", 266],
+    [1, 25, 267],
+    [2, 436, -1, {"name":"WhenBody"}],
+    [1, 25, 269],
+    [2, 124, 270, {"name":"Block"}],
+    [2, 445, -1, {"name":"CatchFinally"}],
+    [1, 57, 272],
+    [1, 92, -1],
+    [1, 57, 274],
+    ["@", 275,
+     0, 276],
+    [1, 57, 277],
+    [1, 92, -1,
+     0, -1],
+    [e[0], 278],
+    [1, 57, 276],
+    [1, 57, 280],
+    ["@", 281,
+     0, -1],
+    [1, 57, 282],
+    [e[0], -1],
+    [2, 290, -1, {"name":"TypeArgs"}],
+    ["(", 285],
+    [1, 25, 286],
+    [1, 465, 287,
+     0, 287],
+    [1, 25, 288],
+    [")", -1],
+    [3, "keyword", e[37], -1],
+    ["<", 291],
+    [1, 25, 292],
+    [1, 485, 293],
+    [1, 25, 294],
+    [">", -1],
+    [1, 92, 296],
+    [1, 57, 297],
+    [",", 298,
+     0, -1],
+    [1, 25, 299],
+    [1, 92, 300,
+     0, 297],
+    [1, 57, 297],
+    [1, 113, 302],
+    [1, 57, 303],
+    [",", 304,
+     0, -1],
+    [1, 25, 305],
+    [1, 113, 306,
+     0, 303],
+    [1, 57, 303],
+    [1, 73, 308,
+     3, "keyword", /^suspend(?![a-zA-Z¡-￿_0-9])/, 308,
+     3, "keyword", e[38], 327,
+     3, "type", e[0], 309,
+     [5, 495], 310,
+     "(", 311],
+    [1, 25, 307],
+    [1, 57, 312],
+    [2, 502, 313, {"name":"ParamTypeList"}],
+    [1, 25, 314],
+    [2, 290, 315, {"name":"TypeArgs"},
+     0, 316],
+    [1, 25, 317],
+    [1, 307, 318],
+    [1, 57, 316],
+    [".", 319,
+     0, 327],
+    [3, "operator", "->", 320],
+    [1, 25, 321],
+    [1, 25, 322],
+    [1, 25, 323],
+    [")", 327],
+    [3, "type", e[0], 324],
+    [1, 307, 327],
+    [1, 57, 325],
+    [2, 290, 326, {"name":"TypeArgs"},
+     0, 316],
+    [1, 57, 316],
+    [1, 57, 328],
+    ["?", 329,
+     0, -1],
+    [1, 57, 328],
+    [3, "attribute", "{", 331,
+     3, "attribute", /^(?:(?!\{|\}|\*\/).)+/, 330,
+     "\n", 332,
+     0, -1],
+    [1, 330, 333],
+    [/^[\t ]*(?:\*(?!\/)[\t ]*)?/, 330],
+    [/^(?=\*\/)/, 330,
+     3, "attribute", "}", 330],
+    [e[0], 335],
+    [1, 57, 336],
+    [":", -1],
+    [1, 163, 338,
+     1, 307, 339],
+    [1, 25, 337],
+    [1, 25, 340],
+    [3, "keyword", e[39], 341,
+     2, 284, 343, {"name":"ArgList"},
+     0, 343],
+    [1, 25, 342],
+    [1, 92, 343],
+    [1, 57, 344],
+    [",", 345,
+     0, -1],
+    [1, 25, 346],
+    [1, 163, 347,
+     1, 307, 348,
+     0, 344],
+    [1, 25, 346],
+    [1, 25, 349],
+    [3, "keyword", e[39], 350,
+     2, 284, 351, {"name":"ArgList"},
+     0, 351],
+    [1, 25, 352],
+    [1, 57, 344],
+    [1, 92, 351],
+    ["{", 354],
+    [1, 25, 355],
+    [2, 507, 356, {"name":"ClassItem"},
+     "}", -1],
+    [1, 25, 355],
+    ["<", 358],
+    [1, 25, 359],
+    [1, 538, 360],
+    [1, 25, 361],
+    [">", -1],
+    [1, 73, 363,
+     3, "variable", e[0], 364],
+    [1, 25, 362],
+    [1, 25, 365],
+    [":", 366],
+    [1, 25, 367],
+    [1, 307, 368],
+    [1, 57, 369],
+    [",", 370,
+     0, -1],
+    [1, 25, 371],
+    [1, 73, 372,
+     3, "variable", e[0], 373,
+     0, 369],
+    [1, 25, 371],
+    [1, 25, 374],
+    [":", 375],
+    [1, 25, 376],
+    [1, 307, 377],
+    [1, 57, 369],
+    [1, 163, 379,
+     3, "keyword", /^get(?![a-zA-Z¡-￿_0-9])/, 380],
+    [1, 25, 378],
+    [1, 25, 381],
+    ["(", 382,
+     0, 384],
+    [1, 25, 383],
+    [")", 384],
+    [1, 25, 385],
+    [":", 386,
+     0, 388],
+    [1, 25, 387],
+    [1, 307, 388],
+    [1, 25, 389],
+    [2, 124, -1, {"name":"Block"},
+     3, "operator", "=", 390],
+    [1, 25, 391],
+    [1, 92, -1],
+    [1, 163, 393,
+     3, "keyword", /^set(?![a-zA-Z¡-￿_0-9])/, 394],
+    [1, 25, 392],
+    [1, 25, 395],
+    [2, 554, 396, {"name":"ParamList"},
+     0, 396],
+    [1, 25, 397],
+    [":", 398,
+     0, 400],
+    [1, 25, 399],
+    [1, 307, 400],
+    [1, 25, 401],
+    [2, 124, -1, {"name":"Block"},
+     3, "operator", "=", 402],
+    [1, 25, 403],
+    [1, 92, -1],
+    [2, 554, 405, {"name":"ParamList"}],
+    [1, 25, 406],
+    [":", 407,
+     0, 409],
+    [1, 25, 408],
+    [1, 307, 409],
+    [1, 25, 410],
+    [3, "keyword", e[23], 411,
+     0, 413],
+    [1, 25, 412],
+    [1, 362, 413],
+    [1, 25, 414],
+    [2, 124, -1, {"name":"Block"},
+     3, "operator", "=", 415],
+    [1, 25, 416],
+    [1, 92, -1],
+    [1, 163, 418,
+     3, "keyword", e[40], 419,
+     0, 419],
+    [1, 25, 417],
+    [1, 25, 420],
+    [2, 559, -1, {"name":"ConstructorParamList"}],
+    ["{", 422],
+    [1, 25, 423],
+    [[5, 564], 424,
+     0, 427],
+    [1, 567, 425],
+    [1, 25, 426],
+    [3, "operator", "->", 427],
+    [1, 25, 428],
+    [2, 26, 429, {"name":"Statement"},
+     "}", -1],
+    [1, 25, 428],
+    [3, "type", /^[A-Z][a-zA-Z¡-￿_0-9]*(?= *\()/, -1],
+    [[5, 581], 432,
+     0, -1],
+    [1, 25, 433],
+    [3, "keyword", e[37], 434],
+    [1, 25, 435],
+    [2, 124, -1, {"name":"Block"},
+     2, 26, -1, {"name":"Statement"},
+     ";", -1],
+    ["{", 437],
+    [1, 25, 438],
+    [3, "keyword", e[37], 439,
+     1, 583, 439],
+    [1, 25, 440],
+    [3, "operator", "->", 441],
+    [1, 25, 442],
+    [2, 124, 443, {"name":"Block"},
+     2, 26, 443, {"name":"Statement"},
+     ";", 443],
+    [1, 25, 444],
+    ["}", -1],
+    [[5, 609], 446,
+     [5, 611], 461,
+     0, -1],
+    [1, 25, 447],
+    [3, "keyword", e[41], 448],
+    [1, 25, 449],
+    ["(", 450],
+    [1, 25, 451],
+    [1, 73, 452,
+     3, "def", e[0], 453],
+    [1, 25, 451],
+    [1, 25, 454],
+    [":", 455],
+    [1, 25, 456],
+    [1, 307, 457],
+    [1, 25, 458],
+    [")", 459],
+    [1, 25, 460],
+    [2, 124, 445, {"name":"Block"}],
+    [1, 25, 462],
+    [3, "keyword", e[42], 463],
+    [1, 25, 464],
+    [2, 124, -1, {"name":"Block"}],
+    [1, 73, 466,
+     [0, [5, 613], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], 467,
+     0, 468],
+    [1, 25, 465],
+    [1, 25, 469],
+    [1, 25, 470],
+    [3, "operator", "=", 468],
+    [/^\*?/, 471],
+    [1, 25, 472],
+    [1, 92, 473],
+    [1, 57, 474],
+    [",", 475,
+     0, -1],
+    [1, 25, 476],
+    [1, 73, 477,
+     [0, [5, 616], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], 478,
+     0, 479,
+     0, 474],
+    [1, 25, 476],
+    [1, 25, 480],
+    [1, 25, 481],
+    [3, "operator", "=", 479],
+    [/^\*?/, 482],
+    [1, 25, 483],
+    [1, 92, 484],
+    [1, 57, 474],
+    ["*", 488,
+     0, 486],
+    [1, 73, 487,
+     3, "keyword", e[43], 487,
+     1, 307, 488],
+    [1, 25, 486],
+    [1, 57, 489],
+    [",", 490,
+     0, -1],
+    [1, 25, 491],
+    ["*", 492,
+     0, 493,
+     0, 489],
+    [1, 57, 489],
+    [1, 73, 494,
+     3, "keyword", e[43], 494,
+     1, 307, 492],
+    [1, 25, 493],
+    ["(", 496],
+    [1, 25, 497],
+    [2, 148, -1, {"name":"AnnotationHead","token":"meta"},
+     e[0], 498],
+    [1, 25, 499],
+    [")", 500,
+     ":", -1],
+    [1, 25, 501],
+    ["->", -1],
+    ["(", 503],
+    [1, 25, 504],
+    [1, 619, 505,
+     0, 505],
+    [1, 25, 506],
+    [")", -1],
+    [1, 73, -1,
+     1, 633, -1,
+     3, "keyword", e[44], 508,
+     3, "keyword", e[45], 518,
+     3, "keyword", e[40], 520,
+     0, 530],
+    [1, 25, 509],
+    [3, "keyword", e[21], 510],
+    [1, 25, 511],
+    [/^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)?/, 512],
+    [1, 25, 513],
+    [":", 514,
+     0, 515],
+    [1, 25, 516],
+    [1, 25, 517],
+    [1, 337, 515],
+    [2, 353, -1, {"name":"ClassBody"},
+     0, -1],
+    [1, 25, 519],
+    [2, 124, -1, {"name":"Block"}],
+    [1, 25, 521],
+    [2, 554, 522, {"name":"ParamList"}],
+    [1, 25, 523],
+    [":", 524,
+     0, 525],
+    [1, 25, 526],
+    [1, 25, 527],
+    [3, "keyword", e[27], 528,
+     3, "keyword", e[29], 528],
+    [2, 124, -1, {"name":"Block"},
+     0, -1],
+    [1, 25, 529],
+    [2, 284, 525, {"name":"ArgList"}],
+    [1, 163, 531,
+     3, "def property", e[0], 532],
+    [1, 25, 530],
+    [1, 25, 533],
+    [2, 284, 534, {"name":"ArgList"},
+     0, 534],
+    [1, 25, 535],
+    [2, 353, 536, {"name":"ClassBody"},
+     0, 536],
+    [1, 25, 537],
+    [/^[\,\;]/, -1],
+    [1, 163, 539,
+     3, "type def", e[0], 540],
+    [1, 25, 538],
+    [1, 25, 541],
+    [":", 542,
+     0, 544],
+    [1, 25, 543],
+    [1, 307, 544],
+    [1, 57, 545],
+    [",", 546,
+     0, -1],
+    [1, 25, 547],
+    [1, 163, 548,
+     3, "type def", e[0], 549,
+     0, 545],
+    [1, 25, 547],
+    [1, 25, 550],
+    [":", 551,
+     0, 552],
+    [1, 25, 553],
+    [1, 57, 545],
+    [1, 307, 552],
+    ["(", 555],
+    [1, 25, 556],
+    [1, 645, 557,
+     0, 557],
+    [1, 25, 558],
+    [")", -1],
+    ["(", 560],
+    [1, 25, 561],
+    [1, 669, 562,
+     0, 562],
+    [1, 25, 563],
+    [")", -1],
+    [1, 567, 565],
+    [1, 25, 566],
+    [3, "operator", "->", -1],
+    [3, "def", e[0], 568],
+    [1, 25, 569],
+    [":", 570,
+     0, 572],
+    [1, 25, 571],
+    [1, 307, 572],
+    [1, 57, 573],
+    [",", 574,
+     0, -1],
+    [1, 25, 575],
+    [3, "def", e[0], 576,
+     0, 573],
+    [1, 25, 577],
+    [":", 578,
+     0, 579],
+    [1, 25, 580],
+    [1, 57, 573],
+    [1, 307, 579],
+    [1, 25, 582],
+    [3, "keyword", e[37], -1],
+    [[5, 697], 584,
+     [5, 700], 585,
+     1, 92, 594],
+    [3, "operator", "!", 586,
+     0, 586],
+    [3, "operator", "!", 587,
+     0, 587],
+    [1, 25, 588],
+    [1, 25, 589],
+    [3, "keyword", e[8], 590],
+    [3, "keyword", e[15], 591],
+    [1, 25, 592],
+    [1, 25, 593],
+    [1, 92, 594],
+    [1, 307, 594],
+    [1, 57, 595],
+    [",", 596,
+     0, -1],
+    [1, 25, 597],
+    [[5, 703], 598,
+     [5, 706], 599,
+     1, 92, 600,
+     0, 595],
+    [3, "operator", "!", 601,
+     0, 601],
+    [3, "operator", "!", 602,
+     0, 602],
+    [1, 57, 595],
+    [1, 25, 603],
+    [1, 25, 604],
+    [3, "keyword", e[8], 605],
+    [3, "keyword", e[15], 606],
+    [1, 25, 607],
+    [1, 25, 608],
+    [1, 92, 600],
+    [1, 307, 600],
+    [1, 25, 610],
+    [3, "keyword", e[41], -1],
+    [1, 25, 612],
+    [3, "keyword", e[42], -1],
+    [e[0], 614],
+    [1, 25, 615],
+    ["=", -1],
+    [e[0], 617],
+    [1, 25, 618],
+    ["=", -1],
+    [[0, [5, 709], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], 620,
+     0, 621],
+    [1, 25, 622],
+    [1, 25, 623],
+    [":", 621],
+    [1, 307, 624],
+    [1, 57, 625],
+    [",", 626,
+     0, -1],
+    [1, 25, 627],
+    [[0, [5, 712], /^(?:[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*|\`(?:(?!\`).)+\`)/], 628,
+     0, 629,
+     0, 625],
+    [1, 25, 630],
+    [1, 25, 631],
+    [":", 629],
+    [1, 307, 632],
+    [1, 57, 625],
+    [1, 163, 634,
+     3, "keyword", e[9], 635,
+     3, "keyword", e[10], 635,
+     1, 715, -1,
+     3, "keyword", e[11], 636,
+     1, 724, -1,
+     3, "keyword", e[12], 637],
+    [1, 25, 633],
+    [1, 25, 638],
+    [1, 25, 639],
+    [1, 25, 640],
+    [3, "type def", e[0], 641],
+    [2, 751, -1, {"name":"FunctionDeclaration"}],
+    [3, "type def", e[0], 642],
+    [1, 25, 643],
+    [1, 25, 644],
+    [2, 205, -1, {"name":"ClassSpec"}],
+    [2, 218, -1, {"name":"TypeAliasSpec"}],
+    [1, 163, 646,
+     3, "def", e[0], 647],
+    [1, 25, 645],
+    [1, 25, 648],
+    [":", 649,
+     0, 650],
+    [1, 25, 651],
+    [1, 25, 652],
+    [1, 307, 650],
+    [3, "operator", "=", 653,
+     0, 655],
+    [1, 25, 654],
+    [1, 92, 655],
+    [1, 57, 656],
+    [",", 657,
+     0, -1],
+    [1, 25, 658],
+    [1, 163, 659,
+     3, "def", e[0], 660,
+     0, 656],
+    [1, 25, 658],
+    [1, 25, 661],
+    [":", 662,
+     0, 663],
+    [1, 25, 664],
+    [1, 25, 665],
+    [1, 307, 663],
+    [3, "operator", "=", 666,
+     0, 667],
+    [1, 25, 668],
+    [1, 57, 656],
+    [1, 92, 667],
+    [1, 163, 670,
+     3, "keyword", e[22], 671,
+     3, "def", e[0], 672],
+    [1, 25, 669],
+    [1, 25, 673],
+    [1, 25, 674],
+    [3, "def property", e[0], 672],
+    [":", 675,
+     0, 676],
+    [1, 25, 677],
+    [1, 25, 678],
+    [1, 307, 676],
+    [3, "operator", "=", 679,
+     0, 681],
+    [1, 25, 680],
+    [1, 92, 681],
+    [1, 57, 682],
+    [",", 683,
+     0, -1],
+    [1, 25, 684],
+    [1, 163, 685,
+     3, "keyword", e[22], 686,
+     3, "def", e[0], 687,
+     0, 682],
+    [1, 25, 684],
+    [1, 25, 688],
+    [1, 25, 689],
+    [3, "def property", e[0], 687],
+    [":", 690,
+     0, 691],
+    [1, 25, 692],
+    [1, 25, 693],
+    [1, 307, 691],
+    [3, "operator", "=", 694,
+     0, 695],
+    [1, 25, 696],
+    [1, 57, 682],
+    [1, 92, 695],
+    [/^\!?/, 698],
+    [1, 25, 699],
+    [3, "keyword", e[8], -1],
+    [/^\!?/, 701],
+    [1, 25, 702],
+    [3, "keyword", e[15], -1],
+    [/^\!?/, 704],
+    [1, 25, 705],
+    [3, "keyword", e[8], -1],
+    [/^\!?/, 707],
+    [1, 25, 708],
+    [3, "keyword", e[15], -1],
+    [e[0], 710],
+    [1, 25, 711],
+    [":", -1],
+    [e[0], 713],
+    [1, 25, 714],
+    [":", -1],
+    [3, "keyword", e[21], 716],
+    [1, 25, 717],
+    [3, "def property", e[0], 718],
+    [1, 25, 719],
+    [":", 720,
+     0, 722],
+    [1, 25, 721],
+    [1, 337, 722],
+    [1, 25, 723],
+    [2, 353, -1, {"name":"ClassBody"},
+     0, -1],
+    [3, "keyword", e[22], 725],
+    [1, 25, 726],
+    [2, 357, 727, {"name":"TypeParams"},
+     0, 727],
+    [1, 25, 728],
+    [1, 756, 729],
+    [1, 25, 730],
+    [3, "keyword", e[23], 731,
+     0, 733],
+    [1, 25, 732],
+    [1, 362, 733],
+    [1, 25, 734],
+    [3, "operator", "=", 735,
+     3, "keyword", e[39], 736,
+     0, 739],
+    [1, 25, 737],
+    [1, 25, 738],
+    [1, 92, 739],
+    [1, 92, 739],
+    [1, 25, 740],
+    [/^\;?/, 741],
+    [1, 25, 742],
+    [1, 378, 743,
+     1, 392, 744,
+     0, -1],
+    [1, 25, 745],
+    [1, 25, 746],
+    [";", 747,
+     0, -1],
+    [";", 748],
+    [1, 25, 749],
+    [1, 25, 750],
+    [1, 392, -1],
+    [1, 378, -1,
+     0, -1],
+    [2, 357, 752, {"name":"TypeParams"},
+     0, 752],
+    [1, 25, 753],
+    [3, "def property", e[0], 754],
+    [1, 25, 755],
+    [2, 404, -1, {"name":"FunctionSpec"}],
+    ["(", 757,
+     0, 761],
+    [1, 25, 758],
+    [1, 767, 759],
+    [1, 25, 760],
+    [")", -1],
+    [1, 73, 762,
+     3, "def property", e[0], 763],
+    [1, 25, 761],
+    [1, 25, 764],
+    [":", 765,
+     0, -1],
+    [1, 25, 766],
+    [1, 307, -1],
+    [1, 756, 768],
+    [1, 57, 769],
+    [",", 770,
+     0, -1],
+    [1, 25, 771],
+    [1, 756, 772,
+     0, 769],
+    [1, 57, 769]
+  ];
+  var start = 0;
+  var token = 24;
 
   var grammar = /*#__PURE__*/Object.freeze({
     nodes: nodes,
@@ -2283,6 +1125,11 @@
       { if (cx.locals && cx.locals.indexOf(name) > -1) { return true } }
     return false
   }
+  function isLocalType(context, name) {
+    for (var cx = context; cx; cx = cx.parent)
+      { if (cx.localTypes && cx.localTypes.indexOf(name) > -1) { return true } }
+    return false
+  }
 
   var varRE = /(^|\s)variable($|\s)/;
 
@@ -2297,6 +1144,22 @@
     } else if (varRE.test(type) && !/qualified/.test(type) &&
                isLocal(state.context, stream.current())) {
       type = type.replace(varRE, "$1variable-2$2");
+    }
+    return type
+  }
+
+  var typeRE = /(^|\s)type($|\s)/;
+
+  function markTypeLocals(type, scopes, stream, state) {
+    if (type == "type def") {
+      var scope = getScope(state.context, scopes);
+      if (scope) {
+        if (!scope.localTypes) { scope.localTypes = []; }
+        scope.localTypes.push(stream.current());
+      }
+    } else if (typeRE.test(type) && !/qualifie[rd]/.test(type) &&
+               isLocalType(state.context, stream.current())) {
+      type += " local";
     }
     return type
   }
@@ -2325,7 +1188,7 @@
     ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
     ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
     ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
-    ParenthesizedExpression: ")",
+    ParenthesizedExpression: ")", ConstructorParamList: ")",
     TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
   };
 
@@ -2409,7 +1272,8 @@
     return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, config)
   }
 
-  var scopes = ["Block", "FunctionSpec", "Lambda", "Constructor", "ForStatement", "CatchFinally"];
+  var scopes = ["Block", "FunctionSpec", "Lambda", "ClassSpec", "TypeAliasSpec", "ForStatement", "CatchFinally"];
+  var typeScopes = ["FunctionDeclaration", "ClassSpec", "TypeAliasSpec"];
 
   var KotlinMode = (function (superclass) {
     function KotlinMode(conf, modeConf) {
@@ -2422,7 +1286,7 @@
     KotlinMode.prototype.constructor = KotlinMode;
 
     KotlinMode.prototype.token = function token$$1 (stream, state) {
-      return markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state)
+      return markTypeLocals(markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state), typeScopes, stream, state)
     };
 
     KotlinMode.prototype.indent = function indent$1 (state, textAfter, line) {

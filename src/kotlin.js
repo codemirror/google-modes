@@ -1,10 +1,11 @@
 import * as CodeMirror from "codemirror"
 import "codemirror-grammar-mode"
 import * as grammar from "./kotlin.mode"
-import {markLocals} from "./locals"
+import {markLocals, markTypeLocals} from "./locals"
 import {indent} from "./c_indent"
 
-const scopes = ["Block", "FunctionSpec", "Lambda", "Constructor", "ForStatement", "CatchFinally"]
+const scopes = ["Block", "FunctionSpec", "Lambda", "ClassSpec", "TypeAliasSpec", "ForStatement", "CatchFinally"]
+const typeScopes = ["FunctionDeclaration", "ClassSpec", "TypeAliasSpec"]
 
 class KotlinMode extends CodeMirror.GrammarMode {
   constructor(conf, modeConf) {
@@ -13,7 +14,7 @@ class KotlinMode extends CodeMirror.GrammarMode {
   }
 
   token(stream, state) {
-    return markLocals(super.token(stream, state), scopes, stream, state)
+    return markTypeLocals(markLocals(super.token(stream, state), scopes, stream, state), typeScopes, stream, state)
   }
 
   indent(state, textAfter, line) {

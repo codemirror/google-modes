@@ -5,32 +5,36 @@ start top {
 }
 
 skip l {
-  Declaration {
+  Declaration(defName) {
     Modifier* (
-      ClassDeclaration |
-      ObjectDeclaration |
-      fun TypeParams? declName FunctionSpec |
-      PropertyDeclaration |
-      TypeAlias
+      (class | interface) typeDeclName ClassSpec |
+      ObjectDeclaration(defName) |
+      fun FunctionDeclaration(defName) |
+      PropertyDeclaration(defName) |
+      typealias typeDeclName TypeAliasSpec
     )
   }
 
-  ClassDeclaration {
-    (class | interface) typeDeclName TypeParams?
+  context ClassSpec {
+    TypeParams?
     Constructor?
     Delegation?
     TypeConstraints?
     ClassBody?
   }
 
-  context Constructor { (Modifier* constructor)? ParamList }
+  context Constructor { (Modifier* constructor)? ConstructorParamList }
 
   TypeConstraints {
     where commaSep1(Annotation* variableName ":" Type)
   }
 
-  ObjectDeclaration {
-    object declName Delegation? ClassBody?
+  ObjectDeclaration(defName) {
+    object defName Delegation? ClassBody?
+  }
+
+  context FunctionDeclaration(defName) {
+    TypeParams? defName FunctionSpec
   }
 
   context FunctionSpec {
@@ -39,14 +43,14 @@ skip l {
 
   context Block { "{" Statement* "}" }
 
-  PropertyDeclaration {
-    valVar TypeParams? VariableDeclaration
+  PropertyDeclaration(defName) {
+    valVar TypeParams? VariableDeclaration(defName)
     TypeConstraints? (op("=") Expression | kw("by") Expression)? ";"?
     (Getter (";" Setter)? | Setter (";" Getter?))?
   }
 
-  VariableDeclaration {
-    "(" commaSep1(VariableDeclaration) ")" | Annotation* declName (":" Type)?
+  VariableDeclaration(defName) {
+    "(" commaSep1(VariableDeclaration(defName)) ")" | Annotation* defName (":" Type)?
   }
 
   Getter {
@@ -57,31 +61,35 @@ skip l {
     Modifier* kw("set") ParamList? (":" Type)? (Block | op("=") Expression)
   }
 
-  TypeAlias {
-    typealias typeDeclName TypeParams? op("=") Type ";"?
+  context TypeAliasSpec {
+    TypeParams? op("=") Type ";"?
   }
 
   context ClassBody {
     "{" ClassItem* "}"
   }
 
-  ClassItem {
+  context ClassItem {
     Annotation |
-    Declaration |
+    Declaration(propertyDeclName) |
     companion object identifier? Delegation? ClassBody? |
     init Block |
     constructor ParamList (":" (this | super_) ArgList)? Block? |
-    EnumList
+    EnumItem
   }
 
-  EnumList {
-    commaSep1(Modifier* declName ArgList? ClassBody?) ";"
+  EnumItem {
+    Modifier* propertyDeclName ArgList? ClassBody? ("," | ";")
   }
 
   Delegation { ":" commaSep1(Modifier* Type (kw("by") Expression | ArgList)?) }
 
+  context ConstructorParamList {
+    "(" commaSep(Modifier* (valVar propertyDeclName | declName) (":" Type)? (op("=") Expression)?) ")"
+  }
+
   context ParamList {
-    "(" commaSep(Modifier* valVar? declName (":" Type)? (op("=") Expression)?) ")"
+    "(" commaSep(Modifier* declName (":" Type)? (op("=") Expression)?) ")"
   }
 
   context ArgList {
@@ -89,17 +97,17 @@ skip l {
   }
 
   ForStatement {
-    for "(" Annotation* VariableDeclaration in Expression ")" (Block | Statement)
+    for "(" Annotation* VariableDeclaration(declName) in Expression ")" (Block | Statement)
   }
 
   Annotation {
     AnnotationHead (UnescapedAnnotation | "[" UnescapedAnnotation+ "]")
   }
 
-  UnescapedAnnotation { (annotationName TypeParams?) ("." annotationName TypeParams?)* ArgList? }
+  UnescapedAnnotation { (annotationName TypeArgs?) ("." annotationName TypeArgs?)* ArgList? }
 
   WhenExpression {
-    when "(" (Annotation* kw("val") VariableDeclaration op("="))? Expression ")" WhenBody
+    when "(" (Annotation* kw("val") VariableDeclaration(declName) op("="))? Expression ")" WhenBody
   }
 
   context TypeArgs {
@@ -107,11 +115,15 @@ skip l {
   }
 
   context TypeParams {
-    "<" commaSep1(Modifier* typeName (":" Type)?) ">"
+    "<" commaSep1(Modifier* typeDeclName (":" Type)?) ">"
   }
 
   context Lambda {
-    "{" (~(VariableDeclaration "->") VariableDeclaration op("->"))? Statement* "}"
+    "{" (~LambdaParams LambdaParams)? Statement* "}"
+  }
+
+  LambdaParams {
+    commaSep1(declName (":" Type)?) op("->")
   }
 
   context ParenthesizedExpression { "(" Expression ")" }
@@ -128,20 +140,21 @@ skip l {
   }
 
   stringInterpol {
-    str("${") Expression str("}")
+    str("${") Expression str("}") |
+    str("$") variableName
   }
 }
 
 TopItem {
   package l packageName s ("." l packageName s)* ";"? |
-  import l (identifierDot s "." l)* ("*" | declName s (as l declName s)?) ";"? |
+  import l (packageDot s "." l)* ("*" | declName s (as l declName s)?) ";"? |
   Statement
 }
 
 context Statement {
   label |
   Annotation |
-  Declaration |
+  Declaration(declName) |
   ForStatement |
   while l ParenthesizedExpression l (Block | Statement | ";") |
   do l (Block | Statement) l while l ParenthesizedExpression |
@@ -165,6 +178,7 @@ ExpressionInner {
   object l (Delegation l)? ClassBody |
   fun l FunctionSpec |
   this s ("@" s identifier)? |
+  it |
   super_ s ("<" l Type l ">" s)? ("@" s identifier)? |
   if l ParenthesizedExpression l (Block | Statement | ";") Alternative |
   WhenExpression |
@@ -203,7 +217,7 @@ ExpressionSuffix {
 
 TypeInner {
   dynamic |
-  typeName s ("." l typeName s)* |
+  typeName s (TypeArgs s)? ("." l typeName s (TypeArgs s)?)* |
   (~("(" l (AnnotationHead | identifier l (")" l "->" | ":"))) ParamTypeList l op("->") l Type) |
   "(" l Type l ")"
 }
@@ -243,6 +257,7 @@ tokens {
                   "inline" | "external" | "extend" | "const" | "abstract" | "final" | "open" |
                   "vararg" | "noinline" | "crossinline" | "reified" | "expect" | "actual") }
   this { kw("this") }
+  it="variable-2" { "it" !identifierChar }
   super_ { kw("super") }
   throw { kw("throw") }
   try { kw("try") }
@@ -262,8 +277,8 @@ tokens {
   }
 
   string {
-    str("\"\"\"") (str("\\" _) | stringInterpol | str((!("\"\"\"" | "${" | "\\") _)+))* str("\"\"\"") |
-    str("\"") (str("\\" _) | stringInterpol | str((!("\"" | "${" | "\\") .)+))* str("\"")
+    str("\"\"\"") (str("\\" _) | stringInterpol | str((!("\"\"\"" | "$" | "\\") _)+))* str("\"\"\"") |
+    str("\"") (str("\\" _) | stringInterpol | str((!("\"" | "$" | "\\") .)+))* str("\"")
   }
 
   char="string-2" {
@@ -303,11 +318,13 @@ calleeName="variable callee" { identifier ~(" "* "(") }
 
 className="type" { "A"-"Z" identifierChar* }
 
-calleeClassName="callee" { className }
+calleeClassName="callee" { className ~(" "* "(") }
 
 infixCallee="variable callee" { !else identifier }
 
 propertyName="property" { identifier }
+
+propertyDeclName="def property" { identifier }
 
 propertyCallee="property callee" { identifier ~(" "* "(") }
 
@@ -315,7 +332,7 @@ packageName="variable package" { identifier }
 
 annotationName="meta" { identifier }
 
-identifierDot { identifier ~(" "* ".") }
+packageDot="variable package" { identifier ~(" "* ".") }
 
 kw(value)="keyword" { value !identifierChar }
 op(value)="operator" { value }
@@ -338,4 +355,3 @@ identifierChar { letter | digit }
 spaceChar { "\n" | "\t" | " " }
 
 shebang="meta" { "#!" .* }
-

@@ -24,7 +24,7 @@ const bracketed = {
   ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
   ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
   ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
-  ParenthesizedExpression: ")",
+  ParenthesizedExpression: ")", ConstructorParamList: ")",
   TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
 }
 
