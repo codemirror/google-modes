@@ -1,7 +1,7 @@
 # Google mode pack
 
 This is a set of [CodeMirror](http://codemirror.net/) modes for **C**,
-**C++**, **Java**, **Go**, **JavaScript**, **TypeScript**, **Python**,
+**C++**, **Java**, **Kotlin**, **Go**, **JavaScript**, **TypeScript**, **Python**,
 **HTML**, and **Angular Templates**, providing a consistent
 highlighting style across these languages and an indentation style
 compatible with Google's style guides.
