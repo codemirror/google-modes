@@ -4,13 +4,15 @@ start top {
   shebang? l (TopItem (whitespace | "\n")*)+
 }
 
-skip skipAny {
+skip l {
   Declaration {
-    ClassDeclaration |
-    ObjectDeclaration |
-    fun TypeParams? declName FunctionSpec |
-    PropertyDeclaration |
-    TypeAlias
+    Modifier* (
+      ClassDeclaration |
+      ObjectDeclaration |
+      fun TypeParams? declName FunctionSpec |
+      PropertyDeclaration |
+      TypeAlias
+    )
   }
 
   ClassDeclaration {
@@ -130,91 +132,89 @@ skip skipAny {
   }
 }
 
-skip skipNoNL {
-  TopItem {
-    package l packageName l ("." packageName)* ";"? |
-    import l (identifierDot ".")* ("*" | declName (as declName)?) ";"? |
-    Statement
-  }
-
-  context Statement {
-    label |
-    Annotation |
-    Declaration |
-    ForStatement |
-    while l ParenthesizedExpression l (Block | Statement | ";") |
-    do l (Block | Statement) l while l ParenthesizedExpression |
-    Expression ";"? |
-    ";"
-  }
-
-  AnnotationHead="meta" {
-    "@" (~(identifier ":") identifier ":")?
-  }
-
-  Modifier { modifierKw | Annotation }
-
-  ExpressionInner {
-    ParenthesizedExpression |
-    atom |
-    number |
-    string |
-    char |
-    Lambda |
-    object l (Delegation l)? ClassBody |
-    fun l FunctionSpec |
-    this ("@" identifier)? |
-    super_ ("<" l Type l ">")? ("@" identifier)? |
-    if l ParenthesizedExpression l (Block | Statement | ";") Alternative |
-    WhenExpression |
-    try l Block CatchFinally |
-    throw Expression |
-    return ("@" identifier)? Expression? |
-    breakCont ("@" identifier)? |
-    calleeClassName |
-    className |
-    calleeName |
-    variableName
-  }
-
-  context Alternative {
-    (~(l else) l else l (Block | Statement | ";"))?
-  }
-
-  context CatchFinally {
-    (~(l catch) l catch l "(" l (Annotation l)* declName l ":" l Type l ")" l Block)*
-    (~(l finally) l finally l Block)?
-  }
-
-  Expression {
-    ((prefixOp | label | Annotation) l)* ExpressionInner ExpressionSuffix*
-  }
-
-  ExpressionSuffix {
-    suffixOp |
-    (~TypeArgs TypeArgs) |
-    (binOp | "!"? (in | as) | as "?"?) l ExpressionInner |
-    ArgList |
-    ("?." | "." | "::") l (class | propertyCallee | propertyName | ParenthesizedExpression) |
-    "[" l commaSep1(Expression) l "]" |
-    infixCallee l ExpressionInner
-  }
-
-  TypeInner {
-    dynamic |
-    typeName ("." l typeName)* |
-    (~("(" l (AnnotationHead | identifier l (")" l "->" | ":"))) ParamTypeList l op("->") l Type) |
-    "(" l Type l ")"
-  }
-
-  Type {
-    ((Annotation | kw("suspend")) l)* TypeInner "?"*
-  }
-
-  commaSep(inner) { commaSep1(inner)? }
-
-  commaSep1(inner) { inner ("," l inner?)* }
+TopItem {
+  package l packageName s ("." l packageName s)* ";"? |
+  import l (identifierDot s "." l)* ("*" | declName s (as l declName s)?) ";"? |
+  Statement
 }
+
+context Statement {
+  label |
+  Annotation |
+  Declaration |
+  ForStatement |
+  while l ParenthesizedExpression l (Block | Statement | ";") |
+  do l (Block | Statement) l while l ParenthesizedExpression |
+  Expression s ";"? |
+  ";"
+}
+
+AnnotationHead="meta" {
+  "@" s (~(identifier s ":") identifier s ":")?
+}
+
+Modifier { modifierKw | Annotation }
+
+ExpressionInner {
+  ParenthesizedExpression |
+  atom |
+  number |
+  string |
+  char |
+  Lambda |
+  object l (Delegation l)? ClassBody |
+  fun l FunctionSpec |
+  this s ("@" s identifier)? |
+  super_ s ("<" l Type l ">" s)? ("@" s identifier)? |
+  if l ParenthesizedExpression l (Block | Statement | ";") Alternative |
+  WhenExpression |
+  try l Block CatchFinally |
+  throw s Expression |
+  return s ("@" s identifier s)? Expression? |
+  breakCont s ("@" s identifier)? |
+  calleeClassName |
+  className |
+  calleeName |
+  variableName
+}
+
+context Alternative {
+  (~(l else) l else l (Block | Statement | ";"))?
+}
+
+context CatchFinally {
+  (~(l catch) l catch l "(" l (Annotation l)* declName l ":" l Type l ")" l Block)*
+  (~(l finally) l finally l Block)?
+}
+
+Expression {
+  ((prefixOp | label | Annotation) l)* ExpressionInner s (ExpressionSuffix s)*
+}
+
+ExpressionSuffix {
+  suffixOp |
+  (~TypeArgs TypeArgs) |
+  (binOp | ("!" s)? (in | is) | as s ("?" s)?) l ExpressionInner |
+  ArgList |
+  ("?." | "." | "::") l (class | propertyCallee | propertyName | ParenthesizedExpression) |
+  "[" l commaSep1(Expression) l "]" |
+  infixCallee l ExpressionInner
+}
+
+TypeInner {
+  dynamic |
+  typeName s ("." l typeName s)* |
+  (~("(" l (AnnotationHead | identifier l (")" l "->" | ":"))) ParamTypeList l op("->") l Type) |
+  "(" l Type l ")"
+}
+
+Type {
+  ((Annotation | kw("suspend")) l)* TypeInner s ("?" s)*
+}
+
+commaSep(inner) { commaSep1(inner)? }
+
+commaSep1(inner) { inner s ("," l (inner s)?)* }
 
 tokens {
   class { kw("class") }
@@ -287,11 +287,9 @@ whitespace {
   (" " | "\t" | "\r")+ | comment
 }
 
-skipAny { (whitespace | "\n")* }
+s { whitespace* }
 
-skipNoNL { whitespace* }
-
-l { ("\n" whitespace*)* }
+l { (whitespace | "\n")* }
 
 declName="def" { identifier }
 
