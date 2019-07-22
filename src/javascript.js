@@ -12,7 +12,7 @@ class JSMode extends CodeMirror.GrammarMode {
     super(grammar, {
       predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : () => false}
     })
-    this.conf = conf
+    this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", tabSize: conf.tabSize, indentUnit: conf.indentUnit}
   }
 
   token(stream, state) {
@@ -21,7 +21,7 @@ class JSMode extends CodeMirror.GrammarMode {
 
   indent(state, textAfter, line) {
     if (!textAfter) textAfter = line = "x" // Force getContextAt to terminate the statement, if needed
-    return indent(state, textAfter, line, this.conf)
+    return indent(state, textAfter, line, this.indentConf)
   }
 }
 

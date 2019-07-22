@@ -20,7 +20,7 @@ function aligned(cx) {
 
 const bracketed = {
   Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}",
-  ObjectPattern: "}", EnumBody: "}", Lambda: "}", WhenBody: "}",
+  ObjectPattern: "}", EnumBody: "}", LambdaBlock: "}", WhenBody: "}",
   ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
   ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
   ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
@@ -67,8 +67,8 @@ function findIndent(cx, textAfter, config) {
 
   let base = baseIndent(cx, config.tabSize)
   if (brack) {
-    if (closed && brack != ")") return base
-    return base + config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1)
+    if (closed && (config.dontCloseBrackets || "").indexOf(brack) < 0) return base
+    return base + config.indentUnit * ((config.doubleIndentBrackets || "").indexOf(brack) < 0 ? 1 : 2)
   } else if (statementish.indexOf(cx.name) > -1) {
     if (hasSubStatement(cx)) return base + config.indentUnit;
     return base + 2 * config.indentUnit

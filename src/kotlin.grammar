@@ -118,7 +118,7 @@ skip l {
     "<" commaSep1(Modifier* typeDeclName (":" Type)?) ">"
   }
 
-  context Lambda {
+  context LambdaBlock {
     "{" (~LambdaParams LambdaParams)? Statement* "}"
   }
 
@@ -174,7 +174,7 @@ ExpressionInner {
   number |
   string |
   char |
-  Lambda |
+  LambdaBlock |
   object l (Delegation l)? ClassBody |
   fun l FunctionSpec |
   this s ("@" s identifier)? |

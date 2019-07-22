@@ -36,3 +36,15 @@
 [keyword class] [def&type C]<[def&type T]> {
   [keyword val] [def&property t]: [type&local T] [operator =] [atom null]
 }
+
+[keyword fun] [def f](
+  [def&local a]: [type Int],
+  [def&local b]: [type Int]
+) {
+  [keyword return] [variable-2 a]
+}
+
+[keyword class] [def&type ParamList](
+  [def&local a]: [type Int],
+  [keyword var] [def&property b]: [type Bool]
+) {}

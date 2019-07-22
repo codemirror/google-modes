@@ -32,7 +32,7 @@ class CppMode extends CodeMirror.GrammarMode {
     super(cpp, {
       predicates: {constructorAhead, localConstructorAhead, rawStringContinues}
     })
-    this.conf = conf
+    this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", tabSize: conf.tabSize, indentUnit: conf.indentUnit}
   }
 
   token(stream, state) {
@@ -41,7 +41,7 @@ class CppMode extends CodeMirror.GrammarMode {
 
   indent(state, textAfter, line) {
     if (textAfter.charAt(0) == "#") return 0
-    return indent(state, textAfter, line, this.conf)
+    return indent(state, textAfter, line, this.indentConf)
   }
 }
 

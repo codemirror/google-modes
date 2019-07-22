@@ -381,7 +381,7 @@
      3, "number", e[25], -1,
      1, 58, -1,
      3, "string-2", e[26], -1,
-     2, 421, -1, {"name":"Lambda"},
+     2, 421, -1, {"name":"LambdaBlock"},
      3, "keyword", e[21], 226,
      3, "keyword", e[11], 232,
      3, "keyword", e[27], 234,
@@ -1184,7 +1184,7 @@
 
   var bracketed = {
     Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}",
-    ObjectPattern: "}", EnumBody: "}", Lambda: "}", WhenBody: "}",
+    ObjectPattern: "}", EnumBody: "}", LambdaBlock: "}", WhenBody: "}",
     ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
     ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
     ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
@@ -1231,8 +1231,8 @@
 
     var base = baseIndent(cx, config.tabSize);
     if (brack) {
-      if (closed && brack != ")") { return base }
-      return base + config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1)
+      if (closed && (config.dontCloseBrackets || "").indexOf(brack) < 0) { return base }
+      return base + config.indentUnit * ((config.doubleIndentBrackets || "").indexOf(brack) < 0 ? 1 : 2)
     } else if (statementish.indexOf(cx.name) > -1) {
       if (hasSubStatement(cx)) { return base + config.indentUnit; }
       return base + 2 * config.indentUnit
@@ -1272,13 +1272,13 @@
     return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, config)
   }
 
-  var scopes = ["Block", "FunctionSpec", "Lambda", "ClassSpec", "TypeAliasSpec", "ForStatement", "CatchFinally"];
+  var scopes = ["Block", "FunctionSpec", "LambdaBlock", "ClassSpec", "TypeAliasSpec", "ForStatement", "CatchFinally"];
   var typeScopes = ["FunctionDeclaration", "ClassSpec", "TypeAliasSpec"];
 
   var KotlinMode = (function (superclass) {
     function KotlinMode(conf, modeConf) {
       superclass.call(this, grammar);
-      this.conf = conf;
+      this.indentConf = {tabSize: conf.tabSize, indentUnit: conf.indentUnit};
     }
 
     if ( superclass ) KotlinMode.__proto__ = superclass;
@@ -1290,7 +1290,7 @@
     };
 
     KotlinMode.prototype.indent = function indent$1 (state, textAfter, line) {
-      return indent(state, textAfter, line, this.conf)
+      return indent(state, textAfter, line, this.indentConf)
     };
 
     return KotlinMode;

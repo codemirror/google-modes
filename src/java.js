@@ -10,7 +10,8 @@ const typeScopes = ["ClassItem", "Statement", "AnnotationTypeItem"]
 class JavaMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar)
-    this.indentConf = {align: false, tabSize: conf.tabSize, indentUnit: conf.indentUnit}
+    this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", align: false,
+                       tabSize: conf.tabSize, indentUnit: conf.indentUnit}
   }
 
   token(stream, state) {

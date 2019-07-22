@@ -1367,10 +1367,12 @@
   }
 
   var bracketed = {
-    Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}", ObjectPattern: "}", EnumBody: "}",
+    Block: "}", BlockOf: "}", ClassBody: "}", AnnotationTypeBody: "}", ObjectLiteral: "}",
+    ObjectPattern: "}", EnumBody: "}", LambdaBlock: "}", WhenBody: "}",
     ObjType: "}", ArrayInitializer: "}", NamespaceBlock: "}", BraceTokens: "}",
     ArrayLiteral: "]", BracketTokens: "]", TupleType: "]",
     ParamList: ")", SimpleParamList: ")", ArgList: ")", ParenExpr: ")", CondExpr: ")", ForSpec: ")", ParenTokens: ")",
+    ParenthesizedExpression: ")", ConstructorParamList: ")",
     TypeParams: ">", TypeArgs: ">", TemplateArgs: ">", TemplateParams: ">"
   };
 
@@ -1413,14 +1415,14 @@
 
     var base = baseIndent(cx, config.tabSize);
     if (brack) {
-      if (closed && brack != ")") { return base }
-      return base + config.indentUnit * (brack == ")" || brack == ">" ? 2 : 1)
+      if (closed && (config.dontCloseBrackets || "").indexOf(brack) < 0) { return base }
+      return base + config.indentUnit * ((config.doubleIndentBrackets || "").indexOf(brack) < 0 ? 1 : 2)
     } else if (statementish.indexOf(cx.name) > -1) {
       if (hasSubStatement(cx)) { return base + config.indentUnit; }
       return base + 2 * config.indentUnit
     } else if (cx.name == "Alternative" || cx.name == "CatchFinally") {
       base = baseIndent(cx.parent, config.tabSize);
-      if (!textAfter || /^(else\b|\/[\/\*])/.test(textAfter)) { return base }
+      if (!textAfter || /^((else|catch|finally)\b|\/[\/\*])/.test(textAfter)) { return base }
       return base + config.indentUnit
     } else if (cx.name == "ArrowRest") {
       return base + config.indentUnit
@@ -1445,7 +1447,7 @@
 
   function indent(state, textAfter, line, config) {
     var top = state.context && state.context.name;
-    if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template")
+    if (top == "DeclType" || top == "BeforeStatement" || top == "AnnotationHead" || top == "Template" || top == "str")
       { return statementIndent(state.context, config) }
 
     if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^[@*]/.test(textAfter))
@@ -1482,7 +1484,7 @@
       superclass.call(this, cpp, {
         predicates: {constructorAhead: constructorAhead, localConstructorAhead: localConstructorAhead, rawStringContinues: rawStringContinues}
       });
-      this.conf = conf;
+      this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", tabSize: conf.tabSize, indentUnit: conf.indentUnit};
     }
 
     if ( superclass ) CppMode.__proto__ = superclass;
@@ -1495,7 +1497,7 @@
 
     CppMode.prototype.indent = function indent$1 (state, textAfter, line) {
       if (textAfter.charAt(0) == "#") { return 0 }
-      return indent(state, textAfter, line, this.conf)
+      return indent(state, textAfter, line, this.indentConf)
     };
 
     return CppMode;
