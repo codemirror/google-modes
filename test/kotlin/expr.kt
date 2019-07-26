@@ -46,3 +46,7 @@
   [type Foo].[property&callee bar]()
   ([number 4])
 }
+
+[variable&callee bar]().[property&callee forEach] {
+  [comment // ...]
+}

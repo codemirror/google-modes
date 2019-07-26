@@ -210,6 +210,7 @@ ExpressionSuffix {
   (~TypeArgs TypeArgs) |
   (binOp | ("!" s)? (in | is) | as s ("?" s)?) l ExpressionInner |
   ArgList |
+  Annotation* LambdaBlock |
   ("?." | "." | "::") l (class | propertyCallee | propertyName | ParenthesizedExpression) |
   "[" l commaSep1(Expression) l "]" |
   infixCallee l ExpressionInner
@@ -314,11 +315,11 @@ typeName="type" { identifier }
 
 variableName="variable" { identifier }
 
-calleeName="variable callee" { identifier ~(" "* "(") }
+calleeName="variable callee" { identifier ~(" "* ("(" | "{")) }
 
 className="type" { "A"-"Z" identifierChar* }
 
-calleeClassName="callee" { className ~(" "* "(") }
+calleeClassName="callee" { className ~(" "* ("(" | "{")) }
 
 infixCallee="variable callee" { !else identifier }
 
@@ -326,7 +327,7 @@ propertyName="property" { identifier }
 
 propertyDeclName="def property" { identifier }
 
-propertyCallee="property callee" { identifier ~(" "* "(") }
+propertyCallee="property callee" { identifier ~(" "* ("(" | "{")) }
 
 packageName="variable package" { identifier }
 
