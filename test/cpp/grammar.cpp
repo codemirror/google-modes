@@ -134,3 +134,5 @@
   }
   [keyword friend] [keyword class] [def&type X];
 };
+
+[type int] [def z] [meta MACRO]() [operator =] [number 0];
