@@ -22,6 +22,8 @@
 
 [comment // tricky escape sequences]
 
+[comment // escaped backticks]
+
 [variable html][string-2 ``];
 [variable html][string-2 `]\`;
     [string-2 `]; [comment // close the unclosed from prev line]
@@ -47,3 +49,10 @@
     [tag <div] [attribute attr]=[string "\\\\][string-2 `][string ">"];
 [variable html][string-2 `]
     [tag <div] [attribute attr]=[string "\\\\\\][string-2 `][string ">"];
+
+[comment // escaped inner expressions]
+
+[variable html][string-2 `${][number 10][string-2 }`];
+[variable html][string-2 `]\\[string-2 ${][number 10][string-2 }`];
+[variable html][string-2 `]\\\\[string-2 ${][number 10][string-2 }`];
+[variable html][string-2 `]\${10}[string-2 `];

@@ -241,22 +241,25 @@ export class TemplateTokenizer {
    */
   backupIfEmbeddedTokenizerOvershot(stream) {
     const cur = stream.current();
-    let start = 0;
+    let searchFrom = 0;
     while(true) {
-      const closingIdx = cur.slice(start).search(/`|\$\{/);
+      let closingIdx = cur.slice(searchFrom).search(/`|\$\{/);
       if (closingIdx === -1) {
-        // no more potential escapes found, bail.
+        // No template boundary found in the token.
         return;
       }
-      const amountToBackUp = cur.length - (closingIdx + start);
+      closingIdx = closingIdx + searchFrom;
+      const amountToBackUp = cur.length - closingIdx;
       const locationOfEarlyExit = stream.pos - amountToBackUp;
       const escaped = this.isEscaped(stream, locationOfEarlyExit);
       if (!escaped) {
-        // Found a real early exit. Bail out.
+        // Found a template boundary. Must not consume it.
         stream.backUp(cur.length - closingIdx);
         return;
       }
-      start = closingIdx;
+      // Found a potential template boundary, but it turns out it
+      // was escaped with backslashes, so we need to keep looking beyond it.
+      searchFrom = closingIdx + 1;
     }
   }
 
@@ -277,6 +280,7 @@ export class TemplateTokenizer {
         break;
       }
       escaped = !escaped;
+      idx--;
     }
     return escaped;
   }
