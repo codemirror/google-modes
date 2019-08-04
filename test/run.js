@@ -16,6 +16,7 @@ require("../dist/go")
 require("../dist/java")
 require("../dist/kotlin")
 require("../dist/angulartemplate")
+require("../dist/html")
 
 let filter = process.argv[2]
 
@@ -40,8 +41,8 @@ let filter = process.argv[2]
     } catch(e) {
       console.log(`${file}: ${e.stack || e.message}`)
     }
-  })
-})
+  });
+});
 
 function parseTestSpec(file, fileName) {
   let directive = /(?:\/\/|#)\s*test:\s*(.*)/.exec(file)
@@ -65,7 +66,8 @@ function compare(text, tokens, mode, open) {
     let token = tokens[index], type = tokenType(style)
     if (token.type != type && !(open && token.type == null)) {
       let shortText = token.text.length < text.length ? token.text : text
-      throw new Error(`Unexpected token ${JSON.stringify(type)} for ${JSON.stringify(shortText)} at ${line}:${ch}. Expected ${JSON.stringify(token.type)}`)
+      let underlined = `    ${lines[line - 1]}\n    ${' '.repeat(ch)}^`;
+      throw new Error(`Unexpected token ${JSON.stringify(type)} for ${JSON.stringify(shortText)} at ${line}:${ch}. Expected ${JSON.stringify(token.type)}\n${underlined}`)
     }
 
     if (text == "\n") {
