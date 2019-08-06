@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('codemirror'), require('codemirror-grammar-mode')) :
   typeof define === 'function' && define.amd ? define(['codemirror', 'codemirror-grammar-mode'], factory) :
   (factory(global.CodeMirror));
-}(this, (function (CodeMirror) { 'use strict';
+}(this, (function (CodeMirror$1) { 'use strict';
 
   var e = [/^(?:var|let|const)(?![a-zA-Z¡-￿_0-9_\$])/, /^while(?![a-zA-Z¡-￿_0-9_\$])/, /^with(?![a-zA-Z¡-￿_0-9_\$])/, /^do(?![a-zA-Z¡-￿_0-9_\$])/, /^debugger(?![a-zA-Z¡-￿_0-9_\$])/, /^if(?![a-zA-Z¡-￿_0-9_\$])/, /^function(?![a-zA-Z¡-￿_0-9_\$])/, /^for(?![a-zA-Z¡-￿_0-9_\$])/, /^default(?![a-zA-Z¡-￿_0-9_\$])/, /^case(?![a-zA-Z¡-￿_0-9_\$])/, /^return(?![a-zA-Z¡-￿_0-9_\$])/, /^throw(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:break|continue)(?![a-zA-Z¡-￿_0-9_\$])/, /^switch(?![a-zA-Z¡-￿_0-9_\$])/, /^try(?![a-zA-Z¡-￿_0-9_\$])/, /^class(?![a-zA-Z¡-￿_0-9_\$])/, /^export(?![a-zA-Z¡-￿_0-9_\$])/, /^import(?![a-zA-Z¡-￿_0-9_\$])/, [0, "async", /^(?![a-zA-Z¡-￿_0-9_\$])/, [5, 139]], /^[a-zA-Z¡-￿__\$][a-zA-Z¡-￿_0-9_\$]*/, /^extends(?![a-zA-Z¡-￿_0-9_\$])/, /^enum(?![a-zA-Z¡-￿_0-9_\$])/, [1, ";", /^(?=\})/, [7, "canInsertSemi"]], /^from(?![a-zA-Z¡-￿_0-9_\$])/, [1, "\n", "\t", " "], /^[a-zA-Z¡-￿__\$]/, /^const(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:true|false|null|undefined|NaN|Infinity)(?![a-zA-Z¡-￿_0-9_\$])/, /^new(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:0x[0-9a-fA-F_]+|0o[0-7_]+|0b[01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][\+\-]?[0-9_]+)?)/, /^else(?![a-zA-Z¡-￿_0-9_\$])/, /^catch(?![a-zA-Z¡-￿_0-9_\$])/, /^finally(?![a-zA-Z¡-￿_0-9_\$])/, /^as(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:super|this)(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:delete|typeof|yield|await|void)(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:\.\.\.|\!|\+\+?|\-\-?)/, /^\/(?![\/\*])(?:\\.|\[(?:(?!\]).)*\]|(?!\/).)+\/[gimyus]*/, [0, /^[a-zA-Z¡-￿__\$]/, /^[a-zA-Z¡-￿_0-9_\$]*/, [5, 493]], /^(?:\+\+|\-\-)/, /^(?:\+|\-|\%|\*|\/(?![\/\*])|\>\>?\>?|\<\<?|\=\=?|\&\&?|\|\|?|\^|\!\=)\=?/, /^(?:in|instanceof)(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:public|private|protected|readonly|abstract|static)(?![a-zA-Z¡-￿_0-9_\$])/, [0, /^[a-zA-Z¡-￿__\$]/, /^[a-zA-Z¡-￿_0-9_\$]*/, [5, 518]], /^is(?![a-zA-Z¡-￿_0-9_\$])/, /^(?:\.\.\.)?/, /^(?:get|set|async)(?![a-zA-Z¡-￿_0-9_\$])(?! *[\,\}\:\(\<])/];
   var nodes = [
@@ -1091,22 +1091,22 @@
   function baseIndent(cx, config) {
     for (var startLine = cx.startLine;; cx = cx.parent) {
       if (cx.name == "CondExpr")
-        { return CodeMirror.countColumn(cx.startLine, cx.startPos + 1, config.tabSize) }
+        { return CodeMirror$1.countColumn(cx.startLine, cx.startPos + 1, config.tabSize) }
       if (statementish.indexOf(cx.name) > -1 && /(^\s*|[\(\{\[])$/.test(cx.startLine.slice(0, cx.startPos)))
-        { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) }
+        { return CodeMirror$1.countColumn(cx.startLine, cx.startPos, config.tabSize) }
       if (!cx.parent || cx.parent.startLine != startLine)
-        { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) }
+        { return CodeMirror$1.countColumn(cx.startLine, null, config.tabSize) }
     }
   }
 
   function findIndent(cx, textAfter, config) {
     if (!cx) { return 0 }
-    if (cx.name == "string" || cx.name == "comment") { return CodeMirror.Pass }
+    if (cx.name == "string" || cx.name == "comment") { return CodeMirror$1.Pass }
 
     var brack = bracketed[cx.name];
     var closed = textAfter && textAfter.charAt(0) == brack;
     if (brack && config.align !== false && aligned(cx))
-      { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
+      { return CodeMirror$1.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
 
     if (brack && blockish.indexOf(cx.name) > -1) {
       var parent = cx.parent;
@@ -1135,7 +1135,7 @@
     } else if (cx.name == "ArrowRest") {
       return base + config.indentUnit
     } else if (cx.name == "NewExpression" && cx.startLine.length > cx.startPos + 5) {
-      return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 2 * config.indentUnit
+      return CodeMirror$1.countColumn(cx.startLine, cx.startPos, config.tabSize) + 2 * config.indentUnit
     } else if (cx.name == "InitializerList") {
       return base + 2
     } else if (cx.name == "ThrowsClause" && !/throws\s*$/.test(cx.startLine.slice(cx.startPos))) {
@@ -1149,7 +1149,7 @@
     for (;; cx = cx.parent) {
       if (!cx) { return 0 }
       if (statementish.indexOf(cx.name) > -1 || (cx.parent && bracketed[cx.parent.name]))
-        { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) }
+        { return CodeMirror$1.countColumn(cx.startLine, null, config.tabSize) }
     }
   }
 
@@ -1159,7 +1159,7 @@
       { return statementIndent(state.context, config) }
 
     if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^[@*]/.test(textAfter))
-      { return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }
+      { return CodeMirror$1.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }
 
     return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, config)
   }
@@ -1173,13 +1173,390 @@
     return true
   }
 
+  /**
+   * @fileoverview Provides a class that facilitates tokenizing JavaScript tagged
+   * template string contents as a separate, embedded language.
+   *
+   * Consider code like:
+   *     html`<div>Hello ${'world'}</div>`
+   *
+   * For a good editing experience, the contents of that template string should
+   * be syntax highlighted as HTML.
+   *
+   * Doing this correctly in the limit is more difficult than it appears however,
+   * because arbitrary JS expressions are allowed inline, up to and including
+   * nesting of templates. This is even used in the real world. Consider:
+   *
+   * html`
+   *   <style>
+   *     ${css`
+   *       li {
+   *         color: green;
+   *       }
+   *     `}
+   *   </style>
+   *   <ul>
+   *     ${items.map(item => html`<li>${item}</li>`)}
+   *   </ul>
+   * `
+   */
+
+  /**
+   * Use within a containing tokenizer to defer tokenizing the contents of some
+   * JavaScript tagged template literals to other CodeMirror language modes.
+   *
+   * This tokenizer is intended to be used from a JavaScript tokenizer, or
+   * one very similar to JavaScript, like TypeScript. It assumes that tagged
+   * template literals are tagged with the style 'string-2'.
+   *
+   * This class maintains its own state. Its state needs to be stored as part
+   * of the containing tokenizer's state, and copied when it is copied. See
+   * startState and copyState.
+   *
+   * Design goals:
+   *   - Minimally interfere with containing tokenizer, and make minimal
+   *     assumptions about its behavior.
+   *   - Have no impact on tokenizing code that does not use tagged template
+   *     literals, or tagged template literals that do not correspond to other
+   *     languages
+   *   - Defer tokenizing the contents of template strings to embedded language
+   *     modes but begin, end, and interrupt template strings according to the
+   *     JavaScript grammar.
+   *   - Parse correctly even for deeply nested combinations of literals inside
+   *     of literals.
+   *
+   * Known limitations:
+   *   - Embedded tokenizers will see JavaScript string escape sequences
+   *     (like \`, \\, etc), though semantically they should see the unescaped
+   *     values. This can confuse embedded tokenizers, though that confusion
+   *     will not spread outside of the template string.
+   */
+  var TemplateTokenizer = function TemplateTokenizer(config) {
+    this.config = config;
+  };
+
+  /** @return {!State} */
+  TemplateTokenizer.prototype.startState = function startState () {
+    return new State();
+  };
+
+  /**
+   * @param {!State} state
+   * @return {!State}
+   */
+  TemplateTokenizer.prototype.copyState = function copyState (state) {
+    return state.copy();
+  };
+
+  /**
+   * If true, the containing tokenizer should defer to `interceptTokenizing`.
+   *
+   * @param {!State} state
+   */
+  TemplateTokenizer.prototype.shouldInterceptTokenizing = function shouldInterceptTokenizing (state) {
+    var templateState = state.currentTemplateState;
+    if (templateState !== undefined && templateState.mode !== null) {
+      return true;
+    }
+    return false;
+  };
+
+  /**
+   * Defer to the embedded language tokenizer, but interrupt it for inline
+   * exprssions and the end of the template literal.
+   *
+   * This MUST only be called if shouldInterceptTokenizing is true for the
+   * current state.
+   *
+   * shouldInterceptTokenizing is separated out into its own
+   * method, even though this method also tells the containing tokenizer
+   * when it should defer to the embedded language because this method returns
+   * an object, and we don't want to allocate an extra object for each token
+   * consumed.
+   *
+   * @param {!Stream} stream
+   * @param {!State} state
+   * @return {{handled: boolean, state: string|null}} If handled is true,
+   *   then the TS/JS tokenizer should not do any tokenizing of its own,
+   *   and return state. If handled is false, then this method has consumed
+   *   no input, and instead the TS/JS tokenizer should consume input instead.
+   */
+  TemplateTokenizer.prototype.interceptTokenizing = function interceptTokenizing (stream, state) {
+    // Check for an inline expression in the template literal.
+    if (stream.match('${')) {
+      stream.backUp(2);
+      if (!this.isEscaped(stream, stream.pos - 2)) {
+        // Hand things back to the normal tokenizer.
+        return {handled: false};
+      }
+    }
+    // Check for end of the template literal.
+    if (stream.peek() === '`' && !this.isEscaped(stream, stream.pos)) {
+      // Hand things back to the normal tokenizer.
+      return {handled: false};
+    }
+    // Important note for the above two early exit checks. We must first check
+    // for the end characters, then check to see if they were escaped.
+    // That avoids doing exponential work in the case where there's a long
+    // sequence of backslashes that the embedded tokenizer consumes character
+    // by character.
+
+    var ref = state.currentTemplateState;
+      var mode = ref.mode;
+      var innerState = ref.state;
+    var style = mode.token(stream, innerState);
+    this.backupIfEmbeddedTokenizerOvershot(stream);
+    return {handled: true, style: style};
+  };
+
+  /**
+   * Called after the containing tokenizer has consumed a token, but before
+   * that consumption is finalized.
+   *
+   * We keep track of entering and exiting template literals and inline
+   * expressions in template literals. In some cases, we reduce the
+   * amount of text consumed by the containing tokenizer, so that an embedded
+   * language has the opportunity to tokenize the contents of a template
+   * string that it controls.
+   *
+   * @param {string|null} style
+   * @param {!Stream} stream
+   * @param {!State} state
+   */
+  TemplateTokenizer.prototype.trackState = function trackState (style, stream, state) {
+    if (!style) {
+      return;
+    }
+    var templateState = state.currentTemplateState;
+    if (!templateState || templateState.kind === 'inline-expression') {
+      this.trackStateNotInTemplate(style, stream, state, templateState);
+    } else {
+      this.trackStateInTemplate(style, stream, state, templateState);
+    }
+    if (style === 'variable') {
+      state.previousVariable = stream.current();
+    } else {
+      state.previousVariable = null;
+    }
+  };
+
+  /**
+   * Maintain state.templateStack while not directly inside of a template
+   * literal.
+   *
+   * We could be inside of an inline expression in a template literal however.
+   *
+   * @private
+   * @param {string} style
+   * @param {!Stream} stream
+   * @param {!State} state
+   * @param {?TemplateState} templateState
+   */
+  TemplateTokenizer.prototype.trackStateNotInTemplate = function trackStateNotInTemplate (style, stream, state, templateState) {
+    // Has the inline expression represented by embeddedMode just ended?
+    if (templateState && style === 'string-2' &&
+        stream.current().startsWith('}')) {
+      state.templateStack.pop();
+      // The containing tokenizer should only consume the } at this point.
+      stream.backUp(stream.current().length - 1);
+      return;
+    }
+    // Are we starting a new template?
+    if (style === 'string-2' &&
+      stream.current().startsWith('`')) {
+      var mode = this.getModeForTemplateTag(state.previousVariable);
+      var kind = 'template';
+      if (mode) {
+        // Nothing except the opening ` should be consumed.
+        stream.backUp(stream.current().length - 1);
+        state.templateStack.push(new TemplateState(
+          kind,
+          mode,
+          CodeMirror.startState(mode)
+        ));
+      } else {
+        state.templateStack.push(new TemplateState(kind, null, null));
+      }
+    }
+  };
+
+  /**
+   * Maintain state.templateStack while in the contents of a template literal.
+   *
+   * @private
+   * @param {string} style
+   * @param {!Stream} stream
+   * @param {!State} state
+   * @param {!TemplateState} templateState
+   */
+  TemplateTokenizer.prototype.trackStateInTemplate = function trackStateInTemplate (style, stream, state, templateState) {
+    // Is the current template ending?
+    if (style === 'string-2' && stream.current().endsWith('`') &&
+        !this.isEscaped(stream.pos - 1)) {
+      state.templateStack.pop();
+      return;
+    }
+
+    // Are we starting a new inline expression?
+    if (style === 'string-2' && stream.current().endsWith('${') &&
+        !this.isEscaped(stream.pos - 2)) {
+      state.templateStack.push(
+          new TemplateState('inline-expression', null, null));
+      return;
+    }
+  };
+
+  /**
+   * Inside of an inline template, we've let the embedded language tokenizer
+   * consume a token. However, it can't be allowed to consume text that actually
+   * indicates the end of that section of template literal string. If it has
+   * back up to right beforehand.
+   *
+   * @private
+   * @param {!Stream} stream
+   */
+  TemplateTokenizer.prototype.backupIfEmbeddedTokenizerOvershot = function backupIfEmbeddedTokenizerOvershot (stream) {
+    var cur = stream.current();
+    var searchFrom = 0;
+    while(true) {
+      var closingIdx = cur.slice(searchFrom).search(/`|\$\{/);
+      if (closingIdx === -1) {
+        // No template boundary found in the token.
+        return;
+      }
+      closingIdx = closingIdx + searchFrom;
+      var amountToBackUp = cur.length - closingIdx;
+      var locationOfEarlyExit = stream.pos - amountToBackUp;
+      var escaped = this.isEscaped(stream, locationOfEarlyExit);
+      if (!escaped) {
+        // Found a template boundary. Must not consume it.
+        stream.backUp(cur.length - closingIdx);
+        return;
+      }
+      // Found a potential template boundary, but it turns out it
+      // was escaped with backslashes, so we need to keep looking beyond it.
+      searchFrom = closingIdx + 1;
+    }
+  };
+
+  /**
+   * Walks backwards from the given position in the stream looking for
+   * backslashes. Returns true if there are an odd number, and so the given
+   * position is string-escaped, and false if there are an even number.
+   *
+   * @private
+   * @param {!Stream} stream
+   * @param {number} start
+   */
+  TemplateTokenizer.prototype.isEscaped = function isEscaped (stream, start) {
+    var escaped = false;
+    var idx = start;
+    while(idx > 0) {
+      if (stream.string[idx - 1] !== '\\') {
+        break;
+      }
+      debugger;
+      escaped = !escaped;
+      idx--;
+    }
+    return escaped;
+  };
+
+  /**
+   * @private
+   * @param {string|null} templateTag
+   */
+  TemplateTokenizer.prototype.getModeForTemplateTag = function getModeForTemplateTag (templateTag) {
+    if (!templateTag) {
+      return null;
+    }
+    // There are likely more customizations that would be nice here.
+    // Would be a good place for configuration if so.
+    if (templateTag === 'htm') {
+      templateTag = 'html';
+    }
+    var modeSpecs = [("google-" + templateTag), ("" + templateTag)];
+    // Note: the google-modules build pipeline does not currently support
+    // for/of.
+    for (var i = 0; i < modeSpecs.length; i++) {
+      var mode = CodeMirror.getMode(this.config, modeSpecs[i]);
+      if (mode && mode.name !== 'null') {
+        return mode;
+      }
+    }
+    return null;
+  };
+
+  var State = function State(templateStack, previousVariable) {
+    if ( templateStack === void 0 ) templateStack = [];
+    if ( previousVariable === void 0 ) previousVariable = null;
+
+    /**
+     * A stack to keep track of the nesting of templates and inline expressions.
+     *
+     * Whenever we enter a template, we push a TemplateState with kind
+     * 'template' on the stack. Whenever, inside of a template, we enter
+     * an inline expression i.e. ${}, we push a TemplateState with kind
+     * 'inline-expression' on the stack. Likewise, as we leave templates and
+     * inline expressions we pop them off.
+     *
+     * A template that is being tokenized with an embedded CodeMirror mode will
+     * have a `mode` and its `state` on its associated TemplateState.
+     *
+     * @type {Array<!TemplateState>}
+     */
+    this.templateStack = templateStack;
+    /**
+     * Used to figure out the tag name of tagged template literals, to
+     * infer the inline language.
+     *
+     * @type {null|string}
+     */
+    this.previousVariable = previousVariable;
+  };
+
+  var prototypeAccessors = { currentTemplateState: { configurable: true } };
+
+  State.prototype.copy = function copy () {
+    return new State(
+        this.templateStack.map(function (t) { return t.copy(); }), this.previousVariable);
+  };
+
+  /** @return {!TemplateState | undefined} */
+  prototypeAccessors.currentTemplateState.get = function () {
+    return this.templateStack[this.templateStack.length - 1];
+  };
+
+  Object.defineProperties( State.prototype, prototypeAccessors );
+
+  var TemplateState = function TemplateState(kind, mode, state) {
+    /** @type {string} Either 'template' or 'inline-expression' */
+    this.kind = kind;
+    /**
+     * @type {?CodeMirror.Mode} If defined, the mode to tokenize
+     * the current template with. kind must be 'template' if this is defined.
+     */
+    this.mode = mode;
+    /** @type {?} The state object for this.mode. */
+    this.state = state;
+  };
+
+  TemplateState.prototype.copy = function copy () {
+    if (!this.mode) {
+      return new TemplateState(this.kind, null, null);
+    }
+    return new TemplateState(
+        this.kind, this.mode, CodeMirror.copyState(this.mode, this.state))
+  };
+
   var scopes = ["Block", "FunctionDef", "ArrowFunc", "ForStatement", "ParamListSpec"];
 
-  var TSMode = (function (superclass) {
+  var TSMode = /*@__PURE__*/(function (superclass) {
     function TSMode(conf, modeConf) {
       superclass.call(this, grammar, {
         predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : function () { return false; }}
       });
+      this.templateTokenizer = new TemplateTokenizer(conf);
       this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", tabSize: conf.tabSize, indentUnit: conf.indentUnit};
     }
 
@@ -1187,8 +1564,34 @@
     TSMode.prototype = Object.create( superclass && superclass.prototype );
     TSMode.prototype.constructor = TSMode;
 
+    TSMode.prototype.startState = function startState () {
+      var state = superclass.prototype.startState.call(this);
+      state.embeddedParserState = this.templateTokenizer.startState();
+      return state;
+    };
+
+    TSMode.prototype.copyState = function copyState (state) {
+      var copy = superclass.prototype.copyState.call(this, state);
+      copy.embeddedParserState =
+          this.templateTokenizer.copyState(state.embeddedParserState);
+      return copy;
+    };
+
     TSMode.prototype.token = function token$$1 (stream, state) {
-      return markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state)
+      var templateTokenizerState = state.embeddedParserState;
+      if (this.templateTokenizer
+            .shouldInterceptTokenizing(templateTokenizerState)) {
+        var ref = this.templateTokenizer
+            .interceptTokenizing(stream, templateTokenizerState);
+        var handled = ref.handled;
+        var style$1 = ref.style;
+        if (handled) {
+          return style$1;
+        }
+      }
+      var style = superclass.prototype.token.call(this, stream, state);
+      this.templateTokenizer.trackState(style, stream, templateTokenizerState);
+      return markLocals(style, scopes, stream, state)
     };
 
     TSMode.prototype.indent = function indent$1 (state, textAfter, line) {
@@ -1197,7 +1600,7 @@
     };
 
     return TSMode;
-  }(CodeMirror.GrammarMode));
+  }(CodeMirror$1.GrammarMode));
 
   var meta = {
     electricInput: /^\s*(?:case .*?:|default:|\{|\})$/,
@@ -1210,8 +1613,8 @@
   };
   for (var prop in meta) { TSMode.prototype[prop] = meta[prop]; }
 
-  CodeMirror.registerHelper("wordChars", "google-typescript", /[\w$]/);
+  CodeMirror$1.registerHelper("wordChars", "google-typescript", /[\w$]/);
 
-  CodeMirror.defineMode("google-typescript", function (conf, modeConf) { return new TSMode(conf, modeConf); });
+  CodeMirror$1.defineMode("google-typescript", function (conf, modeConf) { return new TSMode(conf, modeConf); });
 
 })));

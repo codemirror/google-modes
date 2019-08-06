@@ -4,6 +4,7 @@ import * as grammar from "./javascript.mode"
 import {markLocals} from "./locals"
 import {indent} from "./c_indent"
 import {canInsertSemi} from "./js_semi"
+import {TemplateTokenizer} from "./template_string_inline_language";
 
 const scopes = ["Block", "FunctionDef", "ArrowFunc", "ForStatement"]
 
@@ -12,11 +13,36 @@ class JSMode extends CodeMirror.GrammarMode {
     super(grammar, {
       predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : () => false}
     })
+    this.embeddedParser = new TemplateTokenizer(conf);
     this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", tabSize: conf.tabSize, indentUnit: conf.indentUnit}
   }
 
+  startState() {
+    const state = super.startState();
+    state.embeddedParserState = this.embeddedParser.startState();
+    return state;
+  }
+
+  copyState(state) {
+    const copy = super.copyState(state);
+    copy.embeddedParserState =
+        this.embeddedParser.copyState(state.embeddedParserState);
+    return copy;
+  }
+
   token(stream, state) {
-    return markLocals(super.token(stream, state), scopes, stream, state)
+    const embeddedParserState = state.embeddedParserState;
+    if (this.embeddedParser.shouldInterceptTokenizing(embeddedParserState)) {
+      const {handled, style} = this.embeddedParser.interceptTokenizing(
+          stream, embeddedParserState);
+      if (handled) {
+        return style;
+      }
+    }
+    const style = super.token(stream, state);
+    this.embeddedParser.trackState(
+        style, stream, embeddedParserState);
+    return markLocals(style, scopes, stream, state)
   }
 
   indent(state, textAfter, line) {
