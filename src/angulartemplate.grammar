@@ -41,12 +41,12 @@ skip (spaceChar | jsComment)* {
   }
 
   ngExpressionSuffix {
-    (binOp | kw("in" | "instanceof" | "of" | "as")) ngExpression |
+    (binOp | kw("in" | "instanceof" | "of" | "as" | "else")) ngExpression |
     "(" CommaSep(ngExpression) ")" |
     ("?." | ".") (calleeProp | propName) |
     "[" ngExpression "]" |
     op("?") ngExpression op(":") ngExpression |
-    ";" ngExpression?
+    ";" kw("else" | "then")? ngExpression?
   }
 
   ngObjectMember {
