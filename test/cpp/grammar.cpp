@@ -136,3 +136,9 @@
 };
 
 [type int] [def z] [meta MACRO]() [operator =] [number 0];
+
+[callee&variable Bar]({
+  .[property a] [operator =] [variable a], 
+  .[property b] [operator =] [variable b].[property&callee Bar](), 
+  .[property c] [operator =] [variable c]->[property Baz]
+});

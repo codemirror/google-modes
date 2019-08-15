@@ -26,6 +26,7 @@ skip whitespace {
     this |
     Lambda |
     cast "<" Type ">" "(" Expression ")" |
+    BlockOf(("." fieldName op("="))? Expression, ",") |
     super
   }
 
