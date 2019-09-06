@@ -19,7 +19,7 @@ skip whitespace {
   TypeAtom {
     kw("this") |
     atom |
-    kw("typeof") ExpressionNoComma |
+    kw("typeof") variable ("." propName | "[" Expression "]")* |
     kw("keyof") Type |
     ~("(" !(")" | "..." | identifier ("?" | ":"))) "(" Type ")" |
     new? TypeParams? ParamListSpec op("=>") RetType |

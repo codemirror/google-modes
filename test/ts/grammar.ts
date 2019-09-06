@@ -139,6 +139,8 @@
 
 [keyword let] [def f]: ([def&local x]: [type any]) [operator =>] [variable m] [keyword is] [type string];
 
+[keyword const] [def x]: [type Array]<[keyword typeof] [variable a].[property b]>;
+
 [callee&variable describe]([string 'Foo'], () [operator =>] {
   [keyword const] [def&local foo] [operator =] [callee&variable fooFunc]<{
     [def&property spy]: [variable jasmine].[type SpyObj]<[type Bar]>,
