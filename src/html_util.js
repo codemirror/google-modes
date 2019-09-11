@@ -34,3 +34,22 @@ export function indent(state, textAfter, line, config) {
   }
   return 0
 }
+
+export function contextInfo(proto) {
+  proto.xmlCurrentTag = state => {
+    let cx = state.context
+    if (!cx || (cx.name != "openTag" || cx.name != "closeTag")) return null
+    let match = /<\/?\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos))
+    return match ? {name: match[1], close: cx.name == "closeTag"} : null
+  }
+  proto.xmlCurrentContext = state => {
+    let context = []
+    for (let cx = state.context; cx; cx = cx.parent) {
+      if (cx.name == "tag") {
+        let match = /<\/?\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos))
+        if (match) context.push(match[1])
+      }
+    }
+    return context.reverse()
+  }
+}

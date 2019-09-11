@@ -16,11 +16,15 @@ context tag {
   openTag
   (asTag("/>") |
    &selfClosing asTag(">") |
-   asTag(">") element* (~"</" (&matchingTag asTag("</") spaceChar* tagName asTag(">"))?))
+   asTag(">") element* (~"</" (&matchingTag closeTag)?))
 }
 
 context openTag {
   asTag("<") !(spaceChar* "/") spaceChar* tagName spaceChar* attribute*
+}
+
+context closeTag {
+  asTag("</") spaceChar* tagName asTag(">")
 }
 
 asTag(value)="tag" { value }

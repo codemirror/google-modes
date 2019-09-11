@@ -1,7 +1,7 @@
 import * as CodeMirror from "codemirror"
 import "codemirror-grammar-mode"
 import * as grammar from "./html.mode"
-import {predicates, indent} from "./html_util"
+import {predicates, indent, contextInfo} from "./html_util"
 
 class HTMLMode extends CodeMirror.GrammarMode {
   constructor(conf, modeConf) {
@@ -19,5 +19,6 @@ proto.electricInput = /^\s*<\/.*?>/
 proto.blockCommentStart = "<!--"
 proto.blockCommentEnd = "-->"
 proto.fold = "xml"
+contextInfo(proto)
 
 CodeMirror.defineMode("google-html", (conf, modeConf) => new HTMLMode(conf, modeConf))
