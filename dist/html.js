@@ -21,7 +21,7 @@
     [/^(?:\<\!doctype|\<\!DOCTYPE)(?![a-zA-Z\-\.0-9_])/, 7],
     [[0, /^(?!\>)/, /^[^]/], 7,
      ">", -1],
-    [2, 16, 9, {"name":"openTag"}],
+    [2, 14, 9, {"name":"openTag"}],
     [3, "tag", "/>", -1,
      [7, "selfClosing"], 10,
      3, "tag", ">", 11],
@@ -30,32 +30,33 @@
      /^(?=\<\/)/, 12],
     [[7, "matchingTag"], 13,
      0, -1],
-    [3, "tag", "</", 14],
-    [e[0], 14,
-     3, "tag", e[1], 15],
-    [3, "tag", ">", -1],
-    [3, "tag", [0, "<", [6, 23]], 17],
-    [e[0], 17,
-     3, "tag", e[1], 18],
-    [e[0], 18,
-     0, 19],
-    [3, "attribute", e[1], 20,
+    [2, 21, -1, {"name":"closeTag"}],
+    [3, "tag", [0, "<", [6, 24]], 15],
+    [e[0], 15,
+     3, "tag", e[1], 16],
+    [e[0], 16,
+     0, 17],
+    [3, "attribute", e[1], 18,
      0, -1],
+    [e[0], 18,
+     "=", 19,
+     0, 20],
+    [e[0], 19,
+     2, 25, 20, {"name":"attributeValue","token":"string"}],
     [e[0], 20,
-     "=", 21,
-     0, 22],
-    [e[0], 21,
-     2, 24, 22, {"name":"attributeValue","token":"string"}],
+     0, 17],
+    [3, "tag", "</", 22],
     [e[0], 22,
-     0, 19],
-    [e[0], 23,
+     3, "tag", e[1], 23],
+    [3, "tag", ">", -1],
+    [e[0], 24,
      "/", -1],
-    ["\"", 25,
-     "'", 26,
+    ["\"", 26,
+     "'", 27,
      /^(?:(?![\n\t \>]).)*/, -1],
-    [[0, /^(?!\")/, /^[^]/], 25,
+    [[0, /^(?!\")/, /^[^]/], 26,
      "\"", -1],
-    [[0, /^(?!\')/, /^[^]/], 26,
+    [[0, /^(?!\')/, /^[^]/], 27,
      "'", -1]
   ];
   var start = 0;
@@ -104,6 +105,25 @@
     return 0
   }
 
+  function contextInfo(proto) {
+    proto.xmlCurrentTag = function (state) {
+      var cx = state.context;
+      if (!cx || (cx.name != "openTag" || cx.name != "closeTag")) { return null }
+      var match = /<\/?\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos));
+      return match ? {name: match[1], close: cx.name == "closeTag"} : null
+    };
+    proto.xmlCurrentContext = function (state) {
+      var context = [];
+      for (var cx = state.context; cx; cx = cx.parent) {
+        if (cx.name == "tag") {
+          var match = /<\/?\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos));
+          if (match) { context.push(match[1]); }
+        }
+      }
+      return context.reverse()
+    };
+  }
+
   var HTMLMode = (function (superclass) {
     function HTMLMode(conf, modeConf) {
       superclass.call(this, grammar, {predicates: predicates});
@@ -126,6 +146,7 @@
   proto.blockCommentStart = "<!--";
   proto.blockCommentEnd = "-->";
   proto.fold = "xml";
+  contextInfo(proto);
 
   CodeMirror$1.defineMode("google-html", function (conf, modeConf) { return new HTMLMode(conf, modeConf); });
 
