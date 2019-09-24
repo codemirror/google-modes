@@ -20,7 +20,7 @@ skip whitespace {
     kw("this") |
     atom |
     kw("typeof") variable ("." propName | "[" Expression "]")* |
-    kw("keyof") Type |
+    kw("keyof" | "readonly" | "unique") Type |
     ~("(" !(")" | "..." | identifier ("?" | ":"))) "(" Type ")" |
     new? TypeParams? ParamListSpec op("=>") RetType |
     (~(identifier ".") variable ".")* typeName TypeArgs? |

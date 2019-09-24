@@ -293,7 +293,7 @@
     [3, "keyword", /^this(?![a-zA-Z¡-￿_0-9_\$])/, 209,
      3, "atom", e[27], 209,
      3, "keyword", /^typeof(?![a-zA-Z¡-￿_0-9_\$])/, 177,
-     3, "keyword", /^keyof(?![a-zA-Z¡-￿_0-9_\$])/, 178,
+     3, "keyword", /^(?:keyof|readonly|unique)(?![a-zA-Z¡-￿_0-9_\$])/, 178,
      [0, [5, 383], "("], 179,
      3, "keyword", e[28], 180,
      0, 180,
