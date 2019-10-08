@@ -11,6 +11,8 @@ skip l {
       ObjectDeclaration(defName) |
       fun FunctionDeclaration(defName) |
       PropertyDeclaration(defName) |
+      Getter |
+      Setter |
       typealias typeDeclName TypeAliasSpec
     )
   }
@@ -46,7 +48,6 @@ skip l {
   PropertyDeclaration(defName) {
     valVar TypeParams? VariableDeclaration(defName)
     TypeConstraints? (op("=") Expression | kw("by") Expression)? ";"?
-    (Getter (";" Setter)? | Setter (";" Getter?))?
   }
 
   VariableDeclaration(defName) {
@@ -54,11 +55,11 @@ skip l {
   }
 
   Getter {
-    Modifier* kw("get") ("(" ")")? (":" Type)? (Block | op("=") Expression)
+    kw("get") ("(" ")")? (":" Type)? (Block | op("=") Expression) ";"?
   }
 
   Setter {
-    Modifier* kw("set") ParamList? (":" Type)? (Block | op("=") Expression)
+    kw("set") ParamList? (":" Type)? (Block | op("=") Expression) ";"?
   }
 
   context TypeAliasSpec {

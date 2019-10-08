@@ -49,4 +49,15 @@
 [keyword class] [def&type ParamList](
   [def&local a]: [type Int],
   [keyword var] [def&property b]: [type Bool]
-) {}
+) {
+  [keyword var] [def&property stringRepresentation]: [type String]
+  [keyword get]() [operator =] [keyword this].[property&callee toString]()
+  [keyword set]([def&local value]) {
+    [variable&callee setDataFromString]([variable-2 value]) [comment // parses the string and assigns values to other properties]
+  }
+}
+
+[keyword class] [def&type A] {
+  [keyword val] [def&property a]: [type String]
+  [keyword private] [keyword val] [def&property b]: [type String]
+}
