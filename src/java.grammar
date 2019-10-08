@@ -204,7 +204,7 @@ tokens {
   }
 
   prefixOp="operator" {
-    "++" | "--" | "!" | "~" | "&" | "*"
+    "++" | "--" | "!" | "~" | "&" | "*" | "-" | "+"
   }
 
   suffixOp="operator" {
