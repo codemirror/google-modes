@@ -1,5 +1,7 @@
 [meta #!/usr/bin/env node]
 
+[keyword external] [keyword fun] [def hello]([def&local name]: [type String]): [type String]
+
 [keyword package] [variable&package foo].[variable&package bar]
 
 [keyword import] [variable&package Kotlin].*;

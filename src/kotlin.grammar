@@ -38,7 +38,7 @@ skip l {
   }
 
   context FunctionSpec {
-    ParamList (":" Type)? TypeConstraints? (Block | op("=") Expression)
+    ParamList (":" Type)? TypeConstraints? (Block | op("=") Expression)?
   }
 
   context Block { "{" Statement* "}" }
