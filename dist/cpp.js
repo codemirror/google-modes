@@ -1490,9 +1490,12 @@
   }
 
   function localConstructorAhead(line, pos, cx) {
-    var ahead = /^~?(\w+)\s*\(/.exec(line.slice(pos));
+    var ahead = /^~?(\w+)\s*\(/.exec(line.slice(pos)), skippedItem = false;
     if (!ahead) { return false }
-    while (cx.name != "Statement") { cx = cx.parent; }
+    while (!(cx.name == "Statement" || skippedItem && cx.name == "ClassItem")) {
+      if (cx.name == "ClassItem") { skippedItem = true; }
+      cx = cx.parent;
+    }
     var className = /\b(?:class|struct)\s+(\w+)/.exec(cx.startLine.slice(cx.startPos));
     return className ? className[1] == ahead[1] : false
   }
