@@ -107,6 +107,7 @@
 }
 
 [keyword struct] [def&type Extend] {
+  [keyword using] [variable Bar] [operator =] [keyword struct] {};
   [keyword using] [variable type] [operator =] [type integer_sequence]<[type Ints]..., ([variable Ints] [operator +] [variable SeqSize])...>;
 };
 

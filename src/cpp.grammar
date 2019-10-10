@@ -80,7 +80,9 @@ skip whitespace {
   }
 
   Type {
-    typename Type | super
+    typename Type |
+    Class |
+    super
   }
 
   context TemplateParams {
