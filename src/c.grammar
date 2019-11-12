@@ -82,7 +82,7 @@ skip whitespace {
     number |
     string |
     BlockOf(Expression, ",") |
-    sizeof ("(" Type ")" | "..."? Expression) 
+    sizeof ("(" Type ")" | "..."? Expression) |
     Macro |
     variableName
   }

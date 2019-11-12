@@ -131,6 +131,9 @@
     [keyword if] ([keyword const] [keyword auto]* [def&local foo] [operator =] [variable&callee bar]()) {
       [keyword return] [number 1];
     }
+    [keyword if] ([keyword auto] [def&local foo] [operator =] [number 3]; [variable-2 foo] [operator >] [number 1]) {
+      [keyword return] [number 2];
+    }
     [keyword return] ([variable-2 base].*[property BaseValueProvider])();
   }
   [keyword friend] [keyword class] [def&type X];
