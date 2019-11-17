@@ -14,7 +14,9 @@ class TSMode extends CodeMirror.GrammarMode {
       predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : () => false}
     })
     this.templateTokenizer = new TemplateTokenizer(conf);
-    this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", tabSize: conf.tabSize, indentUnit: conf.indentUnit}
+    this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")",
+                       tabSize: conf.tabSize, indentUnit: conf.indentUnit,
+                       forceContent: true}
   }
 
   startState() {

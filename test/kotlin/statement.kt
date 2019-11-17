@@ -61,3 +61,6 @@
   [keyword val] [def&property a]: [type String]
   [keyword private] [keyword val] [def&property b]: [type String]
 }
+
+[keyword var] [def a] [operator =] [number 1]
+[comment // Not indented]

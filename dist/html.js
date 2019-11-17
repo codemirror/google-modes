@@ -108,15 +108,15 @@
   function contextInfo(proto) {
     proto.xmlCurrentTag = function (state) {
       var cx = state.context;
-      if (!cx || (cx.name != "openTag" || cx.name != "closeTag")) { return null }
-      var match = /<\/?\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos));
+      if (!cx || (cx.name != "openTag" && cx.name != "closeTag")) { return null }
+      var match = /^<\/?\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos));
       return match ? {name: match[1], close: cx.name == "closeTag"} : null
     };
     proto.xmlCurrentContext = function (state) {
       var context = [];
       for (var cx = state.context; cx; cx = cx.parent) {
         if (cx.name == "tag") {
-          var match = /<\/?\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos));
+          var match = /^<\s*([\w\-\.]+)/.exec(cx.startLine.slice(cx.startPos));
           if (match) { context.push(match[1]); }
         }
       }

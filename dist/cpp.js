@@ -1488,7 +1488,8 @@
     if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^[@*]/.test(textAfter))
       { return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }
 
-    return findIndent(state.contextAt(line, line.length - textAfter.length), textAfter, config)
+    var passLine = config.forceContent && /^\s*(\/\/.*)?$/.test(line) ? "x" : line;
+    return findIndent(state.contextAt(passLine, line.length - textAfter.length), textAfter, config)
   }
 
   function constructorAhead(line, pos) {
