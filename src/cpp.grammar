@@ -64,7 +64,7 @@ skip whitespace {
   }
 
   Using {
-    using (typename Type | namespace? variableName) (op("=") Type)? ";"
+    using (typename Type | namespace? variableName) (op("=") Type Declarator?)? ";"
   }
 
   context InitializerList { (":" ListOf(CtorInitializer)) }
