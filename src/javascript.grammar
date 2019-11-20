@@ -113,7 +113,7 @@ skip whitespace {
     (binOp | kwBinOp) ContExpression |
     ArgList |
     template |
-    "." (calleeProp | propName) |
+    ("." | "?.") (calleeProp | propName) |
     "[" Expression "]" |
     op("?") Expression op(":") ContExpression
   }
@@ -204,7 +204,10 @@ tokens {
   variable="variable" { identifier }
 
   prefixOp="operator" { "..." | "!" | "+" "+"? | "-" "-"? }
-  binOp="operator" { ("+" | "-" | "%" | "*" | slash | ">" ">"? ">"? | "<" "<"? | "=" "="? | "&" "&"? | "|" "|"? | "^" | "!=") "="? }
+  binOp="operator" {
+    ("+" | "-" | "%" | "*" | slash | ">" ">"? ">"? | "<" "<"? | "=" "="? | "&" "&"? | "|" "|"? | "^" | "!=") "="? |
+    "??"
+  }
   suffixOp="operator" { "++" | "--" }
 
   string="string" {
