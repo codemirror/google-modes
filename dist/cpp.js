@@ -1515,7 +1515,9 @@
 
   function rawStringContinues(line, pos, cx) {
     rawStringOpen.lastIndex = cx.startPos;
-    var closing = ")" + rawStringOpen.exec(cx.startLine)[1] + '"';
+    var open = rawStringOpen.exec(cx.startLine);
+    if (!open) { return false }
+    var closing = ")" + open[1] + '"';
     return pos < closing.length - 1 || line.slice(pos - closing.length + 1, pos + 1) != closing
   }
 

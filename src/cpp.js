@@ -24,7 +24,9 @@ const rawStringOpen = /R"(.*?)\(/g
 
 function rawStringContinues(line, pos, cx) {
   rawStringOpen.lastIndex = cx.startPos
-  let closing = ")" + rawStringOpen.exec(cx.startLine)[1] + '"'
+  let open = rawStringOpen.exec(cx.startLine)
+  if (!open) return false
+  let closing = ")" + open[1] + '"'
   return pos < closing.length - 1 || line.slice(pos - closing.length + 1, pos + 1) != closing
 }
 
