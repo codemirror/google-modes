@@ -64,7 +64,7 @@ skip whitespace {
     variableAs kw("as") declName | declName
   }
 
-  Expression { BaseExpression ("," Expression | ExpressionSuffix(Expression))* }
+  Expression { BaseExpression ("," ExpressionNoComma | ExpressionSuffix(Expression))* }
 
   ExpressionNoComma { BaseExpression ExpressionSuffix(ExpressionNoComma)* }
 
