@@ -42,7 +42,7 @@ skip whitespace {
   context ParamList { "(" CommaSep(op("*" "*"?)? (self | declName) (":" ExprNoComma)? (op("=") ExprNoComma)?)? ")" }
 
   Expr {
-    ExprPrefix* BaseExpr (ExprSuffix(Expr) | (in | ",") Expr)*
+    ExprPrefix* BaseExpr (ExprSuffix(Expr) | (in | ",") ExprNoComma)*
   }
 
   ExprNoComma {
