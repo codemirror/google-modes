@@ -1,0 +1,12 @@
+// Extends Javadoc grammar to support Doxygen special commands.
+// Doxygen grammar only supports commands starting with an at-sign (@).
+extends "./javadoc.grammar"
+
+tag {
+  formulaTag |
+  super
+}
+
+defTag="tag" { "@param" ("[" ("in" | "out" | "in,out") "]")? !letter }
+
+formulaTag="tag" { "@f" ("$" | "[" | "]") }

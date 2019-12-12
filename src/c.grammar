@@ -1,4 +1,4 @@
-include "./javadoc.grammar" as doccomment
+include "./doxygen.grammar" as doccomment
 
 start top {
   preprocessorLine? (whitespace Statement)+
@@ -24,7 +24,7 @@ skip whitespace {
 
   context DeclType {
     ((modifier | qualifier)+ (auto | typeName) | typeModifier+ modifiableType?) TypeSuffix* | MaybeType
-  }   
+  }
 
   DeclRest {
     Declarator Macro?
