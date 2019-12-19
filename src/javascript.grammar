@@ -43,7 +43,7 @@ skip whitespace {
   }
 
   context CatchFinally {
-    (catch ("(" declName ")")? Block)? (finally Block)?
+    (catch ("(" Pattern ")")? Block)? (finally Block)?
   }
 
   Export {
