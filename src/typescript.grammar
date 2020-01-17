@@ -73,7 +73,7 @@ skip whitespace {
     (binOp | kwBinOp) ContExpression |
     ArgList |
     template |
-    "." (calleeProp TypeArgs? | propName) |
+    ("." | "?.") (calleeProp TypeArgs? | propName) |
     "[" Expression "]" |
     op("?") Expression op(":") ContExpression
   }
