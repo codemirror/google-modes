@@ -110,7 +110,7 @@ skip whitespace {
 
   context ParenPattern { "(" Pattern ")" }
   context BracketPattern { "[" Pattern "]" }
-  Pattern { CommaSep(declName | ParenPattern | BracketPattern) }
+  Pattern { CommaSep(!in declName | ParenPattern | BracketPattern) }
 
   MaybePattern(after) { ~(Pattern after) Pattern }
 }
