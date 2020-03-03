@@ -23,7 +23,7 @@ skip whitespace {
   }
 
   context DeclType {
-    ((modifier | qualifier)+ (auto | typeName) | typeModifier+ modifiableType?) TypeSuffix* | MaybeType
+    ((modifier | qualifier)+ (auto "&"? | typeName TypeSuffix*) | typeModifier+ modifiableType? TypeSuffix*) | MaybeType
   }
 
   DeclRest {
@@ -104,11 +104,11 @@ skip whitespace {
   }
 
   MaybeType {
-    (auto | maybeTypeName) TypeSuffix*
+    (auto "&"? | maybeTypeName TypeSuffix*)
   }
 
   Type {
-    (modifier | qualifier)* structUnion? (auto | typeName) TypeSuffix*
+    (modifier | qualifier)* structUnion? (auto "&"? | typeName TypeSuffix*)
   }
 
   Struct {

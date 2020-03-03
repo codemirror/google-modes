@@ -146,3 +146,5 @@
   .[property b] [operator =] [variable b].[property&callee Bar](), 
   .[property c] [operator =] [variable c]->[property Baz]
 });
+
+[keyword auto] [[ [def a], [def b] ]] [operator =] [variable x];

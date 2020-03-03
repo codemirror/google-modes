@@ -85,6 +85,10 @@ skip whitespace {
     super
   }
 
+  Declarator {
+    declOp* ("[" declName ("," declName)* "]" | declName ("[" "]")*) | "(" Declarator ")"
+  }
+
   context TemplateParams {
     "<" ListOf(TypeParam | Type "..."* Declarator ParamList? (modifier | qualifier)* (op("=") ExpressionNoGt)?) ">"
   }
