@@ -94,7 +94,7 @@ skip whitespace {
   }
 
   TypeParam {
-     (template TemplateArgs)? (class | typename) typeDeclName (op("=") (variableName | number))?
+     (template TemplateParams)? (class | typename) "..."? typeDeclName? (op("=") (variableName | number))?
   }
 
   context TemplateArgs {
