@@ -46,7 +46,7 @@ skip (spaceChar | jsComment)* {
     ("?." | ".") (calleeProp | propName) |
     "[" ngExpression "]" |
     op("?") ngExpression op(":") ngExpression |
-    ";" kw("else" | "then")? ngExpression?
+    ";" (kw("else" | "then") ngExpression? | propName kw(":") ngExpression)?
   }
 
   ngObjectMember {
