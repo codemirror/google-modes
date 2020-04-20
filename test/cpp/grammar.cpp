@@ -32,7 +32,7 @@
   [keyword static_assert]([variable compliant] [operator ||] [operator !][variable&qualifier std]::[qualifier&variable is_trivially_destructible]<[type T]>::[qualified&variable value],
                 [string "Not compliant with std::is_trivially_destructible; "]
                 [string "Standard: true, Implementation: false"]);
-}
+};
 
 [keyword template] <[type size_t] [def max_size]>
 [keyword struct] [type&def Foo] {
@@ -48,7 +48,7 @@
   [keyword class] [def&type Baz] {
    [keyword public]:
     [type void] [def&property abc]();
-  }
+  };
 };
 [meta SOME_OTHER_MACRO]([variable SomethingThatLooksLikeAType]);
 
@@ -137,6 +137,9 @@
     [keyword return] ([variable-2 base].*[property BaseValueProvider])();
   }
   [keyword friend] [keyword class] [def&type X];
+  [keyword struct] [def&type Baz] {
+    [type int] [def&property x];
+  } [def a];
 };
 
 [type int] [def z] [meta MACRO]() [operator =] [number 0];

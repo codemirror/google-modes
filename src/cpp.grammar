@@ -3,7 +3,7 @@ extends "./c.grammar"
 skip whitespace {
   context Statement {
     Attributes |
-    Class |
+    Class declName? ";" |
     StaticAssert |
     namespace declName? (op("=") variableName ";" | NamespaceBlock) |
     throw Expression ";" |
@@ -107,7 +107,7 @@ skip whitespace {
 
   Class {
     (class | structUnion) Attributes? (NameQualifier(typeQualifier)+ qualifiedTypeName | typeDeclName) classVirtSpec*
-    (":" ListOf(virtual? access? Type))? (";" | ClassBody)
+    (":" ListOf(virtual? access? Type))? ClassBody?
   }
 
   context ClassBody {
@@ -115,7 +115,7 @@ skip whitespace {
   }
 
   context ClassItem {
-    access ":" | Template | Using | StaticAssert | Macro ";"? | modifier* (Enum ";"? | Class ";"? | ObjectMember)
+    access ":" | Template | Using | StaticAssert | Macro ";"? | modifier* (Enum ";"? | Class declName? ";"? | ObjectMember)
   }
 
   context ObjectMember {

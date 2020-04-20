@@ -10,7 +10,7 @@
           [keyword typename] [type&qualifier std]::[type&qualifier iterator_traits]<[local&type Iter]>::[type&qualified iterator_category],
           [type&qualifier std]::[type&qualified forward_iterator_tag]>::[type&qualified value],
       [type int]>::[type&qualified type];
-}
+};
 
 [keyword template] <[keyword typename] [def&type Alpha], [keyword typename] [def&type Beta],
           [keyword typename] [def&type Gamma]>

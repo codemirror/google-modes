@@ -112,7 +112,7 @@ skip whitespace {
   }
 
   Struct {
-    structUnion declName? BlockOf(StructField, ";")? ";"
+    structUnion declName? BlockOf(StructField, ";")? declName? ";"
   }
 
   StructField {

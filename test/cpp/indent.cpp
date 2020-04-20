@@ -69,23 +69,23 @@ class A
     : 
     public B {
   
-}
+};
 
 class A
     : public B {
   
-}
+};
 
 class A
     : public B<
         X, Y> {
   
-}
+};
 
 class Foo {
  public:
   
-}
+};
 
 Type m{a, 
        b};

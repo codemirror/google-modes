@@ -16,11 +16,11 @@
   [type void] [def&property push_back]([type Value] *[def&local V]) { [variable ValuePtrs].[property&callee emplace_back]([variable-2 V]); }
 
   [type Foo] [keyword operator][operator +]([keyword const] [type Box]& [def&local b]) {}
-}
+};
 
 [type BitcodeReaderValueList] [def a]([variable cx]);
 
 [keyword template] <[keyword class] [type&def T], [keyword class] [type&def V]>
 [keyword class] [type&def Class] : [keyword public] [type BaseClass] {
   [keyword const] [type MyType]<[type&local T], [type&local V]> [def&property member_];
-}
+};
