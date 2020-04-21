@@ -171,7 +171,7 @@ tokens {
   modifier { kw("register" | "static" | "extern" | "typedef") }
   typeModifier="type" { ("unsigned" | "signed" | "long") !identifierChar }
   modifiableType="type" { ("int" | "float" | "double" | "char" | "short") !identifierChar }
-  qualifier { kw("const" | "volatile") }
+  qualifier { kw("const" | "volatile" | "restrict") }
 
   atom="atom" { ("true" | "false" | "null") !identifierChar }
 

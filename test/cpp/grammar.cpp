@@ -151,3 +151,8 @@
 });
 
 [keyword auto] [[ [def a], [def b] ]] [operator =] [variable x];
+
+[type void] [def abc]([keyword const] [type char]* [local&def msg]...) {
+  [type int]* [keyword restrict] [def&local baz];
+}
+[type void] [def def]([keyword const] [type char]* [local&def msg], ...);
