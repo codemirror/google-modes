@@ -150,7 +150,7 @@ skip whitespace {
   context CondExpr {
     "(" (
        !(identifier "&&") DeclType Declarator Macro? Initializer? ("," declName Initializer?)* (";" Expression?)? |
-       Expression
+       Expressions
     )? ")"
   }
 

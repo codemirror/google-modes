@@ -13,13 +13,13 @@ skip whitespace {
     Block |
     breakCont ";" |
     goto identifier ";" |
-    return Expression? ";" |
+    return Expressions? ";" |
     Struct |
     Label |
     Macro (Block | ExpressionSuffix*) |
     DeclType DeclRest |
     ";" |
-    Expression ";"
+    Expressions ";"
   }
 
   context DeclType {
@@ -37,7 +37,7 @@ skip whitespace {
   }
 
   Loop {
-    for "(" Statement Expression? ";" Expression? ")" Statement |
+    for "(" Statement Expressions? ";" Expressions? ")" Statement |
     while CondExpr Statement |
     do Statement while CondExpr ";"
   }
@@ -72,6 +72,10 @@ skip whitespace {
     ExpressionPrefix* BaseExpression ExpressionSuffix*
   }
 
+  Expressions {
+    Expression ("," Expression)*
+  }
+
   ExpressionPrefix {
     prefixOp
   }
@@ -87,8 +91,8 @@ skip whitespace {
     variableName
   }
 
-  context ParenExpr { "(" Expression? ")" }
-  context CondExpr { "(" Expression? ")" }
+  context ParenExpr { "(" Expressions? ")" }
+  context CondExpr { "(" Expressions? ")" }
 
   ExpressionSuffix {
     ArgList |

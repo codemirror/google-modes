@@ -153,6 +153,8 @@
 [keyword auto] [[ [def a], [def b] ]] [operator =] [variable x];
 
 [type void] [def abc]([keyword const] [type char]* [local&def msg]...) {
+  [keyword for] ([type int] [def&local x] [operator =] [number 1]; [variable-2 x] [operator <] [number 5]; [variable-2 x][operator ++], [variable y][operator ++]) {
+  }
   [type int]* [keyword restrict] [def&local baz];
 }
 [type void] [def def]([keyword const] [type char]* [local&def msg], ...);
