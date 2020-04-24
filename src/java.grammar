@@ -112,7 +112,8 @@ skip whitespace {
     "." (kw("class") | NewExpr | TypeArgs | calleeField | fieldName) |
     "::" (kw("new") | calleeField | fieldName) |
     suffixOp |
-    (binOp | instanceof) Expr |
+    instanceof Type |
+    binOp Expr |
     op("?") Expr op(":") Expr
   }
 
