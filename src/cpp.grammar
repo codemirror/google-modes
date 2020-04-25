@@ -17,7 +17,7 @@ skip whitespace {
 
   TypeSuffix {
     TemplateArgs |
-    "::" qualifiedTypeName |
+    "::" (operator overloadableOp | qualifiedTypeName) |
     Attributes |
     super
   }
@@ -196,7 +196,8 @@ tokens {
   atom="atom" { "nullptr" !identifierChar | super }
 
   variableName {
-    NameQualifier(variableQualifier)+ (qualifiedInitializedName | qualifiedVariableName) (TemplateArgs (~"::" variableName)?)? |
+    NameQualifier(variableQualifier)+
+      (operator overloadableOp | qualifiedInitializedName | qualifiedVariableName) (TemplateArgs (~"::" variableName)?)? |
     initializedName |
     unqualifiedVariableName TemplateArgs?
   }
@@ -239,7 +240,7 @@ propDeclName { operator overloadableOp | rawPropDeclName }
 
 declName { operator overloadableOp | NameQualifier(declQualifier)+ qualifiedDeclName | unqualifiedDeclName }
 
-overloadableOp { op("->*") | "," | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
+overloadableOp { op("->*") | "," | op("=") | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 
 declOp { "*" | "&&" | "&" | "..." }
 
