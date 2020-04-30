@@ -33,7 +33,7 @@ skip whitespace {
   }
 
   context SwitchStatement {
-    switch (ExprNoBrace (";" ExprNoBrace?)?)? Block
+    switch (ExprNoBrace (";" ExprNoBrace?)?)? (&isTypeSwitch TypeSwitchBlock | Block)
   }
 
   MaybeSet(inner) { Set(inner) | inner }
@@ -90,6 +90,8 @@ skip whitespace {
   CommaSep(expr) { (expr ("," expr?)*)? }
 
   context Block { "{" separated(Statement) "}" }
+
+  context TypeSwitchBlock { "{" separated(case Type ":" | Statement) "}" }
 
   Type {
     "[" Expr? "]" Type |

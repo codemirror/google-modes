@@ -13,6 +13,10 @@ function skippableNewline(line, pos, cx) {
     (match[1] ? /^(?:func|interface|select|case|defer|go|map|struct|chan|else|goto|package|switch|const|if|range|type|for|import|var)$/.test(match[1]) : false)
 }
 
+function isTypeSwitch(line, pos) {
+  return /\.\s*\(\s*type\s*\)\s*$/.test(line.slice(0, pos))
+}
+
 const bracketed = {
   Block: "}", LiteralBody: "}", StructBody: "}", InterfaceBody: "}",
   Bracketed: "]",
@@ -38,7 +42,7 @@ function findIndent(cx, textAfter, config) {
 class GoMode extends CodeMirror.GrammarMode {
   constructor(conf) {
     super(grammar, {
-      predicates: {skippableNewline}
+      predicates: {skippableNewline, isTypeSwitch}
     })
     this.conf = conf
   }
