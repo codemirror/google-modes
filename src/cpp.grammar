@@ -262,7 +262,10 @@ qualifiedTypeName="type qualified" { identifier }
 typeQualifier="type qualifier" { identifier }
 
 maybeTypeName {
-  ~(!(("new" | "delete") !identifierChar) typeNameInner whitespace (TypeSuffix whitespace)* identifierStart) typeNameInner
+  ~(!(("new" | "delete") !identifierChar) typeNameInner
+    whitespace (TypeSuffix whitespace)*
+    (identifierStart | "(" whitespace "*" whitespace identifier whitespace ")" whitespace "("))
+  typeNameInner
 }
 
 ctorDtorName="def" { &localConstructorAhead "~"? identifier }
