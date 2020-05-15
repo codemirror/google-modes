@@ -64,6 +64,7 @@ skip whitespace {
     ObjectLiteral |
     number |
     string+ |
+    fstring+ |
     op("...") |
     atom |
     self |
@@ -173,9 +174,11 @@ tokens {
   }
 
   string="string" {
-    ("u" | "U" | "r" | "R" | "f" | "F" | "b" | "B")+ ~("'" | "\"") stringQuoted |
+    ("u" | "U" | "r" | "R" | "b" | "B")+ ~("'" | "\"") stringQuoted |
     stringQuoted
   }
+
+  fstring { fstringPrefix ~("'" | "\"") fstringQuoted }
 
   variableName="variable" { identifier }
 
@@ -189,8 +192,25 @@ stringQuoted {
   "\"" ("\\" _ | !"\"" .)* "\""
 }
 
+fstringPrefix="string" {
+  ("u" | "U" | "r" | "R")* ("f" | "F") ("u" | "U" | "r" | "R")*
+}
+fstringQuoted {
+  fs("'''") (!"'''" fstringU | fstringItem)* fs("'''") |
+  fs("\"\"\"") (!"\"\"\"" fstringU | fstringItem)* fs("\"\"\"") |
+  fs("'") (fs("\\") fstringU | !"'" fstringD | fstringItem)* fs("'") |
+  fs("\"") (fs("\\") fstringU | !"\"" fstringD | fstringItem)* fs("\"")
+}
+fstringItem { fs("{{") | fs("}}") | replacementField }
+replacementField { op("{") Expr (op("!") conversion)? (op(":") formatSpec)? op("}") }
+conversion="keyword" { "s" | "r" | "a" }
+formatSpec { (fstringD | replacementField)* }
+fstringD="string" { !("{" | "}") . }
+fstringU="string" { !("{" | "}") _ }
+
 kw(word)="keyword" { word !identifierChar }
 op(expr)="operator" { expr }
+fs(expr)="string" { expr }
 
 context indentedBody { "\n" (whitespaceSimple | "\n")* (&stillIndented Statement (whitespaceSimple | "\n")*)+ }
 
