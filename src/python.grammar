@@ -202,8 +202,8 @@ fstringQuoted {
   str("\"") (str("\\") fstringU | !"\"" fstringD | fstringItem)* str("\"")
 }
 fstringItem { str("{{") | str("}}") | replacementField }
-replacementField { op("{") Expr (op("!") conversion)? (op(":") formatSpec)? op("}") }
-conversion="keyword" { (!(":" | "}") .)* }
+context replacementField { op("{") Expr? op("=")? (op("!") conversion)? (op(":") formatSpec)? op("}") }
+conversion="keyword" { (!(":" | "}" | " " | "\t") .)* }
 formatSpec { (fstringD | replacementField)* }
 fstringD="string" { !("{" | "}") . }
 fstringU="string" { !("{" | "}") _ }
