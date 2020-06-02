@@ -63,8 +63,7 @@ skip whitespace {
     ArrayLiteral |
     ObjectLiteral |
     number |
-    string+ |
-    fstring+ |
+    (string | fstring)+ |
     op("...") |
     atom |
     self |
@@ -202,7 +201,7 @@ fstringQuoted {
   str("\"") (str("\\") fstringU | !"\"" fstringD | fstringItem)* str("\"")
 }
 fstringItem { str("{{") | str("}}") | replacementField }
-context replacementField { op("{") Expr? op("=")? (op("!") conversion)? (op(":") formatSpec)? op("}") }
+replacementField { op("{") Expr? op("=")? (op("!") conversion)? (op(":") formatSpec)? op("}") }
 conversion="keyword" { (!(":" | "}" | " " | "\t") .)* }
 formatSpec { (fstringD | replacementField)* }
 fstringD="string" { !("{" | "}") . }
