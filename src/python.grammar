@@ -102,7 +102,9 @@ skip whitespace {
     op("**") ExprNoComma | ExprNoComma (":" ExprNoComma)?
   }
 
-  context Subscript { "[" CommaSep(ExprNoComma (":" ExprNoComma?)? | ":" ExprNoComma? (":" ExprNoComma?)?) "]" }
+  context Subscript {
+    "[" CommaSep(ExprNoComma (":" ExprNoComma? (":" ExprNoComma?)?)? | ":" ExprNoComma? (":" ExprNoComma?)?) "]"
+  }
 
   CommaSep(expr) { expr ("," expr?)* }
 
