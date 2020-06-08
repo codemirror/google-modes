@@ -14,7 +14,7 @@ skip whitespace {
   }
 
   AsyncStatement {
-    with CommaSep(ExprNoComma (as declName)?) ":" Body |
+    with CommaSep(ExprNoComma (as (declName | ParenPattern | BracketPattern))?) ":" Body |
     def declName FuncDef |
     class ClassDef
   }
