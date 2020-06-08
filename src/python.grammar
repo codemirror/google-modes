@@ -31,7 +31,7 @@ skip whitespace {
     import CommaSep(ExprNoComma (as declName)?) |
     from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
     globalNonlocal CommaSep(variableName) |
-    MaybePattern("=") op("=") Expr |
+    MaybePattern(("=" | ":")) (":" Expr)? (op("=") Expr)? |
     Expr
   }
 
@@ -112,7 +112,7 @@ skip whitespace {
 
   context ParenPattern { "(" Pattern ")" }
   context BracketPattern { "[" Pattern "]" }
-  Pattern { CommaSep(!in declName (":" variableName)? | ParenPattern | BracketPattern) }
+  Pattern { CommaSep(!in declName | ParenPattern | BracketPattern) }
 
   MaybePattern(after) { ~(Pattern after) Pattern }
 }
