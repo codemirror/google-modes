@@ -99,3 +99,21 @@
 
 ([def a],
  [def b]) [operator =] [variable c]
+
+[comment # subscript]
+[variable xs][[ [variable i] ]]
+
+[comment # simple slices]
+[variable xs][[ [variable i] : [variable j] ]]
+[variable xs][[ [variable i] :              ]]
+[variable xs][[              : [variable j] ]]
+[variable xs][[              :              ]]
+
+[comment # slices with step]
+[variable xs][[ [variable i] : [variable j] : [variable s] ]]
+[variable xs][[              : [variable j] : [variable s] ]]
+[variable xs][[ [variable i] :              : [variable s] ]]
+[variable xs][[              :              : [variable s] ]]
+[variable xs][[ [variable i] :              :              ]]
+[variable xs][[              : [variable j] :              ]]
+[variable xs][[              :              :              ]]
