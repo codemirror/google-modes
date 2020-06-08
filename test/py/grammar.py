@@ -4,8 +4,12 @@
 [keyword from] [variable huh] [keyword import] *
 
 [def foo] [operator =] [string "bar"]; [variable abc_cde].[property&callee prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
-[def bar]: [variable str] [operator =] [string "q"]
-[keyword for] [def y]: [variable str] [keyword in] [variable x]: [keyword pass]
+[def bar]: [builtin str] [operator =] [string "q"]
+[def bar]: [builtin str]
+[def bar]: [builtin list] [[ [builtin int] ]]
+[def bar]: [variable x][operator +][variable y]
+
+[keyword for] [def y] [keyword in] [variable x]: [keyword pass]
 
 [meta @foo.bar]
 [keyword async] [keyword def] [def f]([variable-2 v]: [variable myType] [operator =] [number 0xffff], [operator **][variable-2 blah]):
