@@ -40,6 +40,9 @@
 
 [keyword if] [variable pfile] [keyword is] [atom None] [keyword or] [variable pfile].[property project].[property disabled]: [keyword return]
 
+[comment # with statement with a non-trivial target]
+[keyword with] [variable cm] [keyword as] ([def x], [def y]): [operator ...]
+
 [keyword class] [type&def B]:
   [keyword def] [def&property __init__]([atom self]):
     [keyword try]:
