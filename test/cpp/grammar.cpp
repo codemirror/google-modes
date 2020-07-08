@@ -49,6 +49,7 @@
    [keyword public]:
     [type void] [def&property abc]();
   };
+  [keyword enum] [keyword class] [def&type MyEnum] : [type uint8] {[def&property kValue0], [def&property kValue1]};
 };
 [meta SOME_OTHER_MACRO]([variable SomethingThatLooksLikeAType]);
 

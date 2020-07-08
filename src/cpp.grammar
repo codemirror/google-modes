@@ -162,7 +162,7 @@ skip whitespace {
     "<" (!">" (MatchingAngleBrackets | string | _))* ">"
   }
 
-  EnumHead { enum (class | kw("struct"))? Attributes? }
+  Enum { enum (class | kw("struct"))? Attributes? typeDeclName? (":" Type)? BlockOf(propDeclName (op("=") Expression)?, ",")? }
 }
 
 NameQualifier(type) {
