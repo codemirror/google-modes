@@ -264,7 +264,7 @@ typeQualifier="type qualifier" { identifier }
 maybeTypeName {
   ~(!(("new" | "delete") !identifierChar) typeNameInner
     whitespace (TypeSuffix whitespace)*
-    (identifierStart | "(" whitespace "*" whitespace identifier whitespace ")" whitespace "("))
+    (identifierStart | "..." | "(" whitespace "*" whitespace identifier whitespace ")" whitespace "("))
   typeNameInner
 }
 

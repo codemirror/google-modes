@@ -42,6 +42,9 @@
   [type void] [def&property foo]() [operator =] [keyword delete];
 };
 
+[type int] [def emit]([type int]... [def&local s]) {
+}
+
 [keyword class] [def&type Foo] : [keyword public] [type Bar] {
   [meta SOME_MACRO]([variable SomethingCapitalized], [variable SomethingCapitalized1]);
   [meta SOME_MACRO]([variable SomethingCapitalized], [variable SomethingCapitalized1]);
