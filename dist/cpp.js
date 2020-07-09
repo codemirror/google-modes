@@ -1569,9 +1569,12 @@
     return findIndent(state.contextAt(passLine, line.length - textAfter.length), textAfter, config)
   }
 
-  function constructorAhead(line, pos) {
-    var match = /^(\w+)::~?(\w+)/.exec(line.slice(pos));
-    return match && match[1] == match[2]
+  function constructorAhead(line, pos, _cx, nextLines) {
+    var m1 = /^(\w+)\s*(::\s*(?:~?(\w+)|$)|$)/.exec(line.slice(pos));
+    if (!m1) { return false }
+    if (m1[3]) { return m1[3] == m1[1] }
+    var m2 = (m1[2] ? /^\s*~?(\w+)/ : /^\s*::\s*~?(\w+)/).exec(nextLines && nextLines(1) || "");
+    return m2 && m2[1] == m1[1]
   }
 
   function localConstructorAhead(line, pos, cx) {

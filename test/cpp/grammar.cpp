@@ -162,3 +162,9 @@
   [type int]* [keyword restrict] [def&local baz];
 }
 [type void] [def def]([keyword const] [type char]* [local&def msg], ...);
+
+[qualifier&def ClassName]::
+    [qualified&def ClassName]([type T] [def&local a]) {}
+
+[qualifier&def ClassName2]
+    ::[qualified&def ClassName2]([type T] [def&local a]) {}

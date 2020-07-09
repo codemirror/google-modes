@@ -4,9 +4,12 @@ import * as cpp from "./cpp.mode"
 import {markLocals, markTypeLocals} from "./locals"
 import {indent} from "./c_indent"
 
-function constructorAhead(line, pos) {
-  let match = /^(\w+)::~?(\w+)/.exec(line.slice(pos))
-  return match && match[1] == match[2]
+function constructorAhead(line, pos, _cx, nextLines) {
+  let m1 = /^(\w+)\s*(::\s*(?:~?(\w+)|$)|$)/.exec(line.slice(pos))
+  if (!m1) return false
+  if (m1[3]) return m1[3] == m1[1]
+  let m2 = (m1[2] ? /^\s*~?(\w+)/ : /^\s*::\s*~?(\w+)/).exec(nextLines && nextLines(1) || "")
+  return m2 && m2[1] == m1[1]
 }
 
 function localConstructorAhead(line, pos, cx) {
