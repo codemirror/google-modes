@@ -240,7 +240,7 @@ propDeclName { operator overloadableOp | rawPropDeclName }
 
 declName { operator overloadableOp | NameQualifier(declQualifier)+ qualifiedDeclName | unqualifiedDeclName }
 
-overloadableOp { op("->*") | "," | op("=") | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
+overloadableOp { op("->*") | "," | op("==") | op("=") | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 
 declOp { "*" | "&&" | "&" | "..." }
 

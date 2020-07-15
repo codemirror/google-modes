@@ -634,6 +634,7 @@
     [2, 396, -1, {"name":"unqualifiedVariableName","token":"variable"}],
     [3, "operator", "->*", -1,
      ",", -1,
+     3, "operator", "==", -1,
      3, "operator", "=", -1,
      3, "operator", e[43], -1,
      2, 136, -1, {"name":"prefixOp","token":"operator"},
