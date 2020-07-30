@@ -107,7 +107,7 @@
   }
 }
 
-[variable type] [operator =] [variable x] [keyword as] [type Bar];
+[variable type] [operator =] <[type number]>[variable x] [keyword as] [type Bar];
 
 [keyword export] [keyword const] [keyword enum] [def&type CodeInspectionResultType] {
   [def&property ERROR] [operator =] [string 'problem_type_error'],

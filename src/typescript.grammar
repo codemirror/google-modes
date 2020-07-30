@@ -78,6 +78,11 @@ skip whitespace {
     op("?") Expression op(":") ContExpression
   }
 
+  BaseExpression {
+    "<" Type ">" BaseExpression |
+    super
+  }
+
   context FunctionDef {
     TypeParams? ParamList (":" RetType)? (Block | semi)
   }
