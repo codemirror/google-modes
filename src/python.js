@@ -4,7 +4,7 @@ import * as grammar from "./python.mode"
 import {markLocals} from "./locals"
 
 const scopes = ["LambdaDef", "FuncDef", "ClassDef"]
-const allowNewline = ["ArgList", "ParamList", "ParenExpr", "ArrayLiteral", "ObjectLiteral", "Subscript", "DictProp", "ParenPattern", "BracketPattern"]
+const allowNewline = ["ArgList", "ParamList", "FromImportList", "ParenExpr", "ArrayLiteral", "ObjectLiteral", "Subscript", "DictProp", "ParenPattern", "BracketPattern"]
 
 function maySkipNewline(_line, _pos, cx) {
   return cx && allowNewline.indexOf(cx.name) > -1
@@ -74,7 +74,7 @@ function pythonMarkLocals(token, stream, state) {
     else if (marked == "def local") marked = "variable-2"
   }
   return marked
-}  
+}
 
 class PythonMode extends CodeMirror.GrammarMode {
   constructor(conf) {

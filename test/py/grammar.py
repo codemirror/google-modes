@@ -1,7 +1,12 @@
 [comment # this is a comment]
 
-[keyword import] [variable foo].[property bar] [keyword as] [def ugh]
-[keyword from] [variable huh] [keyword import] *
+[keyword import] [variable foo].[property bar] [keyword as] [def foobar]
+[keyword from] [variable foo] [keyword import] *
+[keyword from] [variable foo] [keyword import] bar
+[keyword from] [variable foo] [keyword import] bar [keyword as] [def foobar]
+[keyword from] [variable foo] [keyword import] (bar)
+[keyword from] [variable foo] [keyword import] (bar [keyword as] [def foobar])
+[keyword from] [variable foo] [keyword import] (bar,)
 
 [def foo] [operator =] [string "bar"]; [variable abc_cde].[property&callee prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
 [def bar]: [builtin str] [operator =] [string "q"]

@@ -29,11 +29,13 @@ skip whitespace {
     returnAssert Expr? |
     raise Expr? (from Expr)? |
     import CommaSep(ExprNoComma (as declName)?) |
-    from "."* Expr? import ("*" | "(" CommaSep(identifier (as declName?))? ")" | CommaSep(identifier (as declName)?)) |
+    from "."* Expr? import ("*" | FromImportList | CommaSep(identifier (as declName)?)) |
     globalNonlocal CommaSep(variableName) |
     MaybePattern(("=" | ":")) (":" Expr)? (op("=") Expr)? |
     Expr
   }
+
+  context FromImportList { "(" CommaSep(identifier (as declName)?)? ","? ")" }
 
   Annotation="meta" { "@" identifier ("." identifier)* }
 
