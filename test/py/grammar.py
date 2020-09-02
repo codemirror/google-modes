@@ -7,6 +7,8 @@
 [keyword from] [variable foo] [keyword import] (bar)
 [keyword from] [variable foo] [keyword import] (bar [keyword as] [def foobar])
 [keyword from] [variable foo] [keyword import] (bar,)
+[keyword from] .. [keyword import] bar
+[keyword from] .. [variable foo] [keyword import] bar
 
 [def foo] [operator =] [string "bar"]; [variable abc_cde].[property&callee prop]([operator **][variable baz]); [keyword del] [variable foo], [variable bar]
 [def bar]: [builtin str] [operator =] [string "q"]
