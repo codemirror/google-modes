@@ -7,6 +7,7 @@ require("codemirror-grammar-mode")
 const {parseSpec, tokenType} = require("./parse_spec")
 
 require("../dist/cpp")
+require("../dist/clif")
 require("../dist/c")
 require("../dist/flatbuffers")
 require("../dist/javascript")
@@ -21,6 +22,7 @@ require("../dist/html")
 let filter = process.argv[2]
 
 ;[{dir: "c", mode: "google-c"},
+  {dir: "clif", mode: "google-clif"},
   {dir: "cpp", mode: "google-cpp"},
   {dir: "flatbuffers", mode: "flatbuffers"},
   {dir: "js", mode: "google-javascript"},

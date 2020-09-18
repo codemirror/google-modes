@@ -60,6 +60,7 @@
 <script src="dist/go.js"></script>
 <script src="dist/angulartemplate.js"></script>
 <script src="dist/kotlin.js"></script>
+<script src="dist/clif.js"></script>
 
 <style>
   .CodeMirror { border: 1px solid silver; height: 500px; }
@@ -902,6 +903,18 @@ func main() {
 </div>
 </textarea>
 
+<h2>CLIF</h2>
+
+<textarea id=code-clif>
+from "foo/bar.h":
+  enum NAME with:
+    `Abra` as ABRA
+
+  interface Foo<T>:
+    def bar(self) -> T
+</textarea>
+
+
 <script>
   let editors = {}
   ;[
@@ -912,7 +925,8 @@ func main() {
     {name: "python"},
     {name: "go", tabSize: 2, indentWithTabs: true, indentUnit: 2},
     {name: "angular-template"},
-    {name: "kotlin"}
+    {name: "kotlin"},
+    {name: "clif"},
   ].forEach(spec => {
     editors[spec.name] = CodeMirror.fromTextArea(document.querySelector(`#code-${spec.name}`),
    Object.assign({

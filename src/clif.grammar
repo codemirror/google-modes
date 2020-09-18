@@ -1,0 +1,140 @@
+skip whitespace {
+  start top { whitespace ("\n" | Statement)* }
+
+  context Statement {
+    FromStatement |
+    InterfaceStatement |
+    SimpleStatement "\n"
+  }
+
+  SimpleStatement {
+    ImportStatement |
+    IncludeStatement |
+    UseStatement |
+    TypeDefStatement
+  }
+
+  FromStatement {
+    !(from qstring import)
+    from qstring ":" indented(GlobalDecl | NamespaceStatement)
+  }
+
+  ImportStatement {
+    !(from qstring (":" | import))
+    from DottedName import name
+  }
+
+  IncludeStatement { from qstring import "*" (as name)? }
+
+  TypeDefStatement { type name "=" Type }
+
+  UseStatement { use rename DottedName }
+
+  NamespaceStatement { namespace qstring indented(GlobalDecl) }
+
+  InterfaceStatement {
+    interface name "<" name ("," name)* ">" indented(MethodDef | VarDef)
+  }
+
+  StaticMethodsStatement { staticmethods from astring indented(FuncDef) }
+
+  GlobalDecl {
+    Decorator |
+    FuncDef | ClassDef | EnumDef |
+    capsule cname |
+    ConstDef |
+    InterfaceStatement |
+    StaticMethodsStatement
+  }
+
+  NestedDecl {
+    Decorator |
+    VarDef | MethodDef | ClassDef | EnumDef | ConstDef | pass | ImplementsDef
+  }
+
+  ConstDef { const cname ":" Type }
+
+  EnumDef { enum cname (with ":" indented(rename DottedName))? }
+
+  VarDef { cname ":" Type ("=" property "(" astring ("," astring)? ")")? }
+
+  FuncDef {
+    def cname "(" CommaSep(ParamDef) ")" (Returns (":" FuncMethodBody)?)?
+  }
+
+  MethodDef {
+    def cname "(" receiver  ("," ParamDef)* ")" (Returns (":" FuncMethodBody)?)?
+  }
+
+  ClassDef { class cname ("(" CommaSep(tname) ")")? ":" indented(NestedDecl) }
+
+  ImplementsDef { implements name "<" CommaSep(name) ">" }
+
+  Type { CallableType | NamedType }
+  CallableType { rename? lambda? CommaSep(ParamDef) Returns }
+  NamedType { tname ("<" CommaSep(Type) ">")? }
+
+  ParamDef { name ":" Type ("=" default)? }
+  Returns { "->" (None | Type | "(" CommaSep(ParamDef) ")") }
+  FuncMethodBody { indented(qstring | return name "(...)") }
+  DottedName { name ("." name)* }
+  Decorator="meta" { "@" DottedName }
+
+  rename { qstring as }
+  cname { rename? name }
+  tname { rename? DottedName }
+  CommaSep(expr) { (expr ("," expr?)*)? }
+}
+
+tokens {
+  as { kw("as") }
+  capsule { kw("capsule") }
+  class { kw("class") }
+  const { kw("const") }
+  def { kw("def") }
+  default { kw("default") }
+  enum { kw("enum") }
+  from { kw("from") }
+  implements { kw("implements") }
+  import { kw("import") }
+  interface { kw("interface") }
+  lambda { kw("lambda") }
+  namespace { kw("namespace") }
+  None="atom" { kw("None") }
+  pass { kw("pass") }
+  property { kw("property") }
+  return { kw("return") }
+  staticmethods { kw("staticmethods") }
+  type { kw("type") }
+  use { kw("use") }
+  with { kw("with") }
+
+  receiver="atom" { kw("self" | "cls") }
+
+  comment="comment" { "#" .* }
+}
+
+qstring="string" {
+  "'''" ("\\" _ | !"'''" _)* "'''" |
+  "\"\"\"" ("\\" _ | !"\"\"\"" _)* "\"\"\"" |
+  "'" ("\\" _ | !"'" .)* "'" |
+  "\"" ("\\" _ | !"\"" .)* "\""
+}
+astring { "`" (!"`" .)* "`" }
+
+kw(word)="keyword" { word !nameChar }
+
+indented(body) {
+  "\n" (whitespaceSimple | "\n")* (&stillIndented body (whitespaceSimple | "\n")*)+
+}
+
+name { nameStart nameChar* }
+
+whitespaceSimple { (" " | "\t" | comment) }
+
+whitespace { (whitespaceSimple | ~"\n" &maySkipNewline "\n")* }
+
+nameStart { letter | "_" }
+nameChar { letter | digit | "_" }
+letter { "a"-"z" | "A"-"Z" }
+digit { "0"-"9" }
