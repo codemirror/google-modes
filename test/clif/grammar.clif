@@ -1,0 +1,5 @@
+[comment # this is a comment]
+
+[keyword from] [string "foo.h"] [keyword import] *
+[keyword from] [string "bar.h"] [keyword import] *
+[keyword from] [string "boo.h"] [keyword import] *
