@@ -4,84 +4,86 @@ skip whitespace {
   context Statement {
     FromStatement |
     InterfaceStatement |
+    FuncDef |
+    ClassDef |
+    EnumDef |
+    InterfaceStatement |
+    StaticMethodsStatement |
+    NamespaceStatement |
     SimpleStatement "\n"
   }
 
   SimpleStatement {
+    CapsuleDef |
+    ImplementsDef |
     ImportStatement |
     IncludeStatement |
     UseStatement |
-    TypeDefStatement
+    TypeDefStatement |
+    ConstDef |
+    VarDef |
+    Decorator |
+    enumEntry |
+    pass |
+    qstring !(":" | import) |
+    return name "(" op("...") ")" |
+    name !":"
   }
 
   FromStatement {
-    !(from qstring import)
-    from qstring ":" indented(GlobalDecl | NamespaceStatement)
+    !(from (DottedName | qstring import)) from qstring ":" indentedBody
   }
 
-  ImportStatement {
-    !(from qstring (":" | import))
-    from DottedName import name
+  IncludeStatement {
+    !(from (DottedName | qstring ":")) from qstring import "*" (as d(name))?
   }
 
-  IncludeStatement { from qstring import "*" (as name)? }
+  ImportStatement { !(from qstring) from DottedName import name }
 
-  TypeDefStatement { type name "=" Type }
+  TypeDefStatement { type d(name) "=" Type }
 
   UseStatement { use rename DottedName }
 
-  NamespaceStatement { namespace qstring indented(GlobalDecl) }
+  NamespaceStatement { namespace astring ":" indentedBody }
 
   InterfaceStatement {
-    interface name "<" name ("," name)* ">" indented(MethodDef | VarDef)
+    interface d(name) "<" name ("," name)* ">" ":" indentedBody
   }
 
-  StaticMethodsStatement { staticmethods from astring indented(FuncDef) }
-
-  GlobalDecl {
-    Decorator |
-    FuncDef | ClassDef | EnumDef |
-    capsule cname |
-    ConstDef |
-    InterfaceStatement |
-    StaticMethodsStatement
+  StaticMethodsStatement {
+    staticmethods from astring ":" indentedBody
   }
 
-  NestedDecl {
-    Decorator |
-    VarDef | MethodDef | ClassDef | EnumDef | ConstDef | pass | ImplementsDef
+  ConstDef { const d(cname) ":" Type }
+
+  CapsuleDef { capsule cname }
+
+  EnumDef { enum cname (with ":" indentedBody)? }
+  enumEntry { rename DottedName }
+
+  VarDef { ~(cname ":") cname ":" Type ("=" property "(" astring ("," astring)? ")")? }
+
+  ClassDef { class cname Bases? ":" indentedBody }
+  context Bases { "(" CommaSep(tname) ")" }
+
+  ImplementsDef { implements name "<" CommaSep(DottedName) ">" }
+
+  FuncDef { def cname Params (Returns (":" indentedBody)?)? }
+
+  Type {
+    rename? (lambda? Params Returns | DottedName ("<" CommaSep(Type) ">")?)
   }
 
-  ConstDef { const cname ":" Type }
+  ParamDef { locald(name) (":" Type ("=" default)?)? }
+  context Params { "(" CommaSep(receiver | ParamDef) ")" }
+  Returns { "->" (None | Type | Params) }
 
-  EnumDef { enum cname (with ":" indented(rename DottedName))? }
-
-  VarDef { cname ":" Type ("=" property "(" astring ("," astring)? ")")? }
-
-  FuncDef {
-    def cname "(" CommaSep(ParamDef) ")" (Returns (":" FuncMethodBody)?)?
-  }
-
-  MethodDef {
-    def cname "(" receiver  ("," ParamDef)* ")" (Returns (":" FuncMethodBody)?)?
-  }
-
-  ClassDef { class cname ("(" CommaSep(tname) ")")? ":" indented(NestedDecl) }
-
-  ImplementsDef { implements name "<" CommaSep(name) ">" }
-
-  Type { CallableType | NamedType }
-  CallableType { rename? lambda? CommaSep(ParamDef) Returns }
-  NamedType { tname ("<" CommaSep(Type) ">")? }
-
-  ParamDef { name ":" Type ("=" default)? }
-  Returns { "->" (None | Type | "(" CommaSep(ParamDef) ")") }
-  FuncMethodBody { indented(qstring | return name "(...)") }
   DottedName { name ("." name)* }
+
   Decorator="meta" { "@" DottedName }
 
-  rename { qstring as }
-  cname { rename? name }
+  rename { astring as }
+  cname { rename? d(name) }
   tname { rename? DottedName }
   CommaSep(expr) { (expr ("," expr?)*)? }
 }
@@ -100,7 +102,6 @@ tokens {
   interface { kw("interface") }
   lambda { kw("lambda") }
   namespace { kw("namespace") }
-  None="atom" { kw("None") }
   pass { kw("pass") }
   property { kw("property") }
   return { kw("return") }
@@ -109,7 +110,8 @@ tokens {
   use { kw("use") }
   with { kw("with") }
 
-  receiver="atom" { kw("self" | "cls") }
+  None { atom("None") }
+  receiver { atom("self" | "cls") }
 
   comment="comment" { "#" .* }
 }
@@ -120,12 +122,17 @@ qstring="string" {
   "'" ("\\" _ | !"'" .)* "'" |
   "\"" ("\\" _ | !"\"" .)* "\""
 }
-astring { "`" (!"`" .)* "`" }
+astring="string" { "`" (!"`" .)* "`" }
 
+atom(word)="atom" { word !nameChar }
 kw(word)="keyword" { word !nameChar }
 
-indented(body) {
-  "\n" (whitespaceSimple | "\n")* (&stillIndented body (whitespaceSimple | "\n")*)+
+d(word)="def" { word }
+locald(word)="variable-2" { word }
+op(expr)="operator" { expr }
+
+indentedBody {
+  "\n" (whitespaceSimple | "\n")* (&stillIndented Statement (whitespaceSimple | "\n")*)+
 }
 
 name { nameStart nameChar* }

@@ -3,9 +3,9 @@ import "codemirror-grammar-mode"
 import * as grammar from "./clif.mode"
 import {markLocals} from "./locals"
 
-const allowNewline = [
-  "ParamList",
-]
+const scopes = ["FuncDef", "ClassDef"]
+
+const allowNewline = ["Bases", "Params"]
 
 function maySkipNewline(_line, _pos, cx) {
   return cx && allowNewline.indexOf(cx.name) > -1
@@ -36,7 +36,7 @@ class ClifMode extends CodeMirror.GrammarMode {
   }
 
   token(stream, state) {
-    return markLocals(super.token(stream, state), stream, state)
+    return markLocals(super.token(stream, state), scopes, stream, state)
   }
 
   indent(state, textAfter, line) {
