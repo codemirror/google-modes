@@ -238,7 +238,11 @@ attributeName="meta" { identifier }
 rawPropDeclName="def property" { identifier }
 propDeclName { operator overloadableOp | rawPropDeclName }
 
-declName { operator overloadableOp | NameQualifier(declQualifier)+ qualifiedDeclName | unqualifiedDeclName }
+declName {
+  operator overloadableOp |
+  NameQualifier(declQualifier)+ (operator overloadableOp | qualifiedDeclName) |
+  unqualifiedDeclName
+}
 
 overloadableOp { op("->*") | "," | op("==") | op("=") | binOp | prefixOp | "(" ")" | "[" "]" | (new | delete) ("[" "]")? }
 
