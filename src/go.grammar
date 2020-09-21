@@ -83,7 +83,7 @@ skip whitespace {
     Bracketed
   }
 
-  context Bracketed { "[" CommaSep(Expr) (":" Expr?)* "]" }
+  context Bracketed { "[" CommaSep(Expr | "...") (":" Expr?)* "]" }
 
   context ArgList { "(" CommaSep(Expr) "..."? ")" }
 
