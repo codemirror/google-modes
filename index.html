@@ -906,6 +906,10 @@ func main() {
 <h2>CLIF</h2>
 
 <textarea id=code-clif>
+from "foo.h" import *
+from "bar.h" import * as bar
+from foo.bar import baz
+
 from "foo/bar.h":
   enum NAME with:
     `Abra` as ABRA

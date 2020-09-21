@@ -1,5 +1,45 @@
-[comment # this is a comment]
+[comment # This is a comment]
+
+[comment # Unhighlighted variable]
+foo
+xdef
+defx
 
 [keyword from] [string "foo.h"] [keyword import] *
-[keyword from] [string "bar.h"] [keyword import] *
-[keyword from] [string "boo.h"] [keyword import] *
+[keyword from] [string "bar.h"] [keyword import] * [keyword as] [def bar]
+
+[keyword from] foo.bar [keyword import] baz
+
+[comment # Variable definition]
+[def x]: int
+
+[keyword capsule] [def Foo]
+
+[meta @deco]
+[keyword def] [def f]([variable-2 x]: int) -> [atom None]
+
+[comment # Parameter with default value]
+[keyword def] [def f]([variable-2 x]: int = [keyword default])
+
+[comment # No parameters]
+[keyword def] [def f]()
+
+[comment # Named return type]
+[keyword def] [def f]() -> [string `foobar`] [keyword as] foo.bar
+[keyword def] [def f]() -> foo.bar
+[keyword def] [def f]() -> foo.bar<boo>
+
+[comment # Callable return type]
+[keyword def] [def f]() -> [string `foobar`] [keyword as] ([variable-2 x]: int) -> foo.bar
+[keyword def] [def f]() -> [string `foobar`] [keyword as] [keyword lambda] ([variable-2 x]: int) -> Boo
+
+[comment # Function/method body]
+[keyword return] foo([operator ...])
+
+[comment # Type alias]
+[keyword type] [def A] = int
+[keyword use] [string `std::string_view`] [keyword as] bytes
+
+[comment # Compound statements]
+[keyword from] [string "baz.h"]:
+[keyword namespace] [string `std::boo`]:
