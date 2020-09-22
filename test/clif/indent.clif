@@ -1,0 +1,35 @@
+# test: indent_only
+
+def f(
+    x: int)
+
+def f(x: int,
+      y: int)
+
+def f(x: int,
+      y: int) -> (x: int,
+                  ) -> int
+
+interface Foo<A,
+              B>:
+  x: int
+
+class C:
+  def f(self) -> C
+
+  # Comment directly after DEDENT.
+  # TODO(slebedev): This is a known bug which also affects google-python mode.
+  # Shift to the toplevel and the test will fail.
+  def f() -> C
+
+from "foo.h":
+  x: int
+
+  namespace `std::foo`:
+    x: int
+
+    interface Foo<T>:
+      def bar(self) -> T
+
+  def bar(self) -> Foo<bytes>
+  def boo(self)

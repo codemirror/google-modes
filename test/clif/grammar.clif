@@ -42,4 +42,7 @@ defx
 
 [comment # Compound statements]
 [keyword from] [string "baz.h"]:
-[keyword namespace] [string `std::boo`]:
+  [keyword namespace] [string `std::boo`]:
+    [keyword def] [def f]()
+    [keyword interface] [def A] <T>:
+      [def x]: int

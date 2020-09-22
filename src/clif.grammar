@@ -47,8 +47,9 @@ skip whitespace {
   NamespaceStatement { namespace astring ":" indentedBody }
 
   InterfaceStatement {
-    interface d(name) "<" name ("," name)* ">" ":" indentedBody
+    interface d(name) TypeParams ":" indentedBody
   }
+  context TypeParams { "<" CommaSep(name) ">" }
 
   StaticMethodsStatement {
     staticmethods from astring ":" indentedBody
@@ -66,13 +67,15 @@ skip whitespace {
   ClassDef { class cname Bases? ":" indentedBody }
   context Bases { "(" CommaSep(tname) ")" }
 
-  ImplementsDef { implements name "<" CommaSep(DottedName) ">" }
+  ImplementsDef { implements name QualifiedTypes }
+  context QualifiedTypes { "<" CommaSep(DottedName) ">" }
 
   FuncDef { def cname Params (Returns (":" indentedBody)?)? }
 
   Type {
-    rename? (lambda? Params Returns | DottedName ("<" CommaSep(Type) ">")?)
+    rename? (!(lambda | "(") DottedName Types? | lambda? Params Returns)
   }
+  context Types { "<" CommaSep(Type) ">" }
 
   ParamDef { locald(name) (":" Type ("=" default)?)? }
   context Params { "(" CommaSep(receiver | ParamDef) ")" }
@@ -85,7 +88,7 @@ skip whitespace {
   rename { astring as }
   cname { rename? d(name) }
   tname { rename? DottedName }
-  CommaSep(expr) { (expr ("," expr?)*)? }
+  CommaSep(expr) { (expr ("," expr?)* ","?)? }
 }
 
 tokens {
@@ -131,7 +134,7 @@ d(word)="def" { word }
 locald(word)="variable-2" { word }
 op(expr)="operator" { expr }
 
-indentedBody {
+context indentedBody {
   "\n" (whitespaceSimple | "\n")* (&stillIndented Statement (whitespaceSimple | "\n")*)+
 }
 
