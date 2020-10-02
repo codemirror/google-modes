@@ -34,7 +34,9 @@
                 [string "Standard: true, Implementation: false"]);
 };
 
-[keyword template] <[type size_t] [def max_size]>
+[keyword template] <[type size_t] [def max_size],
+          [keyword class] [def&type ExpectedExternalId] [operator =]
+          [keyword typename] [type&qualifier std]::[type&qualifier conditional]<[type true], [type int], [type bool]>::[type&qualified type]>
 [keyword struct] [type&def Foo] {
   [type&qualifier std]::[type&qualified array]<[type char], [type max_size]> [def&property data];
   [type size_t] [def&property size];
