@@ -160,7 +160,7 @@ tokens {
   builtin="builtin" {
     ("append" | "cap" | "close" | "complex" | "copy" | "delete" | "imag" |
      "len" | "new" | "panic" | "print" | "println" | "real" |
-     "recover") !identifierChar
+     "recover") !(identifierChar | ".")
   }
 
   binOp="operator" {
