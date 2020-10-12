@@ -9,7 +9,7 @@ skip l {
     Modifier* (
       (class | interface) typeDeclName ClassSpec |
       ObjectDeclaration(defName) |
-      fun FunctionDeclaration(defName) |
+      fun (interface typeDeclName ClassSpec | FunctionDeclaration(defName)) |
       PropertyDeclaration(defName) |
       Getter |
       Setter |
