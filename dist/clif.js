@@ -488,7 +488,6 @@
       return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 2 * config.indentUnit)
     } else if (cx.name == "indentedBody") {
       for (;; cx = cx.parent) {
-        console.log(2);
         if (!cx) { return config.indentUnit }
         if (cx.name == "Statement") { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + config.indentUnit }
       }
@@ -499,7 +498,7 @@
   }
 
 
-  var ClifMode = /*@__PURE__*/(function (superclass) {
+  var ClifMode = (function (superclass) {
     function ClifMode(conf) {
       superclass.call(this, grammar, {
         predicates: {maySkipNewline: maySkipNewline, stillIndented: stillIndented},
