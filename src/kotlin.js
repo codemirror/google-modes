@@ -10,7 +10,7 @@ const typeScopes = ["FunctionDeclaration", "ClassSpec", "TypeAliasSpec"]
 class KotlinMode extends CodeMirror.GrammarMode {
   constructor(conf, modeConf) {
     super(grammar)
-    this.indentConf = {tabSize: conf.tabSize, indentUnit: conf.indentUnit, forceContent: true}
+    this.indentConf = {tabSize: conf.tabSize, indentUnit: conf.indentUnit, forceContent: true, dontAlign: ["LambdaBlock"]}
   }
 
   token(stream, state) {

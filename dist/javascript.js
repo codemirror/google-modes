@@ -694,7 +694,7 @@
 
     var brack = bracketed[cx.name];
     var closed = textAfter && textAfter.charAt(0) == brack;
-    if (brack && config.align !== false && aligned(cx))
+    if (brack && config.align !== false && (!config.dontAlign || config.dontAlign.indexOf(cx.name) < 0) && aligned(cx))
       { return CodeMirror$1.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
 
     if (brack && blockish.indexOf(cx.name) > -1) {

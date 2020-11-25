@@ -50,3 +50,7 @@
 [variable&callee bar]().[property&callee forEach] {
   [comment // ...]
 }
+
+[variable&callee somefunction] { [def&local foo] [operator ->]
+  [variable&callee bar]()
+}

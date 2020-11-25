@@ -49,7 +49,7 @@ function findIndent(cx, textAfter, config) {
 
   let brack = bracketed[cx.name]
   let closed = textAfter && textAfter.charAt(0) == brack
-  if (brack && config.align !== false && aligned(cx))
+  if (brack && config.align !== false && (!config.dontAlign || config.dontAlign.indexOf(cx.name) < 0) && aligned(cx))
     return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1)
 
   if (brack && blockish.indexOf(cx.name) > -1) {

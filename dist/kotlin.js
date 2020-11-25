@@ -1203,7 +1203,7 @@
 
     var brack = bracketed[cx.name];
     var closed = textAfter && textAfter.charAt(0) == brack;
-    if (brack && config.align !== false && aligned(cx))
+    if (brack && config.align !== false && (!config.dontAlign || config.dontAlign.indexOf(cx.name) < 0) && aligned(cx))
       { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
 
     if (brack && blockish.indexOf(cx.name) > -1) {
@@ -1269,7 +1269,7 @@
   var KotlinMode = (function (superclass) {
     function KotlinMode(conf, modeConf) {
       superclass.call(this, grammar);
-      this.indentConf = {tabSize: conf.tabSize, indentUnit: conf.indentUnit, forceContent: true};
+      this.indentConf = {tabSize: conf.tabSize, indentUnit: conf.indentUnit, forceContent: true, dontAlign: ["LambdaBlock"]};
     }
 
     if ( superclass ) KotlinMode.__proto__ = superclass;

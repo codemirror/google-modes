@@ -897,7 +897,7 @@
     return marked
   }
 
-  var PythonMode = /*@__PURE__*/(function (superclass) {
+  var PythonMode = (function (superclass) {
     function PythonMode(conf) {
       superclass.call(this, grammar, {
         predicates: {maySkipNewline: maySkipNewline, stillIndented: stillIndented, isCompLocal: isCompLocal}
