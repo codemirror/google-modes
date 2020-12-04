@@ -1,4 +1,4 @@
-include "./javadoc.grammar" as doccomment
+include "./kdoc.grammar" as doccomment
 
 start top {
   shebang? l (TopItem (whitespace | "\n")*)+

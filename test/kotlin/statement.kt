@@ -20,6 +20,8 @@
 [comment /* block comment]
 [comment  */]
 
+[comment /** doc comment ][comment&link [[with]]][comment a link and a ][comment&tag @tag][comment */]
+
 [keyword fun] [def main]() {
   [keyword val] [def&local red] [operator =] [type Color].[property RED]
   [variable&callee println]([variable-2 red])

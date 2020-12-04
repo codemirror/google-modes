@@ -1,0 +1,37 @@
+comment { "/**" !"/" content* tagGroup* "*/" }
+
+content { (!("*/" | "{"? "@" letter | link) _)+ | link }
+
+link="link" { "[" (!"]" _)+ "]" }
+
+context tagGroup { (tag | "{" otherTag spacing tagContent "}") content* }
+
+tag {
+  defTag spaceChar* (def | typeDef)? |
+  typeTag spaceChar* type? |
+  otherTag
+}
+
+defTag="tag" { "@param" !letter }
+
+typeTag="tag" { "@" ("throws" | "exception") !letter }
+
+otherTag="tag" { "@" letter+ }
+
+tagContent { (attr("{") tagContent (~"*/" | attr("}")) | attr((!("{" | "}" | "*/") .)+) | "\n" spacing ("*" !"/" spacing)?)* }
+
+attr(expr)="attribute" { expr }
+
+def="def" { (letter | ".")+ }
+
+typeDef { "<" typeDefName ">" }
+
+typeDefName="type def" { letter+ }
+
+type="type" { (letter | ".")+ }
+
+spaceChar { "\n" | "\t" | " " }
+
+spacing { ("\t" | " ")* }
+
+letter { "a"-"z" | "A"-"Z" | "0"-"9" | "\u00a1"-"\uffff" | "_" }
