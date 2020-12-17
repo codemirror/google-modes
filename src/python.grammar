@@ -215,7 +215,11 @@ kw(word)="keyword" { word !identifierChar }
 op(expr)="operator" { expr }
 str(expr)="string" { expr }
 
-context indentedBody { "\n" (whitespaceSimple | "\n")* (&stillIndented Statement (whitespaceSimple | "\n")*)+ }
+context indentedBody {
+  "\n" (whitespaceSimple | "\n")*
+  (&stillIndented (!kw("return" | "pass") Statement) (whitespaceSimple | "\n")*)*
+  (&stillIndented ~("return" | "pass") Statement)?
+}
 
 identifier { identifierStart identifierChar* }
 
