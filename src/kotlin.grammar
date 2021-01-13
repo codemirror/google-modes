@@ -291,7 +291,9 @@ tokens {
     ".." | "?:" | ("+" | "-" | "*" | "/" | "%" | "<" | ">") "="? | ("!" | "=") "=" "="? | "=" | "&&" | "||"
   }
 
-  comment="comment" { doccomment.comment | "/*" (!"*/" _)* "*/" | "//" .* }
+  blockComment { "/*" (blockComment | !"*/" _)* "*/" }
+
+  comment="comment" { doccomment.comment | blockComment | "//" .* }
 }
 
 identifier { identifierStart identifierChar* | "`" (!"`" .)+ "`" }

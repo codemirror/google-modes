@@ -1,6 +1,6 @@
 comment { "/**" !"/" content* tagGroup* "*/" }
 
-content { (!("*/" | "{"? "@" letter | link) _)+ | link }
+content { "/*" (!"*/" _)* "*/" | (!("*/" | "{"? "@" letter | link) _)+ | link }
 
 link="link" { "[" (!"]" _)+ "]" }
 

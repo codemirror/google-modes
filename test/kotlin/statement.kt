@@ -64,5 +64,7 @@
   [keyword private] [keyword val] [def&property b]: [type String]
 }
 
+[comment /* nested /* comment */ here */]
+
 [keyword var] [def a] [operator =] [number 1]
 [comment // Not indented]
