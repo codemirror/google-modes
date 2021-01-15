@@ -255,7 +255,7 @@ tokens {
   as { kw("as") }
   dynamic { kw("dynamic") }
   modifierKw { kw("enum" | "sealed" | "annotation" | "data" | "inner" | "override" | "lateinit" |
-                  "public" | "private" | "internal" | "protected" | "tailred" | "operator" | "infix" |
+                  "public" | "private" | "internal" | "protected" | "tailrec" | "operator" | "infix" |
                   "inline" | "external" | "extend" | "const" | "abstract" | "final" | "open" |
                   "vararg" | "noinline" | "crossinline" | "reified" | "expect" | "actual") }
   this { kw("this") }
