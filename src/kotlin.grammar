@@ -257,7 +257,7 @@ tokens {
   modifierKw { kw("enum" | "sealed" | "annotation" | "data" | "inner" | "override" | "lateinit" |
                   "public" | "private" | "internal" | "protected" | "tailrec" | "operator" | "infix" |
                   "inline" | "external" | "extend" | "const" | "abstract" | "final" | "open" |
-                  "vararg" | "noinline" | "crossinline" | "reified" | "expect" | "actual") }
+                  "vararg" | "noinline" | "crossinline" | "reified" | "expect" | "actual" | "suspend") }
   this { kw("this") }
   it="variable-2" { "it" !identifierChar }
   super_ { kw("super") }
