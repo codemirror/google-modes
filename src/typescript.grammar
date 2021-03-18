@@ -52,7 +52,7 @@ skip whitespace {
 
   context ObjType { "{" ObjTypeField? (("," | ";") ObjTypeField?)* "}" }
 
-  context TupleType { "[" CommaSep(Type) "]" }
+  context TupleType { "[" CommaSep((labelName ":")? Type) "]" }
 
   ObjTypeField {
     new? TypeParams? ParamList (":" RetType)? |
