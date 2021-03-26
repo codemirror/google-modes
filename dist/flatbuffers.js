@@ -406,7 +406,7 @@
     token: token
   });
 
-  var FlatBuffersMode = (function (superclass) {
+  var FlatBuffersMode = /*@__PURE__*/(function (superclass) {
     function FlatBuffersMode(conf, modeConf) {
       superclass.call(this, grammar);
       this.conf = conf;

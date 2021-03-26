@@ -1006,8 +1006,6 @@
    * @param {!Stream} stream
    */
   TemplateTokenizer.prototype.backupIfEmbeddedTokenizerOvershot = function backupIfEmbeddedTokenizerOvershot (stream) {
-      var this$1 = this;
-
     var cur = stream.current();
     var searchFrom = 0;
     while(true) {
@@ -1019,7 +1017,7 @@
       closingIdx = closingIdx + searchFrom;
       var amountToBackUp = cur.length - closingIdx;
       var locationOfEarlyExit = stream.pos - amountToBackUp;
-      var escaped = this$1.isEscaped(stream, locationOfEarlyExit);
+      var escaped = this.isEscaped(stream, locationOfEarlyExit);
       if (!escaped) {
         // Found a template boundary. Must not consume it.
         stream.backUp(cur.length - closingIdx);
@@ -1058,8 +1056,6 @@
    * @param {string|null} templateTag
    */
   TemplateTokenizer.prototype.getModeForTemplateTag = function getModeForTemplateTag (templateTag) {
-      var this$1 = this;
-
     if (!templateTag) {
       return null;
     }
@@ -1072,7 +1068,7 @@
     // Note: the google-modules build pipeline does not currently support
     // for/of.
     for (var i = 0; i < modeSpecs.length; i++) {
-      var mode = CodeMirror.getMode(this$1.config, modeSpecs[i]);
+      var mode = CodeMirror.getMode(this.config, modeSpecs[i]);
       if (mode && mode.name !== 'null') {
         return mode;
       }
@@ -1144,7 +1140,7 @@
 
   var scopes = ["Block", "FunctionDef", "ArrowFunc", "ForStatement"];
 
-  var JSMode = (function (superclass) {
+  var JSMode = /*@__PURE__*/(function (superclass) {
     function JSMode(conf, modeConf) {
       superclass.call(this, grammar, {
         predicates: {canInsertSemi: modeConf.requireSemicolons === false ? canInsertSemi : function () { return false; }}

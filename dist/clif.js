@@ -498,7 +498,7 @@
   }
 
 
-  var ClifMode = (function (superclass) {
+  var ClifMode = /*@__PURE__*/(function (superclass) {
     function ClifMode(conf) {
       superclass.call(this, grammar, {
         predicates: {maySkipNewline: maySkipNewline, stillIndented: stillIndented},

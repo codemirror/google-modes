@@ -813,7 +813,7 @@
     }
   }
 
-  var GoMode = (function (superclass) {
+  var GoMode = /*@__PURE__*/(function (superclass) {
     function GoMode(conf) {
       superclass.call(this, grammar, {
         predicates: {skippableNewline: skippableNewline, isTypeSwitch: isTypeSwitch}

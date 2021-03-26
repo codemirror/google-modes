@@ -1285,7 +1285,7 @@
   var scopes = ["Block", "FunctionSpec", "LambdaBlock", "ClassSpec", "TypeAliasSpec", "ForStatement", "CatchFinally"];
   var typeScopes = ["FunctionDeclaration", "ClassSpec", "TypeAliasSpec"];
 
-  var KotlinMode = (function (superclass) {
+  var KotlinMode = /*@__PURE__*/(function (superclass) {
     function KotlinMode(conf, modeConf) {
       superclass.call(this, grammar);
       this.indentConf = {tabSize: conf.tabSize, indentUnit: conf.indentUnit, forceContent: true, dontAlign: ["LambdaBlock"]};

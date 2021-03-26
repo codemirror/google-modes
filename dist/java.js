@@ -978,7 +978,7 @@
   var scopes = ["Block", "FunctionDef", "Lambda"];
   var typeScopes = ["ClassItem", "Statement", "AnnotationTypeItem"];
 
-  var JavaMode = (function (superclass) {
+  var JavaMode = /*@__PURE__*/(function (superclass) {
     function JavaMode(conf) {
       superclass.call(this, grammar);
       this.indentConf = {doubleIndentBrackets: ">)", dontCloseBrackets: ")", align: false,

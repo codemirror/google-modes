@@ -182,7 +182,7 @@
     [3, "callee", e[31], -1,
      e[13], -1],
     [/^(?:(?:L|u8?|U)(?=[\'\"]))?/, 104],
-    [/^\'(?:\\.(?:(?!\').)*|.)\'/, -1,
+    [/^\'(?:\\.)?(?:(?!\').)*\'/, -1,
      "\"", 105],
     ["\\", 106,
      [0, /^(?!\")/, /^[^]/], 105,
@@ -714,7 +714,7 @@
 
   var scopes = ["Block", "FunctionDef"];
 
-  var CMode = (function (superclass) {
+  var CMode = /*@__PURE__*/(function (superclass) {
     function CMode(conf) {
       superclass.call(this, grammar);
       this.conf = conf;

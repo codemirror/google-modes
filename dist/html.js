@@ -124,7 +124,7 @@
     };
   }
 
-  var HTMLMode = (function (superclass) {
+  var HTMLMode = /*@__PURE__*/(function (superclass) {
     function HTMLMode(conf, modeConf) {
       superclass.call(this, grammar, {predicates: predicates});
       this.conf = conf;

@@ -310,7 +310,7 @@
     };
   }
 
-  var AngularTemplateMode = (function (superclass) {
+  var AngularTemplateMode = /*@__PURE__*/(function (superclass) {
     function AngularTemplateMode(conf, modeConf) {
       superclass.call(this, grammar, {predicates: predicates});
       this.conf = conf;

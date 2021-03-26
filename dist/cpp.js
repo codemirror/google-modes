@@ -252,7 +252,7 @@
      /^(?:(?:L|u8?|U)(?=[\'\"]))?/, 133],
     [[0, [7, "rawStringContinues"], /^[^]/], 132,
      "\"", -1],
-    [/^\'(?:\\.(?:(?!\').)*|.)\'/, -1,
+    [/^\'(?:\\.)?(?:(?!\').)*\'/, -1,
      "\"", 134],
     ["\\", 135,
      [0, /^(?!\")/, /^[^]/], 134,
@@ -1617,7 +1617,7 @@
 
   var scopes = ["Block", "FunctionDef"], typeScopes = ["Template"];
 
-  var CppMode = (function (superclass) {
+  var CppMode = /*@__PURE__*/(function (superclass) {
     function CppMode(conf) {
       superclass.call(this, cpp, {
         predicates: {constructorAhead: constructorAhead, localConstructorAhead: localConstructorAhead, rawStringContinues: rawStringContinues}
