@@ -1,8 +1,30 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('codemirror'), require('codemirror-grammar-mode')) :
   typeof define === 'function' && define.amd ? define(['codemirror', 'codemirror-grammar-mode'], factory) :
-  (factory(global.CodeMirror));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
+
+  function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+      Object.keys(e).forEach(function (k) {
+        if (k !== 'default') {
+          var d = Object.getOwnPropertyDescriptor(e, k);
+          Object.defineProperty(n, k, d.get ? d : {
+            enumerable: true,
+            get: function () {
+              return e[k];
+            }
+          });
+        }
+      });
+    }
+    n['default'] = e;
+    return Object.freeze(n);
+  }
+
+  var CodeMirror__namespace = /*#__PURE__*/_interopNamespace(CodeMirror);
 
   var e = [/^const(?![a-zA-Z¡-￿_0-9_])/, /^var(?![a-zA-Z¡-￿_0-9_])/, /^type(?![a-zA-Z¡-￿_0-9_])/, /^import(?![a-zA-Z¡-￿_0-9_])/, /^package(?![a-zA-Z¡-￿_0-9_])/, /^func(?![a-zA-Z¡-￿_0-9_])/, /^go(?![a-zA-Z¡-￿_0-9_])/, /^defer(?![a-zA-Z¡-￿_0-9_])/, /^return(?![a-zA-Z¡-￿_0-9_])/, /^break(?![a-zA-Z¡-￿_0-9_])/, /^continue(?![a-zA-Z¡-￿_0-9_])/, /^default(?![a-zA-Z¡-￿_0-9_])/, /^case(?![a-zA-Z¡-￿_0-9_])/, /^select(?![a-zA-Z¡-￿_0-9_])/, /^goto(?![a-zA-Z¡-￿_0-9_])/, /^fallthrough(?![a-zA-Z¡-￿_0-9_])/, /^[a-zA-Z¡-￿__][a-zA-Z¡-￿_0-9_]*/, [1, "\n", "\t", " "], /^[a-zA-Z0-9¡-￿_\.]+/, /^\@[a-zA-Z0-9¡-￿_]+/, [0, /^(?!\*\/|\{?\@[a-zA-Z0-9¡-￿_])/, /^[^]/], /^if(?![a-zA-Z¡-￿_0-9_])/, /^else(?![a-zA-Z¡-￿_0-9_])/, /^switch(?![a-zA-Z¡-￿_0-9_])/, /^for(?![a-zA-Z¡-￿_0-9_])/, /^(?:\!|\+|\-|\*|\^|\&|\<\-)/, /^range(?![a-zA-Z¡-￿_0-9_])/, /^struct(?![a-zA-Z¡-￿_0-9_])/, /^interface(?![a-zA-Z¡-￿_0-9_])/, /^map(?![a-zA-Z¡-￿_0-9_])/, /^chan(?![a-zA-Z¡-￿_0-9_])/, /^(?:(?:0o|0O)[0-7]+|(?:0x|OX)[0-9a-fA-F]+|(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)(?:[eE][\+\-]?[0-9]+)?i?)/, /^(?:true|false|nil|iota)(?![a-zA-Z¡-￿_0-9_])/, /^make(?![a-zA-Z¡-￿_0-9_])/, /^(?:append|cap|close|complex|copy|delete|imag|len|new|panic|print|println|real|recover)(?![a-zA-Z¡-￿_0-9_\.])/, /^(?:\+\+|\-\-)/, /^(?:(?:\+|\&\^?|\-|\||\*|\^|\/|\<\<?|\>\>?|\%|\=)\=?|\<\-|\=|\:\=|\!\=)/, /^[a-zA-Z¡-￿__][a-zA-Z¡-￿_0-9_]*(?=\()/, [1, ";", "\n"], /^[a-zA-Z¡-￿__][a-zA-Z¡-￿_0-9_]*(?= *\:)/, /^(?:\.\.\.)?/, /^(?:\.\.\.|(?![\)\,]))/];
   var nodes = [
@@ -745,6 +767,7 @@
   var token = 3;
 
   var grammar = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     nodes: nodes,
     start: start,
     token: token
@@ -799,21 +822,21 @@
 
   function findIndent(cx, textAfter, config) {
     if (!cx) { return 0 }
-    if (cx.name == "string" || cx.name == "comment") { return CodeMirror.Pass }
+    if (cx.name == "string" || cx.name == "comment") { return CodeMirror__namespace.Pass }
 
     var brack = bracketed[cx.name];
     if (brack) {
       var closed = textAfter && textAfter.charAt(0) == brack;
       var flat = closed || cx.name == "Block" && /^(case|default)\b/.test(textAfter);
-      return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + (flat ? 0 : config.tabSize)
+      return CodeMirror__namespace.countColumn(cx.startLine, null, config.tabSize) + (flat ? 0 : config.tabSize)
     } else if (cx.name == "Statement") {
-      return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + config.tabSize
+      return CodeMirror__namespace.countColumn(cx.startLine, null, config.tabSize) + config.tabSize
     } else {
       return findIndent(cx.parent, textAfter, config)
     }
   }
 
-  var GoMode = (function (superclass) {
+  var GoMode = /*@__PURE__*/(function (superclass) {
     function GoMode(conf) {
       superclass.call(this, grammar, {
         predicates: {skippableNewline: skippableNewline, isTypeSwitch: isTypeSwitch}
@@ -825,7 +848,7 @@
     GoMode.prototype = Object.create( superclass && superclass.prototype );
     GoMode.prototype.constructor = GoMode;
 
-    GoMode.prototype.token = function token$$1 (stream, state) {
+    GoMode.prototype.token = function token (stream, state) {
       return markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state)
     };
 
@@ -834,7 +857,7 @@
     };
 
     return GoMode;
-  }(CodeMirror.GrammarMode));
+  }(CodeMirror__namespace.GrammarMode));
 
   GoMode.prototype.electricInput = /^\s*(?:case .*?:|default:|\{\}?|\})$/;
   GoMode.prototype.closeBrackets = "()[]{}''\"\"``";
@@ -844,6 +867,6 @@
   GoMode.prototype.lineComment = "//";
   GoMode.prototype.fold = "brace";
 
-  CodeMirror.defineMode("google-go", function (conf) { return new GoMode(conf); });
+  CodeMirror__namespace.defineMode("google-go", function (conf) { return new GoMode(conf); });
 
 })));

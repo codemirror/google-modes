@@ -1,8 +1,30 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('codemirror'), require('codemirror-grammar-mode')) :
   typeof define === 'function' && define.amd ? define(['codemirror', 'codemirror-grammar-mode'], factory) :
-  (factory(global.CodeMirror));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CodeMirror));
 }(this, (function (CodeMirror$1) { 'use strict';
+
+  function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+      Object.keys(e).forEach(function (k) {
+        if (k !== 'default') {
+          var d = Object.getOwnPropertyDescriptor(e, k);
+          Object.defineProperty(n, k, d.get ? d : {
+            enumerable: true,
+            get: function () {
+              return e[k];
+            }
+          });
+        }
+      });
+    }
+    n['default'] = e;
+    return Object.freeze(n);
+  }
+
+  var CodeMirror__namespace = /*#__PURE__*/_interopNamespace(CodeMirror$1);
 
   var e = [[1, "\n", "\t", " "], /^[a-zA-Z\-\.0-9_]+/];
   var nodes = [
@@ -63,6 +85,7 @@
   var token = 2;
 
   var grammar = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     nodes: nodes,
     start: start,
     token: token
@@ -124,7 +147,7 @@
     };
   }
 
-  var HTMLMode = (function (superclass) {
+  var HTMLMode = /*@__PURE__*/(function (superclass) {
     function HTMLMode(conf, modeConf) {
       superclass.call(this, grammar, {predicates: predicates});
       this.conf = conf;
@@ -139,7 +162,7 @@
     };
 
     return HTMLMode;
-  }(CodeMirror$1.GrammarMode));
+  }(CodeMirror__namespace.GrammarMode));
 
   var proto = HTMLMode.prototype;
   proto.electricInput = /^\s*<\/.*?>/;
@@ -148,6 +171,6 @@
   proto.fold = "xml";
   contextInfo(proto);
 
-  CodeMirror$1.defineMode("google-html", function (conf, modeConf) { return new HTMLMode(conf, modeConf); });
+  CodeMirror__namespace.defineMode("google-html", function (conf, modeConf) { return new HTMLMode(conf, modeConf); });
 
 })));

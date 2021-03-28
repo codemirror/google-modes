@@ -1,8 +1,30 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('codemirror'), require('codemirror-grammar-mode')) :
   typeof define === 'function' && define.amd ? define(['codemirror', 'codemirror-grammar-mode'], factory) :
-  (factory(global.CodeMirror));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
+
+  function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+      Object.keys(e).forEach(function (k) {
+        if (k !== 'default') {
+          var d = Object.getOwnPropertyDescriptor(e, k);
+          Object.defineProperty(n, k, d.get ? d : {
+            enumerable: true,
+            get: function () {
+              return e[k];
+            }
+          });
+        }
+      });
+    }
+    n['default'] = e;
+    return Object.freeze(n);
+  }
+
+  var CodeMirror__namespace = /*#__PURE__*/_interopNamespace(CodeMirror);
 
   var e = [/^static_assert(?![a-zA-Z¡-￿_0-9])/, /^namespace(?![a-zA-Z¡-￿_0-9])/, /^throw(?![a-zA-Z¡-￿_0-9])/, /^try(?![a-zA-Z¡-￿_0-9])/, /^asm(?![a-zA-Z¡-￿_0-9])/, /^for(?![a-zA-Z¡-￿_0-9])/, /^while(?![a-zA-Z¡-￿_0-9])/, /^do(?![a-zA-Z¡-￿_0-9])/, /^if(?![a-zA-Z¡-￿_0-9])/, /^switch(?![a-zA-Z¡-￿_0-9])/, /^(?:break|continue)(?![a-zA-Z¡-￿_0-9])/, /^goto(?![a-zA-Z¡-￿_0-9])/, /^return(?![a-zA-Z¡-￿_0-9])/, /^(?:struct|union)(?![a-zA-Z¡-￿_0-9])/, /^default(?![a-zA-Z¡-￿_0-9])/, /^case(?![a-zA-Z¡-￿_0-9])/, /^operator(?![a-zA-Z¡-￿_0-9])/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*(?=\{)/, /^typename(?![a-zA-Z¡-￿_0-9])/, /^alignas(?![a-zA-Z¡-￿_0-9])/, /^(?:0x[0-9a-fA-F\']+|0b[01\']+|(?:[0-9][0-9\']*(?:\.[0-9\']*)?|\.[0-9][0-9\']*)(?:[eE]\-?[0-9\']*)?)(?:[Ll]+|[Uu][lL]*|F|f)?/, /^class(?![a-zA-Z¡-￿_0-9])/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*/, /^(?:final|explicit)(?![a-zA-Z¡-￿_0-9])/, /^using(?![a-zA-Z¡-￿_0-9])/, /^export(?![a-zA-Z¡-￿_0-9])/, /^template(?![a-zA-Z¡-￿_0-9])/, /^enum(?![a-zA-Z¡-￿_0-9])/, /^(?:_[A-Z0-9_]+(?![a-zA-Z¡-￿_0-9])|[A-Z][A-Z0-9_]+(?![a-zA-Z¡-￿_0-9]))/, /^auto(?![a-zA-Z¡-￿_0-9])/, /^(?:inline|virtual|explicit|friend|constexpr|mutable|thread_local)(?![a-zA-Z¡-￿_0-9])/, /^(?:register|static|extern|typedef)(?![a-zA-Z¡-￿_0-9])/, /^(?:const|volatile|restrict)(?![a-zA-Z¡-￿_0-9])/, /^(?:unsigned|signed|long)(?![a-zA-Z¡-￿_0-9])/, /^(?:int|float|double|char|short)(?![a-zA-Z¡-￿_0-9])/, /^\~?[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*/, /^catch(?![a-zA-Z¡-￿_0-9])/, /^noexcept(?![a-zA-Z¡-￿_0-9])/, /^(?:override|final|new)(?![a-zA-Z¡-￿_0-9])/, /^delete(?![a-zA-Z¡-￿_0-9])/, /^else(?![a-zA-Z¡-￿_0-9])/, /^(?:\+\+|\-\-)/, /^(?:\-\>|(?!\.\.)\.)/, /^(?:\!|\+|\-|\/|\*|\%|\>\>?|\<\<?|\=|\|\|?|\&\&?)\=?/, /^new(?![a-zA-Z¡-￿_0-9])/, [1, "\n", "\t", " "], /^[a-zA-Z0-9¡-￿_\.]+/, /^\@[a-zA-Z0-9¡-￿_]+/, [0, /^(?!\*\/|\{?\@[a-zA-Z0-9¡-￿_])/, /^[^]/], /^(?:\.\.\.)?/, /^virtual(?![a-zA-Z¡-￿_0-9])/, /^(?:private|public|protected)(?![a-zA-Z¡-￿_0-9])/, /^this(?![a-zA-Z¡-￿_0-9])/, /^(?:dynamic|static|const|reinterpret)_cast(?![a-zA-Z¡-￿_0-9])/, /^(?:nullptr(?![a-zA-Z¡-￿_0-9])|(?:true|false|null)(?![a-zA-Z¡-￿_0-9]))/, /^(?:sizeof|alignof)(?![a-zA-Z¡-￿_0-9])/, /^[a-zA-Z¡-￿_][a-zA-Z¡-￿_0-9]*(?= *\()/, /^(?!\>)/, /^(?:\*|\&\&|\&|\.\.\.)/];
   var nodes = [
@@ -1424,6 +1446,7 @@
   var token = 5;
 
   var cpp = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     nodes: nodes,
     start: start,
     token: token
@@ -1512,22 +1535,22 @@
   function baseIndent(cx, config) {
     for (var startLine = cx.startLine;; cx = cx.parent) {
       if (cx.name == "CondExpr")
-        { return CodeMirror.countColumn(cx.startLine, cx.startPos + 1, config.tabSize) }
+        { return CodeMirror__namespace.countColumn(cx.startLine, cx.startPos + 1, config.tabSize) }
       if (statementish.indexOf(cx.name) > -1 && /(^\s*|[\(\{\[])$/.test(cx.startLine.slice(0, cx.startPos)))
-        { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) }
+        { return CodeMirror__namespace.countColumn(cx.startLine, cx.startPos, config.tabSize) }
       if (!cx.parent || cx.parent.startLine != startLine)
-        { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) }
+        { return CodeMirror__namespace.countColumn(cx.startLine, null, config.tabSize) }
     }
   }
 
   function findIndent(cx, textAfter, config) {
     if (!cx) { return 0 }
-    if (cx.name == "string" || cx.name == "comment") { return CodeMirror.Pass }
+    if (cx.name == "string" || cx.name == "comment") { return CodeMirror__namespace.Pass }
 
     var brack = bracketed[cx.name];
     var closed = textAfter && textAfter.charAt(0) == brack;
     if (brack && config.align !== false && (!config.dontAlign || config.dontAlign.indexOf(cx.name) < 0) && aligned(cx))
-      { return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
+      { return CodeMirror__namespace.countColumn(cx.startLine, cx.startPos, config.tabSize) + (closed ? 0 : 1) }
 
     if (brack && blockish.indexOf(cx.name) > -1) {
       var parent = cx.parent;
@@ -1556,7 +1579,7 @@
     } else if (cx.name == "ArrowRest") {
       return base + config.indentUnit
     } else if (cx.name == "NewExpression" && cx.startLine.length > cx.startPos + 5) {
-      return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 2 * config.indentUnit
+      return CodeMirror__namespace.countColumn(cx.startLine, cx.startPos, config.tabSize) + 2 * config.indentUnit
     } else if (cx.name == "InitializerList") {
       return base + 2
     } else if (cx.name == "ThrowsClause" && !/throws\s*$/.test(cx.startLine.slice(cx.startPos))) {
@@ -1570,7 +1593,7 @@
     for (;; cx = cx.parent) {
       if (!cx) { return 0 }
       if (statementish.indexOf(cx.name) > -1 || (cx.parent && bracketed[cx.parent.name]))
-        { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) }
+        { return CodeMirror__namespace.countColumn(cx.startLine, null, config.tabSize) }
     }
   }
 
@@ -1580,7 +1603,7 @@
       { return statementIndent(state.context, config) }
 
     if ((top == "doccomment.braced" || top == "doccomment.tagGroup") && !/^[@*]/.test(textAfter))
-      { return CodeMirror.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }
+      { return CodeMirror__namespace.countColumn(state.context.startLine, null, config.tabSize) + 2 * config.indentUnit }
 
     var passLine = config.forceContent && /^\s*(\/\/.*)?$/.test(line) ? "x" : line;
     return findIndent(state.contextAt(passLine, line.length - textAfter.length), textAfter, config)
@@ -1617,7 +1640,7 @@
 
   var scopes = ["Block", "FunctionDef"], typeScopes = ["Template"];
 
-  var CppMode = (function (superclass) {
+  var CppMode = /*@__PURE__*/(function (superclass) {
     function CppMode(conf) {
       superclass.call(this, cpp, {
         predicates: {constructorAhead: constructorAhead, localConstructorAhead: localConstructorAhead, rawStringContinues: rawStringContinues}
@@ -1629,7 +1652,7 @@
     CppMode.prototype = Object.create( superclass && superclass.prototype );
     CppMode.prototype.constructor = CppMode;
 
-    CppMode.prototype.token = function token$$1 (stream, state) {
+    CppMode.prototype.token = function token (stream, state) {
       return markTypeLocals(markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state), typeScopes, stream, state)
     };
 
@@ -1639,7 +1662,7 @@
     };
 
     return CppMode;
-  }(CodeMirror.GrammarMode));
+  }(CodeMirror__namespace.GrammarMode));
 
   CppMode.prototype.electricInput = /^\s*(?:case .*?:|(?:public|private|protected|default):|\{\}?|\})$/;
   CppMode.prototype.blockCommentStart = "/*";
@@ -1648,6 +1671,6 @@
   CppMode.prototype.lineComment = "//";
   CppMode.prototype.fold = "brace";
 
-  CodeMirror.defineMode("google-cpp", function (conf) { return new CppMode(conf); });
+  CodeMirror__namespace.defineMode("google-cpp", function (conf) { return new CppMode(conf); });
 
 })));

@@ -1,8 +1,30 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('codemirror-grammar-mode'), require('codemirror')) :
   typeof define === 'function' && define.amd ? define(['codemirror-grammar-mode', 'codemirror'], factory) :
-  (factory(null,global.CodeMirror));
-}(this, (function (codemirrorGrammarMode,CodeMirror) { 'use strict';
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(null, global.CodeMirror));
+}(this, (function (codemirrorGrammarMode, CodeMirror) { 'use strict';
+
+  function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+      Object.keys(e).forEach(function (k) {
+        if (k !== 'default') {
+          var d = Object.getOwnPropertyDescriptor(e, k);
+          Object.defineProperty(n, k, d.get ? d : {
+            enumerable: true,
+            get: function () {
+              return e[k];
+            }
+          });
+        }
+      });
+    }
+    n['default'] = e;
+    return Object.freeze(n);
+  }
+
+  var CodeMirror__namespace = /*#__PURE__*/_interopNamespace(CodeMirror);
 
   var e = [[1, " ", "\t", "\n"], /^[a-zA-Z¡-￿__][a-zA-Z¡-￿_0-9_]*/, /^include(?![a-zA-Z¡-￿_0-9_])/, /^namespace(?![a-zA-Z¡-￿_0-9_])/, /^attribute(?![a-zA-Z¡-￿_0-9_])/, /^root_type(?![a-zA-Z¡-￿_0-9_])/, /^file_extension(?![a-zA-Z¡-￿_0-9_])/, /^file_identifier(?![a-zA-Z¡-￿_0-9_])/, /^(?:\-?0x[0-9a-fA-F]+|\-?[0-9]+)/, /^(?:true|false)/, /^\"[a-zA-Z¡-￿__][a-zA-Z¡-￿_0-9_]*\"/, /^(?:bool|byte|ubyte|short|ushort|int|uint|float|long|ulong|double|int8|uint8|int16|uint16|int32|uint32|int64|uint64|float32|float64|string)(?![a-zA-Z¡-￿_0-9_])/, /^\/\/.*/, [0, /^(?!\*\/)/, /^[^]/], /^table(?![a-zA-Z¡-￿_0-9_])/, /^\-?[0-9]+\.[0-9]+(?:[eE][\+\-]?[0-9]+)?/, /^struct(?![a-zA-Z¡-￿_0-9_])/, /^enum(?![a-zA-Z¡-￿_0-9_])/, /^union(?![a-zA-Z¡-￿_0-9_])/, /^rpc_service(?![a-zA-Z¡-￿_0-9_])/];
   var nodes = [
@@ -401,12 +423,13 @@
   var token = 20;
 
   var grammar = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     nodes: nodes,
     start: start,
     token: token
   });
 
-  var FlatBuffersMode = (function (superclass) {
+  var FlatBuffersMode = /*@__PURE__*/(function (superclass) {
     function FlatBuffersMode(conf, modeConf) {
       superclass.call(this, grammar);
       this.conf = conf;
@@ -448,11 +471,11 @@
     };
 
     return FlatBuffersMode;
-  }(CodeMirror.GrammarMode));
+  }(CodeMirror__namespace.GrammarMode));
 
-  CodeMirror.defineMode(
+  CodeMirror__namespace.defineMode(
       'flatbuffers', function (conf, modeConf) { return new FlatBuffersMode(conf, modeConf); });
-  CodeMirror.defineMIME('text/x-fbs', {name: 'flatbuffers'});
+  CodeMirror__namespace.defineMIME('text/x-fbs', {name: 'flatbuffers'});
 
   var keywords = ["include", "namespace", "attribute", "table", "struct", "enum",
                   "union", "root_type", "rpc_service", "file_extension",
@@ -461,7 +484,7 @@
                   "float", "long", "ulong", "double", "int8", "uint8", "int16",
                   "uint16", "int32", "uint32", "int64", "uint64", "float32",
                   "float64", "string", "true", "false"];
-  CodeMirror.registerHelper('hintWords', 'flatbuffers',
+  CodeMirror__namespace.registerHelper('hintWords', 'flatbuffers',
                             keywords.concat(builtins));
 
 })));

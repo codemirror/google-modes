@@ -24,8 +24,8 @@
     "codemirror": "^5.42.2"
   },
   "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.3",
     "codemirror-grammar-mode": "^0.1.10",
-    "rollup": "^0.65.2",
-    "rollup-plugin-buble": "^0.19.2"
+    "rollup": "^2.42.1"
   }
 }

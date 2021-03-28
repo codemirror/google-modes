@@ -1,8 +1,30 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('codemirror'), require('codemirror-grammar-mode')) :
   typeof define === 'function' && define.amd ? define(['codemirror', 'codemirror-grammar-mode'], factory) :
-  (factory(global.CodeMirror));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CodeMirror));
 }(this, (function (CodeMirror) { 'use strict';
+
+  function _interopNamespace(e) {
+    if (e && e.__esModule) return e;
+    var n = Object.create(null);
+    if (e) {
+      Object.keys(e).forEach(function (k) {
+        if (k !== 'default') {
+          var d = Object.getOwnPropertyDescriptor(e, k);
+          Object.defineProperty(n, k, d.get ? d : {
+            enumerable: true,
+            get: function () {
+              return e[k];
+            }
+          });
+        }
+      });
+    }
+    n['default'] = e;
+    return Object.freeze(n);
+  }
+
+  var CodeMirror__namespace = /*#__PURE__*/_interopNamespace(CodeMirror);
 
   var e = [/^interface(?![a-zA-Z0-9_])/, /^def(?![a-zA-Z0-9_])/, /^class(?![a-zA-Z0-9_])/, /^enum(?![a-zA-Z0-9_])/, /^staticmethods(?![a-zA-Z0-9_])/, /^namespace(?![a-zA-Z0-9_])/, /^capsule(?![a-zA-Z0-9_])/, /^implements(?![a-zA-Z0-9_])/, /^use(?![a-zA-Z0-9_])/, /^type(?![a-zA-Z0-9_])/, /^const(?![a-zA-Z0-9_])/, /^pass(?![a-zA-Z0-9_])/, /^return(?![a-zA-Z0-9_])/, /^from(?![a-zA-Z0-9_])/, /^[a-zA-Z_][a-zA-Z0-9_]*/, /^None(?![a-zA-Z0-9_])/, /^with(?![a-zA-Z0-9_])/, /^\`(?:(?!\`).)*\`/, /^as(?![a-zA-Z0-9_])/, /^import(?![a-zA-Z0-9_])/, /^property(?![a-zA-Z0-9_])/, [7, "stillIndented"], /^lambda(?![a-zA-Z0-9_])/, /^(?:self|cls)(?![a-zA-Z0-9_])/, /^default(?![a-zA-Z0-9_])/];
   var nodes = [
@@ -406,6 +428,7 @@
   var token = 5;
 
   var grammar = /*#__PURE__*/Object.freeze({
+    __proto__: null,
     nodes: nodes,
     start: start,
     token: token
@@ -475,12 +498,12 @@
 
   function findIndent(cx, textAfter, curLine, config) {
     if (!cx) { return 0 }
-    if (cx.name == "string") { return CodeMirror.Pass }
+    if (cx.name == "string") { return CodeMirror__namespace.Pass }
 
     var brack = bracketed[cx.name];
     if (brack) {
       if (curLine != cx.startLine && aligned(cx)) {
-        return CodeMirror.countColumn(cx.startLine, cx.startPos, config.tabSize) + 1
+        return CodeMirror__namespace.countColumn(cx.startLine, cx.startPos, config.tabSize) + 1
       }
 
       var closed = textAfter && textAfter.charAt(0) == brack;
@@ -489,7 +512,7 @@
     } else if (cx.name == "indentedBody") {
       for (;; cx = cx.parent) {
         if (!cx) { return config.indentUnit }
-        if (cx.name == "Statement") { return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + config.indentUnit }
+        if (cx.name == "Statement") { return CodeMirror__namespace.countColumn(cx.startLine, null, config.tabSize) + config.indentUnit }
       }
     } else {
       return findIndent(cx.parent, textAfter, curLine, config) +
@@ -498,7 +521,7 @@
   }
 
 
-  var ClifMode = (function (superclass) {
+  var ClifMode = /*@__PURE__*/(function (superclass) {
     function ClifMode(conf) {
       superclass.call(this, grammar, {
         predicates: {maySkipNewline: maySkipNewline, stillIndented: stillIndented},
@@ -510,7 +533,7 @@
     ClifMode.prototype = Object.create( superclass && superclass.prototype );
     ClifMode.prototype.constructor = ClifMode;
 
-    ClifMode.prototype.token = function token$$1 (stream, state) {
+    ClifMode.prototype.token = function token (stream, state) {
       return markLocals(superclass.prototype.token.call(this, stream, state), scopes, stream, state)
     };
 
@@ -519,14 +542,14 @@
     };
 
     return ClifMode;
-  }(CodeMirror.GrammarMode));
+  }(CodeMirror__namespace.GrammarMode));
 
   ClifMode.prototype.electricInput = /^\s*\(\)<>$/;
   ClifMode.prototype.closeBrackets = {triples: "'\"", pairs: "()<>''\"\"``",};
   ClifMode.prototype.lineComment = "#";
   ClifMode.prototype.fold = "indent";
 
-  CodeMirror.defineMode("google-clif", function (conf) { return new ClifMode(conf); });
-  CodeMirror.defineMIME("text/x-clif", {name: "google-clif"});
+  CodeMirror__namespace.defineMode("google-clif", function (conf) { return new ClifMode(conf); });
+  CodeMirror__namespace.defineMIME("text/x-clif", {name: "google-clif"});
 
 })));
