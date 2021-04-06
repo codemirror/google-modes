@@ -3,6 +3,9 @@
 
 [keyword val] [def bar]: ([type Any]) [operator ->] [type Unit] [operator =] [keyword fun] ([keyword vararg] [def&local a]) {}
 
+[keyword val] [def q] [operator =] [string "hi"]
+    .[property length]
+
 [keyword if] ([atom true]) {
   [variable&callee call]([number 1] [variable&callee xor] [number 0xff_ffff])
 } [keyword else] [keyword if] ([atom false]) {

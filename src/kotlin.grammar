@@ -203,7 +203,7 @@ context CatchFinally {
 }
 
 Expression {
-  ((prefixOp | label | Annotation) l)* ExpressionInner s (ExpressionSuffix s)*
+  ((prefixOp | label | Annotation) l)* ExpressionInner sContinue (ExpressionSuffix sContinue)*
 }
 
 ExpressionSuffix {
@@ -307,6 +307,10 @@ whitespace {
 }
 
 s { whitespace* }
+
+sContinue {
+  (whitespace | "\n" ~(l ("?." | "." | "::")))*
+}
 
 l { (whitespace | "\n")* }
 
