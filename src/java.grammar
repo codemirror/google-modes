@@ -18,6 +18,7 @@ skip whitespace {
     throw Expr ";" |
     (default | case Expr | labelIdentifier) ":" |
     import kw("static")? identifierDot* ("*" | identifier) ";" |
+    kw("synchronized") CondExpr Block |
     ";" |
     BeforeStatement(Modifier*) Declaration(declName) |
     ExprComma ";"
