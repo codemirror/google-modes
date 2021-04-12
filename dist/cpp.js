@@ -1565,7 +1565,7 @@
       return base$1 + config.indentUnit
     }
 
-    var base = baseIndent(cx, config.tabSize);
+    var base = baseIndent(cx, config);
     if (brack) {
       if (closed && (config.dontCloseBrackets || "").indexOf(brack) < 0) { return base }
       return base + config.indentUnit * ((config.doubleIndentBrackets || "").indexOf(brack) < 0 ? 1 : 2)
@@ -1573,7 +1573,7 @@
       if (hasSubStatement(cx)) { return base + config.indentUnit; }
       return base + 2 * config.indentUnit
     } else if (cx.name == "Alternative" || cx.name == "CatchFinally") {
-      base = baseIndent(cx.parent, config.tabSize);
+      base = baseIndent(cx.parent, config);
       if (!textAfter || /^((else|catch|finally)\b|\/[\/\*])/.test(textAfter)) { return base }
       return base + config.indentUnit
     } else if (cx.name == "ArrowRest") {
