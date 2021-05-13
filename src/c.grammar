@@ -23,7 +23,9 @@ skip whitespace {
   }
 
   context DeclType {
-    ((modifier | qualifier)+ (auto "&"? | typeName TypeSuffix*) | typeModifier+ modifiableType? TypeSuffix*) | MaybeType
+    (modifier | qualifier)+ (auto TypeSuffixNoBrackets* | typeName TypeSuffix*) |
+    typeModifier+ modifiableType? TypeSuffix* |
+    MaybeType
   }
 
   DeclRest {
@@ -106,11 +108,11 @@ skip whitespace {
   }
 
   MaybeType {
-    (auto "&"? | maybeTypeName TypeSuffix*)
+    (auto TypeSuffixNoBrackets* | maybeTypeName TypeSuffix*)
   }
 
   Type {
-    (modifier | qualifier)* structUnion? (auto "&"? | typeName TypeSuffix*)
+    (modifier | qualifier)* structUnion? (auto | typeName) TypeSuffix*
   }
 
   Struct {
@@ -121,10 +123,14 @@ skip whitespace {
     Type fieldName? (":" number | "[" Expression? "]")?
   }
 
-  TypeSuffix {
-    "[" Expression? "]" |
+  TypeSuffixNoBrackets {
     ("*" | "&") |
     qualifier
+  }
+
+  TypeSuffix {
+    "[" Expression? "]" |
+    TypeSuffixNoBrackets
   }
 
   ListOf(expr) {
