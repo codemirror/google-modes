@@ -225,7 +225,7 @@ identifier { identifierStart identifierChar* }
 
 declName="def" { identifier }
 typeDeclName="type def" { identifier }
-labelName="meta" { identifier ~(" "* "=") }
+labelName="meta" { identifier ~(" "* "=" !"=") }
 calleeName="variable callee" { identifier ~"(" }
 calleeProp="property callee" { identifier ~"(" }
 propName="property" { identifier }
