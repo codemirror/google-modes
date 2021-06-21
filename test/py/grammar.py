@@ -82,6 +82,8 @@
   [keyword pass]
 
 [callee&variable foo]([meta dir]=[string "a"], [meta file]=[string "b"])
+[callee&variable foo]([variable x] [operator ==] [variable y])
+[callee&variable foo]([meta p]=[variable x] [operator ==] [variable y])
 
 [keyword def] [def testRaise]():
   [variable-2 bar] [operator =] [number 1]
