@@ -7,7 +7,7 @@ start top {
 skip l {
   Declaration(defName) {
     Modifier* (
-      (class | interface) typeDeclName ClassSpec |
+      (kw("value")? class | interface) typeDeclName ClassSpec |
       ObjectDeclaration(defName) |
       fun (interface typeDeclName ClassSpec | FunctionDeclaration(defName)) |
       PropertyDeclaration(defName) |

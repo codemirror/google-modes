@@ -27,8 +27,8 @@
   [variable&callee println]([variable-2 red])
 }
 
-[keyword class] [type&def Abc]([keyword var] [def&property x]: [type A], [def&local b]: [type X]?) {
-  [keyword private] [keyword var] [def&property c]: [type Q] [operator =] [variable-2 b] [operator -] [number 1]
+[keyword value] [keyword class] [type&def Abc]([keyword var] [def&property x]: [type A], [def&local b]: [type X]?) {
+  [keyword private] [keyword var] [def&property value]: [type Q] [operator =] [variable-2 b] [operator -] [number 1]
 }
 
 [keyword typealias] [type&def Array]<[type&def V]> [operator =] [type Something]<[type&local V]>;
