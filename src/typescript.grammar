@@ -92,7 +92,7 @@ skip whitespace {
   }
 
   context ClassBody {
-    "{" (modifier* ClassItem | Decorator)* "}"
+    "{" ((modifier | override)* ClassItem | Decorator)* "}"
   }
 
   context ClassItem {
@@ -127,3 +127,4 @@ type { kw("type") ~(spaceChar* identifierStart) }
 namespace { kw("namespace") ~(spaceChar* identifierStart) }
 interface { kw("interface") ~(spaceChar* identifierStart) }
 declare { kw("declare") ~(spaceChar* identifierStart) }
+override { kw("override") ~(spaceChar* identifierStart) }
