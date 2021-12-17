@@ -89,7 +89,7 @@ skip whitespace {
   context FuncDef { ParamList ("->" Expr)? ":" Body }
 
   MaybeComp(E) { (compLocalName ExprSuffix(ExprNoComma)* | E) ("," CommaSep(E)? | CompFor)? }
-  CompFor { async? for (MaybePattern(in) | ExprNoIn) in Expr (CompFor | CompIf)? }
+  CompFor { async? for (MaybePattern("\n"* in) | ExprNoIn) in Expr (CompFor | CompIf)? }
   CompIf { if Expr (CompFor | CompIf)? }
 
   context ParenExpr { "(" MaybeComp(ExprNoComma)? ")" }
