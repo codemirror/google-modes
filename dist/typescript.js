@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('codemirror'), require('codemirror-grammar-mode')) :
   typeof define === 'function' && define.amd ? define(['codemirror', 'codemirror-grammar-mode'], factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CodeMirror));
-}(this, (function (CodeMirror$1) { 'use strict';
+})(this, (function (CodeMirror$1) { 'use strict';
 
   function _interopNamespace(e) {
     if (e && e.__esModule) return e;
@@ -13,14 +13,12 @@
           var d = Object.getOwnPropertyDescriptor(e, k);
           Object.defineProperty(n, k, d.get ? d : {
             enumerable: true,
-            get: function () {
-              return e[k];
-            }
+            get: function () { return e[k]; }
           });
         }
       });
     }
-    n['default'] = e;
+    n["default"] = e;
     return Object.freeze(n);
   }
 
@@ -1682,4 +1680,4 @@
 
   CodeMirror__namespace.defineMode("google-typescript", function (conf, modeConf) { return new TSMode(conf, modeConf); });
 
-})));
+}));
