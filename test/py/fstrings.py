@@ -15,6 +15,9 @@
 [comment # replacement]
 [string f'foo ][operator {][variable bar][operator }][string ']
 
+[comment # replacement with a =]
+[string f'foo ][operator {][variable bar][operator =][operator }][string ']
+
 [comment # replacement with a conversion]
 [string f'foo ][operator {][variable bar][operator !][keyword s][operator }][string ']
 
