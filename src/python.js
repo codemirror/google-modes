@@ -54,7 +54,7 @@ function findIndent(cx, textAfter, curLine, config) {
     let closed = textAfter && textAfter.charAt(0) == brack
     let flat = closed && brack != ")" || curLine == cx.startLine
     return findIndent(cx.parent, closed ? null : textAfter, cx.startLine, config) + (flat ? 0 : 2 * config.indentUnit)
-  } else if (cx.name == "indentedBody") {
+  } else if (cx.name == "indentedSimple" || cx.name == "indentedBody") {
     for (;; cx = cx.parent) {
       if (!cx) return config.indentUnit
       if (cx.name == "Statement") return CodeMirror.countColumn(cx.startLine, null, config.tabSize) + config.indentUnit

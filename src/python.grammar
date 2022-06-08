@@ -110,7 +110,7 @@ skip whitespace {
 
   CommaSep(expr) { expr ("," expr?)* }
 
-  Body { SimpleStatement | indentedBody }
+  Body { SimpleStatement | ~indentedSimple indentedSimple | indentedBody }
 
   context ParenPattern { "(" Pattern ")" }
   context BracketPattern { "[" Pattern "]" }
@@ -215,6 +215,10 @@ fstringU="string" { !("{" | "}") _ }
 kw(word)="keyword" { word !identifierChar }
 op(expr)="operator" { expr }
 str(expr)="string" { expr }
+
+context indentedSimple {
+  "\n" SimpleStatement
+}
 
 context indentedBody {
   "\n" (whitespaceSimple | "\n")*
