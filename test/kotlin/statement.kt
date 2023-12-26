@@ -9,18 +9,13 @@
 [comment // An enum]
 [meta @foo]([number 3])
 [keyword enum] [keyword class] [type&def Color]([keyword val] [def&property rgb]: [type Int]) {
-  [def&property RED]([number 0xFF0000]),
+  [keyword public] [def&property RED]([number 0xFF0000]),
   [def&property GREEN]([number 0x00FF00]),
   [def&property BLUE]([number 0x0000FF]);
 
   [keyword fun] [def&property containsRed]() [operator =]
       ([keyword this].[property rgb] [variable&callee and] [number 0xFF0000] [operator !=] [number 0])
 }
-
-[comment /* block comment]
-[comment  */]
-
-[comment /** doc comment ][comment&link [[with]]][comment a link and a ][comment&tag @tag][comment */]
 
 [keyword fun] [def main]() {
   [keyword val] [def&local red] [operator =] [type Color].[property RED]
@@ -64,7 +59,31 @@
   [keyword private] [keyword val] [def&property b]: [type String]
 }
 
+[keyword class] [def&type ClassBody] {
+  [meta @Ann]
+  [keyword private] [keyword companion] [keyword object] {
+    [keyword val] [def&property a]: [type String]
+  }
+
+  [keyword init] {
+    [keyword val] [def&local x] [operator =] [number 1]
+  }
+
+  [keyword internal] [meta @Ann] [keyword class] [def&type InnerClass] {}
+
+  [keyword public] [keyword constructor]()
+
+  [keyword val] [def&property beforeSemi]: [type String]; [keyword val] [def&property afterSemi]: [type String];
+}
+
+[comment /* block comment]
+[comment  */]
+
+[comment /** doc comment ][comment&link [[with]]][comment a link and a ][comment&tag @tag][comment */]
+
 [comment /* nested /* comment */ here */]
 
 [keyword var] [def a] [operator =] [number 1]
 [comment // Not indented]
+
+[comment // This works incorrectly because of greedy expression matching: class WithDelegation: I by b {}]

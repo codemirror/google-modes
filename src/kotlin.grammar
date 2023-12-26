@@ -71,7 +71,7 @@ skip l {
   }
 
   context ClassItem {
-    Annotation |
+    Modifier |
     Declaration(propertyDeclName) |
     companion object identifier? Delegation? ClassBody? |
     init Block |
